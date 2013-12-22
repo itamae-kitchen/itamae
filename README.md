@@ -10,8 +10,10 @@ TODO: Write a gem description
 * Without compilation
   * All code in recipes will be executed when they are evaluated.
   * To write recipes easier
+* Use Ohai
+* No role, environment and cookbook
 
-### Recipe
+### Examples of Recipes
 
 ```ruby
 resource "name" do
@@ -23,6 +25,14 @@ end
 ### TODO
 
 * `notifies`, `subscribes`
+* Compatible with chef recipes or not?
+  * If (almost) compatible, recipes written for chef can be used for Lightchef
+
+### Usage
+
+```
+$ lightchef -j ./node.json -r ./recipe.rb
+```
 
 ## Installation
 
