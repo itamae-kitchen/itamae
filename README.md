@@ -13,7 +13,6 @@ Configuration management tool like Chef which is simpler and lighter than Chef
   * To write recipes easier
 * Use Ohai
 * No role, environment and cookbook
-* Run via SSH too (thanks to specinfra)
 
 ### Examples of Recipes
 
@@ -23,10 +22,6 @@ resource "name" do
   property "value"
 end
 ```
-
-### TODO
-
-* `notifies`, `subscribes`
 
 ### Usage
 
@@ -45,6 +40,15 @@ I, [2013-12-23T07:12:19.501097 #1691]  INFO -- : >>> Executing Lightchef::Resour
 D, [2013-12-23T07:12:19.501496 #1691] DEBUG -- : Copying a file from '/vagrant/example/foo' to '/home/vagrant/foo'...
 I, [2013-12-23T07:12:19.503977 #1691]  INFO -- : <<< Succeeded.
 ```
+
+### TODO
+
+* `notifies`, `subscribes`
+
+### Future release
+
+* Run via SSH too (thanks to specinfra)
+  * Create system info collector instead of Ohai (Ohai can't execute via SSH)
 
 ## Installation
 
