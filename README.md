@@ -5,6 +5,7 @@ TODO: Write a gem description
 ## Concept
 
 * Lighter than Chef
+* It's just like Chef. No compatibility.
 * No idempotence
 * DSL like Chef
 * Without compilation
@@ -12,6 +13,7 @@ TODO: Write a gem description
   * To write recipes easier
 * Use Ohai
 * No role, environment and cookbook
+* Run via SSH too (thanks to specinfra)
 
 ### Examples of Recipes
 
@@ -25,13 +27,11 @@ end
 ### TODO
 
 * `notifies`, `subscribes`
-* Compatible with chef recipes or not?
-  * If (almost) compatible, recipes written for chef can be used for Lightchef
 
 ### Usage
 
 ```
-$ lightchef -j ./node.json -r ./recipe.rb
+$ lightchef execute -j ./node.json ./recipe.rb
 ```
 
 ## Installation
