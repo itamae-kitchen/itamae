@@ -48,7 +48,7 @@ I, [2013-12-23T07:12:19.503977 #1691]  INFO -- : <<< Succeeded.
 ### Future release
 
 * Run via SSH too (thanks to specinfra)
-  * Create system info collector instead of Ohai (Ohai can't execute via SSH)
+  * Create system info collector instead of Ohai, Facter (They can't execute via SSH)
 
 ## Installation
 
