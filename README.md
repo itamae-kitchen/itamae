@@ -1,4 +1,4 @@
-# Lightchef
+# Lightchef [![Build Status](https://travis-ci.org/ryotarai/lightchef.png?branch=master)](https://travis-ci.org/ryotarai/lightchef)
 
 Configuration management tool like Chef which is simpler and lighter than Chef
 
