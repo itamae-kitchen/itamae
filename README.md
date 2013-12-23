@@ -1,6 +1,6 @@
 # Lightchef
 
-TODO: Write a gem description
+Configuration management tool like Chef which is simpler and lighter than Chef
 
 ## Concept
 
@@ -31,7 +31,19 @@ end
 ### Usage
 
 ```
-$ lightchef execute -j ./node.json ./recipe.rb
+$ sudo lightchef execute example/recipe.rb
+I, [2013-12-23T07:12:19.044094 #1691]  INFO -- : >>> Executing Lightchef::Resources::Package ({:action=>:install, :name=>"git"})...
+D, [2013-12-23T07:12:19.500203 #1691] DEBUG -- : Command `apt-get -y install git` succeeded
+D, [2013-12-23T07:12:19.500365 #1691] DEBUG -- : STDOUT> Reading package lists...
+Building dependency tree...
+Reading state information...
+git is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 156 not upgraded.
+D, [2013-12-23T07:12:19.500571 #1691] DEBUG -- : STDERR>
+I, [2013-12-23T07:12:19.500631 #1691]  INFO -- : <<< Succeeded.
+I, [2013-12-23T07:12:19.501097 #1691]  INFO -- : >>> Executing Lightchef::Resources::File ({:action=>:create, :source=>"foo", :path=>"/home/vagrant/foo"})...
+D, [2013-12-23T07:12:19.501496 #1691] DEBUG -- : Copying a file from '/vagrant/example/foo' to '/home/vagrant/foo'...
+I, [2013-12-23T07:12:19.503977 #1691]  INFO -- : <<< Succeeded.
 ```
 
 ## Installation
