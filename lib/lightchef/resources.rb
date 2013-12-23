@@ -5,9 +5,15 @@ require 'lightchef/resources/file'
 
 module Lightchef
   module Resources
+    Error = Class.new(StandardError)
+    CommandExecutionError = Class.new(StandardError)
+
+    def self.get_resource_class_name(method)
+      method.to_s.split('_').map {|part| part.capitalize}.join
+    end
+
     def self.get_resource_class(method)
-      name = method.to_s.split('_').map {|part| part.capitalize}.join
-      const_get(name)
+      const_get(get_resource_class_name(method))
     end
   end
 end

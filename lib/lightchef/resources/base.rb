@@ -2,16 +2,13 @@ require 'lightchef'
 
 module Lightchef
   module Resources
-    Error = Class.new(StandardError)
-    CommandExecutionError = Class.new(StandardError)
-
     class Base
       attr_reader :options
 
       def initialize(recipe, *args, &block)
         @options = {}
         @recipe = recipe
-        instance_eval(&block)
+        instance_eval(&block) if block_given?
       end
 
       def run
@@ -33,10 +30,9 @@ module Lightchef
         super
       end
 
-      private
       def run_command(type, *args)
-        command = @recipe.backend.commands.public_send(type, *args)
-        result = @recipe.backend.run_command(command)
+        command = backend.commands.public_send(type, *args)
+        result = backend.run_command(command)
         exit_status = result[:exit_status]
         if exit_status == 0
           Logger.debug "Command `#{command}` succeeded"
@@ -52,7 +48,12 @@ module Lightchef
 
       def copy_file(src, dst)
         Logger.debug "Copying a file from '#{src}' to '#{dst}'..."
-        @recipe.backend.copy_file(src, dst)
+        backend.copy_file(src, dst)
+      end
+
+      private
+      def backend
+        @recipe.backend
       end
     end
   end
