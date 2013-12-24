@@ -10,6 +10,7 @@ module Lightchef
       self.new(backend_for(:exec)).tap do |runner|
         node = if options[:node_json]
                  node_json_path = File.expand_path(options[:node_json])
+                 Logger.debug "Loading node data from #{node_json_path} ..."
                  Node.new_from_file(node_json_path)
                else
                  Node.new
