@@ -5,7 +5,7 @@ module Lightchef
     class Base
       attr_reader :options
 
-      def initialize(recipe, *args, &block)
+      def initialize(recipe, name, &block)
         @options = {}
         @recipe = recipe
         instance_eval(&block) if block_given?
@@ -17,9 +17,9 @@ module Lightchef
       end
 
       def fetch_option(key)
-        value = @options[key]
-        raise Error, "#{key} is not specified." unless value
-        value
+        @options.fetch(key) do |k|
+          raise Error, "#{k} is not specified."
+        end
       end
 
       def method_missing(method, *args)
@@ -51,9 +51,17 @@ module Lightchef
         backend.copy_file(src, dst)
       end
 
+      def node
+        current_runner.node
+      end
+
       private
       def backend
-        @recipe.backend
+        current_runner.backend
+      end
+
+      def current_runner
+        @recipe.current_runner
       end
     end
   end

@@ -3,7 +3,7 @@ require 'lightchef'
 module Lightchef
   describe Resources::File do
     let(:recipe) { double(:recipe) }
-    subject(:resource) { described_class.new(recipe) }
+    subject(:resource) { described_class.new(recipe, "name") }
 
     describe "#create_action" do
       it "copies a file" do

@@ -5,7 +5,7 @@ end
 
 file do
   action :create
-  source "foo"
+  source node['file_source']
   path "/home/vagrant/foo"
 end
 

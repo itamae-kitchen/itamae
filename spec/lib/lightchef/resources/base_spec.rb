@@ -8,12 +8,17 @@ module Lightchef
         b.stub(:commands).and_return(commands)
       end
     end
-    let(:recipe) do
-      double(:recipe).tap do |r|
-        r.stub(:backend).and_return(backend)
+    let(:runner) do
+      double(:runner).tap do |b|
+        b.stub(:backend).and_return(backend)
       end
     end
-    subject(:resource) { described_class.new(recipe) }
+    let(:recipe) do
+      double(:recipe).tap do |r|
+        r.stub(:current_runner).and_return(runner)
+      end
+    end
+    subject(:resource) { described_class.new(recipe, "name") }
 
     describe "#run" do
       before do

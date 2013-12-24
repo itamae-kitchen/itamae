@@ -3,7 +3,7 @@ require 'lightchef'
 module Lightchef
   describe Resources::Package do
     let(:recipe) { double(:recipe) }
-    subject(:resource) { described_class.new(recipe) }
+    subject(:resource) { described_class.new(recipe, "name") }
 
     describe "#install_action" do
       it "runs install command of specinfra" do

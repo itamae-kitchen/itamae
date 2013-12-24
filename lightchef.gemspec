@@ -21,8 +21,10 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "thor"
   spec.add_runtime_dependency "specinfra"
   spec.add_runtime_dependency "net-scp"
+  spec.add_runtime_dependency "hashie"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "guard-rspec"
 end

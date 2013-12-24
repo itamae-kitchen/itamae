@@ -1,20 +1,35 @@
 require 'spec_helper'
+require 'tmpdir'
 
 module Lightchef
   describe Runner do
-    describe ".run" do
-      it "loads and executes recipes" do
-        recipe_files = %w! a b !
-        recipe_files.each do |path|
-          recipe = double(:recipe).tap do |r|
-            expect(r).to receive(:run)
-          end
-          expect(Recipe).to receive(:new).
-            with(File.expand_path(path), anything).
-            and_return(recipe)
+    around do |example|
+      Dir.mktmpdir do |dir|
+        Dir.chdir(dir) do
+          example.run
         end
+      end
+    end
 
-        described_class.run({recipe_files: recipe_files})
+    describe ".new_from_options" do
+      before do
+        open('./node.json', 'w') {|f| f.write '{"foo": "bar"}' }
+      end
+      it "returns Runner" do
+        runner = described_class.new_from_options(node_json: "./node.json")
+        expect(runner.node['foo']).to eq 'bar'
+      end
+    end
+
+    describe ".run" do
+      let(:recipes) { %w! ./recipe1.rb ./recipe2.rb ! }
+      it "runs each recipe with the runner" do
+        recipes.each do |r|
+          recipe = double(:recipe)
+          Recipe.stub(:new).with(File.expand_path(r)).and_return(recipe)
+          expect(recipe).to receive(:run)
+        end
+        described_class.run(recipes)
       end
     end
   end
