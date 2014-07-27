@@ -37,15 +37,15 @@ module Lightchef
 
       def run_command(command)
         result = backend.run_command(command)
-        exit_status = result[:exit_status]
+        exit_status = result.exit_status
         if exit_status == 0
           Logger.debug "Command `#{command}` succeeded"
-          Logger.debug "STDOUT> #{(result[:stdout] || "").chomp}"
-          Logger.debug "STDERR> #{(result[:stderr] || "").chomp}"
+          Logger.debug "STDOUT> #{(result.stdout || "").chomp}"
+          Logger.debug "STDERR> #{(result.stderr || "").chomp}"
         else
           Logger.error "Command `#{command}` failed. (exit status: #{exit_status})"
-          Logger.error "STDOUT> #{(result[:stdout] || "").chomp}"
-          Logger.error "STDERR> #{(result[:stderr] || "").chomp}"
+          Logger.error "STDOUT> #{(result.stdout || "").chomp}"
+          Logger.error "STDERR> #{(result.stderr || "").chomp}"
           raise CommandExecutionError
         end
       end
