@@ -3,7 +3,7 @@ require 'thor'
 
 module Lightchef
   class CLI < Thor
-    desc "execute", "Run Lightchef"
+    desc "execute RECIPE [RECIPE...]", "Run Lightchef"
     option :node_json, type: :string, aliases: ['-j']
     def execute(*recipe_files)
       Runner.run(recipe_files, options)
