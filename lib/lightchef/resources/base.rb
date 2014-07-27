@@ -30,8 +30,12 @@ module Lightchef
         super
       end
 
-      def run_command(type, *args)
+      def run_specinfra_command(type, *args)
         command = backend.commands.public_send(type, *args)
+        run_command(command)
+      end
+
+      def run_command(command)
         result = backend.run_command(command)
         exit_status = result[:exit_status]
         if exit_status == 0
