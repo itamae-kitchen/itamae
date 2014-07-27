@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Lightchef::VERSION
   spec.authors       = ["Ryota Arai"]
   spec.email         = ["ryota.arai@gmail.com"]
-  spec.description   = %q{Simple Configuration Management Tool}
+  spec.summary       = %q{Simple Configuration Management Tool}
   spec.homepage      = "https://github.com/ryotarai/lightchef"
   spec.license       = "MIT"
 
