@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Lightchef::VERSION
   spec.authors       = ["Ryota Arai"]
   spec.email         = ["ryota.arai@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Simple Configuration Management Tool}
+  spec.homepage      = "https://github.com/ryotarai/lightchef"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
