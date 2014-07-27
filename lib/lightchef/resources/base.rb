@@ -1,4 +1,5 @@
 require 'lightchef'
+require 'shellwords'
 
 module Lightchef
   module Resources
@@ -38,14 +39,23 @@ module Lightchef
       def run_command(command)
         result = backend.run_command(command)
         exit_status = result.exit_status
+
         if exit_status == 0
-          Logger.debug "Command `#{command}` succeeded"
-          Logger.debug "STDOUT> #{(result.stdout || "").chomp}"
-          Logger.debug "STDERR> #{(result.stderr || "").chomp}"
+          method = :debug
+          Logger.public_send(method, "Command `#{command}` succeeded")
         else
-          Logger.error "Command `#{command}` failed. (exit status: #{exit_status})"
-          Logger.error "STDOUT> #{(result.stdout || "").chomp}"
-          Logger.error "STDERR> #{(result.stderr || "").chomp}"
+          method = :error
+          Logger.public_send(method, "Command `#{command}` failed. (exit status: #{exit_status})")
+        end
+
+        if result.stdout && result.stdout != ''
+          Logger.public_send(method, "STDOUT> #{result.stdout.chomp}")
+        end
+        if result.stderr && result.stderr != ''
+          Logger.public_send(method, "STDERR> #{result.stderr.chomp}")
+        end
+
+        unless exit_status == 0
           raise CommandExecutionError
         end
       end
@@ -66,6 +76,10 @@ module Lightchef
 
       def current_runner
         @recipe.current_runner
+      end
+
+      def shell_escape(str)
+        Shellwords.escape(str)
       end
     end
   end
