@@ -49,16 +49,18 @@ module Lightchef
       end
     end
 
-    describe "#run_command" do
+    describe "#run_specinfra_command" do
       it "runs specinfra's command by specinfra's backend" do
         expect(commands).to receive(:cmd).and_return("command")
-        expect(backend).to receive(:run_command).with("command").and_return({exit_status: 0})
+        expect(backend).to receive(:run_command).with("command").
+          and_return(SpecInfra::CommandResult.new(exit_status: 0))
         subject.run_specinfra_command(:cmd)
       end
       context "when the command execution failed" do
         it "raises CommandExecutionError" do
           expect(commands).to receive(:cmd).and_return("command")
-          expect(backend).to receive(:run_command).with("command").and_return({exit_status: 1})
+          expect(backend).to receive(:run_command).with("command").
+            and_return(SpecInfra::CommandResult.new(exit_status: 1))
           expect do
             subject.run_specinfra_command(:cmd)
           end.to raise_error(Resources::CommandExecutionError)
