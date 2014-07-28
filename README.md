@@ -25,6 +25,8 @@ end
 
 ### Usage
 
+#### Run locally
+
 ```
 $ sudo lightchef execute -j example/node.json example/recipe.rb
 D, [2013-12-24T14:05:50.859587 #7156] DEBUG -- : Loading node data from /vagrant/example/node.json ...
@@ -40,6 +42,12 @@ I, [2013-12-24T14:05:51.335531 #7156]  INFO -- : <<< Succeeded.
 I, [2013-12-24T14:05:51.335728 #7156]  INFO -- : >>> Executing Lightchef::Resources::File ({:action=>:create, :source=>"foo", :path=>"/home/vagrant/foo"})...
 D, [2013-12-24T14:05:51.335842 #7156] DEBUG -- : Copying a file from '/vagrant/example/foo' to '/home/vagrant/foo'...
 I, [2013-12-24T14:05:51.339119 #7156]  INFO -- : <<< Succeeded.
+```
+
+#### Run via SSH
+
+```
+$ lightchef ssh -j example/node.json -h 192.168.10.10 -p 22 -u user -i /path/to/private_key example/recipe.rb
 ```
 
 ### TODO
