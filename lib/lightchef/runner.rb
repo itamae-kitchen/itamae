@@ -3,8 +3,7 @@ require 'specinfra'
 
 module Lightchef
   class Runner
-    extend SpecInfra::Helper::Backend
-    extend SpecInfra::Helper::DetectOS
+    extend Specinfra::Helper::Backend
 
     class << self
       def run(recipe_files, backend, options)
@@ -42,7 +41,7 @@ module Lightchef
           ssh_options[:port] = options[:port] if options[:port]
 
           ssh = Net::SSH.start(host, user, ssh_options)
-          SpecInfra.configuration.ssh = ssh
+          Specinfra.configuration.ssh = ssh
           backend_for(:ssh)
         end
       end
