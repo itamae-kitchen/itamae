@@ -3,7 +3,6 @@ require 'lightchef'
 module Lightchef
   class Recipe
     attr_reader :path
-    attr_reader :backend
     attr_reader :runner
 
     def initialize(runner, path)

@@ -1,10 +1,7 @@
 require 'lightchef'
-require 'specinfra'
 
 module Lightchef
   class Runner
-    extend Specinfra::Helper::Backend
-
     class << self
       def run(recipe_files, backend, options)
         backend = backend_from_options(backend, options)
