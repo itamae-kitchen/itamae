@@ -28,6 +28,7 @@ namespace :spec do
           Bundler.with_clean_env do
             config = Tempfile.new('', Dir.tmpdir)
             env = {"VAGRANT_CWD" => File.expand_path('./spec/integration')}
+            system env, "/usr/bin/vagrant up #{target}"
             system env, "/usr/bin/vagrant ssh-config #{target} > #{config.path}"
             options = Net::SSH::Config.for(target, [config.path])
 

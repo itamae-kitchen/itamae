@@ -33,7 +33,6 @@ module Lightchef
         when :exec
           Lightchef.create_backend(:exec)
         when :ssh
-          require 'net/ssh'
           ssh_options = {}
           ssh_options[:user] = options[:user] || Etc.getlogin
           ssh_options[:keys] = [options[:key]] if options[:key]

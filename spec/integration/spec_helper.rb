@@ -24,8 +24,6 @@ end
 
 host = ENV['TARGET_HOST']
 
-vagrant "up #{host}"
-
 config = Tempfile.new('', Dir.tmpdir)
 vagrant "ssh-config #{host} > #{config.path}"
 
