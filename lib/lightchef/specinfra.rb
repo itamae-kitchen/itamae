@@ -24,6 +24,18 @@ module Lightchef
     @backend
   end
 
+  def self.create_local_backend
+    create_backend(:exec)
+  end
+
+  def self.create_ssh_backend(options)
+    Specinfra.configuration.host = options.delete(:host)
+    Specinfra.configuration.ssh_options = options
+
+    create_backend(:ssh)
+  end
+
+  private
   def self.create_backend(type)
     type = type.to_s.capitalize
 

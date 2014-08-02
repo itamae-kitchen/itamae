@@ -3,10 +3,10 @@ require 'thor'
 
 module Lightchef
   class CLI < Thor
-    desc "execute RECIPE [RECIPE...]", "Run Lightchef locally"
+    desc "local RECIPE [RECIPE...]", "Run Lightchef locally"
     option :node_json, type: :string, aliases: ['-j']
-    def execute(*recipe_files)
-      Runner.run(recipe_files, :exec, options)
+    def local(*recipe_files)
+      Runner.run(recipe_files, :local, options)
     end
 
     desc "ssh RECIPE [RECIPE...]", "Run Lightchef via ssh"

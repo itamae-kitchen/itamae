@@ -20,28 +20,28 @@ module Lightchef
       private
       def node_from_options(options)
         if options[:node_json]
-          node_json_path = File.expand_path(options[:node_json])
-          Logger.debug "Loading node data from #{node_json_path} ..."
-          Node.new_from_file(node_json_path)
+          path = File.expand_path(options[:node_json])
+          Logger.debug "Loading node data from #{path} ..."
+          hash = JSON.load(open(path))
         else
-          Node.new
+          hash = {}
         end
+
+        Node.new(hash)
       end
 
       def backend_from_options(type, options)
         case type
-        when :exec
-          Lightchef.create_backend(:exec)
+        when :local
+          Lightchef.create_local_backend
         when :ssh
           ssh_options = {}
+          ssh_options[:host] = options[:host]
           ssh_options[:user] = options[:user] || Etc.getlogin
           ssh_options[:keys] = [options[:key]] if options[:key]
           ssh_options[:port] = options[:port] if options[:port]
 
-          Specinfra.configuration.host = options[:host]
-          Specinfra.configuration.ssh_options = ssh_options
-
-          Lightchef.create_backend(:ssh)
+          Lightchef.create_ssh_backend(ssh_options)
         end
       end
 
