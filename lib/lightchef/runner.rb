@@ -5,7 +5,7 @@ module Lightchef
     class << self
       def run(recipe_files, backend, options)
         backend = backend_from_options(backend, options)
-        runner = self.new(backend)
+        runner = self.new
         runner.node = node_from_options(options)
 
         recipe_files.each do |path|
@@ -43,12 +43,7 @@ module Lightchef
       end
     end
 
-    attr_accessor :backend
     attr_accessor :node
-
-    def initialize(backend)
-      @backend = backend
-    end
   end
 end
 

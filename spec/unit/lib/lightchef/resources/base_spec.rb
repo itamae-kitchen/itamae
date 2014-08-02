@@ -87,22 +87,22 @@ end
 
 describe TestResource do
   let(:commands) { double(:commands) }
-  let(:backend) do
-    double(:backend).tap do |b|
-      b.stub(:commands).and_return(commands)
-    end
-  end
   let(:runner) do
-    double(:runner).tap do |b|
-      b.stub(:backend).and_return(backend)
-    end
+    double(:runner)
   end
   let(:recipe) do
     double(:recipe).tap do |r|
       r.stub(:runner).and_return(runner)
     end
   end
+
   subject(:resource) { described_class.new(recipe, "name") }
+
+  before do
+    Lightchef.backend = double(:backend).tap do |b|
+      b.stub(:commands).and_return(commands)
+    end
+  end
 
   describe "#run" do
     before do
@@ -117,14 +117,14 @@ describe TestResource do
   describe "#run_specinfra" do
     it "runs specinfra's command by specinfra's backend" do
       expect(commands).to receive(:cmd).and_return("command")
-      expect(backend).to receive(:run_command).with("command").
+      expect(Lightchef.backend).to receive(:run_command).with("command").
         and_return(Specinfra::CommandResult.new(exit_status: 0))
       subject.send(:run_specinfra, :cmd)
     end
     context "when the command execution failed" do
       it "raises CommandExecutionError" do
         expect(commands).to receive(:cmd).and_return("command")
-        expect(backend).to receive(:run_command).with("command").
+        expect(Lightchef.backend).to receive(:run_command).with("command").
           and_return(Specinfra::CommandResult.new(exit_status: 1))
         expect do
           subject.send(:run_specinfra, :cmd)
@@ -135,7 +135,7 @@ describe TestResource do
 
   describe "#copy_file" do
     it "copies a file, using the backend" do
-      expect(backend).to receive(:copy_file).with(:src, :dst)
+      expect(Lightchef.backend).to receive(:copy_file).with(:src, :dst)
       subject.send(:copy_file, :src, :dst)
     end
   end

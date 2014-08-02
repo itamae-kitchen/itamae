@@ -106,7 +106,7 @@ module Lightchef
       end
 
       def backend
-        runner.backend
+        Lightchef.backend
       end
 
       def runner
