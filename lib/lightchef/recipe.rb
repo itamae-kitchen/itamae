@@ -8,28 +8,38 @@ module Lightchef
     def initialize(runner, path)
       @runner = runner
       @path = path
-    end
-
-    def run
-      instance_eval(File.read(@path), @path, 1)
+      @resources = []
+      load_resources
     end
 
     def node
       @runner.node
     end
 
+    def run
+      @resources.each do |resource|
+        Logger.info ">>> Executing #{resource.class.name} (#{resource.options})..."
+        begin
+          resource.run
+        rescue Resources::CommandExecutionError
+          Logger.error "<<< Failed."
+          exit 2
+        else
+          Logger.info "<<< Succeeded."
+        end
+      end
+    end
+
+    private
+
+    def load_resources
+      instance_eval(File.read(@path), @path, 1)
+    end
+
     def method_missing(method, name = nil, &block)
       klass = Resources.get_resource_class(method)
       resource = klass.new(self, name, &block)
-      Logger.info ">>> Executing #{resource.class.name} (#{resource.options})..."
-      begin
-        resource.run
-      rescue Resources::CommandExecutionError
-        Logger.error "<<< Failed."
-        exit 2
-      else
-        Logger.info "<<< Succeeded."
-      end
+      @resources << resource
     end
   end
 end

@@ -54,7 +54,6 @@ module Lightchef
         expect(commands).to receive(:cmd).and_return("command")
         expect(backend).to receive(:run_command).with("command").
           and_return(Specinfra::CommandResult.new(exit_status: 0))
-        require 'pry'; binding.pry
         subject.run_specinfra_command(:cmd)
       end
       context "when the command execution failed" do
