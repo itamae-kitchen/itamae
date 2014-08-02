@@ -31,18 +31,18 @@ module Lightchef
       def backend_from_options(type, options)
         case type
         when :exec
-          backend_for(:exec)
+          Lightchef.create_backend(:exec)
         when :ssh
           require 'net/ssh'
-          host = options[:host]
-          user = options[:user] || Etc.getlogin
           ssh_options = {}
+          ssh_options[:user] = options[:user] || Etc.getlogin
           ssh_options[:keys] = [options[:key]] if options[:key]
           ssh_options[:port] = options[:port] if options[:port]
 
-          ssh = Net::SSH.start(host, user, ssh_options)
-          Specinfra.configuration.ssh = ssh
-          backend_for(:ssh)
+          Specinfra.configuration.host = options[:host]
+          Specinfra.configuration.ssh_options = ssh_options
+
+          Lightchef.create_backend(:ssh)
         end
       end
 
