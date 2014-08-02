@@ -10,6 +10,7 @@ module Lightchef
     CommandExecutionError = Class.new(StandardError)
     OptionMissingError = Class.new(StandardError)
     InvalidTypeError = Class.new(StandardError)
+    NotSupportedOsError = Class.new(StandardError)
 
     def self.get_resource_class_name(method)
       method.to_s.split('_').map {|part| part.capitalize}.join

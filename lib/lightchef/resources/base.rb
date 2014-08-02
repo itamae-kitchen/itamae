@@ -6,6 +6,7 @@ module Lightchef
     class Base
       class << self
         attr_reader :defined_options
+        attr_reader :supported_oses
 
         def define_option(name, options)
           @defined_options ||= {
@@ -14,6 +15,11 @@ module Lightchef
 
           current = @defined_options[name.to_sym] || {}
           @defined_options[name.to_sym] = current.merge(options)
+        end
+
+        def support_os(hash)
+          @supported_oses ||= []
+          @supported_oses << hash
         end
       end
 
@@ -28,6 +34,7 @@ module Lightchef
         instance_eval(&block) if block_given?
 
         process_options
+        ensure_os
       end
 
       def run
@@ -108,6 +115,19 @@ module Lightchef
 
       def shell_escape(str)
         Shellwords.escape(str)
+      end
+
+      def ensure_os
+        return unless self.class.supported_oses
+        ok = self.class.supported_oses.any? do |supported|
+          supported.each_pair.all? do |k, v|
+            backend.os[k] == v
+          end
+        end
+
+        unless ok
+          raise NotSupportedOsError, "#{self.class.name} resource doesn't support this OS now."
+        end
       end
     end
   end
