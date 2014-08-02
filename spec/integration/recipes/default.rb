@@ -1,5 +1,6 @@
-package do
+package 'dstat' do
   action :install
-  name 'dstat'
 end
+
+package 'sl'
 

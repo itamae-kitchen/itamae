@@ -36,7 +36,7 @@ module Lightchef
       instance_eval(File.read(@path), @path, 1)
     end
 
-    def method_missing(method, name = nil, &block)
+    def method_missing(method, name, &block)
       klass = Resources.get_resource_class(method)
       resource = klass.new(self, name, &block)
       @resources << resource

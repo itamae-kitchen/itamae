@@ -4,34 +4,63 @@ require 'shellwords'
 module Lightchef
   module Resources
     class Base
-      attr_reader :options
+      class << self
+        attr_reader :defined_options
 
-      def initialize(recipe, name, &block)
-        @options = {}
-        @recipe = recipe
-        instance_eval(&block) if block_given?
-      end
+        def define_option(name, options)
+          @defined_options ||= {
+            action: {type: Symbol, required: true}
+          }
 
-      def run
-        action = fetch_option(:action)
-        public_send("#{action}_action".to_sym)
-      end
-
-      def fetch_option(key)
-        @options.fetch(key) do |k|
-          raise Error, "#{k} is not specified."
+          current = @defined_options[name.to_sym] || {}
+          @defined_options[name.to_sym] = current.merge(options)
         end
       end
 
+      attr_reader :resource_name
+      attr_reader :options
+
+      def initialize(recipe, resource_name, &block)
+        @options = {}
+        @recipe = recipe
+        @resource_name = resource_name
+
+        instance_eval(&block) if block_given?
+
+        process_options
+      end
+
+      def run
+        public_send("#{action}_action".to_sym)
+      end
+
+      private
+
       def method_missing(method, *args)
-        if args.size == 1
-          @options[method] = args.first
-          return
+        if args.size == 1 && self.class.defined_options[method]
+          return @options[method] = args.first
+        elsif args.size == 0 && @options.has_key?(method)
+          return @options[method]
         end
         super
       end
 
-      def run_specinfra_command(type, *args)
+      def process_options
+        self.class.defined_options.each_pair do |key, details|
+          @options[key] ||= @resource_name if details[:default_name]
+          @options[key] ||= details[:default]
+
+          if details[:required] && !@options[key]
+            raise Resources::OptionMissingError, "'#{key}' option is required but it is not set."
+          end
+
+          if @options[key] && details[:type] && !@options[key].is_a?(details[:type])
+            raise Resources::InvalidTypeError, "#{key} option should be #{details[:type]}."
+          end
+        end
+      end
+
+      def run_specinfra(type, *args)
         command = backend.commands.public_send(type, *args)
         run_command(command)
       end
@@ -69,7 +98,6 @@ module Lightchef
         runner.node
       end
 
-      private
       def backend
         runner.backend
       end
