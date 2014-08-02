@@ -4,25 +4,24 @@ module Lightchef
   class Recipe
     attr_reader :path
     attr_reader :backend
-    attr_reader :current_runner
+    attr_reader :runner
 
-    def initialize(path)
+    def initialize(runner, path)
+      @runner = runner
       @path = path
     end
 
-    def run(runner)
-      @current_runner = runner
+    def run
       instance_eval(File.read(@path), @path, 1)
-      @current_runner = nil
     end
 
     def node
-      @current_runner.node
+      @runner.node
     end
 
     def method_missing(method, name = nil, &block)
-      cls = Resources.get_resource_class(method)
-      resource = cls.new(self, name, &block)
+      klass = Resources.get_resource_class(method)
+      resource = klass.new(self, name, &block)
       Logger.info ">>> Executing #{resource.class.name} (#{resource.options})..."
       begin
         resource.run

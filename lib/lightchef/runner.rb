@@ -12,8 +12,8 @@ module Lightchef
         runner.node = node_from_options(options)
 
         recipe_files.each do |path|
-          recipe = Recipe.new(File.expand_path(path))
-          recipe.run(runner)
+          recipe = Recipe.new(runner, File.expand_path(path))
+          recipe.run
         end
       end
 
@@ -44,7 +44,6 @@ module Lightchef
           Lightchef.create_ssh_backend(ssh_options)
         end
       end
-
     end
 
     attr_accessor :backend

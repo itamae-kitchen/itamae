@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "serverspec", "2.0.0.beta14"
+  spec.add_development_dependency "pry-byebug"
 end

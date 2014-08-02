@@ -3,6 +3,9 @@ require 'rspec/core/rake_task'
 require 'tempfile'
 require 'net/ssh'
 
+desc 'Run unit and integration specs.'
+task :spec => ['spec:unit', 'spec:integration:all']
+
 namespace :spec do
   RSpec::Core::RakeTask.new("unit") do |task|
     task.ruby_opts = '-I ./spec/unit'
@@ -17,7 +20,6 @@ namespace :spec do
     end
 
     task :all     => targets
-    task :default => :all
 
     targets.each do |target|
       desc "Run provision and specs to #{target}"

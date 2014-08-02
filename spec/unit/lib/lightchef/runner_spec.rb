@@ -16,7 +16,10 @@ module Lightchef
       it "runs each recipe with the runner" do
         recipes.each do |r|
           recipe = double(:recipe)
-          Recipe.stub(:new).with(File.expand_path(r)).and_return(recipe)
+          Recipe.stub(:new).with(
+            an_instance_of(Lightchef::Runner),
+            File.expand_path(r)
+          ).and_return(recipe)
           expect(recipe).to receive(:run)
         end
         described_class.run(recipes, :exec, {})

@@ -66,16 +66,16 @@ module Lightchef
       end
 
       def node
-        current_runner.node
+        runner.node
       end
 
       private
       def backend
-        current_runner.backend
+        runner.backend
       end
 
-      def current_runner
-        @recipe.current_runner
+      def runner
+        @recipe.runner
       end
 
       def shell_escape(str)
