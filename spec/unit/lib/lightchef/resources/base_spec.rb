@@ -132,11 +132,4 @@ describe TestResource do
       end
     end
   end
-
-  describe "#copy_file" do
-    it "copies a file, using the backend" do
-      expect(Lightchef.backend).to receive(:copy_file).with(:src, :dst)
-      subject.send(:copy_file, :src, :dst)
-    end
-  end
 end
