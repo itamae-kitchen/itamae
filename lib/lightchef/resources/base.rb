@@ -41,6 +41,10 @@ module Lightchef
         public_send("#{action}_action".to_sym)
       end
 
+      def nothing_action
+        # do nothing
+      end
+
       private
 
       def method_missing(method, *args)
@@ -98,7 +102,12 @@ module Lightchef
 
       def copy_file(src, dst)
         Logger.debug "Copying a file from '#{src}' to '#{dst}'..."
-        backend.copy_file(src, dst)
+        unless File.exist?(src)
+          raise Error, "The file '#{src}' doesn't exist."
+        end
+        unless backend.copy_file(src, dst)
+          raise Error, "Copying a file failed."
+        end
       end
 
       def node

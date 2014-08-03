@@ -1,7 +1,7 @@
 require 'lightchef'
 
 module Lightchef
-  describe Resources::File do
+  describe Resources::RemoteFile do
     let(:recipe) { double(:recipe) }
     subject(:resource) do
       described_class.new(recipe, "name") do

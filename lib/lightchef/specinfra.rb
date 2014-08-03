@@ -14,6 +14,8 @@ require 'specinfra/helper/configuration'
 require 'specinfra/helper/properties'
 require 'specinfra/helper/set'
  
+# TODO: move to specinfra
+require 'net/scp'
  
 module Lightchef
   def self.backend=(backend)
@@ -31,6 +33,16 @@ module Lightchef
   def self.create_ssh_backend(options)
     Specinfra.configuration.host = options.delete(:host)
     Specinfra.configuration.ssh_options = options
+
+    Specinfra.configuration.ssh = Net::SSH.start(
+      Specinfra.configuration.host,
+      Specinfra.configuration.ssh_options[:user],
+      Specinfra.configuration.ssh_options
+    )
+
+    # TODO: move to specinfra
+    Specinfra.configuration.scp =
+      Net::SCP.new(Specinfra.configuration.ssh)
 
     create_backend(:ssh)
   end

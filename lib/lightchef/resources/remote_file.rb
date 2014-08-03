@@ -2,7 +2,7 @@ require 'lightchef'
 
 module Lightchef
   module Resources
-    class File < Base
+    class RemoteFile < Base
       define_option :action, default: :create
       define_option :source, type: String, required: true
       define_option :path, type: String, default_name: true

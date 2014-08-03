@@ -1,7 +1,7 @@
 require 'lightchef'
 require 'lightchef/resources/base'
 require 'lightchef/resources/package'
-require 'lightchef/resources/file'
+require 'lightchef/resources/remote_file'
 require 'lightchef/resources/directory'
 
 module Lightchef

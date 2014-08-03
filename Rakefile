@@ -14,9 +14,10 @@ namespace :spec do
 
   namespace :integration do
     targets = []
-    Dir.glob('./spec/integration/environments/*').each do |dir|
-      next unless File.directory?(dir)
-      targets << File.basename(dir)
+    Bundler.with_clean_env do
+      `cd spec/integration && /usr/bin/vagrant status`.split("\n\n")[1].each_line do |line|
+        targets << line.match(/^[^ ]+/)[0]
+      end
     end
 
     task :all     => targets
@@ -52,7 +53,7 @@ namespace :spec do
         RSpec::Core::RakeTask.new(target.to_sym) do |t|
           ENV['TARGET_HOST'] = target
           t.ruby_opts = '-I ./spec/integration'
-          t.pattern = "spec/integration/environments/#{target}/*_spec.rb"
+          t.pattern = "spec/integration/*_spec.rb"
         end
       end
     end
