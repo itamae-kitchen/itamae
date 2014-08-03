@@ -8,7 +8,7 @@ module Lightchef
     describe "#install_action" do
       it "runs install command of specinfra" do
         subject.name :package_name
-        expect(subject).to receive(:run_specinfra_command).with(:install, :package_name)
+        expect(subject).to receive(:run_specinfra).with(:install_package, :package_name)
         subject.install_action
       end
     end

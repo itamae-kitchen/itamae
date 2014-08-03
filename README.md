@@ -4,28 +4,23 @@ Configuration management tool like Chef which is simpler and lighter than Chef
 
 ## Concept
 
-* Lighter than Chef
+* Good DSL like Chef
+* Simpler and lighter than Chef
 * It's just like Chef. No compatibility.
-* No idempotence
-* DSL like Chef
+* Idempotent.
 * Without compilation
   * All code in recipes will be executed when they are evaluated.
   * To write recipes easier
-* Use Ohai
-* No role, environment and cookbook
 
-### Examples of Recipes
+## Installation
 
-```ruby
-resource "name" do
-  action :action
-  property "value"
-end
+```
+$ gem install lightchef
 ```
 
-### Usage
+## Usage
 
-#### Run locally
+### Run locally
 
 ```
 $ sudo lightchef execute -j example/node.json example/recipe.rb
@@ -50,33 +45,6 @@ I, [2013-12-24T14:05:51.339119 #7156]  INFO -- : <<< Succeeded.
 $ lightchef ssh -j example/node.json -h 192.168.10.10 -p 22 -u user -i /path/to/private_key example/recipe.rb
 ```
 
-### TODO
-
-* `notifies`, `subscribes`
-
-### Future release
-
-* Run via SSH too (thanks to specinfra)
-  * Create system info collector instead of Ohai, Facter (They can't execute via SSH)
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'lightchef'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install lightchef
-
-## Usage
-
-TODO: Write usage instructions here
-
 ## Contributing
 
 1. Fork it
@@ -84,3 +52,4 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+

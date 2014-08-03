@@ -18,12 +18,15 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "thor"
-  spec.add_runtime_dependency "specinfra", "~> 2.0.0.beta11"
+  spec.add_runtime_dependency "specinfra", "2.0.0.beta14"
   spec.add_runtime_dependency "hashie"
+
+  # TODO: move to specinfra
+  spec.add_runtime_dependency "net-scp"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec", "~> 2.99.0"
-  spec.add_development_dependency "guard-rspec"
-  spec.add_development_dependency "serverspec"
+  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "serverspec", "2.0.0.beta14"
+  spec.add_development_dependency "pry-byebug"
 end

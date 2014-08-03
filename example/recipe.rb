@@ -1,17 +1,13 @@
-package do
+package "git" do
   action :install
-  name "git"
 end
 
-file do
-  action :create
+remote_file '/home/vagrant/foo' do
   source node['file_source']
-  path "/home/vagrant/foo"
 end
 
-directory do
+directory '/tmp/lightchef' do
   action :create
-  path '/tmp/lightchef'
   mode '0777'
   owner 'vagrant'
   group 'vagrant'
