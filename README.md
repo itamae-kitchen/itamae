@@ -8,9 +8,6 @@ Configuration management tool like Chef which is simpler and lighter than Chef
 * Simpler and lighter than Chef
 * It's just like Chef. No compatibility.
 * Idempotent.
-* Without compilation
-  * All code in recipes will be executed when they are evaluated.
-  * To write recipes easier
 
 ## Installation
 
