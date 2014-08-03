@@ -14,5 +14,9 @@ directory "/tmp/directory_by_lightchef" do
   group "vagrant"
 end
 
+template "/tmp/template_by_lightchef" do
+  source "hello.erb"
+end
+
 
 

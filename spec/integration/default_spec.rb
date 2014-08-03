@@ -20,3 +20,9 @@ describe file('/tmp/directory_by_lightchef') do
   it { should be_grouped_into "vagrant" }
 end
 
+describe file('/tmp/template_by_lightchef') do
+  it { should be_file }
+  its(:content) { should match(/Hello/) }
+end
+
+

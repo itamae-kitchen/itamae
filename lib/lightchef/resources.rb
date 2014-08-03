@@ -3,6 +3,7 @@ require 'lightchef/resources/base'
 require 'lightchef/resources/package'
 require 'lightchef/resources/remote_file'
 require 'lightchef/resources/directory'
+require 'lightchef/resources/template'
 
 module Lightchef
   module Resources
