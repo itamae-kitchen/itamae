@@ -13,7 +13,7 @@ module Lightchef
         src = ::File.expand_path(source, ::File.dirname(@recipe.path))
         rendered = nil
         Tempfile.open('lightchef') do |f|
-          f.write ERB.new(File.read(src), nil, '-').result(binding)
+          f.write ERB.new(::File.read(src), nil, '-').result(binding)
           rendered = f.path
         end
         copy_file(rendered, path)

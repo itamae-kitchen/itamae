@@ -4,24 +4,31 @@ require 'shellwords'
 module Lightchef
   module Resources
     class Base
+      @defined_options ||= {}
+      @supported_oses ||= []
+
       class << self
         attr_reader :defined_options
         attr_reader :supported_oses
 
-        def define_option(name, options)
-          @defined_options ||= {
-            action: {type: Symbol, required: true}
-          }
+        def inherited(subclass)
+          subclass.instance_variable_set(
+            :@defined_options,
+            self.defined_options.dup
+          )
+        end
 
+        def define_option(name, options)
           current = @defined_options[name.to_sym] || {}
           @defined_options[name.to_sym] = current.merge(options)
         end
 
         def support_os(hash)
-          @supported_oses ||= []
           @supported_oses << hash
         end
       end
+
+      define_option :action, type: Symbol, required: true
 
       attr_reader :resource_name
       attr_reader :options
@@ -102,7 +109,7 @@ module Lightchef
 
       def copy_file(src, dst)
         Logger.debug "Copying a file from '#{src}' to '#{dst}'..."
-        unless File.exist?(src)
+        unless ::File.exist?(src)
           raise Error, "The file '#{src}' doesn't exist."
         end
         unless backend.copy_file(src, dst)
