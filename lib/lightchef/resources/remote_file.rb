@@ -2,14 +2,13 @@ require 'lightchef'
 
 module Lightchef
   module Resources
-    class RemoteFile < Base
-      define_option :action, default: :create
+    class RemoteFile < File
       define_option :source, type: String, required: true
-      define_option :path, type: String, default_name: true
 
       def create_action
-        src = ::File.expand_path(source, ::File.dirname(@recipe.path))
-        copy_file(src, path)
+        content_file(::File.expand_path(source, ::File.dirname(@recipe.path)))
+
+        super
       end
     end
   end
