@@ -2,7 +2,7 @@ require 'serverspec'
 require 'net/ssh'
 require 'tempfile'
 
-include Specinfra::Helper::Ssh
+set :backend, :ssh
 
 def vagrant(cmd)
   Bundler.with_clean_env do
