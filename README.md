@@ -36,10 +36,18 @@ D, [2013-12-24T14:05:51.335842 #7156] DEBUG -- : Copying a file from '/vagrant/e
 I, [2013-12-24T14:05:51.339119 #7156]  INFO -- : <<< Succeeded.
 ```
 
-#### Run via SSH
+### Run via SSH
 
 ```
 $ lightchef ssh -j example/node.json -h 192.168.10.10 -p 22 -u user -i /path/to/private_key example/recipe.rb
+```
+
+## Run tests
+
+Requirements: Vagrant
+
+```
+$ bundle exec rake spec
 ```
 
 ## Contributing
