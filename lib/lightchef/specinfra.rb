@@ -31,6 +31,8 @@ module Lightchef
   end
 
   def self.create_ssh_backend(options)
+    Specinfra.configuration.request_pty = true
+
     Specinfra.configuration.host = options.delete(:host)
     Specinfra.configuration.ssh_options = options
 
