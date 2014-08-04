@@ -116,14 +116,14 @@ describe TestResource do
 
   describe "#run_specinfra" do
     it "runs specinfra's command by specinfra's backend" do
-      expect(commands).to receive(:cmd).and_return("command")
+      expect(Specinfra.command).to receive(:cmd).and_return("command")
       expect(Lightchef.backend).to receive(:run_command).with("command").
         and_return(Specinfra::CommandResult.new(exit_status: 0))
       subject.send(:run_specinfra, :cmd)
     end
     context "when the command execution failed" do
       it "raises CommandExecutionError" do
-        expect(commands).to receive(:cmd).and_return("command")
+        expect(Specinfra.command).to receive(:cmd).and_return("command")
         expect(Lightchef.backend).to receive(:run_command).with("command").
           and_return(Specinfra::CommandResult.new(exit_status: 1))
         expect do

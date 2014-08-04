@@ -79,7 +79,7 @@ module Lightchef
       end
 
       def run_specinfra(type, *args)
-        command = backend.commands.public_send(type, *args)
+        command = Specinfra.command.public_send(type, *args)
         run_command(command)
       end
 

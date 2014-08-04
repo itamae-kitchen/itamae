@@ -13,10 +13,10 @@ module Lightchef
         escaped_path = shell_escape(path)
         run_command("test -d #{escaped_path} || mkdir #{escaped_path}")
         if options[:mode]
-          run_command("chmod #{options[:mode]} #{escaped_path}")
+          backend.change_file_mode(path, options[:mode])
         end
         if options[:owner] || options[:group]
-          run_command("chown #{options[:owner]}:#{options[:group]} #{escaped_path}")
+          backend.change_file_owner(path, options[:owner], options[:group])
         end
       end
     end
