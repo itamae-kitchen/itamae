@@ -1,4 +1,4 @@
-# Itamae [![Build Status](https://travis-ci.org/ryotarai/itamae.png?branch=master)](https://travis-ci.org/ryotarai/itamae)
+# Itamae
 
 Configuration management tool like Chef which is simpler and lighter than Chef
 
