@@ -1,4 +1,4 @@
-# Itamae
+# Itamae [![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae)
 
 Configuration management tool like Chef which is simpler and lighter than Chef
 
