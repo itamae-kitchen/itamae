@@ -23,12 +23,11 @@ module Lightchef
 
         copy_file(src, path)
 
-        escaped_path = shell_escape(path)
         if mode
-          run_command("chmod #{mode} #{escaped_path}")
+          backend.change_file_mode(path, mode)
         end
         if owner || group
-          run_command("chown #{owner}:#{group} #{escaped_path}")
+          backend.change_file_owner(path, owner, group)
         end
       end
     end
