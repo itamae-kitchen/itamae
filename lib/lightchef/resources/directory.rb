@@ -10,8 +10,9 @@ module Lightchef
       define_option :group, type: String
 
       def create_action
-        escaped_path = shell_escape(path)
-        run_command("test -d #{escaped_path} || mkdir #{escaped_path}")
+        if ! backend.check_file_is_directory(path)
+          backend.create_file_as_directory(path)
+        end
         if options[:mode]
           backend.change_file_mode(path, options[:mode])
         end
