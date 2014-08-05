@@ -1,7 +1,7 @@
-require 'lightchef'
+require 'itamae'
 require 'shellwords'
 
-module Lightchef
+module Itamae
   module Resources
     class Base
       @defined_options ||= {}
@@ -122,7 +122,7 @@ module Lightchef
       end
 
       def backend
-        Lightchef.backend
+        Itamae.backend
       end
 
       def runner

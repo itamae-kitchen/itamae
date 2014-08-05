@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   describe Resources::RemoteFile do
     let(:recipe) { double(:recipe) }
     subject(:resource) do

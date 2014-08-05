@@ -1,15 +1,15 @@
-require 'lightchef'
+require 'itamae'
 require 'thor'
 
-module Lightchef
+module Itamae
   class CLI < Thor
-    desc "local RECIPE [RECIPE...]", "Run Lightchef locally"
+    desc "local RECIPE [RECIPE...]", "Run Itamae locally"
     option :node_json, type: :string, aliases: ['-j']
     def local(*recipe_files)
       Runner.run(recipe_files, :local, options)
     end
 
-    desc "ssh RECIPE [RECIPE...]", "Run Lightchef via ssh"
+    desc "ssh RECIPE [RECIPE...]", "Run Itamae via ssh"
     option :node_json, type: :string, aliases: ['-j']
     option :host, required: true, type: :string, aliases: ['-h']
     option :user, type: :string, aliases: ['-u']

@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   module Resources
     class RemoteFile < File
       define_option :source, type: String, required: true

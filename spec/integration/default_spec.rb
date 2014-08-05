@@ -10,7 +10,7 @@ end
 
 describe file('/tmp/remote_file') do
   it { should be_file }
-  its(:content) { should match(/Hello Lightchef/) }
+  its(:content) { should match(/Hello Itamae/) }
 end
 
 describe file('/tmp/directory') do

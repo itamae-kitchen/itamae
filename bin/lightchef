@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'lightchef/cli'
-Lightchef::CLI.start
-

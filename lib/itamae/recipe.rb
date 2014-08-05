@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   class Recipe
     attr_reader :path
     attr_reader :runner

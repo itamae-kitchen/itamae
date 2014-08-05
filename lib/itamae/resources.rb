@@ -1,12 +1,12 @@
-require 'lightchef'
-require 'lightchef/resources/base'
-require 'lightchef/resources/file'
-require 'lightchef/resources/package'
-require 'lightchef/resources/remote_file'
-require 'lightchef/resources/directory'
-require 'lightchef/resources/template'
+require 'itamae'
+require 'itamae/resources/base'
+require 'itamae/resources/file'
+require 'itamae/resources/package'
+require 'itamae/resources/remote_file'
+require 'itamae/resources/directory'
+require 'itamae/resources/template'
 
-module Lightchef
+module Itamae
   module Resources
     Error = Class.new(StandardError)
     CommandExecutionError = Class.new(StandardError)

@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   class Runner
     class << self
       def run(recipe_files, backend, options)
@@ -30,7 +30,7 @@ module Lightchef
       def backend_from_options(type, options)
         case type
         when :local
-          Lightchef.create_local_backend
+          Itamae.create_local_backend
         when :ssh
           ssh_options = {}
           ssh_options[:host] = options[:host]
@@ -38,7 +38,7 @@ module Lightchef
           ssh_options[:keys] = [options[:key]] if options[:key]
           ssh_options[:port] = options[:port] if options[:port]
 
-          Lightchef.create_ssh_backend(ssh_options)
+          Itamae.create_ssh_backend(ssh_options)
         end
       end
     end

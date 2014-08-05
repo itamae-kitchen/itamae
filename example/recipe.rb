@@ -6,7 +6,7 @@ remote_file '/home/vagrant/foo' do
   source node['file_source']
 end
 
-directory '/tmp/lightchef' do
+directory '/tmp/itamae' do
   action :create
   mode '0777'
   owner 'vagrant'

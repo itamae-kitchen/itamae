@@ -1,8 +1,8 @@
-require 'lightchef'
+require 'itamae'
 require 'hashie'
 require 'json'
 
-module Lightchef
+module Itamae
   class Node < Hashie::Mash
   end
 end

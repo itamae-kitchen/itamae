@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Lightchef
+module Itamae
   describe Node do
   end
 end

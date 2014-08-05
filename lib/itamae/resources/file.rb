@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   module Resources
     class File < Base
       define_option :action, default: :create
@@ -15,7 +15,7 @@ module Lightchef
         src = if content_file
                 content_file
               else
-                Tempfile.open('lightchef') do |f|
+                Tempfile.open('itamae') do |f|
                   f.write(content)
                   f.path
                 end

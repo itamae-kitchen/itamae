@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Lightchef
+module Itamae
   describe Resources do
     describe "#get_resource_class_name" do
       let(:method) { :foo_bar_baz }

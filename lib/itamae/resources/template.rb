@@ -1,8 +1,8 @@
-require 'lightchef'
+require 'itamae'
 require 'erb'
 require 'tempfile'
 
-module Lightchef
+module Itamae
   module Resources
     class Template < File
       define_option :source, type: String, required: true

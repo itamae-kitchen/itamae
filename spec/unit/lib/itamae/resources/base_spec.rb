@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-class DefineOptionTestResource < Lightchef::Resources::Base
+class DefineOptionTestResource < Itamae::Resources::Base
   define_option :action, default: :create
   define_option :default_option, default: :something
   define_option :required_option, required: true
@@ -31,7 +31,7 @@ describe DefineOptionTestResource do
         it "raises an error" do
           expect do
             subject
-          end.to raise_error(Lightchef::Resources::OptionMissingError)
+          end.to raise_error(Itamae::Resources::OptionMissingError)
         end
       end
     end
@@ -59,7 +59,7 @@ describe DefineOptionTestResource do
         it "raises an error" do
           expect do
             subject
-          end.to raise_error(Lightchef::Resources::InvalidTypeError)
+          end.to raise_error(Itamae::Resources::InvalidTypeError)
         end
       end
     end
@@ -80,7 +80,7 @@ describe DefineOptionTestResource do
   end
 end
 
-class TestResource < Lightchef::Resources::Base
+class TestResource < Itamae::Resources::Base
   define_option :action, default: :create
   define_option :option_key, required: false
 end
@@ -99,7 +99,7 @@ describe TestResource do
   subject(:resource) { described_class.new(recipe, "name") }
 
   before do
-    Lightchef.backend = double(:backend).tap do |b|
+    Itamae.backend = double(:backend).tap do |b|
       b.stub(:commands).and_return(commands)
     end
   end
@@ -117,18 +117,18 @@ describe TestResource do
   describe "#run_specinfra" do
     it "runs specinfra's command by specinfra's backend" do
       expect(Specinfra.command).to receive(:cmd).and_return("command")
-      expect(Lightchef.backend).to receive(:run_command).with("command").
+      expect(Itamae.backend).to receive(:run_command).with("command").
         and_return(Specinfra::CommandResult.new(exit_status: 0))
       subject.send(:run_specinfra, :cmd)
     end
     context "when the command execution failed" do
       it "raises CommandExecutionError" do
         expect(Specinfra.command).to receive(:cmd).and_return("command")
-        expect(Lightchef.backend).to receive(:run_command).with("command").
+        expect(Itamae.backend).to receive(:run_command).with("command").
           and_return(Specinfra::CommandResult.new(exit_status: 1))
         expect do
           subject.send(:run_specinfra, :cmd)
-        end.to raise_error(Lightchef::Resources::CommandExecutionError)
+        end.to raise_error(Itamae::Resources::CommandExecutionError)
       end
     end
   end

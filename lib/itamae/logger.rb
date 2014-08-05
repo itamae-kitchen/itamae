@@ -1,7 +1,7 @@
-require 'lightchef'
+require 'itamae'
 require 'logger'
 
-module Lightchef
+module Itamae
   module Logger
     class Formatter
       def call(severity, datetime, progname, msg)

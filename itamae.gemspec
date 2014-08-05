@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'lightchef/version'
+require 'itamae/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "lightchef"
-  spec.version       = Lightchef::VERSION
+  spec.name          = "itamae"
+  spec.version       = Itamae::VERSION
   spec.authors       = ["Ryota Arai"]
   spec.email         = ["ryota.arai@gmail.com"]
   spec.summary       = %q{Simple Configuration Management Tool}
-  spec.homepage      = "https://github.com/ryotarai/lightchef"
+  spec.homepage      = "https://github.com/ryotarai/itamae"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'tmpdir'
 
-module Lightchef
+module Itamae
   describe Runner do
     around do |example|
       Dir.mktmpdir do |dir|
@@ -17,7 +17,7 @@ module Lightchef
         recipes.each do |r|
           recipe = double(:recipe)
           Recipe.stub(:new).with(
-            an_instance_of(Lightchef::Runner),
+            an_instance_of(Itamae::Runner),
             File.expand_path(r)
           ).and_return(recipe)
           expect(recipe).to receive(:run)

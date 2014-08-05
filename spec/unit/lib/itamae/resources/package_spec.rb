@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   describe Resources::Package do
     let(:recipe) { double(:recipe) }
     subject(:resource) { described_class.new(recipe, "name") }

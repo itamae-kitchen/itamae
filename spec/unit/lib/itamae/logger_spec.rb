@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Lightchef
+module Itamae
   describe Logger do
     let(:io) { StringIO.new }
 

@@ -1,6 +1,6 @@
-require 'lightchef'
+require 'itamae'
 
-module Lightchef
+module Itamae
   module Resources
     class Package < Base
       define_option :action, default: :install

@@ -35,7 +35,7 @@ namespace :spec do
             system env, "/usr/bin/vagrant ssh-config #{target} > #{config.path}"
             options = Net::SSH::Config.for(target, [config.path])
 
-            cmd = "bundle exec bin/lightchef ssh"
+            cmd = "bundle exec bin/itamae ssh"
             cmd << " -h #{options[:host_name]}"
             cmd << " -u #{options[:user]}"
             cmd << " -p #{options[:port]}"

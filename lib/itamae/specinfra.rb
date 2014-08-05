@@ -2,7 +2,7 @@ require 'specinfra'
  
 # TODO: move to specinfra
  
-module Lightchef
+module Itamae
   def self.backend=(backend)
     @backend = backend
   end
@@ -26,13 +26,13 @@ module Lightchef
   private
   def self.create_backend(type)
     Specinfra.configuration.backend = type
-    Lightchef.backend = Specinfra.backend
+    Itamae.backend = Specinfra.backend
   end
 
   module SpecinfraHelpers
     module RunCommand
       def backend
-        Lightchef.backend
+        Itamae.backend
       end
 
       def run_command(cmd)
