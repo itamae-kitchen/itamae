@@ -22,5 +22,7 @@ file "/tmp/file" do
   content "Hello World"
 end
 
+execute "echo 'Hello Execute' > /tmp/execute"
+
 
 

@@ -5,6 +5,7 @@ require 'itamae/resources/package'
 require 'itamae/resources/remote_file'
 require 'itamae/resources/directory'
 require 'itamae/resources/template'
+require 'itamae/resources/execute'
 
 module Itamae
   module Resources
