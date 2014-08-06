@@ -6,6 +6,7 @@ require 'itamae/resources/remote_file'
 require 'itamae/resources/directory'
 require 'itamae/resources/template'
 require 'itamae/resources/execute'
+require 'itamae/resources/mail_alias'
 
 module Itamae
   module Resources
