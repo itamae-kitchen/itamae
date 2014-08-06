@@ -35,4 +35,12 @@ describe file('/tmp/execute') do
   its(:content) { should match(/Hello Execute/) }
 end
 
+describe file('/tmp/never_exist1') do
+  it { should_not be_file }
+end
+
+describe file('/tmp/never_exist2') do
+  it { should_not be_file }
+end
+
 

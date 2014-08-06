@@ -45,7 +45,13 @@ module Itamae
       end
 
       def run
-        public_send("#{action}_action".to_sym)
+        if do_not_run_because_of_only_if?
+          Logger.info "Execution skipped because of only_if option"
+        elsif do_not_run_because_of_not_if?
+          Logger.info "Execution skipped because of not_if option"
+        else
+          public_send("#{action}_action".to_sym)
+        end
       end
 
       def nothing_action
@@ -83,7 +89,9 @@ module Itamae
         run_command(command)
       end
 
-      def run_command(command)
+      def run_command(command, options = {})
+        options = {raise_error_if_fail: true}.merge(options)
+
         result = backend.run_command(command)
         exit_status = result.exit_status
 
@@ -102,9 +110,11 @@ module Itamae
           Logger.public_send(method, "STDERR> #{result.stderr.chomp}")
         end
 
-        unless exit_status == 0
+        if options[:raise_error_if_fail] && exit_status != 0
           raise CommandExecutionError
         end
+
+        result
       end
 
       def copy_file(src, dst)
@@ -115,6 +125,24 @@ module Itamae
         unless backend.copy_file(src, dst)
           raise Error, "Copying a file failed."
         end
+      end
+
+      def only_if(command)
+        @only_if_command = command
+      end
+
+      def not_if(command)
+        @not_if_command = command
+      end
+
+      def do_not_run_because_of_only_if?
+        @only_if_command &&
+          run_command(@only_if_command, raise_error_if_fail: false).exit_status != 0
+      end
+
+      def do_not_run_because_of_not_if?
+        @not_if_command &&
+          run_command(@not_if_command, raise_error_if_fail: false).exit_status == 0
       end
 
       def node
