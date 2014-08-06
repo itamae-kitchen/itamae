@@ -47,11 +47,13 @@ module Itamae
       def run
         if do_not_run_because_of_only_if?
           Logger.info "Execution skipped because of only_if option"
+          return
         elsif do_not_run_because_of_not_if?
           Logger.info "Execution skipped because of not_if option"
-        else
-          public_send("#{action}_action".to_sym)
+          return
         end
+
+        public_send("#{action}_action".to_sym)
       end
 
       def nothing_action
