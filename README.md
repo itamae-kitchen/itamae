@@ -1,13 +1,13 @@
 # Itamae [![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae)
 
-Configuration management tool like Chef which is simpler and lighter than Chef
+Simple and lightweight configuration management tool inspired by Chef.
 
 ## Concept
 
-* Good DSL like Chef
-* Simpler and lighter than Chef
-* It's just like Chef. No compatibility.
-* Idempotent.
+- Chef-like DSL
+- Simpler and lighter weight than Chef
+- Not compatible with Chef
+- Idempotent
 
 ## Installation
 
