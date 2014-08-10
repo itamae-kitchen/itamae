@@ -124,9 +124,7 @@ module Itamae
         unless ::File.exist?(src)
           raise Error, "The file '#{src}' doesn't exist."
         end
-        unless backend.copy_file(src, dst)
-          raise Error, "Copying a file failed."
-        end
+        backend.copy_file(src, dst)
       end
 
       def only_if(command)
