@@ -26,7 +26,7 @@ module Itamae
   private
   def self.create_backend(type)
     Specinfra.configuration.backend = type
-    Itamae.backend = Specinfra.backend
+    Itamae.backend = Specinfra::Runner
   end
 
   module SpecinfraHelpers

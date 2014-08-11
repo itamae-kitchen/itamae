@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "thor"
-  spec.add_runtime_dependency "specinfra", "2.0.0.beta30"
+  spec.add_runtime_dependency "specinfra", "2.0.0.beta32"
   spec.add_runtime_dependency "hashie"
 
   # TODO: move to specinfra
