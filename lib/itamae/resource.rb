@@ -1,12 +1,12 @@
 require 'itamae'
-require 'itamae/resources/base'
-require 'itamae/resources/file'
-require 'itamae/resources/package'
-require 'itamae/resources/remote_file'
-require 'itamae/resources/directory'
-require 'itamae/resources/template'
-require 'itamae/resources/execute'
-require 'itamae/resources/mail_alias'
+require 'itamae/resource/base'
+require 'itamae/resource/file'
+require 'itamae/resource/package'
+require 'itamae/resource/remote_file'
+require 'itamae/resource/directory'
+require 'itamae/resource/template'
+require 'itamae/resource/execute'
+require 'itamae/resource/mail_alias'
 
 module Itamae
   module Resource
