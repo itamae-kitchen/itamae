@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  describe Resources::Package do
+  describe Resource::Package do
     let(:recipe) { double(:recipe) }
     subject(:resource) { described_class.new(recipe, "name") }
 

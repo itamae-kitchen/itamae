@@ -2,7 +2,7 @@ require 'itamae'
 require 'shellwords'
 
 module Itamae
-  module Resources
+  module Resource
     class Base
       @defined_options ||= {}
       @supported_oses ||= []
@@ -77,11 +77,11 @@ module Itamae
           @options[key] ||= details[:default]
 
           if details[:required] && !@options[key]
-            raise Resources::OptionMissingError, "'#{key}' option is required but it is not set."
+            raise Resource::OptionMissingError, "'#{key}' option is required but it is not set."
           end
 
           if @options[key] && details[:type] && !@options[key].is_a?(details[:type])
-            raise Resources::InvalidTypeError, "#{key} option should be #{details[:type]}."
+            raise Resource::InvalidTypeError, "#{key} option should be #{details[:type]}."
           end
         end
       end

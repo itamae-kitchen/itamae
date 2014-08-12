@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  module Resources
+  module Resource
     class Execute < Base
       define_option :action, default: :run
       define_option :command, type: String, default_name: true

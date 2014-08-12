@@ -1,6 +1,6 @@
 require 'itamae'
 
-class DefineOptionTestResource < Itamae::Resources::Base
+class DefineOptionTestResource < Itamae::Resource::Base
   define_option :action, default: :create
   define_option :default_option, default: :something
   define_option :required_option, required: true
@@ -31,7 +31,7 @@ describe DefineOptionTestResource do
         it "raises an error" do
           expect do
             subject
-          end.to raise_error(Itamae::Resources::OptionMissingError)
+          end.to raise_error(Itamae::Resource::OptionMissingError)
         end
       end
     end
@@ -59,7 +59,7 @@ describe DefineOptionTestResource do
         it "raises an error" do
           expect do
             subject
-          end.to raise_error(Itamae::Resources::InvalidTypeError)
+          end.to raise_error(Itamae::Resource::InvalidTypeError)
         end
       end
     end
@@ -80,7 +80,7 @@ describe DefineOptionTestResource do
   end
 end
 
-class TestResource < Itamae::Resources::Base
+class TestResource < Itamae::Resource::Base
   define_option :action, default: :create
   define_option :option_key, required: false
 end
@@ -128,7 +128,7 @@ describe TestResource do
           and_return(Specinfra::CommandResult.new(exit_status: 1))
         expect do
           subject.send(:run_specinfra, :cmd)
-        end.to raise_error(Itamae::Resources::CommandExecutionError)
+        end.to raise_error(Itamae::Resource::CommandExecutionError)
       end
     end
   end

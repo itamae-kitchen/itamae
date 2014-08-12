@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  module Resources
+  module Resource
     class MailAlias < Base
       define_option :action, default: :create
       define_option :mail_alias, type: String, default_name: true

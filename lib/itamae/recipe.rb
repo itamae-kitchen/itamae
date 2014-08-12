@@ -21,7 +21,7 @@ module Itamae
         Logger.info ">>> Executing #{resource.class.name} (#{resource.options})..."
         begin
           resource.run
-        rescue Resources::CommandExecutionError
+        rescue Resource::CommandExecutionError
           Logger.error "<<< Failed."
           exit 2
         else
@@ -37,7 +37,7 @@ module Itamae
     end
 
     def method_missing(method, name, &block)
-      klass = Resources.get_resource_class(method)
+      klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
       @resources << resource
     end

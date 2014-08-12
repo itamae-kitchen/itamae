@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  module Resources
+  module Resource
     class RemoteFile < File
       define_option :source, type: String, required: true
 

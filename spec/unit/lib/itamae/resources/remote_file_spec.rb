@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  describe Resources::RemoteFile do
+  describe Resource::RemoteFile do
     let(:recipe) { double(:recipe) }
     subject(:resource) do
       described_class.new(recipe, "name") do

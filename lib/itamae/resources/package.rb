@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  module Resources
+  module Resource
     class Package < Base
       define_option :action, default: :install
       define_option :name, type: String, default_name: true

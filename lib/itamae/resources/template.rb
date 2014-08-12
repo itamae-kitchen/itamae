@@ -3,7 +3,7 @@ require 'erb'
 require 'tempfile'
 
 module Itamae
-  module Resources
+  module Resource
     class Template < File
       define_option :source, type: String, required: true
 

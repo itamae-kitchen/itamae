@@ -9,7 +9,7 @@ require 'itamae/resources/execute'
 require 'itamae/resources/mail_alias'
 
 module Itamae
-  module Resources
+  module Resource
     Error = Class.new(StandardError)
     CommandExecutionError = Class.new(StandardError)
     OptionMissingError = Class.new(StandardError)

@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  module Resources
+  module Resource
     class Directory < Base
       define_option :action, default: :create
       define_option :path, type: String, default_name: true

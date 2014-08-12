@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Itamae
-  describe Resources do
+  describe Resource do
     describe "#get_resource_class_name" do
       let(:method) { :foo_bar_baz }
       it "returns camel-cased string" do
