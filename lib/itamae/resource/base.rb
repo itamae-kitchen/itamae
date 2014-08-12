@@ -87,7 +87,7 @@ module Itamae
       end
 
       def run_specinfra(type, *args)
-        command = Specinfra.command.public_send(type, *args)
+        command = Specinfra.command.get(type, *args)
         run_command(command)
       end
 
