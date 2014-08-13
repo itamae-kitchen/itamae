@@ -4,23 +4,23 @@ require 'shellwords'
 module Itamae
   module Resource
     class Base
-      @defined_options ||= {}
+      @defined_attributes ||= {}
       @supported_oses ||= []
 
       class << self
-        attr_reader :defined_options
+        attr_reader :defined_attributes
         attr_reader :supported_oses
 
         def inherited(subclass)
           subclass.instance_variable_set(
-            :@defined_options,
-            self.defined_options.dup
+            :@defined_attributes,
+            self.defined_attributes.dup
           )
         end
 
-        def define_option(name, options)
-          current = @defined_options[name.to_sym] || {}
-          @defined_options[name.to_sym] = current.merge(options)
+        def define_attribute(name, options)
+          current = @defined_attributes[name.to_sym] || {}
+          @defined_attributes[name.to_sym] = current.merge(options)
         end
 
         def support_os(hash)
@@ -28,28 +28,28 @@ module Itamae
         end
       end
 
-      define_option :action, type: Symbol, required: true
+      define_attribute :action, type: Symbol, required: true
 
       attr_reader :resource_name
-      attr_reader :options
+      attr_reader :attributes
 
       def initialize(recipe, resource_name, &block)
-        @options = {}
+        @attributes = {}
         @recipe = recipe
         @resource_name = resource_name
 
         instance_eval(&block) if block_given?
 
-        process_options
+        process_attributes
         ensure_os
       end
 
       def run
         if do_not_run_because_of_only_if?
-          Logger.info "Execution skipped because of only_if option"
+          Logger.info "Execution skipped because of only_if attribute"
           return
         elsif do_not_run_because_of_not_if?
-          Logger.info "Execution skipped because of not_if option"
+          Logger.info "Execution skipped because of not_if attribute"
           return
         end
 
@@ -63,25 +63,25 @@ module Itamae
       private
 
       def method_missing(method, *args)
-        if args.size == 1 && self.class.defined_options[method]
-          return @options[method] = args.first
-        elsif args.size == 0 && @options.has_key?(method)
-          return @options[method]
+        if args.size == 1 && self.class.defined_attributes[method]
+          return @attributes[method] = args.first
+        elsif args.size == 0 && @attributes.has_key?(method)
+          return @attributes[method]
         end
         super
       end
 
-      def process_options
-        self.class.defined_options.each_pair do |key, details|
-          @options[key] ||= @resource_name if details[:default_name]
-          @options[key] ||= details[:default]
+      def process_attributes
+        self.class.defined_attributes.each_pair do |key, details|
+          @attributes[key] ||= @resource_name if details[:default_name]
+          @attributes[key] ||= details[:default]
 
-          if details[:required] && !@options[key]
-            raise Resource::OptionMissingError, "'#{key}' option is required but it is not set."
+          if details[:required] && !@attributes[key]
+            raise Resource::AttributeMissingError, "'#{key}' attribute is required but it is not set."
           end
 
-          if @options[key] && details[:type] && !@options[key].is_a?(details[:type])
-            raise Resource::InvalidTypeError, "#{key} option should be #{details[:type]}."
+          if @attributes[key] && details[:type] && !@attributes[key].is_a?(details[:type])
+            raise Resource::InvalidTypeError, "#{key} attribute should be #{details[:type]}."
           end
         end
       end
