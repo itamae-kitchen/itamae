@@ -40,6 +40,7 @@ namespace :spec do
             cmd << " -u #{options[:user]}"
             cmd << " -p #{options[:port]}"
             cmd << " -i #{options[:keys].first}"
+            cmd << " -l #{ENV['LOG_LEVEL'] || 'debug'}"
             cmd << " -j spec/integration/recipes/node.json"
             cmd << " spec/integration/recipes/default.rb"
 

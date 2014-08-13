@@ -3,6 +3,14 @@ require 'thor'
 
 module Itamae
   class CLI < Thor
+    class_option :log_level, type: :string, aliases: ['-l'], default: 'info'
+
+    def initialize(*args)
+      super
+
+      Itamae::Logger.level = ::Logger.const_get(options[:log_level].upcase)
+    end
+
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
     option :node_json, type: :string, aliases: ['-j']
     def local(*recipe_files)
