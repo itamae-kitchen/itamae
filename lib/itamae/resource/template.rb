@@ -5,7 +5,7 @@ require 'tempfile'
 module Itamae
   module Resource
     class Template < File
-      define_option :source, type: String, required: true
+      define_attribute :source, type: String, required: true
 
       def create_action
         src = ::File.expand_path(source, ::File.dirname(@recipe.path))

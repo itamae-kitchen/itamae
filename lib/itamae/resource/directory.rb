@@ -3,21 +3,21 @@ require 'itamae'
 module Itamae
   module Resource
     class Directory < Base
-      define_option :action, default: :create
-      define_option :path, type: String, default_name: true
-      define_option :mode, type: String
-      define_option :owner, type: String
-      define_option :group, type: String
+      define_attribute :action, default: :create
+      define_attribute :path, type: String, default_name: true
+      define_attribute :mode, type: String
+      define_attribute :owner, type: String
+      define_attribute :group, type: String
 
       def create_action
         if ! backend.check_file_is_directory(path)
           backend.create_file_as_directory(path)
         end
-        if options[:mode]
-          backend.change_file_mode(path, options[:mode])
+        if attributes[:mode]
+          backend.change_file_mode(path, attributes[:mode])
         end
-        if options[:owner] || options[:group]
-          backend.change_file_owner(path, options[:owner], options[:group])
+        if attributes[:owner] || attributes[:group]
+          backend.change_file_owner(path, attributes[:owner], attributes[:group])
         end
       end
     end

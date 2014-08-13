@@ -3,13 +3,13 @@ require 'itamae'
 module Itamae
   module Resource
     class File < Base
-      define_option :action, default: :create
-      define_option :path, type: String, default_name: true
-      define_option :content, type: String, default: ''
-      define_option :content_file, type: String
-      define_option :mode, type: String
-      define_option :owner, type: String
-      define_option :group, type: String
+      define_attribute :action, default: :create
+      define_attribute :path, type: String, default_name: true
+      define_attribute :content, type: String, default: ''
+      define_attribute :content_file, type: String
+      define_attribute :mode, type: String
+      define_attribute :owner, type: String
+      define_attribute :group, type: String
 
       def create_action
         src = if content_file
