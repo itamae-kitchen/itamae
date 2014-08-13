@@ -18,7 +18,7 @@ module Itamae
 
     def run
       @resources.each do |resource|
-        Logger.info ">>> Executing #{resource.class.name} (#{resource.options})..."
+        Logger.info ">>> Executing #{resource.class.name} (#{resource.attributes})..."
         begin
           resource.run
         rescue Resource::CommandExecutionError
