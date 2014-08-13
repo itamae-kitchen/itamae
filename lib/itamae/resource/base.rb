@@ -32,9 +32,11 @@ module Itamae
 
       attr_reader :resource_name
       attr_reader :attributes
+      attr_reader :current_attributes
 
       def initialize(recipe, resource_name, &block)
         @attributes = {}
+        @current_attributes = {}
         @recipe = recipe
         @resource_name = resource_name
 
@@ -53,6 +55,9 @@ module Itamae
           return
         end
 
+        set_current_attributes
+        show_differences
+
         public_send("#{action}_action".to_sym)
       end
 
@@ -69,6 +74,17 @@ module Itamae
           return @attributes[method]
         end
         super
+      end
+
+      def set_current_attributes
+        #raise NotImplementedError
+      end
+
+      def show_differences
+        @current_attributes.each_pair do |key, current_value|
+          value = @attributes[key]
+          Logger.info "  #{key}: #{current_value} -> #{value}"
+        end
       end
 
       def process_attributes
@@ -92,7 +108,7 @@ module Itamae
       end
 
       def run_command(command, options = {})
-        options = {raise_error_if_fail: true}.merge(options)
+        options = {error_if_fail: true}.merge(options)
 
         result = backend.run_command(command)
         exit_status = result.exit_status
@@ -112,7 +128,7 @@ module Itamae
           Logger.public_send(method, "STDERR> #{result.stderr.chomp}")
         end
 
-        if options[:raise_error_if_fail] && exit_status != 0
+        if options[:error_if_fail] && exit_status != 0
           raise CommandExecutionError
         end
 
@@ -137,12 +153,12 @@ module Itamae
 
       def do_not_run_because_of_only_if?
         @only_if_command &&
-          run_command(@only_if_command, raise_error_if_fail: false).exit_status != 0
+          run_command(@only_if_command, error_if_fail: false).exit_status != 0
       end
 
       def do_not_run_because_of_not_if?
         @not_if_command &&
-          run_command(@not_if_command, raise_error_if_fail: false).exit_status == 0
+          run_command(@not_if_command, error_if_fail: false).exit_status == 0
       end
 
       def node
