@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "thor"
   spec.add_runtime_dependency "specinfra", "2.0.0.beta32"
   spec.add_runtime_dependency "hashie"
+  spec.add_runtime_dependency "ansi"
 
   # TODO: move to specinfra
   spec.add_runtime_dependency "net-scp"
