@@ -8,7 +8,7 @@ module Itamae
     def initialize(runner, path)
       @runner = runner
       @path = path
-      @resources = []
+      @resources = ResourceCollection.new
       load_resources
     end
 
