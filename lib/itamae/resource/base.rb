@@ -112,17 +112,20 @@ module Itamae
         result = backend.run_command(command)
         exit_status = result.exit_status
 
-        if exit_status == 0
+        if exit_status == 0 || !options[:error_if_fail]
           method = :debug
-          Logger.public_send(method, "Command `#{command}` succeeded")
+          message = "Command `#{command}` exited with #{exit_status}"
         else
           method = :error
-          Logger.public_send(method, "Command `#{command}` failed. (exit status: #{exit_status})")
+          message = "Command `#{command}` failed. (exit status: #{exit_status})"
         end
+
+        Logger.public_send(method, message)
 
         if result.stdout && result.stdout != ''
           Logger.public_send(method, "STDOUT> #{result.stdout.chomp}")
         end
+
         if result.stderr && result.stderr != ''
           Logger.public_send(method, "STDERR> #{result.stderr.chomp}")
         end
