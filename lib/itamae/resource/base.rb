@@ -49,20 +49,29 @@ module Itamae
       end
 
       def run(specific_action = nil)
+        Logger.info "> Executing #{resource_type} (#{attributes})..."
+
         if do_not_run_because_of_only_if?
-          Logger.info "Execution skipped because of only_if attribute"
+          Logger.info "< Execution skipped because of only_if attribute"
           return
         elsif do_not_run_because_of_not_if?
-          Logger.info "Execution skipped because of not_if attribute"
+          Logger.info "< Execution skipped because of not_if attribute"
           return
         end
 
         set_current_attributes
         show_differences
 
-        public_send("#{specific_action || action}_action".to_sym)
+        begin
+          public_send("#{specific_action || action}_action".to_sym)
+        rescue Resource::CommandExecutionError
+          Logger.error "< Failed."
+          exit 2
+        end
 
         notify if updated?
+
+        Logger.info "< Succeeded."
       end
 
       def nothing_action
@@ -98,7 +107,7 @@ module Itamae
       def show_differences
         @current_attributes.each_pair do |key, current_value|
           value = @attributes[key]
-          Logger.info "  #{key}: #{current_value} -> #{value}"
+          Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"
         end
       end
 
@@ -130,20 +139,20 @@ module Itamae
 
         if exit_status == 0 || !options[:error]
           method = :debug
-          message = "Command `#{command}` exited with #{exit_status}"
+          message = "  Command `#{command}` exited with #{exit_status}"
         else
           method = :error
-          message = "Command `#{command}` failed. (exit status: #{exit_status})"
+          message = "  Command `#{command}` failed. (exit status: #{exit_status})"
         end
 
         Logger.public_send(method, message)
 
         if result.stdout && result.stdout != ''
-          Logger.public_send(method, "STDOUT> #{result.stdout.chomp}")
+          Logger.public_send(method, "  STDOUT> #{result.stdout.chomp}")
         end
 
         if result.stderr && result.stderr != ''
-          Logger.public_send(method, "STDERR> #{result.stderr.chomp}")
+          Logger.public_send(method, "  STDERR> #{result.stderr.chomp}")
         end
 
         if options[:error] && exit_status != 0
@@ -154,7 +163,7 @@ module Itamae
       end
 
       def copy_file(src, dst)
-        Logger.debug "Copying a file from '#{src}' to '#{dst}'..."
+        Logger.debug "  Copying a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
           raise Error, "The file '#{src}' doesn't exist."
         end
