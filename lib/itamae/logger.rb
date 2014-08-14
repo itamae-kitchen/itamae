@@ -27,19 +27,15 @@ module Itamae
       end
 
       def color(str, severity)
-        "".tap do |s|
-          color_code = case severity
-                       when "INFO"
-                         ANSI.green
-                       when "ERROR"
-                         ANSI.red
-                       else
-                         ANSI.clear
-                       end
-          s << color_code
-          s << str
-          s << ANSI.clear
-        end
+        color_code = case severity
+                     when "INFO"
+                       :green
+                     when "ERROR"
+                       :red
+                     else
+                       :clear
+                     end
+        ANSI.public_send(color_code) { str }
       end
     end
 
