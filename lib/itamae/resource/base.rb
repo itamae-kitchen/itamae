@@ -128,7 +128,13 @@ module Itamae
 
       def run_specinfra(type, *args)
         command = Specinfra.command.get(type, *args)
-        run_command(command)
+
+        if type.to_s.start_with?("check_")
+          result = run_command(command, error: false)
+          result.exit_status == 0
+        else
+          run_command(command)
+        end
       end
 
       def run_command(command, options = {})

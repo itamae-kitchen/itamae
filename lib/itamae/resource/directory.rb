@@ -19,14 +19,14 @@ module Itamae
       end
 
       def create_action
-        if ! backend.check_file_is_directory(path)
-          backend.create_file_as_directory(path)
+        if ! run_specinfra(:check_file_is_directory, path)
+          run_specinfra(:create_file_as_directory, path)
         end
         if attributes[:mode]
-          backend.change_file_mode(path, attributes[:mode])
+          run_specinfra(:change_file_mode, path, attributes[:mode])
         end
         if attributes[:owner] || attributes[:group]
-          backend.change_file_owner(path, attributes[:owner], attributes[:group])
+          run_specinfra(:change_file_owner, path, attributes[:owner], attributes[:group])
         end
       end
     end
