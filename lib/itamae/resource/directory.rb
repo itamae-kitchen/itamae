@@ -11,7 +11,7 @@ module Itamae
 
       def set_current_attributes
         escaped_path = shell_escape(path)
-        if run_command("test -d #{escaped_path}", error_if_fail: false).exit_status == 0
+        if run_command("test -d #{escaped_path}", error: false).exit_status == 0
           @current_attributes[:mode] = run_command("stat --format '%a' #{escaped_path}").stdout.chomp
           @current_attributes[:owner] = run_command("stat --format '%U' #{escaped_path}").stdout.chomp
           @current_attributes[:group] = run_command("stat --format '%G' #{escaped_path}").stdout.chomp

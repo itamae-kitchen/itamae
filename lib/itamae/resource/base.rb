@@ -107,12 +107,12 @@ module Itamae
       end
 
       def run_command(command, options = {})
-        options = {error_if_fail: true}.merge(options)
+        options = {error: true}.merge(options)
 
         result = backend.run_command(command)
         exit_status = result.exit_status
 
-        if exit_status == 0 || !options[:error_if_fail]
+        if exit_status == 0 || !options[:error]
           method = :debug
           message = "Command `#{command}` exited with #{exit_status}"
         else
@@ -130,7 +130,7 @@ module Itamae
           Logger.public_send(method, "STDERR> #{result.stderr.chomp}")
         end
 
-        if options[:error_if_fail] && exit_status != 0
+        if options[:error] && exit_status != 0
           raise CommandExecutionError
         end
 
@@ -155,12 +155,12 @@ module Itamae
 
       def do_not_run_because_of_only_if?
         @only_if_command &&
-          run_command(@only_if_command, error_if_fail: false).exit_status != 0
+          run_command(@only_if_command, error: false).exit_status != 0
       end
 
       def do_not_run_because_of_not_if?
         @not_if_command &&
-          run_command(@not_if_command, error_if_fail: false).exit_status == 0
+          run_command(@not_if_command, error: false).exit_status == 0
       end
 
       def node
