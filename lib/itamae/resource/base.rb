@@ -77,7 +77,6 @@ module Itamae
       end
 
       def set_current_attributes
-        #raise NotImplementedError
       end
 
       def show_differences
