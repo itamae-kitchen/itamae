@@ -11,7 +11,7 @@ module Itamae
 
       private
       def format_datetime(time)
-        time.strftime("%Y-%m-%dT%H:%M:%S.") << "%06d" % time.usec
+        time.strftime("%Y-%m-%dT%H:%M:%S%:z")
       end
 
       def msg2str(msg)
