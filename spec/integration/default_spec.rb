@@ -43,4 +43,9 @@ describe file('/tmp/never_exist2') do
   it { should_not be_file }
 end
 
+describe file('/tmp/notifies') do
+  it { should be_file }
+  its(:content) { should eq("2431") }
+end
+
 

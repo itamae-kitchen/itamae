@@ -39,6 +39,8 @@ module Itamae
         @current_attributes = {}
         @recipe = recipe
         @resource_name = resource_name
+        @notifies = []
+        @updated = false
 
         instance_eval(&block) if block_given?
 
@@ -46,7 +48,7 @@ module Itamae
         ensure_os
       end
 
-      def run
+      def run(specific_action = nil)
         if do_not_run_because_of_only_if?
           Logger.info "Execution skipped because of only_if attribute"
           return
@@ -58,11 +60,25 @@ module Itamae
         set_current_attributes
         show_differences
 
-        public_send("#{action}_action".to_sym)
+        public_send("#{specific_action || action}_action".to_sym)
+
+        notify if updated?
       end
 
       def nothing_action
         # do nothing
+      end
+
+      def resource_type
+        humps = []
+        self.class.name.split("::").last.each_char do |c|
+          if "A" <= c && c <= "Z"
+            humps << c.downcase
+          else
+            humps.last << c
+          end
+        end
+        humps.join('_')
       end
 
       private
@@ -163,6 +179,10 @@ module Itamae
           run_command(@not_if_command, error: false).exit_status == 0
       end
 
+      def notifies(action, resource_desc, timing = :delay)
+        @notifies << [action, resource_desc, timing]
+      end
+
       def node
         runner.node
       end
@@ -175,8 +195,32 @@ module Itamae
         @recipe.runner
       end
 
+      def resources
+        @recipe.resources
+      end
+
       def shell_escape(str)
         Shellwords.escape(str)
+      end
+
+      def updated!
+        @updated = true
+      end
+
+      def updated?
+        @updated
+      end
+
+      def notify
+        @notifies.each do |action, resource_desc, timing|
+          resource = resources.find_by_description(resource_desc)
+          case timing
+          when :immediately
+            resource.run(action)
+          when :delay
+            @recipe.delayed_actions << [action, resource]
+          end
+        end
       end
 
       def ensure_os

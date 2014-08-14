@@ -15,13 +15,24 @@ module Itamae
     AttributeMissingError = Class.new(StandardError)
     InvalidTypeError = Class.new(StandardError)
     NotSupportedOsError = Class.new(StandardError)
+    ParseError = Class.new(StandardError)
 
-    def self.get_resource_class_name(method)
-      method.to_s.split('_').map {|part| part.capitalize}.join
-    end
+    class << self
+      def get_resource_class_name(method)
+        method.to_s.split('_').map {|part| part.capitalize}.join
+      end
 
-    def self.get_resource_class(method)
-      const_get(get_resource_class_name(method))
+      def get_resource_class(method)
+        const_get(get_resource_class_name(method))
+      end
+
+      def parse_description(desc)
+        if /\A([^\[]+)\[([^\]]+)\]\z/ =~ desc
+          [$1, $2]
+        else
+          raise ParseError, "'#{desc}' doesn't represent a resource."
+        end
+      end
     end
   end
 end

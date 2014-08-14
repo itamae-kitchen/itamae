@@ -8,6 +8,7 @@ module Itamae
 
       def run_action
         run_command(command)
+        updated!
       end
     end
   end

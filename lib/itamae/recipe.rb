@@ -4,11 +4,15 @@ module Itamae
   class Recipe
     attr_reader :path
     attr_reader :runner
+    attr_reader :resources
+    attr_reader :delayed_actions
 
     def initialize(runner, path)
       @runner = runner
       @path = path
       @resources = ResourceCollection.new
+      @delayed_actions = []
+
       load_resources
     end
 
@@ -27,6 +31,10 @@ module Itamae
         else
           Logger.info "<<< Succeeded."
         end
+      end
+
+      @delayed_actions.uniq.each do |action, resource|
+        resource.run(action)
       end
     end
 
