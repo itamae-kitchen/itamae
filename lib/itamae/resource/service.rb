@@ -24,6 +24,7 @@ module Itamae
 
       private
       def run_init_script(command)
+        # TODO: Delegate to Specinfra
         run_command("#{shell_escape(init_script_path)} #{command}")
       end
 
