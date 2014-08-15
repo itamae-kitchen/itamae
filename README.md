@@ -42,6 +42,18 @@ I, [2013-12-24T14:05:51.339119 #7156]  INFO -- : <<< Succeeded.
 $ itamae ssh -j example/node.json -h 192.168.10.10 -p 22 -u user -i /path/to/private_key example/recipe.rb
 ```
 
+## Recipes
+
+You can write recipes like Chef's one.
+
+```ruby
+package "dstat" do
+  action :install
+end
+```
+
+Further example is here: [spec/integration/recipes/default.rb](spec/integration/recipes/default.rb)
+
 ## Run tests
 
 Requirements: Vagrant
