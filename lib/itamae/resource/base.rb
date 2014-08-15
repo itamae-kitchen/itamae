@@ -5,7 +5,6 @@ module Itamae
   module Resource
     class Base
       @defined_attributes ||= {}
-      @supported_oses ||= []
 
       class << self
         attr_reader :defined_attributes
@@ -21,10 +20,6 @@ module Itamae
         def define_attribute(name, options)
           current = @defined_attributes[name.to_sym] || {}
           @defined_attributes[name.to_sym] = current.merge(options)
-        end
-
-        def support_os(hash)
-          @supported_oses << hash
         end
       end
 
@@ -46,7 +41,6 @@ module Itamae
         instance_eval(&block) if block_given?
 
         process_attributes
-        ensure_os
       end
 
       def run(specific_action = nil)
@@ -255,19 +249,6 @@ module Itamae
           when :delay
             @recipe.delayed_actions << [action, resource]
           end
-        end
-      end
-
-      def ensure_os
-        return unless self.class.supported_oses
-        ok = self.class.supported_oses.any? do |supported|
-          supported.each_pair.all? do |k, v|
-            backend.os[k] == v
-          end
-        end
-
-        unless ok
-          raise NotSupportedOsError, "#{self.class.name} resource doesn't support this OS now."
         end
       end
     end

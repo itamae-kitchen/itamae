@@ -14,7 +14,6 @@ module Itamae
     CommandExecutionError = Class.new(StandardError)
     AttributeMissingError = Class.new(StandardError)
     InvalidTypeError = Class.new(StandardError)
-    NotSupportedOsError = Class.new(StandardError)
     ParseError = Class.new(StandardError)
 
     class << self
