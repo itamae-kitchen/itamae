@@ -72,4 +72,19 @@ file "/tmp/never_exist2" do
   not_if "exit 0"
 end
 
+######
+
+service "cron" do
+  action :stop
+end
+
+execute "ps axu | grep cron | grep -v grep > /tmp/cron_stopped; true"
+
+service "cron" do
+  action :start
+end
+
+execute "ps axu | grep cron | grep -v grep > /tmp/cron_running; true"
+
+######
 
