@@ -78,13 +78,13 @@ service "cron" do
   action :stop
 end
 
-execute "ps axu | grep cron | grep -v grep > /tmp/cron_stopped; true"
+execute "ps -C cron > /tmp/cron_stopped; true"
 
 service "cron" do
   action :start
 end
 
-execute "ps axu | grep cron | grep -v grep > /tmp/cron_running; true"
+execute "ps -C cron > /tmp/cron_running; true"
 
 ######
 

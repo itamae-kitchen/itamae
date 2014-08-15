@@ -56,14 +56,14 @@ end
 describe file('/tmp/cron_stopped') do
   it { should be_file }
   its(:content) do
-    expect(subject.content.lines.size).to eq 0
+    expect(subject.content.lines.size).to eq 1
   end
 end
 
 describe file('/tmp/cron_running') do
   it { should be_file }
   its(:content) do
-    expect(subject.content.lines.size).to eq 1
+    expect(subject.content.lines.size).to eq 2
   end
 end
 
