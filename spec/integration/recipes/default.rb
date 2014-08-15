@@ -4,6 +4,8 @@ end
 
 package 'sl'
 
+######
+
 execute "echo -n > /tmp/notifies"
 
 execute "echo -n 1 >> /tmp/notifies" do
@@ -21,6 +23,26 @@ end
 execute "echo -n 4 >> /tmp/notifies" do
   notifies :run, "execute[echo -n 3 >> /tmp/notifies]", :immediately
 end
+
+######
+
+execute "echo -n > /tmp/subscribes"
+
+execute "echo -n 1 >> /tmp/subscribes" do
+  action :nothing
+  subscribes :run, "execute[echo -n 2 >> /tmp/subscribes]"
+end
+
+execute "echo -n 2 >> /tmp/subscribes"
+
+execute "echo -n 3 >> /tmp/subscribes" do
+  action :nothing
+  subscribes :run, "execute[echo -n 4 >> /tmp/subscribes]", :immediately
+end
+
+execute "echo -n 4 >> /tmp/subscribes"
+
+######
 
 remote_file "/tmp/remote_file" do
   source "hello.txt"

@@ -40,6 +40,7 @@ module Itamae
         @recipe = recipe
         @resource_name = resource_name
         @notifies = []
+        @subscribes = []
         @updated = false
 
         instance_eval(&block) if block_given?
@@ -89,6 +90,21 @@ module Itamae
         end
         humps.join('_')
       end
+
+      def notifies_resources
+        @notifies.map do |action, resource_desc, timing|
+          resource = resources.find_by_description(resource_desc)
+          [action, resource, timing]
+        end
+      end
+
+      def subscribes_resources
+        @subscribes.map do |action, resource_desc, timing|
+          resource = resources.find_by_description(resource_desc)
+          [action, resource, timing]
+        end
+      end
+
 
       private
 
@@ -198,6 +214,10 @@ module Itamae
         @notifies << [action, resource_desc, timing]
       end
 
+      def subscribes(action, resource_desc, timing = :delay)
+        @subscribes << [action, resource_desc, timing]
+      end
+
       def node
         runner.node
       end
@@ -227,8 +247,8 @@ module Itamae
       end
 
       def notify
-        @notifies.each do |action, resource_desc, timing|
-          resource = resources.find_by_description(resource_desc)
+        action_resource_timing = notifies_resources + resources.subscribing(self)
+        action_resource_timing.uniq.each do |action, resource, timing|
           case timing
           when :immediately
             resource.run(action)

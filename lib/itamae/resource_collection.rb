@@ -13,5 +13,15 @@ module Itamae
         end
       end
     end
+
+    def subscribing(target)
+      self.map do |resource|
+        resource.subscribes_resources.map do |action, r, timing|
+          if r == target
+            [action, resource, timing]
+          end
+        end.compact
+      end.flatten(1)
+    end
   end
 end

@@ -48,4 +48,8 @@ describe file('/tmp/notifies') do
   its(:content) { should eq("2431") }
 end
 
+describe file('/tmp/subscribes') do
+  it { should be_file }
+  its(:content) { should eq("2431") }
+end
 
