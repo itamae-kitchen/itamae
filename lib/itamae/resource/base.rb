@@ -117,7 +117,11 @@ module Itamae
       def show_differences
         @current_attributes.each_pair do |key, current_value|
           value = @attributes[key]
-          Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"
+          if current_value == value
+            Logger.info "  #{key} will not change (current value is '#{current_value}')"
+          else
+            Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"
+          end
         end
       end
 
@@ -166,7 +170,9 @@ module Itamae
         {"STDOUT" => result.stdout, "STDERR" => result.stderr}.each_pair do |name, value|
           if value && value != ''
             value.each_line do |line|
-              Logger.public_send(method, "    #{name}> #{line.chomp}")
+              # remove control chars
+              line = line.tr("\u0000-\u001f\u007f\u2028",'')
+              Logger.public_send(method, "    #{name}> #{line}")
             end
           end
         end
