@@ -60,6 +60,7 @@ end
 
 file "/tmp/file" do
   content "Hello World"
+  mode "0777"
 end
 
 execute "echo 'Hello Execute' > /tmp/execute"

@@ -24,10 +24,10 @@ module Itamae
         copy_file(src, path)
 
         if mode
-          backend.change_file_mode(path, mode)
+          run_specinfra(:change_file_mode, path, mode)
         end
         if owner || group
-          backend.change_file_owner(path, owner, group)
+          run_specinfra(:change_file_owner, path, owner, group)
         end
       end
     end
