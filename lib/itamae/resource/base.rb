@@ -176,12 +176,12 @@ module Itamae
 
         Logger.public_send(method, message)
 
-        {"STDOUT" => result.stdout, "STDERR" => result.stderr}.each_pair do |name, value|
+        {"stdout" => result.stdout, "stderr" => result.stderr}.each_pair do |name, value|
           if value && value != ''
             value.each_line do |line|
               # remove control chars
               line = line.tr("\u0000-\u001f\u007f\u2028",'')
-              Logger.public_send(method, "    #{name}> #{line}")
+              Logger.public_send(method, "    #{name} | #{line}")
             end
           end
         end
