@@ -43,7 +43,7 @@ module Itamae
         process_attributes
       end
 
-      def run(specific_action = nil)
+      def run(specific_action = nil, options = {})
         Logger.info "> Executing #{resource_type} (#{attributes})..."
 
         if do_not_run_because_of_only_if?
@@ -57,16 +57,16 @@ module Itamae
         set_current_attributes
         show_differences
 
-        begin
+        unless options[:dry_run]
           public_send("#{specific_action || action}_action".to_sym)
-        rescue Resource::CommandExecutionError
-          Logger.error "< Failed."
-          exit 2
         end
 
         notify if updated?
 
         Logger.info "< Succeeded."
+      rescue Resource::CommandExecutionError
+        Logger.error "< Failed."
+        exit 2
       end
 
       def nothing_action

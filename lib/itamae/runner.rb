@@ -10,7 +10,7 @@ module Itamae
 
         recipe_files.each do |path|
           recipe = Recipe.new(runner, File.expand_path(path))
-          recipe.run
+          recipe.run(dry_run: options[:dry_run])
         end
       end
 

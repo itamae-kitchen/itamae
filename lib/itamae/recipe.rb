@@ -20,13 +20,14 @@ module Itamae
       @runner.node
     end
 
-    def run
+    def run(options = {})
       @resources.each do |resource|
-        resource.run
+        # do action specified in the recipe
+        resource.run(nil, dry_run: options[:dry_run])
       end
 
       @delayed_actions.uniq.each do |action, resource|
-        resource.run(action)
+        resource.run(action, dry_run: options[:dry_run])
       end
     end
 
