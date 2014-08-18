@@ -113,23 +113,4 @@ describe TestResource do
       subject.run
     end
   end
-
-  describe "#run_specinfra" do
-    it "runs specinfra's command by specinfra's backend" do
-      expect(Specinfra.command).to receive(:get).with(:cmd).and_return("command")
-      expect(Itamae.backend).to receive(:run_command).with("command").
-        and_return(Specinfra::CommandResult.new(exit_status: 0))
-      subject.send(:run_specinfra, :cmd)
-    end
-    context "when the command execution failed" do
-      it "raises CommandExecutionError" do
-        expect(Specinfra.command).to receive(:get).with(:cmd).and_return("command")
-        expect(Itamae.backend).to receive(:run_command).with("command").
-          and_return(Specinfra::CommandResult.new(exit_status: 1))
-        expect do
-          subject.send(:run_specinfra, :cmd)
-        end.to raise_error(Itamae::Resource::CommandExecutionError)
-      end
-    end
-  end
 end

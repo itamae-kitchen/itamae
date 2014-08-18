@@ -12,7 +12,6 @@ require 'itamae/resource/service'
 module Itamae
   module Resource
     Error = Class.new(StandardError)
-    CommandExecutionError = Class.new(StandardError)
     AttributeMissingError = Class.new(StandardError)
     InvalidTypeError = Class.new(StandardError)
     ParseError = Class.new(StandardError)

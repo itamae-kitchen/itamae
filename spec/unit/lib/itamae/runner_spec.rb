@@ -3,6 +3,16 @@ require 'tmpdir'
 
 module Itamae
   describe Runner do
+    subject { described_class.new(double(:node)) }
+
+    let(:commands) { double(:commands) }
+
+    before do
+      Itamae.backend = double(:backend).tap do |b|
+        b.stub(:commands).and_return(commands)
+      end
+    end
+
     around do |example|
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
@@ -23,6 +33,25 @@ module Itamae
           expect(recipe).to receive(:run)
         end
         described_class.run(recipes, :exec, {})
+      end
+    end
+
+    describe "#run_specinfra" do
+      it "runs specinfra's command by specinfra's backend" do
+        expect(Specinfra.command).to receive(:get).with(:cmd).and_return("command")
+        expect(Itamae.backend).to receive(:run_command).with("command").
+          and_return(Specinfra::CommandResult.new(exit_status: 0))
+        subject.send(:run_specinfra, :cmd)
+      end
+      context "when the command execution failed" do
+        it "raises CommandExecutionError" do
+          expect(Specinfra.command).to receive(:get).with(:cmd).and_return("command")
+          expect(Itamae.backend).to receive(:run_command).with("command").
+            and_return(Specinfra::CommandResult.new(exit_status: 1))
+          expect do
+            subject.send(:run_specinfra, :cmd)
+          end.to raise_error(Itamae::Runner::CommandExecutionError)
+        end
       end
     end
   end
