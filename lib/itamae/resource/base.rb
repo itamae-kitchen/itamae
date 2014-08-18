@@ -163,12 +163,12 @@ module Itamae
 
         Logger.public_send(method, message)
 
-        if result.stdout && result.stdout != ''
-          Logger.public_send(method, "  STDOUT> #{result.stdout.chomp}")
-        end
-
-        if result.stderr && result.stderr != ''
-          Logger.public_send(method, "  STDERR> #{result.stderr.chomp}")
+        {"STDOUT" => result.stdout, "STDERR" => result.stderr}.each_pair do |name, value|
+          if value && value != ''
+            value.each_line do |line|
+              Logger.public_send(method, "    #{name}> #{line.chomp}")
+            end
+          end
         end
 
         if options[:error] && exit_status != 0
