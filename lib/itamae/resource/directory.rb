@@ -10,12 +10,10 @@ module Itamae
       define_attribute :group, type: String
 
       def set_current_attributes
-        escaped_path = shell_escape(path)
-        # TODO: Use specinfra
-        if run_command("test -d #{escaped_path}", error: false).exit_status == 0
-          @current_attributes[:mode] = run_command("stat --format '%a' #{escaped_path}").stdout.chomp
-          @current_attributes[:owner] = run_command("stat --format '%U' #{escaped_path}").stdout.chomp
-          @current_attributes[:group] = run_command("stat --format '%G' #{escaped_path}").stdout.chomp
+        if run_specinfra(:check_file_is_directory, path)
+          @current_attributes[:mode] = run_specinfra(:get_file_mode, path).stdout.chomp
+          @current_attributes[:owner] = run_specinfra(:get_file_owner_user, path).stdout.chomp
+          @current_attributes[:group] = run_specinfra(:get_file_owner_group, path).stdout.chomp
         end
       end
 
