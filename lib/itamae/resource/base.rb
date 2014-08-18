@@ -61,6 +61,8 @@ module Itamae
           public_send("#{specific_action || action}_action".to_sym)
         end
 
+        updated! if different?
+
         notify if updated?
 
         Logger.info "< Succeeded."
@@ -112,6 +114,13 @@ module Itamae
       end
 
       def set_current_attributes
+        # do nothing
+      end
+
+      def different?
+        @current_attributes.each_pair.any? do |key, current_value|
+          current_value != @attributes[key]
+        end
       end
 
       def show_differences
