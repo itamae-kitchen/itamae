@@ -14,6 +14,8 @@ module Itamae
           @current_attributes[:mode] = run_specinfra(:get_file_mode, path).stdout.chomp
           @current_attributes[:owner] = run_specinfra(:get_file_owner_user, path).stdout.chomp
           @current_attributes[:group] = run_specinfra(:get_file_owner_group, path).stdout.chomp
+        else
+          updated!
         end
       end
 
