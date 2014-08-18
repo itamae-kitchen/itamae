@@ -49,7 +49,7 @@ remote_file "/tmp/remote_file" do
 end
 
 directory "/tmp/directory" do
-  mode "0700"
+  mode "700"
   owner "vagrant"
   group "vagrant"
 end
@@ -60,7 +60,7 @@ end
 
 file "/tmp/file" do
   content "Hello World"
-  mode "0777"
+  mode "777"
 end
 
 execute "echo 'Hello Execute' > /tmp/execute"
