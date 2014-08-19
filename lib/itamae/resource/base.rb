@@ -54,6 +54,8 @@ module Itamae
           return
         end
 
+        pre_action
+
         set_current_attributes
         show_differences
 
@@ -113,6 +115,10 @@ module Itamae
         super
       end
 
+      def pre_action
+        # do nothing
+      end
+
       def set_current_attributes
         # do nothing
       end
@@ -126,7 +132,7 @@ module Itamae
       def show_differences
         @current_attributes.each_pair do |key, current_value|
           value = @attributes[key]
-          if current_value == value
+          if current_value == value || value.nil?
             Logger.info "  #{key} will not change (current value is '#{current_value}')"
           else
             Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"

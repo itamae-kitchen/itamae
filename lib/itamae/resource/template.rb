@@ -7,7 +7,7 @@ module Itamae
     class Template < File
       define_attribute :source, type: String, required: true
 
-      def create_action
+      def pre_action
         src = ::File.expand_path(source, ::File.dirname(@recipe.path))
         content(ERB.new(::File.read(src), nil, '-').result(binding))
 

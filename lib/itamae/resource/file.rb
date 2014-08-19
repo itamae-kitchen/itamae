@@ -11,7 +11,7 @@ module Itamae
       define_attribute :owner, type: String
       define_attribute :group, type: String
 
-      def create_action
+      def pre_action
         src = if content_file
                 content_file
               else
@@ -21,14 +21,52 @@ module Itamae
                 end
               end
 
-        temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
-        copy_file(src, temppath)
+        @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
+        copy_file(src, @temppath)
+      end
 
+      def set_current_attributes
+        exist = run_specinfra(:check_file_is_file, path)
+        @current_attributes[:exist?] = exist
+
+        if exist
+          @current_attributes[:mode] = run_specinfra(:get_file_mode, path).stdout.chomp
+          @current_attributes[:owner] = run_specinfra(:get_file_owner_user, path).stdout.chomp
+          @current_attributes[:group] = run_specinfra(:get_file_owner_group, path).stdout.chomp
+        else
+          @current_attributes[:mode] = nil
+          @current_attributes[:owner] = nil
+          @current_attributes[:group] = nil
+        end
+
+        if action == :create
+          @attributes[:exist?] = true
+        end
+      end
+
+      def show_differences
+        super
+
+        if @current_attributes[:exist?]
+          diff = run_command(["diff", "-u", path, @temppath], error: false)
+          if diff.exit_status == 0
+            # no change
+            Logger.info "  file content will not change"
+          else
+            Logger.info "  diff:"
+            diff.stdout.each_line do |line|
+              Logger.info "    #{line.strip}"
+            end
+          end
+        end
+      end
+
+      def create_action
         if mode
-          run_specinfra(:change_file_mode, temppath, mode)
+          run_specinfra(:change_file_mode, @temppath, mode)
         end
         if owner || group
-          run_specinfra(:change_file_owner, temppath, owner, group)
+          run_specinfra(:change_file_owner, @temppath, owner, group)
         end
 
         if run_specinfra(:check_file_is_file, path)
@@ -37,7 +75,7 @@ module Itamae
         end
 
         # TODO: specinfra
-        run_command(["mv", temppath, path])
+        run_command(["mv", @temppath, path])
       end
     end
   end
