@@ -21,14 +21,23 @@ module Itamae
                 end
               end
 
-        copy_file(src, path)
+        temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
+        copy_file(src, temppath)
 
         if mode
-          run_specinfra(:change_file_mode, path, mode)
+          run_specinfra(:change_file_mode, temppath, mode)
         end
         if owner || group
-          run_specinfra(:change_file_owner, path, owner, group)
+          run_specinfra(:change_file_owner, temppath, owner, group)
         end
+
+        if run_specinfra(:check_file_is_file, path)
+          # TODO: specinfra
+          run_command("cp #{shell_escape(path)} #{shell_escape("#{path}.bak")}")
+        end
+
+        # TODO: specinfra
+        run_command("mv #{shell_escape(temppath)} #{shell_escape(path)}")
       end
     end
   end

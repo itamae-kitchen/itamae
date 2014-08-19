@@ -46,11 +46,16 @@ module Itamae
     end
 
     attr_accessor :node
+    attr_accessor :tmpdir
 
     def initialize(node)
       @node = node
+      @tmpdir = "/tmp/itamae_tmp"
+
+      run_command("mkdir -p #{Shellwords.escape(@tmpdir)} && chmod 777 #{Shellwords.escape(@tmpdir)}")
     end
 
+    # TODO: Move to other class
     def run_specinfra(type, *args)
       command = Specinfra.command.get(type, *args)
 
@@ -62,6 +67,7 @@ module Itamae
       end
     end
 
+    # TODO: Move to other class
     def run_command(command, options = {})
       options = {error: true}.merge(options)
 

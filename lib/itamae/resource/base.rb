@@ -66,7 +66,7 @@ module Itamae
         notify if updated?
 
         Logger.info "< Succeeded."
-      rescue Resource::CommandExecutionError
+      rescue Runner::CommandExecutionError
         Logger.error "< Failed."
         exit 2
       end
