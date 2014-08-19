@@ -51,7 +51,11 @@ module Itamae
         if value && value != ''
           value.each_line do |line|
             # remove control chars
-            line = line.tr("\u0000-\u001f\u007f\u2028",'')
+            case line.encoding
+            when Encoding::UTF_8
+              line = line.tr("\u0000-\u001f\u007f\u2028",'')
+            end
+
             Logger.public_send(method, "    #{name} | #{line}")
           end
         end
