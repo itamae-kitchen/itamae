@@ -23,8 +23,16 @@ module Itamae
       end
     end
 
-    def run_command(command, options = {})
+    def run_command(commands, options = {})
       options = {error: true}.merge(options)
+
+      if commands.is_a?(Array)
+        command = commands.map do |cmd|
+          Shellwords.escape(cmd)
+        end.join(' ')
+      else
+        command = commands
+      end
 
       result = Specinfra::Runner.run_command(command)
       exit_status = result.exit_status
