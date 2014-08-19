@@ -51,7 +51,8 @@ module Itamae
       @node = node
       @tmpdir = "/tmp/itamae_tmp"
 
-      Backend.instance.run_command("mkdir -p #{Shellwords.escape(@tmpdir)} && chmod 777 #{Shellwords.escape(@tmpdir)}")
+      Backend.instance.run_command(["mkdir", "-p", @tmpdir])
+      Backend.instance.run_command(["chmod", "777", @tmpdir])
     end
   end
 end
