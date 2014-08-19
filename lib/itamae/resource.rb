@@ -8,6 +8,7 @@ require 'itamae/resource/template'
 require 'itamae/resource/execute'
 require 'itamae/resource/mail_alias'
 require 'itamae/resource/service'
+require 'itamae/resource/link'
 
 module Itamae
   module Resource
