@@ -89,3 +89,6 @@ execute "ps -C cron > /tmp/cron_running; true"
 
 ######
 
+link "/tmp-link" do
+  to "/tmp"
+end
