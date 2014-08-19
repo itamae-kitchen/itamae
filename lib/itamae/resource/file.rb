@@ -33,11 +33,11 @@ module Itamae
 
         if run_specinfra(:check_file_is_file, path)
           # TODO: specinfra
-          run_command("cp #{shell_escape(path)} #{shell_escape("#{path}.bak")}")
+          run_command(["cp", path, "#{path}.bak"])
         end
 
         # TODO: specinfra
-        run_command("mv #{shell_escape(temppath)} #{shell_escape(path)}")
+        run_command(["mv", temppath, path])
       end
     end
   end
