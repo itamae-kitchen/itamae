@@ -188,7 +188,7 @@ module Itamae
       end
 
       def backend
-        Itamae.backend
+        Backend.instance
       end
 
       def runner
@@ -200,11 +200,11 @@ module Itamae
       end
 
       def run_command(*args)
-        runner.run_command(*args)
+        backend.run_command(*args)
       end
 
       def run_specinfra(*args)
-        runner.run_specinfra(*args)
+        backend.run_specinfra(*args)
       end
 
       def shell_escape(str)

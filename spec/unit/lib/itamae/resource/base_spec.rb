@@ -86,6 +86,8 @@ class TestResource < Itamae::Resource::Base
 end
 
 describe TestResource do
+  subject(:resource) { described_class.new(recipe, "name") }
+
   let(:commands) { double(:commands) }
   let(:runner) do
     double(:runner)
@@ -95,13 +97,14 @@ describe TestResource do
       r.stub(:runner).and_return(runner)
     end
   end
-
-  subject(:resource) { described_class.new(recipe, "name") }
-
-  before do
-    Itamae.backend = double(:backend).tap do |b|
+  let(:backend) do
+    double(:backend).tap do |b|
       b.stub(:commands).and_return(commands)
     end
+  end
+
+  before do
+    Backend.stub(:instance).and_return(backend)
   end
 
   describe "#run" do
