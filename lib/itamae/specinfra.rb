@@ -28,17 +28,4 @@ module Itamae
     Specinfra.configuration.backend = type
     Itamae.backend = Specinfra::Runner
   end
-
-  module SpecinfraHelpers
-    module RunCommand
-      def backend
-        Itamae.backend
-      end
-
-      def run_command(cmd)
-        backend.run_command(cmd)
-      end
-    end
-  end
 end
-
