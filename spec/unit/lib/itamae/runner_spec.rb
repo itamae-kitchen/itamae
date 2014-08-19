@@ -10,6 +10,9 @@ module Itamae
     before do
       Itamae.backend = double(:backend).tap do |b|
         b.stub(:commands).and_return(commands)
+        b.stub(:run_command).
+          with('mkdir -p /tmp/itamae_tmp && chmod 777 /tmp/itamae_tmp').
+          and_return(Specinfra::CommandResult.new(exit_status: 0))
       end
     end
 
