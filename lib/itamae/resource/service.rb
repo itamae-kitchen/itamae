@@ -7,29 +7,23 @@ module Itamae
       define_attribute :name, type: String, default_name: true
 
       def start_action
-        run_init_script("start")
+        run_specinfra(:start_service, name)
       end
 
       def stop_action
-        run_init_script("stop")
+        run_specinfra(:stop_service, name)
       end
 
       def restart_action
-        run_init_script("restart")
+        run_specinfra(:restart_service, name)
       end
 
       def reload_action
-        run_init_script("reload")
+        run_specinfra(:reload_service, name)
       end
 
-      private
-      def run_init_script(command)
-        # TODO: Delegate to Specinfra
-        run_command([init_script_path, command])
-      end
-
-      def init_script_path
-        "/etc/init.d/#{name}"
+      def enable_action
+        run_specinfra(:enable_service, name)
       end
     end
   end
