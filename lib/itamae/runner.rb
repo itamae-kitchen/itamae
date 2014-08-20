@@ -1,4 +1,5 @@
 require 'itamae'
+require 'json'
 
 module Itamae
   class Runner
@@ -16,12 +17,17 @@ module Itamae
 
       private
       def node_from_options(options)
+        hash = {}
+
+        if options[:ohai]
+          Logger.info "Loading node data via ohai..."
+          hash.merge!(JSON.parse(Backend.instance.run_command("ohai").stdout))
+        end
+
         if options[:node_json]
           path = File.expand_path(options[:node_json])
-          Logger.debug "Loading node data from #{path} ..."
-          hash = JSON.load(open(path))
-        else
-          hash = {}
+          Logger.info "Loading node data from #{path}..."
+          hash.merge!(JSON.load(open(path)))
         end
 
         Node.new(hash)

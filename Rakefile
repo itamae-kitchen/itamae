@@ -44,6 +44,7 @@ namespace :spec do
             cmd << " -j spec/integration/recipes/node.json"
             cmd << " spec/integration/recipes/default.rb"
 
+            puts cmd
             system cmd
             abort unless $?.exitstatus == 0
           end

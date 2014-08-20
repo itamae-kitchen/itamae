@@ -48,16 +48,21 @@ module Itamae
       Logger.public_send(method, message)
 
       {"stdout" => result.stdout, "stderr" => result.stderr}.each_pair do |name, value|
-        if value && value != ''
-          value.each_line do |line|
-            # remove control chars
-            case line.encoding
-            when Encoding::UTF_8
-              line = line.tr("\u0000-\u001f\u007f\u2028",'')
-            end
+        next unless value && value != ''
 
-            Logger.public_send(method, "    #{name} | #{line}")
+        if value.bytesize > 1024
+          Logger.public_send(method, "    #{name} is suppressed because it's too large")
+          next
+        end
+
+        value.each_line do |line|
+          # remove control chars
+          case line.encoding
+          when Encoding::UTF_8
+            line = line.tr("\u0000-\u001f\u007f\u2028",'')
           end
+
+          Logger.public_send(method, "    #{name} | #{line}")
         end
       end
 
