@@ -60,7 +60,9 @@ module Itamae
         show_differences
 
         unless options[:dry_run]
-          public_send("#{specific_action || action}_action".to_sym)
+          [ action ].flatten.each do |action|
+            public_send("#{specific_action || action}_action".to_sym)
+          end
         end
 
         updated! if different?
@@ -149,8 +151,12 @@ module Itamae
             raise Resource::AttributeMissingError, "'#{key}' attribute is required but it is not set."
           end
 
-          if @attributes[key] && details[:type] && !@attributes[key].is_a?(details[:type])
-            raise Resource::InvalidTypeError, "#{key} attribute should be #{details[:type]}."
+          if @attributes[key] && details[:type]
+            [ @attributes[key] ].flatten.each do |attribute|
+              if !attribute.is_a?(details[:type])
+                raise Resource::InvalidTypeError, "#{key} attribute should be #{details[:type]}."
+              end
+            end
           end
         end
       end
