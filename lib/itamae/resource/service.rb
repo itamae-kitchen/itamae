@@ -8,6 +8,7 @@ module Itamae
 
       def set_current_attributes
         @current_attributes[:running?] = run_specinfra(:check_service_is_running, name)
+        @current_attributes[:enabled?] = run_specinfra(:check_service_is_enabled, name)
 
         actions = [action].flatten
         if actions.include?(:start)
@@ -16,6 +17,12 @@ module Itamae
           @attributes[:running?] = false
         elsif actions.include?(:restart)
           @attributes[:running?] = true
+        end
+
+        if actions.include?(:enable)
+          @attributes[:enabled?] = true
+        elsif actions.include?(:disable)
+          @attributes[:enabled?] = false
         end
       end
 
