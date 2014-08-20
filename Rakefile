@@ -76,4 +76,3 @@ namespace :release do
   end
 end
 
-task "release" => "release:bump_up_version"
