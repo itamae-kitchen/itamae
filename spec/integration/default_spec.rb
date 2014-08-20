@@ -16,8 +16,8 @@ end
 describe file('/tmp/directory') do
   it { should be_directory }
   it { should be_mode 700 }
-  it { should be_owned_by "vagrant" }
-  it { should be_grouped_into "vagrant" }
+  it { should be_owned_by "itamae" }
+  it { should be_grouped_into "itamae" }
 end
 
 describe file('/tmp/template') do
