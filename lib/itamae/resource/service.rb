@@ -25,6 +25,10 @@ module Itamae
       def enable_action
         run_specinfra(:enable_service, name)
       end
+
+      def disable_action
+        run_specinfra(:disable_service, name)
+      end
     end
   end
 end
