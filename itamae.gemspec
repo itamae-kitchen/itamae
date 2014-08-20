@@ -22,9 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "hashie"
   spec.add_runtime_dependency "ansi"
 
-  # TODO: move to specinfra
-  spec.add_runtime_dependency "net-scp"
-
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"
