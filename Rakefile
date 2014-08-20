@@ -3,6 +3,8 @@ require 'rspec/core/rake_task'
 require 'tempfile'
 require 'net/ssh'
 
+vagrant_bin = ENV['CI'] ? 'vagrant' : '/usr/bin/vagrant'
+
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
 
@@ -15,7 +17,7 @@ namespace :spec do
   namespace :integration do
     targets = []
     Bundler.with_clean_env do
-      `cd spec/integration && /usr/bin/vagrant status`.split("\n\n")[1].each_line do |line|
+      `cd spec/integration && #{vagrant_bin} status`.split("\n\n")[1].each_line do |line|
         targets << line.match(/^[^ ]+/)[0]
       end
     end
@@ -31,8 +33,8 @@ namespace :spec do
           Bundler.with_clean_env do
             config = Tempfile.new('', Dir.tmpdir)
             env = {"VAGRANT_CWD" => File.expand_path('./spec/integration')}
-            system env, "/usr/bin/vagrant up #{target}"
-            system env, "/usr/bin/vagrant ssh-config #{target} > #{config.path}"
+            system env, "#{vagrant_bin} up #{target}"
+            system env, "#{vagrant_bin} ssh-config #{target} > #{config.path}"
             options = Net::SSH::Config.for(target, [config.path])
 
             cmd = "bundle exec bin/itamae ssh"

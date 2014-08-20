@@ -1,3 +1,8 @@
+# TODO: replace with user resource
+execute 'id itamae || useradd itamae'
+
+######
+
 package 'dstat' do
   action :install
 end
@@ -50,8 +55,8 @@ end
 
 directory "/tmp/directory" do
   mode "700"
-  owner "vagrant"
-  group "vagrant"
+  owner "itamae"
+  group "itamae"
 end
 
 template "/tmp/template" do

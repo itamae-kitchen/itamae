@@ -1,27 +1,72 @@
 box: wercker/rvm
 # Build definition
 build:
-    # The steps that will be executed on build
-    # See the Ruby section on the wercker devcenter:
-    # http://devcenter.wercker.com/articles/languages/ruby.html
-    steps:
-        # Uncomment this to force RVM to use a specific Ruby version
-        - rvm-use:
-              version: 2.1.1
+  # The steps that will be executed on build
+  # See the Ruby section on the wercker devcenter:
+  # http://devcenter.wercker.com/articles/languages/ruby.html
+  steps:
+    # Uncomment this to force RVM to use a specific Ruby version
+    - rvm-use:
+        version: 2.1.1
 
-        # A step that executes `bundle install` command
-        - bundle-install
+    # A step that executes `bundle install` command
+    - bundle-install
 
-        # A custom script step, name value is used in the UI
-        # and the code value contains the command that get executed
-        - script:
-            name: echo ruby information
-            code: |
-                echo "ruby version $(ruby --version) running"
-                echo "from location $(which ruby)"
-                echo -p "gem list: $(gem list)"
+    # A custom script step, name value is used in the UI
+    # and the code value contains the command that get executed
+    - script:
+        name: echo ruby information
+        code: |
+          echo "ruby version $(ruby --version) running"
+          echo "from location $(which ruby)"
+          echo -p "gem list: $(gem list)"
 
-        # Add more steps here:
-        - script:
-           name: rspec
-           code: bundle exec rake spec
+    - script:
+        name: create .ssh directory
+        code: mkdir -p $HOME/.ssh
+
+    - create-file:
+        name: put private key
+        filename: $HOME/.ssh/id_rsa.vagrant
+        overwrite: true
+        hide-from-log: true
+        content: $DIGITALOCEAN_PRIVATE_KEY
+
+    - create-file:
+        name: put public key
+        filename: $HOME/.ssh/id_rsa.vagrant.pub
+        overwrite: true
+        hide-from-log: true
+        content: $DIGITALOCEAN_PUBLIC_KEY
+
+    - script:
+        name: chmod 600 id_rsa
+        code: chmod 600 $HOME/.ssh/id_rsa.vagrant
+
+    - script:
+        name: download vagrant
+        code: wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
+
+    - script:
+        name: install vagrant
+        code: sudo dpkg -i vagrant_1.6.3_x86_64.deb
+
+    - script:
+        name: install vagrant-digitalocean
+        code: vagrant plugin install vagrant-digitalocean
+
+    - script:
+        name: start vm
+        code: vagrant up --provider=digital_ocean
+        cwd: spec/integration
+
+    # Add more steps here:
+    - script:
+        name: rspec
+        code: bundle exec rake spec
+
+  after-steps:
+    - script:
+        name: shutdown vm
+        code: vagrant destroy -f
+        cwd: spec/integration
