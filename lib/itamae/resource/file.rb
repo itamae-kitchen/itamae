@@ -22,7 +22,7 @@ module Itamae
               end
 
         @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
-        copy_file(src, @temppath)
+        send_file(src, @temppath)
       end
 
       def set_current_attributes
