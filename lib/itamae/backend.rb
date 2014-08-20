@@ -84,8 +84,8 @@ module Itamae
       end
     end
 
-    def copy_file(*args)
-      Specinfra::Runner.copy_file(*args)
+    def send_file(*args)
+      Specinfra::Runner.send_file(*args)
     end
   end
 end

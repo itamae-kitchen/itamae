@@ -22,7 +22,7 @@ module Itamae
               end
 
         @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
-        copy_file(src, @temppath)
+        send_file(src, @temppath)
       end
 
       def set_current_attributes
@@ -70,12 +70,10 @@ module Itamae
         end
 
         if run_specinfra(:check_file_is_file, path)
-          # TODO: specinfra
-          run_command(["cp", path, "#{path}.bak"])
+          run_specinfra(:copy_file, path, "#{path}.bak")
         end
 
-        # TODO: specinfra
-        run_command(["mv", @temppath, path])
+        run_specinfra(:move_file, @temppath, path)
       end
     end
   end

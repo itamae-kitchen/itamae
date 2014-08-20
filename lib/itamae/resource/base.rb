@@ -162,12 +162,12 @@ module Itamae
         end
       end
 
-      def copy_file(src, dst)
-        Logger.debug "  Copying a file from '#{src}' to '#{dst}'..."
+      def send_file(src, dst)
+        Logger.debug "  Sending a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
           raise Error, "The file '#{src}' doesn't exist."
         end
-        backend.copy_file(src, dst)
+        backend.send_file(src, dst)
       end
 
       def only_if(command)
