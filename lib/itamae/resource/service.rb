@@ -11,12 +11,10 @@ module Itamae
         @current_attributes[:enabled?] = run_specinfra(:check_service_is_enabled, name)
 
         actions = [action].flatten
-        if actions.include?(:start)
+        if actions.include?(:start) || actions.include?(:restart)
           @attributes[:running?] = true
         elsif actions.include?(:stop)
           @attributes[:running?] = false
-        elsif actions.include?(:restart)
-          @attributes[:running?] = true
         end
 
         if actions.include?(:enable)
