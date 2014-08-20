@@ -23,10 +23,10 @@ module Itamae
     describe "#create_action" do
       it "copies a file" do
         recipe.stub(:path).and_return("/recipe_dir/recipe_file")
-        expect(subject).to receive(:copy_file).with("/recipe_dir/source.file", %r{^/tmp/itamae/[\d\.]+$})
+        expect(subject).to receive(:send_file).with("/recipe_dir/source.file", %r{^/tmp/itamae/[\d\.]+$})
         expect(subject).to receive(:run_specinfra).with(:check_file_is_file, "/path/to/dst").and_return(true)
-        expect(subject).to receive(:run_command).with(["cp", "/path/to/dst", "/path/to/dst.bak"])
-        expect(subject).to receive(:run_command).with(["mv", %r{/tmp/itamae/[\d\.]+}, "/path/to/dst"])
+        expect(subject).to receive(:run_specinfra).with(:copy_file, "/path/to/dst", "/path/to/dst.bak")
+        expect(subject).to receive(:run_specinfra).with(:move_file, %r{/tmp/itamae/[\d\.]+}, "/path/to/dst")
         subject.pre_action
         subject.create_action
       end
