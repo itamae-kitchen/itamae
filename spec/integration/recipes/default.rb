@@ -110,3 +110,12 @@ execute "test $(ps h -C nginx | wc -l) -eq 0" # test
 link "/tmp-link" do
   to "/tmp"
 end
+
+#####
+
+local_ruby_block "greeting" do
+  block do
+    Itamae::Logger.info "板前"
+  end
+end
+

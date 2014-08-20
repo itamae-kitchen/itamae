@@ -108,9 +108,11 @@ module Itamae
 
       private
 
-      def method_missing(method, *args)
+      def method_missing(method, *args, &block)
         if args.size == 1 && self.class.defined_attributes[method]
           return @attributes[method] = args.first
+        elsif args.size == 0 && block_given?
+          return @attributes[method] = block
         elsif args.size == 0 && @attributes.has_key?(method)
           return @attributes[method]
         end
