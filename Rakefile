@@ -75,3 +75,5 @@ namespace :release do
     system "git commit -m 'Bump up version'"
   end
 end
+
+task "release" => "release:bump_up_version"
