@@ -64,12 +64,14 @@ namespace :spec do
 end
 
 namespace :release do
-  desc "Bump up version"
+  desc "Bump up version and commit"
   task :bump_up_version do
     version_file = File.expand_path("lib/itamae/version.txt")
     current_version = File.read(version_file)
     open(version_file, "w") do |f|
       f.write current_version.succ
     end
+    system "git add #{version_file}"
+    system "git commit -m 'Bump up version'"
   end
 end
