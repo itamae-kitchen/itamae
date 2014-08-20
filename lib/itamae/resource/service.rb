@@ -6,6 +6,19 @@ module Itamae
       define_attribute :action, default: :nothing
       define_attribute :name, type: String, default_name: true
 
+      def set_current_attributes
+        @current_attributes[:running?] = run_specinfra(:check_service_is_running, name)
+
+        actions = [action].flatten
+        if actions.include?(:start)
+          @attributes[:running?] = true
+        elsif actions.include?(:stop)
+          @attributes[:running?] = false
+        elsif actions.include?(:restart)
+          @attributes[:running?] = true
+        end
+      end
+
       def start_action
         run_specinfra(:start_service, name)
       end
