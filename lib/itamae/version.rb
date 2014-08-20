@@ -1,3 +1,3 @@
 module Itamae
-  VERSION = "1.0.0.beta7"
+  VERSION = File.read(File.expand_path("../version.txt", __FILE__))
 end

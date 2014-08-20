@@ -62,3 +62,14 @@ namespace :spec do
     end
   end
 end
+
+namespace :release do
+  desc "Bump up version"
+  task :bump_up_version do
+    version_file = File.expand_path("lib/itamae/version.txt")
+    current_version = File.read(version_file)
+    open(version_file, "w") do |f|
+      f.write current_version.succ
+    end
+  end
+end
