@@ -10,6 +10,7 @@ require 'itamae/resource/mail_alias'
 require 'itamae/resource/service'
 require 'itamae/resource/link'
 require 'itamae/resource/local_ruby_block'
+require 'itamae/resource/git'
 
 module Itamae
   module Resource

@@ -34,12 +34,19 @@ module Itamae
         command = commands
       end
 
+      cwd = options[:cwd]
+      if cwd
+        command = "cd #{Shellwords.escape(cwd)} && #{command}"
+      end
+
+      Logger.debug "  Executing `#{command}`..."
+
       result = Specinfra::Runner.run_command(command)
       exit_status = result.exit_status
 
       if exit_status == 0 || !options[:error]
         method = :debug
-        message = "  Command `#{command}` exited with #{exit_status}"
+        message = "    exited with #{exit_status}"
       else
         method = :error
         message = "  Command `#{command}` failed. (exit status: #{exit_status})"

@@ -6,7 +6,8 @@ module Itamae
   module Logger
     class Formatter
       def call(severity, datetime, progname, msg)
-        "[%s] %s : %s\n" % [format_datetime(datetime), color("%5s" % severity, severity), msg2str(msg)]
+        severity = color("%5s" % severity, severity)
+        "[%s] %s : %s\n" % [format_datetime(datetime), severity, msg2str(msg)]
       end
 
       private

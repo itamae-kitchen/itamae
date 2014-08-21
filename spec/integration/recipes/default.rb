@@ -128,3 +128,12 @@ local_ruby_block "greeting" do
   end
 end
 
+#####
+
+package "git"
+
+git "/tmp/git_repo" do
+  repository "https://github.com/ryotarai/infrataster.git"
+  revision "v0.1.0"
+end
+

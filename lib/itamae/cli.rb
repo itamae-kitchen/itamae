@@ -4,6 +4,7 @@ require 'thor'
 module Itamae
   class CLI < Thor
     class_option :log_level, type: :string, aliases: ['-l'], default: 'info'
+    class_option :color, type: :boolean, default: true
 
     def initialize(*args)
       super
