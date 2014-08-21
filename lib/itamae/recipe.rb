@@ -10,7 +10,7 @@ module Itamae
     def initialize(runner, path)
       @runner = runner
       @path = path
-      @resources = ResourceCollection.new
+      @resources = RecipeDependencies.new
       @delayed_actions = []
 
       load_resources

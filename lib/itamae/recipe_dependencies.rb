@@ -1,5 +1,5 @@
 module Itamae
-  class ResourceCollection < Array
+  class RecipeDependencies < Array
     NotFoundError = Class.new(StandardError)
 
     def find_by_description(desc)
@@ -27,6 +27,12 @@ module Itamae
     def resources
       self.select do |item|
         item.is_a?(Resource::Base)
+      end
+    end
+
+    def recipes
+      self.select do |item|
+        item.is_a?(Recipe)
       end
     end
   end
