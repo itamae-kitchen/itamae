@@ -25,6 +25,7 @@ module Itamae
 
       define_attribute :action, type: [Symbol, Array], required: true
 
+      attr_reader :recipe
       attr_reader :resource_name
       attr_reader :attributes
       attr_reader :current_attributes
@@ -93,14 +94,14 @@ module Itamae
 
       def notifies_resources
         @notifies.map do |action, resource_desc, timing|
-          resource = resources.find_by_description(resource_desc)
+          resource = recipe.dependencies.find_by_description(resource_desc)
           [action, resource, timing]
         end
       end
 
       def subscribes_resources
         @subscribes.map do |action, resource_desc, timing|
-          resource = resources.find_by_description(resource_desc)
+          resource = recipe.dependencies.find_by_description(resource_desc)
           [action, resource, timing]
         end
       end
@@ -219,10 +220,6 @@ module Itamae
         @recipe.runner
       end
 
-      def resources
-        @recipe.resources
-      end
-
       def run_command(*args)
         backend.run_command(*args)
       end
@@ -247,7 +244,7 @@ module Itamae
       end
 
       def notify
-        action_resource_timing = notifies_resources + resources.subscribing(self)
+        action_resource_timing = notifies_resources + recipe.dependencies.subscribing(self)
         action_resource_timing.uniq.each do |action, resource, timing|
           case timing
           when :immediately

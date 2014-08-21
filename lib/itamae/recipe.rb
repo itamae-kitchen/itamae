@@ -4,16 +4,16 @@ module Itamae
   class Recipe
     attr_reader :path
     attr_reader :runner
-    attr_reader :resources
+    attr_reader :dependencies
     attr_reader :delayed_actions
 
     def initialize(runner, path)
       @runner = runner
       @path = path
-      @resources = RecipeDependencies.new
+      @dependencies = RecipeDependencies.new
       @delayed_actions = []
 
-      load_resources
+      load_dependencies
     end
 
     def node
@@ -21,7 +21,7 @@ module Itamae
     end
 
     def run(options = {})
-      @resources.each do |resource|
+      @dependencies.each do |resource|
         case resource
         when Resource::Base
           resource.run(nil, dry_run: options[:dry_run])
@@ -37,20 +37,20 @@ module Itamae
 
     private
 
-    def load_resources
+    def load_dependencies
       instance_eval(File.read(@path), @path, 1)
     end
 
     def method_missing(method, name, &block)
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
-      @resources << resource
+      @dependencies << resource
     end
 
     def include_recipe(target)
       target = ::File.expand_path(target, File.dirname(@path))
       recipe = Recipe.new(@runner, target)
-      @resources << recipe
+      @dependencies << recipe
     end
   end
 end
