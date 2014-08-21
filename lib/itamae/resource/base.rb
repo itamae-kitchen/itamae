@@ -156,7 +156,7 @@ module Itamae
       def process_attributes
         self.class.defined_attributes.each_pair do |key, details|
           @attributes[key] ||= @resource_name if details[:default_name]
-          @attributes[key] ||= details[:default]
+          @attributes[key] ||= details[:default] if details[:default]
 
           if details[:required] && !@attributes[key]
             raise Resource::AttributeMissingError, "'#{key}' attribute is required but it is not set."
