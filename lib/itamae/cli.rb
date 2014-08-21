@@ -10,6 +10,7 @@ module Itamae
       super
 
       Itamae::Logger.level = ::Logger.const_get(options[:log_level].upcase)
+      Itamae::Logger.formatter.colored = options[:color]
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"

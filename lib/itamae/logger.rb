@@ -5,8 +5,15 @@ require 'ansi/code'
 module Itamae
   module Logger
     class Formatter
+      attr_accessor :colored
+
       def call(severity, datetime, progname, msg)
-        severity = color("%5s" % severity, severity)
+        severity = "%5s" % severity
+
+        if colored
+          severity = color(severity, severity)
+        end
+
         "[%s] %s : %s\n" % [format_datetime(datetime), severity, msg2str(msg)]
       end
 
@@ -40,18 +47,20 @@ module Itamae
       end
     end
 
-    def self.logger
-      @logger ||= ::Logger.new($stdout).tap do |logger|
-        logger.formatter = Formatter.new
+    class << self
+      def logger
+        @logger ||= ::Logger.new($stdout).tap do |logger|
+          logger.formatter = Formatter.new
+        end
       end
-    end
 
-    def self.logger=(l)
-      @logger = l
-    end
+      def logger=(l)
+        @logger = l
+      end
 
-    def self.method_missing(method, *args, &block)
-      logger.public_send(method, *args, &block)
+      def method_missing(method, *args, &block)
+        logger.public_send(method, *args, &block)
+      end
     end
   end
 end
