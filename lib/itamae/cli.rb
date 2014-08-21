@@ -30,6 +30,11 @@ module Itamae
     def ssh(*recipe_files)
       Runner.run(recipe_files, :ssh, options)
     end
+
+    desc "version", "Print version"
+    def version
+      puts "Itamae v#{Itamae::VERSION}"
+    end
   end
 end
 
