@@ -65,3 +65,23 @@ namespace :spec do
   end
 end
 
+namespace :release do
+  desc "Bump up version and commit"
+  task :version_up do
+    version_file = File.expand_path("lib/itamae/version.txt")
+    current_version = File.read(version_file).strip
+
+    if /\A(.+)(\d+)\z/ =~ current_version
+      next_version = "#{$1}#{$2.to_i + 1}"
+    else
+      raise "Invalid version"
+    end
+
+    open(version_file, "w") do |f|
+      f.write next_version
+    end
+    system "git add #{version_file}"
+    system "git commit -m 'Bump up version'"
+  end
+end
+
