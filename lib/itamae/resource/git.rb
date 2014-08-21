@@ -17,11 +17,16 @@ module Itamae
           run_command_in_repo(['git', 'fetch', 'origin'])
         else
           run_command(['git', 'clone', repository, destination])
+          updated!
         end
 
         target_revision =
-          revision ||
+          get_revision(revision) ||
           run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+
+        unless target_revision == get_revision('HEAD')
+          updated!
+        end
 
         deploy_old_created = false
         if current_branch == DEPLOY_BRANCH
@@ -49,6 +54,10 @@ module Itamae
 
       def current_branch
         run_command_in_repo("git rev-parse --abbrev-ref HEAD").stdout.strip
+      end
+
+      def get_revision(branch)
+        run_command_in_repo("git rev-list #{shell_escape(branch)} | head -n1").stdout.strip
       end
     end
   end
