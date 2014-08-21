@@ -45,6 +45,8 @@ module Itamae
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
       @dependencies << resource
+    rescue NameError
+      super
     end
 
     def include_recipe(target)
