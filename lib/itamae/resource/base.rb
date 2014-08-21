@@ -143,6 +143,10 @@ module Itamae
           value = @attributes[key]
           if current_value == value || value.nil?
             Logger.info "  #{key} will not change (current value is '#{current_value}')"
+          elsif current_value.nil? && !value.nil?
+            Logger.info "  #{key} will be '#{value}'"
+          elsif current_value.nil? && value.nil?
+            # ignore
           else
             Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"
           end
