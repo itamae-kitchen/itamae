@@ -137,3 +137,9 @@ git "/tmp/git_repo" do
   revision "v0.1.0"
 end
 
+#####
+
+execute "echo Hello > /tmp/created_by_itamae_user" do
+  user "itamae"
+end
+

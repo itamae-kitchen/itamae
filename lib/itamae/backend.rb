@@ -39,6 +39,11 @@ module Itamae
         command = "cd #{Shellwords.escape(cwd)} && #{command}"
       end
 
+      user = options[:user]
+      if user
+        command = "sudo -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
+      end
+
       Logger.debug "  Executing `#{command}`..."
 
       result = Specinfra::Runner.run_command(command)

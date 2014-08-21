@@ -24,6 +24,7 @@ module Itamae
       end
 
       define_attribute :action, type: [Symbol, Array], required: true
+      define_attribute :user, type: String
 
       attr_reader :recipe
       attr_reader :resource_name
@@ -219,6 +220,12 @@ module Itamae
       end
 
       def run_command(*args)
+        unless args.last.is_a?(Hash)
+          args << {}
+        end
+
+        args.last[:user] ||= user
+
         backend.run_command(*args)
       end
 

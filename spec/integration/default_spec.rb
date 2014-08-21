@@ -82,3 +82,9 @@ end
 describe command('cd /tmp/git_repo && git rev-parse HEAD') do
   its(:stdout) { should match(/3116e170b89dc0f7315b69c1c1e1fd7fab23ac0d/) }
 end
+
+describe file('/tmp/created_by_itamae_user') do
+  it { should be_file }
+  it { should be_owned_by 'itamae' }
+end
+
