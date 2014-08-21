@@ -115,11 +115,9 @@ module Itamae
             return @attributes[method] = args.first
           elsif args.size == 0 && block_given?
             return @attributes[method] = block
+          elsif args.size == 0
+            return @attributes[method]
           end
-        end
-
-        if args.size == 0 && @attributes.has_key?(method)
-          return @attributes[method]
         end
 
         super
