@@ -1,3 +1,5 @@
+include_recipe "./included.rb"
+
 # TODO: replace with user resource
 execute 'id itamae || useradd itamae'
 

@@ -22,8 +22,12 @@ module Itamae
 
     def run(options = {})
       @resources.each do |resource|
-        # do action specified in the recipe
-        resource.run(nil, dry_run: options[:dry_run])
+        case resource
+        when Resource::Base
+          resource.run(nil, dry_run: options[:dry_run])
+        when Recipe
+          resource.run(options)
+        end
       end
 
       @delayed_actions.uniq.each do |action, resource|
@@ -41,6 +45,12 @@ module Itamae
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
       @resources << resource
+    end
+
+    def include_recipe(target)
+      target = ::File.expand_path(target, File.dirname(@path))
+      recipe = Recipe.new(@runner, target)
+      @resources << recipe
     end
   end
 end
