@@ -7,7 +7,10 @@ module Itamae
       define_attribute :name, type: String, default_name: true
 
       def install_action
-        run_specinfra(:install_package, name)
+        unless run_specinfra(:check_package_is_installed, name)
+          run_specinfra(:install_package, name)
+          updated!
+        end
       end
     end
   end
