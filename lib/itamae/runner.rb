@@ -10,11 +10,8 @@ module Itamae
         set_backend_from_options(backend_type, options)
 
         runner = self.new(node_from_options(options))
-
-        recipe_files.each do |path|
-          recipe = Recipe.new(runner, File.expand_path(path))
-          recipe.run(dry_run: options[:dry_run])
-        end
+        runner.load_recipes(recipe_files)
+        runner.run(dry_run: options[:dry_run])
       end
 
       private
@@ -60,13 +57,27 @@ module Itamae
 
     attr_accessor :node
     attr_accessor :tmpdir
+    attr_accessor :recipes
 
     def initialize(node)
       @node = node
       @tmpdir = "/tmp/itamae_tmp"
+      @recipes = RecipeDependencies.new
 
       Backend.instance.run_command(["mkdir", "-p", @tmpdir])
       Backend.instance.run_command(["chmod", "777", @tmpdir])
+    end
+
+    def load_recipes(paths)
+      paths.each do |path|
+        recipes << Recipe.new(self, File.expand_path(path))
+      end
+    end
+
+    def run(options)
+      recipes.each do |recipe|
+        recipe.run(dry_run: options[:dry_run])
+      end
     end
   end
 end
