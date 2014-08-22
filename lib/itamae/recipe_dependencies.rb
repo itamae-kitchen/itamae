@@ -45,7 +45,7 @@ module Itamae
       self.select do |item|
         item.is_a?(Recipe)
       end.map do |recipe|
-        [recipe] + recipe.dependencies.recipes(recursive)
+        [recipe] + recipe.dependencies.recipes
       end.flatten
     end
 
