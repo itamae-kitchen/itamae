@@ -187,11 +187,11 @@ module Itamae
       end
 
       def notifies(action, resource_desc, timing = :delay)
-        @notifications << Notification.new(runner, self, action: action, target_resource_desc: resource_desc, timing: timing)
+        @notifications << Notification.new(runner, self, action, resource_desc, timing)
       end
 
       def subscribes(action, resource_desc, timing = :delay)
-        @subscriptions << Subscription.new(runner, self, action: action, target_resource_desc: resource_desc, timing: timing)
+        @subscriptions << Subscription.new(runner, self, action, resource_desc, timing)
       end
 
       def node
