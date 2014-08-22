@@ -7,6 +7,9 @@ module Specinfra
     def self.sudo_password
       return @sudo_password if @sudo_password
 
+      # TODO: Fix this dirty hack
+      return nil unless caller.any? {|call| call.include?('channel_data') }
+
       print "sudo password: "
       @sudo_password = STDIN.noecho(&:gets).strip
     end
