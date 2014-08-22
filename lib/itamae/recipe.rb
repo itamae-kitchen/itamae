@@ -21,6 +21,8 @@ module Itamae
     end
 
     def run(options = {})
+      Logger.info "Applying recipe... (#{@path})"
+
       @dependencies.each do |resource|
         case resource
         when Resource::Base

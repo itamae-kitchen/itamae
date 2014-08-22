@@ -5,6 +5,8 @@ module Itamae
   class Runner
     class << self
       def run(recipe_files, backend_type, options)
+        Logger.info "Starting Itamae..."
+
         set_backend_from_options(backend_type, options)
 
         runner = self.new(node_from_options(options))
@@ -20,6 +22,12 @@ module Itamae
         hash = {}
 
         if options[:ohai]
+          unless Backend.instance.run_command("which ohai", error: false).exit_status == 0
+            # install Chef (I'd like to replace Ohai with single binary...)
+            Logger.info "Installing Chef to use Ohai..."
+            Backend.instance.run_command("curl -L https://www.opscode.com/chef/install.sh | bash")
+          end
+
           Logger.info "Loading node data via ohai..."
           hash.merge!(JSON.parse(Backend.instance.run_command("ohai").stdout))
         end
