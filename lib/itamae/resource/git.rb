@@ -10,34 +10,54 @@ module Itamae
       define_attribute :repository, type: String, required: true
       define_attribute :revision, type: String
 
+      def pre_action
+        case action
+        when :sync
+          @attributes[:exist?] = true
+        end
+
+        @attributes[:revision_hash] = if revision
+                                        get_revision(revision)
+                                      else
+                                        run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+                                      end
+      end
+
+      def set_current_attributes
+        exist = run_specinfra(:check_file_is_directory, destination)
+        @current_attributes[:exist?] = exist
+
+        if exist
+          @current_attributes[:revision_hash] = get_revision('HEAD')
+        end
+      end
+
       def sync_action
         ensure_git_available
+
+        new_repository = false
 
         if run_specinfra(:check_file_is_directory, destination)
           run_command_in_repo(['git', 'fetch', 'origin'])
         else
           run_command(['git', 'clone', repository, destination])
+          new_repository = true
+        end
+
+        if new_repository || @attributes[:revision_hash] != get_revision('HEAD')
           updated!
-        end
 
-        target_revision =
-          get_revision(revision) ||
-          run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+          deploy_old_created = false
+          if current_branch == DEPLOY_BRANCH
+            run_command_in_repo("git branch -m deploy-old")
+            deploy_old_created = true
+          end
 
-        unless target_revision == get_revision('HEAD')
-          updated!
-        end
+          run_command_in_repo(["git", "checkout", @attributes[:revision_hash], "-b", DEPLOY_BRANCH])
 
-        deploy_old_created = false
-        if current_branch == DEPLOY_BRANCH
-          run_command_in_repo("git branch -m deploy-old")
-          deploy_old_created = true
-        end
-
-        run_command_in_repo(["git", "checkout", target_revision, "-b", DEPLOY_BRANCH])
-
-        if deploy_old_created
-          run_command_in_repo("git branch -d deploy-old")
+          if deploy_old_created
+            run_command_in_repo("git branch -d deploy-old")
+          end
         end
       end
 
