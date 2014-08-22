@@ -25,7 +25,7 @@ module Itamae
     end
 
     def find_recipe_by_path(path)
-      recipes.find do |recipe|
+      recipes(true).find do |recipe|
         recipe.path == path
       end
     end
@@ -36,10 +36,12 @@ module Itamae
       end
     end
 
-    def recipes
+    def recipes(recursive = false)
       self.select do |item|
         item.is_a?(Recipe)
-      end
+      end.map do |recipe|
+        [recipe] + recipe.dependencies.recipes(recursive)
+      end.flatten
     end
   end
 end
