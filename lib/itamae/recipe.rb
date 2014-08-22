@@ -2,6 +2,8 @@ require 'itamae'
 
 module Itamae
   class Recipe
+    NotFoundError = Class.new(StandardError)
+
     attr_reader :path
     attr_reader :runner
     attr_reader :dependencies
@@ -55,6 +57,9 @@ module Itamae
 
     def include_recipe(target)
       target = ::File.expand_path(target, File.dirname(@path))
+      unless File.exist?(target)
+        raise NotFoundError, "File not found. (#{target})"
+      end
       recipe = Recipe.new(@runner, target)
       @dependencies << recipe
     end
