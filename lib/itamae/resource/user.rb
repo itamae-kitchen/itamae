@@ -18,6 +18,7 @@ module Itamae
           @current_attributes[:uid] = run_command(["id", "-u", username]).stdout.strip
           @current_attributes[:gid] = run_command(["id", "-g", username]).stdout.strip
           @current_attributes[:home] = run_command("echo ~#{shell_escape(username)}").stdout.strip
+          @current_attributes[:password] = current_password
         end
       end
 
