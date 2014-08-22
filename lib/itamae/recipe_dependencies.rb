@@ -24,6 +24,12 @@ module Itamae
       end.flatten(1)
     end
 
+    def find_recipe_by_path(path)
+      recipes.find do |recipe|
+        recipe.path == path
+      end
+    end
+
     def resources
       self.select do |item|
         item.is_a?(Resource::Base)

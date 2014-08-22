@@ -57,9 +57,16 @@ module Itamae
 
     def include_recipe(target)
       target = ::File.expand_path(target, File.dirname(@path))
+
       unless File.exist?(target)
         raise NotFoundError, "File not found. (#{target})"
       end
+
+      if runner.recipes.find_recipe_by_path(target)
+        Logger.debug "Recipe, #{target}, is skipped because it is already included"
+        return
+      end
+
       recipe = Recipe.new(@runner, target)
       @dependencies << recipe
     end
