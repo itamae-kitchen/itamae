@@ -14,7 +14,7 @@ module Itamae
       end
     end
 
-    def subscribing(target)
+    def resources_subscribing(target)
       resources.map do |resource|
         resource.subscribes_resources.map do |action, r, timing|
           if r == target
@@ -25,18 +25,23 @@ module Itamae
     end
 
     def find_recipe_by_path(path)
-      recipes(true).find do |recipe|
+      recipes.find do |recipe|
         recipe.path == path
       end
     end
 
     def resources
-      self.select do |item|
-        item.is_a?(Resource::Base)
-      end
+      self.map do |item|
+        case item
+        when Resource::Base
+          item
+        when Recipe
+          item.dependencies.resources
+        end
+      end.flatten
     end
 
-    def recipes(recursive = false)
+    def recipes
       self.select do |item|
         item.is_a?(Recipe)
       end.map do |recipe|

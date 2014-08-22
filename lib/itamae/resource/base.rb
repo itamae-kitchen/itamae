@@ -95,14 +95,14 @@ module Itamae
 
       def notifies_resources
         @notifies.map do |action, resource_desc, timing|
-          resource = recipe.dependencies.find_resource_by_description(resource_desc)
+          resource = runner.dependencies.find_resource_by_description(resource_desc)
           [action, resource, timing]
         end
       end
 
       def subscribes_resources
         @subscribes.map do |action, resource_desc, timing|
-          resource = recipe.dependencies.find_resource_by_description(resource_desc)
+          resource = runner.dependencies.find_resource_by_description(resource_desc)
           [action, resource, timing]
         end
       end
@@ -249,7 +249,9 @@ module Itamae
       end
 
       def notify
-        action_resource_timing = notifies_resources + recipe.dependencies.subscribing(self)
+        action_resource_timing = 
+          notifies_resources +
+          recipe.dependencies.resources_subscribing(self)
         action_resource_timing.uniq.each do |action, resource, timing|
           case timing
           when :immediately
