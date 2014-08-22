@@ -42,6 +42,7 @@ module Itamae
       end.map do |recipe|
         [recipe] + recipe.dependencies.recipes(recursive)
       end.flatten
+    end
 
     def run(options)
       self.each do |resource|

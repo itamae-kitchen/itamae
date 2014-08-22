@@ -55,7 +55,7 @@ module Itamae
         raise NotFoundError, "File not found. (#{target})"
       end
 
-      if runner.recipes.find_recipe_by_path(target)
+      if runner.dependencies.find_recipe_by_path(target)
         Logger.debug "Recipe, #{target}, is skipped because it is already included"
         return
       end
