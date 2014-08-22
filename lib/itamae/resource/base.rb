@@ -74,6 +74,7 @@ module Itamae
         notify(options) if updated?
 
         Logger.info "< Succeeded."
+        Logger.info ''
       rescue Backend::CommandExecutionError
         Logger.error "< Failed."
         exit 2
