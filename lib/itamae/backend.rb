@@ -1,5 +1,17 @@
 require 'specinfra'
 require 'singleton'
+require 'io/console'
+
+module Specinfra
+  module Configuration
+    def self.sudo_password
+      return @sudo_password if @sudo_password
+
+      print "sudo password: "
+      @sudo_password = STDIN.noecho(&:gets).strip
+    end
+  end
+end
 
 module Itamae
   class Backend
