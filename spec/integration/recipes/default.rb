@@ -1,10 +1,15 @@
 include_recipe "./included.rb"
 
-# TODO: replace with user resource
-#execute 'id itamae || useradd itamae'
+user "create itamae user" do
+  uid 123
+  username "itamae"
+  password "$1$ltOY8bZv$iZ57f1KAp8jwKViNm3pze."
+end
 
-user "itamae" do
+user "update itamae user" do
   uid 1234
+  username "itamae"
+  password "$1$TQz9gPMl$nHYrsA5W2ZdZ0Yn021BQH1"
 end
 
 ######
