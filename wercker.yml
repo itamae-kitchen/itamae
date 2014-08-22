@@ -74,3 +74,8 @@ build:
         name: shutdown vm
         code: vagrant destroy -f
         cwd: spec/integration
+
+    - script:
+        name: shutdown old vms
+        code: ruby ci/destroy_old_droplets.rb
+
