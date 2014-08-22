@@ -21,7 +21,7 @@ module Itamae
     end
 
     def run(options = {})
-      Logger.info "> Applying recipe... (#{@path})"
+      Logger.info "Recipe: #{@path}"
 
       @dependencies.each do |resource|
         case resource
