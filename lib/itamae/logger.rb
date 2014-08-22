@@ -39,6 +39,8 @@ module Itamae
         color_code = case severity
                      when "INFO"
                        :green
+                     when "WARN"
+                       :magenta
                      when "ERROR"
                        :red
                      else

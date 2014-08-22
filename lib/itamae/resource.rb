@@ -11,6 +11,7 @@ require 'itamae/resource/service'
 require 'itamae/resource/link'
 require 'itamae/resource/local_ruby_block'
 require 'itamae/resource/git'
+require 'itamae/resource/user'
 
 module Itamae
   module Resource

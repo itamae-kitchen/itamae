@@ -21,7 +21,7 @@ module Itamae
     end
 
     def run(options = {})
-      Logger.info "Applying recipe... (#{@path})"
+      Logger.info "> Applying recipe... (#{@path})"
 
       @dependencies.each do |resource|
         case resource
@@ -35,6 +35,8 @@ module Itamae
       @delayed_actions.uniq.each do |action, resource|
         resource.run(action, dry_run: options[:dry_run])
       end
+
+      Logger.info "< Finished. (#{@path})"
     end
 
     private

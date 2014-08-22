@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+describe user("itamae") do
+  it { should exist }
+  it { should have_uid 1234 }
+end
+
 describe file('/tmp/included_recipe') do
   it { should be_file }
 end
