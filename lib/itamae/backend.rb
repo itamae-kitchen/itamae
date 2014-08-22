@@ -5,6 +5,7 @@ require 'io/console'
 module Specinfra
   module Configuration
     def self.sudo_password
+      return ENV['SUDO_PASSWORD'] if ENV['SUDO_PASSWORD']
       return @sudo_password if @sudo_password
 
       # TODO: Fix this dirty hack
