@@ -71,7 +71,7 @@ namespace :release do
     version_file = File.expand_path("lib/itamae/version.txt")
     current_version = File.read(version_file).strip
 
-    if /\A(.+)(\d+)\z/ =~ current_version
+    if /\A(.+?)(\d+)\z/ =~ current_version
       next_version = "#{$1}#{$2.to_i + 1}"
     else
       raise "Invalid version"
