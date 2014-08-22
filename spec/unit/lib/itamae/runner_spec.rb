@@ -16,6 +16,7 @@ module Itamae
     describe ".run" do
       let(:recipes) { %w! ./recipe1.rb ./recipe2.rb ! }
       it "runs each recipe with the runner" do
+        pending "Rewrite later"
         recipes.each do |r|
           recipe = double(:recipe)
           Recipe.stub(:new).with(
