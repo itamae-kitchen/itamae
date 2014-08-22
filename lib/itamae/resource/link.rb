@@ -15,7 +15,7 @@ module Itamae
       end
 
       def set_current_attributes
-        @current_attributes[:exist?] = (run_command(["test", "-L", link]).exit_status == 0)
+        @current_attributes[:exist?] = (run_command(["test", "-L", link], error: false).exit_status == 0)
 
         if @current_attributes[:exist?]
           @current_attributes[:to] = run_command(["readlink", "-f", link]).stdout.strip

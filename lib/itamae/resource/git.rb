@@ -15,21 +15,11 @@ module Itamae
         when :sync
           @attributes[:exist?] = true
         end
-
-        @attributes[:revision_hash] = if revision
-                                        get_revision(revision)
-                                      else
-                                        run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
-                                      end
       end
 
       def set_current_attributes
         exist = run_specinfra(:check_file_is_directory, destination)
         @current_attributes[:exist?] = exist
-
-        if exist
-          @current_attributes[:revision_hash] = get_revision('HEAD')
-        end
       end
 
       def sync_action
@@ -44,7 +34,13 @@ module Itamae
           new_repository = true
         end
 
-        if new_repository || @attributes[:revision_hash] != get_revision('HEAD')
+        target = if revision
+                   get_revision(revision)
+                 else
+                   run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+                 end
+
+        if new_repository || target != get_revision('HEAD')
           updated!
 
           deploy_old_created = false
@@ -53,7 +49,7 @@ module Itamae
             deploy_old_created = true
           end
 
-          run_command_in_repo(["git", "checkout", @attributes[:revision_hash], "-b", DEPLOY_BRANCH])
+          run_command_in_repo(["git", "checkout", target, "-b", DEPLOY_BRANCH])
 
           if deploy_old_created
             run_command_in_repo("git branch -d deploy-old")
