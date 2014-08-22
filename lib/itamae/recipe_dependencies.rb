@@ -42,6 +42,16 @@ module Itamae
       end.map do |recipe|
         [recipe] + recipe.dependencies.recipes(recursive)
       end.flatten
+
+    def run(options)
+      self.each do |resource|
+        case resource
+        when Resource::Base
+          resource.run(nil, dry_run: options[:dry_run])
+        when Recipe
+          resource.run(options)
+        end
+      end
     end
   end
 end

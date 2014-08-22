@@ -25,14 +25,7 @@ module Itamae
     def run(options = {})
       Logger.info "Recipe: #{@path}"
 
-      @dependencies.each do |resource|
-        case resource
-        when Resource::Base
-          resource.run(nil, dry_run: options[:dry_run])
-        when Recipe
-          resource.run(options)
-        end
-      end
+      @dependencies.run(options)
 
       @delayed_actions.uniq.each do |action, resource|
         resource.run(action, dry_run: options[:dry_run])
