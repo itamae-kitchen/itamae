@@ -7,13 +7,13 @@ module Itamae
     attr_reader :path
     attr_reader :runner
     attr_reader :children
-    attr_reader :delayed_actions
+    attr_reader :delayed_notifications
 
     def initialize(runner, path)
       @runner = runner
       @path = path
       @children = RecipeChildren.new
-      @delayed_actions = []
+      @delayed_notifications = []
 
       load_children
     end
@@ -27,8 +27,10 @@ module Itamae
 
       @children.run(options)
 
-      @delayed_actions.uniq.each do |action, resource|
-        resource.run(action, dry_run: options[:dry_run])
+      @delayed_notifications.uniq do |notification|
+        [notification.action, notification.action_resource]
+      end.each do |notification|
+        notification.run(options)
       end
 
       Logger.info "< Finished. (#{@path})"

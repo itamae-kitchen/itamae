@@ -14,14 +14,12 @@ module Itamae
       end
     end
 
-    def resources_subscribing(target)
+    def subscribing(target)
       resources.map do |resource|
-        resource.subscribes_resources.map do |action, r, timing|
-          if r == target
-            [action, resource, timing]
-          end
-        end.compact
-      end.flatten(1)
+        resource.subscriptions.select do |subscription|
+          subscription.resource == target
+        end
+      end.flatten
     end
 
     def find_recipe_by_path(path)

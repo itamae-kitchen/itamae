@@ -7,6 +7,7 @@ require "itamae/recipe_children"
 require "itamae/logger"
 require "itamae/node"
 require "itamae/backend"
+require "itamae/notification"
 
 module Itamae
   # Your code goes here...

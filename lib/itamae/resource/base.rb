@@ -30,14 +30,16 @@ module Itamae
       attr_reader :resource_name
       attr_reader :attributes
       attr_reader :current_attributes
+      attr_reader :subscriptions
+      attr_reader :notifications
 
       def initialize(recipe, resource_name, &block)
         @attributes = {}
         @current_attributes = {}
         @recipe = recipe
         @resource_name = resource_name
-        @notifies = []
-        @subscribes = []
+        @notifications = []
+        @subscriptions = []
         @updated = false
 
         instance_eval(&block) if block_given?
@@ -69,7 +71,7 @@ module Itamae
 
         updated! if different?
 
-        notify if updated?
+        notify(options) if updated?
 
         Logger.info "< Succeeded."
       rescue Backend::CommandExecutionError
@@ -92,21 +94,6 @@ module Itamae
         end
         humps.join('_')
       end
-
-      def notifies_resources
-        @notifies.map do |action, resource_desc, timing|
-          resource = runner.children.find_resource_by_description(resource_desc)
-          [action, resource, timing]
-        end
-      end
-
-      def subscribes_resources
-        @subscribes.map do |action, resource_desc, timing|
-          resource = runner.children.find_resource_by_description(resource_desc)
-          [action, resource, timing]
-        end
-      end
-
 
       private
 
@@ -200,11 +187,11 @@ module Itamae
       end
 
       def notifies(action, resource_desc, timing = :delay)
-        @notifies << [action, resource_desc, timing]
+        @notifications << Notification.new(runner, self, action: action, target_resource_desc: resource_desc, timing: timing)
       end
 
       def subscribes(action, resource_desc, timing = :delay)
-        @subscribes << [action, resource_desc, timing]
+        @subscriptions << Subscription.new(runner, self, action: action, target_resource_desc: resource_desc, timing: timing)
       end
 
       def node
@@ -248,16 +235,13 @@ module Itamae
         @updated
       end
 
-      def notify
-        action_resource_timing = 
-          notifies_resources +
-          recipe.children.resources_subscribing(self)
-        action_resource_timing.uniq.each do |action, resource, timing|
-          case timing
+      def notify(options)
+        (notifications + recipe.children.subscribing(self)).each do |notification|
+          case notification.timing
           when :immediately
-            resource.run(action)
+            notification.run(options)
           when :delay
-            @recipe.delayed_actions << [action, resource]
+            @recipe.delayed_notifications << notification
           end
         end
       end
