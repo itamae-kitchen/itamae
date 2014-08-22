@@ -1,5 +1,5 @@
 module Itamae
-  class RecipeDependencies < Array
+  class RecipeChildren < Array
     NotFoundError = Class.new(StandardError)
 
     def find_resource_by_description(desc)
@@ -36,7 +36,7 @@ module Itamae
         when Resource::Base
           item
         when Recipe
-          item.dependencies.resources
+          item.children.resources
         end
       end.flatten
     end
@@ -45,7 +45,7 @@ module Itamae
       self.select do |item|
         item.is_a?(Recipe)
       end.map do |recipe|
-        [recipe] + recipe.dependencies.recipes
+        [recipe] + recipe.children.recipes
       end.flatten
     end
 

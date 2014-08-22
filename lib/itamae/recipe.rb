@@ -6,16 +6,16 @@ module Itamae
 
     attr_reader :path
     attr_reader :runner
-    attr_reader :dependencies
+    attr_reader :children
     attr_reader :delayed_actions
 
     def initialize(runner, path)
       @runner = runner
       @path = path
-      @dependencies = RecipeDependencies.new
+      @children = RecipeChildren.new
       @delayed_actions = []
 
-      load_dependencies
+      load_children
     end
 
     def node
@@ -25,7 +25,7 @@ module Itamae
     def run(options = {})
       Logger.info "Recipe: #{@path}"
 
-      @dependencies.run(options)
+      @children.run(options)
 
       @delayed_actions.uniq.each do |action, resource|
         resource.run(action, dry_run: options[:dry_run])
@@ -36,14 +36,14 @@ module Itamae
 
     private
 
-    def load_dependencies
+    def load_children
       instance_eval(File.read(@path), @path, 1)
     end
 
     def method_missing(method, name, &block)
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
-      @dependencies << resource
+      @children << resource
     rescue NameError
       super
     end
@@ -55,13 +55,13 @@ module Itamae
         raise NotFoundError, "File not found. (#{target})"
       end
 
-      if runner.dependencies.find_recipe_by_path(target)
+      if runner.children.find_recipe_by_path(target)
         Logger.debug "Recipe, #{target}, is skipped because it is already included"
         return
       end
 
       recipe = Recipe.new(@runner, target)
-      @dependencies << recipe
+      @children << recipe
     end
   end
 end

@@ -57,12 +57,12 @@ module Itamae
 
     attr_accessor :node
     attr_accessor :tmpdir
-    attr_accessor :dependencies
+    attr_accessor :children
 
     def initialize(node)
       @node = node
       @tmpdir = "/tmp/itamae_tmp"
-      @dependencies = RecipeDependencies.new
+      @children = RecipeChildren.new
 
       Backend.instance.run_command(["mkdir", "-p", @tmpdir])
       Backend.instance.run_command(["chmod", "777", @tmpdir])
@@ -70,12 +70,12 @@ module Itamae
 
     def load_recipes(paths)
       paths.each do |path|
-        dependencies << Recipe.new(self, File.expand_path(path))
+        children << Recipe.new(self, File.expand_path(path))
       end
     end
 
     def run(options)
-      dependencies.run(options)
+      children.run(options)
     end
   end
 end
