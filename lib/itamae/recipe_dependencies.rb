@@ -2,7 +2,7 @@ module Itamae
   class RecipeDependencies < Array
     NotFoundError = Class.new(StandardError)
 
-    def find_by_description(desc)
+    def find_resource_by_description(desc)
       # desc is like 'resource_type[name]'
       resources.find do |resource|
         type, name = Itamae::Resource.parse_description(desc)

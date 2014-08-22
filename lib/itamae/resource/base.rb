@@ -95,14 +95,14 @@ module Itamae
 
       def notifies_resources
         @notifies.map do |action, resource_desc, timing|
-          resource = recipe.dependencies.find_by_description(resource_desc)
+          resource = recipe.dependencies.find_resource_by_description(resource_desc)
           [action, resource, timing]
         end
       end
 
       def subscribes_resources
         @subscribes.map do |action, resource_desc, timing|
-          resource = recipe.dependencies.find_by_description(resource_desc)
+          resource = recipe.dependencies.find_resource_by_description(resource_desc)
           [action, resource, timing]
         end
       end
