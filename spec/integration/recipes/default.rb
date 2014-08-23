@@ -152,3 +152,9 @@ execute "echo Hello > /tmp/created_by_itamae_user" do
   user "itamae"
 end
 
+#####
+
+execute "echo 'notify to resource in default2.rb'" do
+  notifies :create, "file[put file in default2.rb]"
+end
+

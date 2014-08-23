@@ -45,6 +45,7 @@ namespace :spec do
             cmd << " -l #{ENV['LOG_LEVEL'] || 'debug'}"
             cmd << " -j spec/integration/recipes/node.json"
             cmd << " spec/integration/recipes/default.rb"
+            cmd << " spec/integration/recipes/default2.rb"
 
             puts cmd
             system cmd
