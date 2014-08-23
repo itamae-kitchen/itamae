@@ -48,13 +48,13 @@ module Itamae
       end
 
       def run(specific_action = nil, options = {})
-        Logger.info "> Executing #{resource_type} (#{attributes})..."
+        Logger.info "Executing #{resource_type} (#{attributes})..."
 
         if do_not_run_because_of_only_if?
-          Logger.info "< Execution skipped because of only_if attribute"
+          Logger.info "Execution skipped because of only_if attribute"
           return
         elsif do_not_run_because_of_not_if?
-          Logger.info "< Execution skipped because of not_if attribute"
+          Logger.info "Execution skipped because of not_if attribute"
           return
         end
 
@@ -73,10 +73,10 @@ module Itamae
 
         notify(options) if updated?
 
-        Logger.info "< Succeeded."
+        Logger.info "Succeeded."
         Logger.info ''
       rescue Backend::CommandExecutionError
-        Logger.error "< Failed."
+        Logger.error "Failed."
         exit 2
       end
 
