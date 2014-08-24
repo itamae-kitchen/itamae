@@ -8,6 +8,7 @@ require "itamae/logger"
 require "itamae/node"
 require "itamae/backend"
 require "itamae/notification"
+require "itamae/definition"
 
 module Itamae
   # Your code goes here...

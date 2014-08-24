@@ -81,5 +81,12 @@ module Itamae
         end
       end
     end
+
+    def define(name, params = {}, &block)
+      Resource.const_set(
+        Resource.get_resource_class_name(name),
+        Definition.create_class(name, params, block)
+      )
+    end
   end
 end
