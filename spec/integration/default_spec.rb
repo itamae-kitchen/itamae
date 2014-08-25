@@ -97,3 +97,7 @@ describe file('/tmp/created_in_default2') do
   it { should be_file }
 end
 
+describe file('/tmp/should_not_exist') do
+  it { should_not be_file }
+end
+

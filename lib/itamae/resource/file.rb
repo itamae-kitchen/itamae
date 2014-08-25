@@ -75,6 +75,13 @@ module Itamae
 
         run_specinfra(:move_file, @temppath, path)
       end
+
+      def delete_action
+        if run_specinfra(:check_file_is_file, path)
+          # TODO: delegate to Specinfra
+          run_command(["rm", path])
+        end
+      end
     end
   end
 end

@@ -158,3 +158,13 @@ execute "echo 'notify to resource in default2.rb'" do
   notifies :create, "file[put file in default2.rb]"
 end
 
+#####
+
+file "/tmp/should_not_exist" do
+  action :create
+end
+
+file "/tmp/should_not_exist" do
+  action :delete
+end
+
