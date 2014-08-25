@@ -6,6 +6,7 @@ module Itamae
       define_attribute :action, default: :install
       define_attribute :name, type: String, default_name: true
       define_attribute :version, type: String
+      define_attribute :options, type: String
 
       def set_current_attributes
         installed = run_specinfra(:check_package_is_installed, name)
@@ -22,8 +23,16 @@ module Itamae
 
       def install_action
         unless run_specinfra(:check_package_is_installed, name, version)
-          run_specinfra(:install_package, name, version)
-          updated!
+          if %w!ubuntu debian!.include?(backend.os[:family])
+            # TODO: delegate to Specinfra
+            package_name = name
+            package_name += "=#{version}" if version
+            run_command("DEBIAN_FRONTEND='noninteractive' apt-get -y #{options} install #{shell_escape(package_name)}")
+            updated!
+          else
+            run_specinfra(:install_package, name, version)
+            updated!
+          end
         end
       end
     end

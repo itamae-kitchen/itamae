@@ -107,7 +107,9 @@ execute "ps -C cron > /tmp/cron_running; true"
 
 ######
 
-package "nginx"
+package "nginx" do
+  options "--force-yes"
+end
 
 service "nginx" do
   action [:enable, :start]
