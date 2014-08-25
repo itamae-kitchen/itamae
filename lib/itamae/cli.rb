@@ -15,7 +15,7 @@ module Itamae
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
     option :node_json, type: :string, aliases: ['-j']
-    option :dry_run, type: :string, aliases: ['-n']
+    option :dry_run, type: :boolean, aliases: ['-n']
     option :ohai, type: :boolean, default: false
     def local(*recipe_files)
       Runner.run(recipe_files, :local, options)
@@ -23,7 +23,7 @@ module Itamae
 
     desc "ssh RECIPE [RECIPE...]", "Run Itamae via ssh"
     option :node_json, type: :string, aliases: ['-j']
-    option :dry_run, type: :string, aliases: ['-n']
+    option :dry_run, type: :boolean, aliases: ['-n']
     option :host, required: true, type: :string, aliases: ['-h']
     option :user, type: :string, aliases: ['-u']
     option :key, type: :string, aliases: ['-i']
