@@ -18,6 +18,10 @@ module Itamae
     option :dry_run, type: :boolean, aliases: ['-n']
     option :ohai, type: :boolean, default: false
     def local(*recipe_files)
+      if recipe_files.empty?
+        raise "Please specify recipe files."
+      end
+
       Runner.run(recipe_files, :local, options)
     end
 
@@ -30,6 +34,10 @@ module Itamae
     option :port, type: :numeric, aliases: ['-p']
     option :ohai, type: :boolean, default: false
     def ssh(*recipe_files)
+      if recipe_files.empty?
+        raise "Please specify recipe files."
+      end
+
       Runner.run(recipe_files, :ssh, options)
     end
 
