@@ -78,7 +78,7 @@ module Itamae
       {"stdout" => result.stdout, "stderr" => result.stderr}.each_pair do |name, value|
         next unless value && value != ''
 
-        if value.bytesize > 1024
+        if value.bytesize > 1024 * 1024
           Logger.public_send(method, "    #{name} is suppressed because it's too large")
           next
         end
