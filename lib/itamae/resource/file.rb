@@ -61,7 +61,7 @@ module Itamae
         end
       end
 
-      def create_action
+      def create_action(options)
         if mode
           run_specinfra(:change_file_mode, @temppath, mode)
         end
@@ -76,7 +76,7 @@ module Itamae
         run_specinfra(:move_file, @temppath, path)
       end
 
-      def delete_action
+      def delete_action(options)
         if run_specinfra(:check_file_is_file, path)
           # TODO: delegate to Specinfra
           run_command(["rm", path])

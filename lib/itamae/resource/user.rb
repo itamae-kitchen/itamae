@@ -23,7 +23,7 @@ module Itamae
         end
       end
 
-      def create_action
+      def create_action(options)
         if run_specinfra(:check_user_exists, username)
           if uid && uid.to_s != @current_attributes[:uid]
             # TODO: delegate to Specinfra

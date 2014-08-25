@@ -22,7 +22,7 @@ module Itamae
         end
       end
 
-      def create_action
+      def create_action(options)
         unless run_specinfra(:check_file_is_linked_to, link, to)
           run_specinfra(:link_file_to, link, to)
         end

@@ -22,7 +22,7 @@ module Itamae
         @current_attributes[:exist?] = exist
       end
 
-      def sync_action
+      def sync_action(options)
         ensure_git_available
 
         new_repository = false

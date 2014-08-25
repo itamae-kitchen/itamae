@@ -65,7 +65,7 @@ module Itamae
 
         unless options[:dry_run]
           [action].flatten.each do |action|
-            public_send("#{specific_action || action}_action".to_sym)
+            public_send("#{specific_action || action}_action".to_sym, options)
           end
         end
 
@@ -80,7 +80,7 @@ module Itamae
         exit 2
       end
 
-      def nothing_action
+      def nothing_action(options)
         # do nothing
       end
 

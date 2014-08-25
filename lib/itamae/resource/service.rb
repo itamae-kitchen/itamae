@@ -24,27 +24,27 @@ module Itamae
         end
       end
 
-      def start_action
+      def start_action(options)
         run_specinfra(:start_service, name)
       end
 
-      def stop_action
+      def stop_action(options)
         run_specinfra(:stop_service, name)
       end
 
-      def restart_action
+      def restart_action(options)
         run_specinfra(:restart_service, name)
       end
 
-      def reload_action
+      def reload_action(options)
         run_specinfra(:reload_service, name)
       end
 
-      def enable_action
+      def enable_action(options)
         run_specinfra(:enable_service, name)
       end
 
-      def disable_action
+      def disable_action(options)
         run_specinfra(:disable_service, name)
       end
     end

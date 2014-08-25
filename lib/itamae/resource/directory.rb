@@ -28,7 +28,7 @@ module Itamae
         end
       end
 
-      def create_action
+      def create_action(options)
         if !run_specinfra(:check_file_is_directory, path)
           run_specinfra(:create_file_as_directory, path)
         end
