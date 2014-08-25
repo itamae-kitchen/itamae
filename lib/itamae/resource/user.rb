@@ -58,7 +58,13 @@ module Itamae
       end
 
       def current_password
-        run_command("cat /etc/shadow | grep -E ^itamae:").stdout.split(":")[1]
+        result = run_command("cat /etc/shadow | grep -E ^#{shell_escape(username)}:", error: false)
+
+        if result.exit_status == 0
+          result.stdout.split(":")[1]
+        else
+          nil
+        end
       end
     end
   end
