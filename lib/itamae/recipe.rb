@@ -69,15 +69,17 @@ module Itamae
     end
 
     def find_recipe_from_load_path(recipe)
-      target = recipe.gsub(/::/, '/')
+      target = recipe.gsub('::', '/')
       target += '.rb' if target !~ /\.rb$/
       plugin_name = recipe.split('::')[0]
 
-      $LOAD_PATH.find do |path|
-        if path =~ %r{/itamae-plugin-recipe-#{plugin_name}}
-          return File.join(path, 'itamae', 'plugin', 'recipe', target)
-        end
+      spec = Gem.loaded_specs.values.find do |spec|
+        spec.name == "itamae-plugin-recipe-#{plugin_name}"
       end
+
+      return nil unless spec
+
+      File.join(spec.lib_dirs_glob, 'itamae', 'plugin', 'recipe', target)
     end
 
     def define(name, params = {}, &block)
