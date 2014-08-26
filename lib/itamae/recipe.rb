@@ -50,11 +50,12 @@ module Itamae
       super
     end
 
-    def include_recipe(target)
-      target = ::File.expand_path(target, File.dirname(@path))
+    def include_recipe(recipe)
+      target = ::File.expand_path(recipe, File.dirname(@path))
 
       unless File.exist?(target)
-        raise NotFoundError, "File not found. (#{target})"
+        target = include_recipe_from_load_path(recipe)
+        raise NotFoundError, "File not found. (#{target})" unless File.exist?(target)
       end
 
       if runner.children.find_recipe_by_path(target)
@@ -65,6 +66,19 @@ module Itamae
       recipe = Recipe.new(@runner, target)
       @children << recipe
     end
+
+    def include_recipe_from_load_path(recipe)
+      target = recipe.gsub(/::/, '/')
+      target += '.rb' if target !~ /\.rb$/
+      plugin_name = recipe.split('::')[0]
+
+      $LOAD_PATH.each do |path|
+        if path =~ /itamae-plugin-recipe-#{plugin_name}/
+          target = File.join(path, 'itamae', 'plugin', 'recipe', target)
+          break
+        end
+      end
+      target
+    end
   end
 end
-
