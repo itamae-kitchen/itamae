@@ -78,8 +78,7 @@ module Itamae
 
       def delete_action(options)
         if run_specinfra(:check_file_is_file, path)
-          # TODO: delegate to Specinfra
-          run_command(["rm", path])
+          run_specinfra(:remove_file, path)
         end
       end
     end
