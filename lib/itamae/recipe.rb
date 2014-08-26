@@ -75,7 +75,7 @@ module Itamae
 
       $LOAD_PATH.find do |path|
         if path =~ %r{/itamae-plugin-recipe-#{plugin_name}}
-          File.join(path, 'itamae', 'plugin', 'recipe', target)
+          return File.join(path, 'itamae', 'plugin', 'recipe', target)
         end
       end
     end
