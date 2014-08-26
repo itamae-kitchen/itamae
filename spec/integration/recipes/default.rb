@@ -170,3 +170,13 @@ file "/tmp/should_not_exist" do
   action :delete
 end
 
+#####
+
+define :definition_example, key: 'default' do
+  execute "echo 'name:#{params[:name]},key:#{params[:key]}' > /tmp/created_by_definition"
+end
+
+definition_example "name" do
+  key 'value'
+end
+

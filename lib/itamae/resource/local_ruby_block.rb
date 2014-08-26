@@ -6,7 +6,7 @@ module Itamae
       define_attribute :action, default: :run
       define_attribute :block, type: Proc
 
-      def run_action
+      def run_action(options)
         block.call
       end
     end

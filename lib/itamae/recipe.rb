@@ -46,8 +46,6 @@ module Itamae
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
       @children << resource
-    rescue NameError
-      super
     end
 
     def include_recipe(recipe)
@@ -80,6 +78,13 @@ module Itamae
           File.join(path, 'itamae', 'plugin', 'recipe', target)
         end
       end
+    end
+
+    def define(name, params = {}, &block)
+      Resource.const_set(
+        Resource.get_resource_class_name(name),
+        Definition.create_class(name, params, &block)
+      )
     end
   end
 end

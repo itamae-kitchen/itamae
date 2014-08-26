@@ -6,7 +6,7 @@ module Itamae
       define_attribute :action, default: :run
       define_attribute :command, type: String, default_name: true
 
-      def run_action
+      def run_action(options)
         run_command(command)
         updated!
       end
