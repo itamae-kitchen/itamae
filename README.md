@@ -54,6 +54,10 @@ end
 
 Further example is here: [spec/integration/recipes/default.rb](spec/integration/recipes/default.rb)
 
+## Doc
+
+https://github.com/ryotarai/itamae/wiki
+
 ## Run tests
 
 Requirements: Vagrant
