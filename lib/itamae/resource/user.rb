@@ -15,10 +15,9 @@ module Itamae
         @current_attributes[:exist?] = exist?
 
         if @current_attributes[:exist?]
-          # TODO: delegate to Specinfra
-          @current_attributes[:uid] = run_command(["id", "-u", username]).stdout.strip
-          @current_attributes[:gid] = run_command(["id", "-g", username]).stdout.strip
-          @current_attributes[:home] = run_command("echo ~#{shell_escape(username)}").stdout.strip
+          @current_attributes[:uid] = run_specinfra(:get_user_uid, username).stdout.strip
+          @current_attributes[:gid] = run_specinfra(:get_user_gid, username).stdout.strip
+          @current_attributes[:home] = run_specinfra(:get_user_home_directory, username).stdout.strip
           @current_attributes[:password] = current_password
         end
       end
@@ -26,32 +25,29 @@ module Itamae
       def create_action(options)
         if run_specinfra(:check_user_exists, username)
           if uid && uid.to_s != @current_attributes[:uid]
-            # TODO: delegate to Specinfra
-            run_command(["usermod", "-u", uid, username]) 
+            run_specinfra(:update_user_uid, username, uid)
             updated!
           end
 
           if gid && gid.to_s != @current_attributes[:gid]
-            # TODO: delegate to Specinfra
-            run_command(["usermod", "-g", gid, username])
+            run_specinfra(:update_user_gid, username, gid)
             updated!
           end
 
           if password && password != current_password
-            # TODO: delegate to Specinfra
-            run_command("echo #{shell_escape("#{username}:#{password}")} | chpasswd -e")
+            run_specinfra(:update_user_encrypted_password, username, password)
             updated!
           end
         else
-          # TODO: delegate to Specinfra
-          args = ["useradd"]
-          args << "-g" << gid if gid
-          args << "-d" << home if home
-          args << "-p" << password if password
-          args << "-r" if system_user
-          args << "-u" << uid.to_s if uid
-          args << username
-          run_command(args)
+          options = {
+            gid:            gid,
+            home_directory: home,
+            password:       password,
+            system_user:    system_user,
+            uid:            uid,
+          }
+
+          run_specinfra(:add_user, username, options)
 
           updated!
         end
@@ -63,11 +59,9 @@ module Itamae
       end
 
       def current_password
-        # TODO: delegate to Specinfra
-        result = run_command("cat /etc/shadow | grep -E ^#{shell_escape(username)}:", error: false)
-
-        if result.exit_status == 0
-          result.stdout.split(":")[1]
+        result = run_specinfra(:get_user_encrypted_password, username)
+        if result.success?
+          result.stdout.strip
         else
           nil
         end
