@@ -51,11 +51,14 @@ module Itamae
     end
 
     def include_recipe(recipe)
-      target = ::File.expand_path(recipe, File.dirname(@path))
+      candidate_paths = [
+        ::File.expand_path(recipe, File.dirname(@path)),
+        find_recipe_from_load_path(recipe),
+      ].compact
+      target = candidate_paths.find {|path| File.exist?(path) }
 
-      unless File.exist?(target)
-        target = include_recipe_from_load_path(recipe)
-        raise NotFoundError, "File not found. (#{target})" unless File.exist?(target)
+      unless target
+        raise NotFoundError, "File not found. (#{target})"
       end
 
       if runner.children.find_recipe_by_path(target)
@@ -67,18 +70,16 @@ module Itamae
       @children << recipe
     end
 
-    def include_recipe_from_load_path(recipe)
+    def find_recipe_from_load_path(recipe)
       target = recipe.gsub(/::/, '/')
       target += '.rb' if target !~ /\.rb$/
       plugin_name = recipe.split('::')[0]
 
-      $LOAD_PATH.each do |path|
-        if path =~ /itamae-plugin-recipe-#{plugin_name}/
-          target = File.join(path, 'itamae', 'plugin', 'recipe', target)
-          break
+      $LOAD_PATH.find do |path|
+        if path =~ %r{/itamae-plugin-recipe-#{plugin_name}/}
+          File.join(path, 'itamae', 'plugin', 'recipe', target)
         end
       end
-      target
     end
   end
 end
