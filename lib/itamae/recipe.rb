@@ -56,7 +56,7 @@ module Itamae
       target = candidate_paths.find {|path| File.exist?(path) }
 
       unless target
-        raise NotFoundError, "File not found. (#{target})"
+        raise NotFoundError, "Recipe not found. (#{recipe})"
       end
 
       if runner.children.find_recipe_by_path(target)
