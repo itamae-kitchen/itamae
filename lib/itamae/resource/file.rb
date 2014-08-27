@@ -25,7 +25,7 @@ module Itamae
           @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
           send_file(src, @temppath)
         ensure
-          f.unlink
+          f.unlink if f
         end
 
         case @current_action
