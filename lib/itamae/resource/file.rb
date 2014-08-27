@@ -76,6 +76,14 @@ module Itamae
 
         if run_specinfra(:check_file_is_file, path)
           run_specinfra(:copy_file, path, "#{path}.bak")
+
+          unless run_command(["diff", "-q", @temppath, path], error: false).exit_status == 0
+            # the file is modified
+            updated!
+          end
+        else
+          # new file
+          updated!
         end
 
         run_specinfra(:move_file, @temppath, path)
