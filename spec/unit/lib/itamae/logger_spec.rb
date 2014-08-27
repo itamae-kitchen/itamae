@@ -5,7 +5,7 @@ module Itamae
     let(:io) { StringIO.new }
 
     before do
-      Logger.logger = ::Logger.new(io)
+      Logger.log_device = io
     end
 
     [:fatal, :error, :warn, :info, :debug].each do |level|

@@ -62,13 +62,24 @@ module Itamae
 
     class << self
       def logger
-        @logger ||= ::Logger.new($stdout).tap do |logger|
-          logger.formatter = Formatter.new
-        end
+        @logger ||= create_logger
       end
 
-      def logger=(l)
-        @logger = l
+      def log_device
+        @log_device || $stdout
+      end
+
+      def log_device=(value)
+        @log_device = value
+        @logger = create_logger
+      end
+      
+      private
+
+      def create_logger
+        ::Logger.new(log_device).tap do |logger|
+          logger.formatter = Formatter.new
+        end
       end
 
       def method_missing(method, *args, &block)

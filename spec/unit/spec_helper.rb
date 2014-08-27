@@ -18,5 +18,5 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
-Itamae::Logger.logger = ::Logger.new(StringIO.new)
+Itamae::Logger.log_device = StringIO.new
 
