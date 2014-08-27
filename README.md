@@ -1,4 +1,4 @@
-# Itamae [![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![wercker status](https://app.wercker.com/status/d44df82d2f4529ff664f32fa54ce12f5/s/master "wercker status")](https://app.wercker.com/project/bykey/d44df82d2f4529ff664f32fa54ce12f5)
+# Itamae [![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Code Climate](https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg)](https://codeclimate.com/github/ryotarai/itamae) [![wercker status](https://app.wercker.com/status/d44df82d2f4529ff664f32fa54ce12f5/s/master "wercker status")](https://app.wercker.com/project/bykey/d44df82d2f4529ff664f32fa54ce12f5)
 
 Simple and lightweight configuration management tool inspired by Chef.
 
