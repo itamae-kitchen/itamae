@@ -65,6 +65,8 @@ module Itamae
 
             Logger.info "action: #{action}"
 
+            next if action == :nothing
+
             unless options[:dry_run]
               Logger.formatter.indent do
                 Logger.debug "(in pre_action)"
