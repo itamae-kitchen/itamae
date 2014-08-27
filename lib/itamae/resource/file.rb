@@ -23,6 +23,11 @@ module Itamae
 
         @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
         send_file(src, @temppath)
+
+        case @current_action
+        when :create
+          @attributes[:exist?] = true
+        end
       end
 
       def set_current_attributes
@@ -37,10 +42,6 @@ module Itamae
           @current_attributes[:mode] = nil
           @current_attributes[:owner] = nil
           @current_attributes[:group] = nil
-        end
-
-        if action == :create
-          @attributes[:exist?] = true
         end
       end
 

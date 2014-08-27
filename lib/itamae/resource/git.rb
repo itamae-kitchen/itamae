@@ -11,7 +11,7 @@ module Itamae
       define_attribute :revision, type: String
 
       def pre_action
-        case action
+        case @current_action
         when :sync
           @attributes[:exist?] = true
         end

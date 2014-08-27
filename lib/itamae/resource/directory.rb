@@ -9,6 +9,13 @@ module Itamae
       define_attribute :owner, type: String
       define_attribute :group, type: String
 
+      def pre_action
+        case @current_action
+        when :create
+          @attributes[:exist?] = true
+        end
+      end
+
       def set_current_attributes
         exist = run_specinfra(:check_file_is_directory, path)
         @current_attributes[:exist?] = exist
@@ -21,10 +28,6 @@ module Itamae
           @current_attributes[:mode] = nil
           @current_attributes[:owner] = nil
           @current_attributes[:group] = nil
-        end
-
-        if action == :create
-          @attributes[:exist?] = true
         end
       end
 

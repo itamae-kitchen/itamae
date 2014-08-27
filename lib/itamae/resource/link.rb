@@ -8,7 +8,7 @@ module Itamae
       define_attribute :to, type: String, required: true
 
       def pre_action
-        case action
+        case @current_action
         when :create
           @attributes[:exist?] = true
         end

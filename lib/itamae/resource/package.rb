@@ -8,16 +8,19 @@ module Itamae
       define_attribute :version, type: String
       define_attribute :options, type: String
 
+      def pre_action
+        case @current_action
+        when :install
+          @attributes[:installed?] = true
+        end
+      end
+
       def set_current_attributes
         installed = run_specinfra(:check_package_is_installed, name)
         @current_attributes[:installed?] = installed
 
         if installed
           @current_attributes[:version] = run_specinfra(:get_package_version, name).stdout.strip
-        end
-
-        if action == :install
-          @attributes[:installed?] = true
         end
       end
 

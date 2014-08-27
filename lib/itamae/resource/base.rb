@@ -60,18 +60,27 @@ module Itamae
             return
           end
 
-          pre_action
+          [action].flatten.each do |action|
+            @current_action = action
 
-          set_current_attributes
-          show_differences
+            Logger.info "action: #{action}"
 
-          unless options[:dry_run]
-            [action].flatten.each do |action|
-              Logger.info "action: #{action}"
+            unless options[:dry_run]
               Logger.formatter.indent do
+                Logger.debug "(in pre_action)"
+                pre_action
+
+                Logger.debug "(in set_current_attributes)"
+                set_current_attributes
+
+                Logger.debug "(in show_differences)"
+                show_differences
+
                 public_send("#{specific_action || action}_action".to_sym, options)
               end
             end
+
+            @current_action = nil
           end
 
           updated! if different?
