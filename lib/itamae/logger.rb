@@ -17,10 +17,6 @@ module Itamae
       end
 
       private
-      def format_datetime(time)
-        time.strftime("%Y-%m-%dT%H:%M:%S%:z")
-      end
-
       def msg2str(msg)
         case msg
         when ::String
