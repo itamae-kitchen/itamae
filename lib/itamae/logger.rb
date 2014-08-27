@@ -15,7 +15,7 @@ module Itamae
                      "%5s" % severity
                    end
 
-        "[%s] %s : %s\n" % [format_datetime(datetime), severity, msg2str(msg)]
+        "%s : %s\n" % [severity, msg2str(msg)]
       end
 
       private
