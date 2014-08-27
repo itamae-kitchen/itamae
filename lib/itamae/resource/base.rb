@@ -229,6 +229,16 @@ module Itamae
         backend.run_command(*args)
       end
 
+      def check_command(*args)
+        unless args.last.is_a?(Hash)
+          args << {}
+        end
+
+        args.last[:error] = false
+
+        run_command(*args).exit_status == 0
+      end
+
       def run_specinfra(*args)
         backend.run_specinfra(*args)
       end
