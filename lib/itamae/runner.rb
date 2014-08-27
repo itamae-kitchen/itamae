@@ -49,6 +49,13 @@ module Itamae
           opts[:user] = options[:user] || Etc.getlogin
           opts[:keys] = [options[:key]] if options[:key]
           opts[:port] = options[:port] if options[:port]
+
+          if options[:vagrant]
+            config = Tempfile.new('', Dir.tmpdir)
+            `vagrant ssh-config #{opts[:host]} > #{config.path}`
+            opts.merge!(Net::SSH::Config.for(opts[:host], [config.path]))
+            opts[:host] = opts.delete(:host_name)
+          end
         end
 
         Backend.instance.set_type(type, opts)

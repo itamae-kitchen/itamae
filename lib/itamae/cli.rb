@@ -33,6 +33,7 @@ module Itamae
     option :key, type: :string, aliases: ['-i']
     option :port, type: :numeric, aliases: ['-p']
     option :ohai, type: :boolean, default: false
+    option :vagrant, type: :boolean, default: false
     def ssh(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
