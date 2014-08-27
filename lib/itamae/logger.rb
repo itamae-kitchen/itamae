@@ -74,14 +74,6 @@ module Itamae
       def method_missing(method, *args, &block)
         logger.public_send(method, *args, &block)
       end
-
-      def depth
-        @depth || 0
-      end
-
-      def depth=(value)
-        @depth = value
-      end
     end
   end
 end
