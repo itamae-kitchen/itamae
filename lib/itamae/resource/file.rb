@@ -51,11 +51,11 @@ module Itamae
           diff = run_command(["diff", "-u", path, @temppath], error: false)
           if diff.exit_status == 0
             # no change
-            Logger.debug "  file content will not change"
+            Logger.debug "file content will not change"
           else
-            Logger.info "  diff:"
+            Logger.info "diff:"
             diff.stdout.each_line do |line|
-              Logger.info "    #{line.strip}"
+              Logger.info "#{line.strip}"
             end
           end
         end

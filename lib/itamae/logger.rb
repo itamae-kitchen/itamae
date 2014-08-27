@@ -6,14 +6,30 @@ module Itamae
   module Logger
     class Formatter
       attr_accessor :colored
+      attr_accessor :depth
+
+      INDENT_LENGTH = 3
+
+      def initialize(*args)
+        super
+
+        @depth = 0
+      end
 
       def call(severity, datetime, progname, msg)
-        log = "%s : %s\n" % ["%5s" % severity, msg2str(msg)]
+        log = "%s : %s%s\n" % ["%5s" % severity, ' ' * INDENT_LENGTH * depth , msg2str(msg)]
         if colored
           color(log, severity)
         else
           log
         end
+      end
+
+      def indent
+        @depth += 1
+        yield
+      ensure
+        @depth -= 1
       end
 
       private
@@ -57,6 +73,14 @@ module Itamae
 
       def method_missing(method, *args, &block)
         logger.public_send(method, *args, &block)
+      end
+
+      def depth
+        @depth || 0
+      end
+
+      def depth=(value)
+        @depth = value
       end
     end
   end

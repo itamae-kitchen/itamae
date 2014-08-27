@@ -25,15 +25,15 @@ module Itamae
     def run(options = {})
       Logger.info "Recipe: #{@path}"
 
-      @children.run(options)
+      Logger.formatter.indent do
+        @children.run(options)
 
-      @delayed_notifications.uniq do |notification|
-        [notification.action, notification.action_resource]
-      end.each do |notification|
-        notification.run(options)
+        @delayed_notifications.uniq do |notification|
+          [notification.action, notification.action_resource]
+        end.each do |notification|
+          notification.run(options)
+        end
       end
-
-      Logger.info "< Finished. (#{@path})"
     end
 
     private

@@ -60,37 +60,39 @@ module Itamae
         command = "sudo -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
       end
 
-      Logger.debug "  Executing `#{command}`..."
+      Logger.debug "Executing `#{command}`..."
 
       result = Specinfra::Runner.run_command(command)
       exit_status = result.exit_status
 
-      if exit_status == 0 || !options[:error]
-        method = :debug
-        message = "    exited with #{exit_status}"
-      else
-        method = :error
-        message = "  Command `#{command}` failed. (exit status: #{exit_status})"
-      end
-
-      Logger.public_send(method, message)
-
-      {"stdout" => result.stdout, "stderr" => result.stderr}.each_pair do |name, value|
-        next unless value && value != ''
-
-        if value.bytesize > 1024 * 1024
-          Logger.public_send(method, "    #{name} is suppressed because it's too large")
-          next
+      Logger.formatter.indent do
+        if exit_status == 0 || !options[:error]
+          method = :debug
+          message = "exited with #{exit_status}"
+        else
+          method = :error
+          message = "Command `#{command}` failed. (exit status: #{exit_status})"
         end
 
-        value.each_line do |line|
-          # remove control chars
-          case line.encoding
-          when Encoding::UTF_8
-            line = line.tr("\u0000-\u001f\u007f\u2028",'')
+        Logger.public_send(method, message)
+
+        {"stdout" => result.stdout, "stderr" => result.stderr}.each_pair do |name, value|
+          next unless value && value != ''
+
+          if value.bytesize > 1024 * 1024
+            Logger.public_send(method, "#{name} is suppressed because it's too large")
+            next
           end
 
-          Logger.public_send(method, "    #{name} | #{line}")
+          value.each_line do |line|
+            # remove control chars
+            case line.encoding
+            when Encoding::UTF_8
+              line = line.tr("\u0000-\u001f\u007f\u2028",'')
+            end
+
+            Logger.public_send(method, "#{name} | #{line}")
+          end
         end
       end
 

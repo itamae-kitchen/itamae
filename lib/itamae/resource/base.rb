@@ -51,32 +51,33 @@ module Itamae
         attributes_without_action = attributes.dup.tap {|attr| attr.delete(:action) }
         Logger.info "#{resource_type} (#{attributes_without_action})..."
 
-        if do_not_run_because_of_only_if?
-          Logger.info "Execution skipped because of only_if attribute"
-          return
-        elsif do_not_run_because_of_not_if?
-          Logger.info "Execution skipped because of not_if attribute"
-          return
-        end
-
-        pre_action
-
-        set_current_attributes
-        show_differences
-
-        unless options[:dry_run]
-          [action].flatten.each do |action|
-            Logger.info "action: #{action}"
-            public_send("#{specific_action || action}_action".to_sym, options)
+        Logger.formatter.indent do
+          if do_not_run_because_of_only_if?
+            Logger.info "Execution skipped because of only_if attribute"
+            return
+          elsif do_not_run_because_of_not_if?
+            Logger.info "Execution skipped because of not_if attribute"
+            return
           end
+
+          pre_action
+
+          set_current_attributes
+          show_differences
+
+          unless options[:dry_run]
+            [action].flatten.each do |action|
+              Logger.info "action: #{action}"
+              Logger.formatter.indent do
+                public_send("#{specific_action || action}_action".to_sym, options)
+              end
+            end
+          end
+
+          updated! if different?
+
+          notify(options) if updated?
         end
-
-        updated! if different?
-
-        notify(options) if updated?
-
-        Logger.info "Succeeded."
-        Logger.info ''
       rescue Backend::CommandExecutionError
         Logger.error "Failed."
         exit 2
@@ -134,11 +135,11 @@ module Itamae
           if current_value.nil? && value.nil?
             # ignore
           elsif current_value.nil? && !value.nil?
-            Logger.info "  #{key} will be '#{value}'"
+            Logger.info "#{key} will be '#{value}'"
           elsif current_value == value || value.nil?
-            Logger.debug "  #{key} will not change (current value is '#{current_value}')"
+            Logger.debug "#{key} will not change (current value is '#{current_value}')"
           else
-            Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"
+            Logger.info "#{key} will change from '#{current_value}' to '#{value}'"
           end
         end
       end
@@ -164,7 +165,7 @@ module Itamae
       end
 
       def send_file(src, dst)
-        Logger.debug "  Sending a file from '#{src}' to '#{dst}'..."
+        Logger.debug "Sending a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
           raise Error, "The file '#{src}' doesn't exist."
         end
@@ -229,7 +230,7 @@ module Itamae
 
       def updated!
         unless @updated
-          Logger.debug "  This resource is updated."
+          Logger.debug "This resource is updated."
         end
         @updated = true
       end
