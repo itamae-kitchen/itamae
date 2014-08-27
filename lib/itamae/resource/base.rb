@@ -60,7 +60,7 @@ module Itamae
             return
           end
 
-          [action].flatten.each do |action|
+          [specific_action || action].flatten.each do |action|
             @current_action = action
 
             Logger.info "action: #{action}"
