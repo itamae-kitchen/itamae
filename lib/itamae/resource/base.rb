@@ -48,7 +48,8 @@ module Itamae
       end
 
       def run(specific_action = nil, options = {})
-        Logger.info "Executing #{resource_type} (#{attributes})..."
+        attributes_without_action = attributes.dup.tap {|attr| attr.delete(:action) }
+        Logger.info "#{resource_type} (#{attributes_without_action})..."
 
         if do_not_run_because_of_only_if?
           Logger.info "Execution skipped because of only_if attribute"
@@ -65,6 +66,7 @@ module Itamae
 
         unless options[:dry_run]
           [action].flatten.each do |action|
+            Logger.info "action: #{action}"
             public_send("#{specific_action || action}_action".to_sym, options)
           end
         end
@@ -134,7 +136,7 @@ module Itamae
           elsif current_value.nil? && !value.nil?
             Logger.info "  #{key} will be '#{value}'"
           elsif current_value == value || value.nil?
-            Logger.info "  #{key} will not change (current value is '#{current_value}')"
+            Logger.debug "  #{key} will not change (current value is '#{current_value}')"
           else
             Logger.info "  #{key} will change from '#{current_value}' to '#{value}'"
           end
