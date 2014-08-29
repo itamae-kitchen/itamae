@@ -61,28 +61,7 @@ module Itamae
           end
 
           [specific_action || action].flatten.each do |action|
-            @current_action = action
-
-            Logger.info "action: #{action}"
-
-            next if action == :nothing
-
-            unless options[:dry_run]
-              Logger.formatter.indent do
-                Logger.debug "(in pre_action)"
-                pre_action
-
-                Logger.debug "(in set_current_attributes)"
-                set_current_attributes
-
-                Logger.debug "(in show_differences)"
-                show_differences
-
-                public_send("action_#{specific_action || action}".to_sym, options)
-              end
-            end
-
-            @current_action = nil
+            run_action(action)
           end
 
           updated! if different?
@@ -111,6 +90,31 @@ module Itamae
       end
 
       private
+
+      def run_action(action)
+        @current_action = action
+
+        Logger.info "action: #{action}"
+
+        next if action == :nothing
+
+        unless options[:dry_run]
+          Logger.formatter.indent do
+            Logger.debug "(in pre_action)"
+            pre_action
+
+            Logger.debug "(in set_current_attributes)"
+            set_current_attributes
+
+            Logger.debug "(in show_differences)"
+            show_differences
+
+            public_send("action_#{specific_action || action}".to_sym, options)
+          end
+        end
+
+        @current_action = nil
+      end
 
       def method_missing(method, *args, &block)
         if self.class.defined_attributes[method]
