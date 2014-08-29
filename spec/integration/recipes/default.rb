@@ -162,11 +162,11 @@ end
 
 #####
 
-file "/tmp/should_not_exist" do
+file "/tmp/never_exist3" do
   action :create
 end
 
-file "/tmp/should_not_exist" do
+file "/tmp/never_exist3" do
   action :delete
 end
 
@@ -178,5 +178,20 @@ end
 
 definition_example "name" do
   key 'value'
+end
+
+#####
+
+file "/tmp/never_exist4" do
+  action :nothing
+end
+
+file "/tmp/file1" do
+  content "Hello, World"
+end
+
+file "/tmp/file1" do
+  content "Hello, World"
+  notifies :create, "file[/tmp/never_exist4]"
 end
 

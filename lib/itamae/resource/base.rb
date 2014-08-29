@@ -136,7 +136,9 @@ module Itamae
 
       def different?
         @current_attributes.each_pair.any? do |key, current_value|
-          current_value != @attributes[key]
+          current_value &&
+            @attributes[key] &&
+            current_value != @attributes[key]
         end
       end
 
