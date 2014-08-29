@@ -61,7 +61,7 @@ module Itamae
           end
 
           [specific_action || action].flatten.each do |action|
-            run_action(action)
+            run_action(action, options)
           end
 
           updated! if different?
@@ -91,12 +91,12 @@ module Itamae
 
       private
 
-      def run_action(action)
+      def run_action(action, options)
         @current_action = action
 
         Logger.info "action: #{action}"
 
-        next if action == :nothing
+        return if action == :nothing
 
         unless options[:dry_run]
           Logger.formatter.indent do
@@ -109,7 +109,7 @@ module Itamae
             Logger.debug "(in show_differences)"
             show_differences
 
-            public_send("action_#{specific_action || action}".to_sym, options)
+            public_send("action_#{action}".to_sym, options)
           end
         end
 
