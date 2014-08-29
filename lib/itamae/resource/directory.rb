@@ -42,6 +42,9 @@ module Itamae
           run_specinfra(:change_file_owner, path, attributes[:owner], attributes[:group])
         end
       end
+
+      class Converger
+      end
     end
   end
 end

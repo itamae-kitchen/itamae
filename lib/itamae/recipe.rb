@@ -45,6 +45,7 @@ module Itamae
     def method_missing(method, name, &block)
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
+      resource.process_attributes
       @children << resource
     end
 

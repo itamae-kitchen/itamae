@@ -9,6 +9,7 @@ require "itamae/node"
 require "itamae/backend"
 require "itamae/notification"
 require "itamae/definition"
+require "itamae/converger"
 
 module Itamae
   # Your code goes here...

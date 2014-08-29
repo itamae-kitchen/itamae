@@ -7,7 +7,7 @@ module Itamae
     end
 
     def run(options)
-      action_resource.run(action, options)
+      action_resource.converger.run(action, options)
     end
 
     def action_resource
