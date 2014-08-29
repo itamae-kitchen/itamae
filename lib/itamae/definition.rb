@@ -29,7 +29,7 @@ module Itamae
       construct_resources
     end
     
-    def run_action(options)
+    def action_run(options)
       @children.run(options)
     end
 

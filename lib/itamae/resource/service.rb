@@ -24,27 +24,27 @@ module Itamae
         @current_attributes[:enabled?] = run_specinfra(:check_service_is_enabled, name)
       end
 
-      def start_action(options)
+      def action_start(options)
         run_specinfra(:start_service, name)
       end
 
-      def stop_action(options)
+      def action_stop(options)
         run_specinfra(:stop_service, name)
       end
 
-      def restart_action(options)
+      def action_restart(options)
         run_specinfra(:restart_service, name)
       end
 
-      def reload_action(options)
+      def action_reload(options)
         run_specinfra(:reload_service, name)
       end
 
-      def enable_action(options)
+      def action_enable(options)
         run_specinfra(:enable_service, name)
       end
 
-      def disable_action(options)
+      def action_disable(options)
         run_specinfra(:disable_service, name)
       end
     end

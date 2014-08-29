@@ -22,7 +22,7 @@ module Itamae
         end
       end
 
-      def create_action(options)
+      def action_create(options)
         if run_specinfra(:check_user_exists, username)
           if uid && uid.to_s != @current_attributes[:uid]
             run_specinfra(:update_user_uid, username, uid)

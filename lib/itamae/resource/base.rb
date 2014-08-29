@@ -78,7 +78,7 @@ module Itamae
                 Logger.debug "(in show_differences)"
                 show_differences
 
-                public_send("#{specific_action || action}_action".to_sym, options)
+                public_send("action_#{specific_action || action}".to_sym, options)
               end
             end
 
@@ -94,7 +94,7 @@ module Itamae
         exit 2
       end
 
-      def nothing_action(options)
+      def action_nothing(options)
         # do nothing
       end
 

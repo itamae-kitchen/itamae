@@ -109,10 +109,10 @@ describe TestResource do
 
   describe "#run" do
     before do
-      subject.action :action_name
+      subject.action :name
     end
     it "executes <ACTION_NAME>_action method" do
-      expect(subject).to receive(:action_name_action)
+      expect(subject).to receive(:action_name)
       subject.run
     end
   end

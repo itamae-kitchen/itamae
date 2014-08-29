@@ -24,7 +24,7 @@ module Itamae
         end
       end
 
-      def install_action(action_options)
+      def action_install(action_options)
         unless run_specinfra(:check_package_is_installed, name, version)
           run_specinfra(:install_package, name, version, options)
           updated!
