@@ -42,6 +42,13 @@ module Itamae
       instance_eval(File.read(@path), @path, 1)
     end
 
+    def respond_to_missing?(method, include_private = false)
+      Resource.get_resource_class(method)
+      true
+    rescue NameError
+      false
+    end
+
     def method_missing(method, name, &block)
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)

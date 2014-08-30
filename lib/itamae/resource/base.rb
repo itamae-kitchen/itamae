@@ -116,6 +116,10 @@ module Itamae
         @current_action = nil
       end
 
+      def respond_to_missing?(method, include_private = false)
+        self.class.defined_attributes.has_key?(method) || super
+      end
+
       def method_missing(method, *args, &block)
         if self.class.defined_attributes[method]
           if args.size == 1
