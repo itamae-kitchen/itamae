@@ -14,7 +14,7 @@ module Itamae
       def pre_action
         begin
           src = if content_file
-                  content_file
+                  ::File.expand_path(content_file, ::File.dirname(@recipe.path))
                 else
                   f = Tempfile.open('itamae')
                   f.write(content)
