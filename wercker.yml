@@ -61,7 +61,7 @@ build:
 
     - script:
         name: build vagrant-digitalocean
-        code: "cd vagrant-digitalocean && git checkout action_id-isnt-returned && gem build vagrant-digitalocean.gemspec"
+        code: "cd vagrant-digitalocean && gem build vagrant-digitalocean.gemspec"
 
     - script:
         name: install vagrant-digitalocean
