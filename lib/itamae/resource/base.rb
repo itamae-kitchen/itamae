@@ -278,7 +278,7 @@ module Itamae
           Logger.info message
 
           if notification.instance_of?(Subscription)
-            Logger.info "(because #{notification.defined_in_resource} subscribes this resource)"
+            Logger.info "(because it subscribes this resource)"
           end
 
           case notification.timing
