@@ -56,16 +56,12 @@ build:
         code: sudo apt-get install libxml2-dev libxslt1-dev
 
     - script:
-        name: clone vagrant-digitalocean
-        code: "git clone https://github.com/ryotarai/vagrant-digitalocean.git"
-
-    - script:
-        name: build vagrant-digitalocean
-        code: "cd vagrant-digitalocean && gem build vagrant-digitalocean.gemspec"
+        name: install specific_install
+        code: /opt/vagrant/embedded/bin/gem install specific_install --no-doc
 
     - script:
         name: install vagrant-digitalocean
-        code: "NOKOGIRI_USE_SYSTEM_LIBRARIES=1 vagrant plugin install vagrant-digitalocean/vagrant-digitalocean-0.6.*.gem"
+        code: NOKOGIRI_USE_SYSTEM_LIBRARIES=1 /opt/vagrant/embedded/bin/gem specific_install -l https://github.com/ryotarai/vagrant-digitalocean.git -b action_id-isnt-returned
 
     - script:
         name: start vm
