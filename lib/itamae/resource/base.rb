@@ -98,17 +98,17 @@ module Itamae
 
         return if action == :nothing
 
-        unless options[:dry_run]
-          Logger.formatter.indent do
-            Logger.debug "(in pre_action)"
-            pre_action
+        Logger.formatter.indent do
+          Logger.debug "(in pre_action)"
+          pre_action
 
-            Logger.debug "(in set_current_attributes)"
-            set_current_attributes
+          Logger.debug "(in set_current_attributes)"
+          set_current_attributes
 
-            Logger.debug "(in show_differences)"
-            show_differences
+          Logger.debug "(in show_differences)"
+          show_differences
 
+          unless options[:dry_run]
             public_send("action_#{action}".to_sym, options)
           end
         end
