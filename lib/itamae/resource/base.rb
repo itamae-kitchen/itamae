@@ -272,8 +272,14 @@ module Itamae
 
       def notify(options)
         (notifications + recipe.children.subscribing(self)).each do |notification|
-          message = "Notifying #{notification.action} to #{notification.action_resource}"
-          message << " (delayed)" if notification.timing == :delay
+          message = "Notifying #{notification.action} to #{notification.action_resource.resource_type} resource '#{notification.action_resource.resource_name}'"
+
+          case notification.timing
+          when :delay
+            message << " (delayed)"
+          when :immediately
+            message << " (immediately)"
+          end
 
           Logger.info message
 
