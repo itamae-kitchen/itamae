@@ -74,7 +74,7 @@ end
 
 template "/tmp/template" do
   source "hello.erb"
-  @goodbye = "Good bye"
+  variables(goodbye: "Good bye")
 end
 
 file "/tmp/file" do
