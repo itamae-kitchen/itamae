@@ -74,8 +74,6 @@ module Itamae
         end
 
         if run_specinfra(:check_file_is_file, attributes.path)
-          run_specinfra(:copy_file, attributes.path, "#{attributes.path}.bak")
-
           unless check_command(["diff", "-q", @temppath, attributes.path])
             # the file is modified
             updated!
