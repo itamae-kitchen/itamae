@@ -18,8 +18,7 @@ module Itamae
       end
 
       def set_current_attributes
-        exist = run_specinfra(:check_file_is_directory, destination)
-        current.exist = exist
+        current.exist = run_specinfra(:check_file_is_directory, attributes.destination)
       end
 
       def action_sync(options)
@@ -27,15 +26,15 @@ module Itamae
 
         new_repository = false
 
-        if run_specinfra(:check_file_is_directory, destination)
+        if run_specinfra(:check_file_is_directory, attributes.destination)
           run_command_in_repo(['git', 'fetch', 'origin'])
         else
-          run_command(['git', 'clone', repository, destination])
+          run_command(['git', 'clone', attributes.repository, attributes.destination])
           new_repository = true
         end
 
-        target = if revision
-                   get_revision(revision)
+        target = if attributes.revision
+                   get_revision(attributes.revision)
                  else
                    run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
                  end
@@ -65,7 +64,7 @@ module Itamae
       end
 
       def run_command_in_repo(*args)
-        run_command(*args, cwd: destination)
+        run_command(*args, cwd: attributes.destination)
       end
 
       def current_branch

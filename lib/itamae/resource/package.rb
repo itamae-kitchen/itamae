@@ -16,16 +16,16 @@ module Itamae
       end
 
       def set_current_attributes
-        current.installed = run_specinfra(:check_package_is_installed, name)
+        current.installed = run_specinfra(:check_package_is_installed, attributes.name)
 
         if current.installed
-          current.version = run_specinfra(:get_package_version, name).stdout.strip
+          current.version = run_specinfra(:get_package_version, attributes.name).stdout.strip
         end
       end
 
       def action_install(action_options)
-        unless run_specinfra(:check_package_is_installed, name, version)
-          run_specinfra(:install_package, name, version, options)
+        unless run_specinfra(:check_package_is_installed, attributes.name, attributes.version)
+          run_specinfra(:install_package, attributes.name, attributes.version, attributes.options)
           updated!
         end
       end

@@ -7,7 +7,7 @@ module Itamae
       define_attribute :block, type: Proc
 
       def action_run(options)
-        block.call
+        attributes.block.call
       end
     end
   end

@@ -15,16 +15,16 @@ module Itamae
       end
 
       def set_current_attributes
-        current.exist = run_specinfra(:check_file_is_link, link)
+        current.exist = run_specinfra(:check_file_is_link, attributes.link)
 
         if current.exist
-          current.to = run_specinfra(:get_file_link_target, link).stdout.strip
+          current.to = run_specinfra(:get_file_link_target, attributes.link).stdout.strip
         end
       end
 
       def action_create(options)
-        unless run_specinfra(:check_file_is_linked_to, link, to)
-          run_specinfra(:link_file_to, link, to)
+        unless run_specinfra(:check_file_is_linked_to, attributes.link, attributes.to)
+          run_specinfra(:link_file_to, attributes.link, attributes.to)
         end
       end
     end

@@ -5,6 +5,60 @@ require 'hashie'
 module Itamae
   module Resource
     class Base
+      class EvalContext
+        attr_reader :attributes
+        attr_reader :notifications
+        attr_reader :subscriptions
+        attr_reader :only_if_command
+        attr_reader :not_if_command
+
+        def initialize(resource)
+          @resource = resource
+
+          @attributes = Hashie::Mash.new
+          @notifications = []
+          @subscriptions = []
+        end
+
+        def respond_to_missing?(method, include_private = false)
+          @resource.class.defined_attributes.has_key?(method) || super
+        end
+
+        def method_missing(method, *args, &block)
+          if @resource.class.defined_attributes[method]
+            if args.size == 1
+              return @attributes[method] = args.first
+            elsif args.size == 0 && block_given?
+              return @attributes[method] = block
+            elsif args.size == 0
+              return @attributes[method]
+            end
+          end
+
+          super
+        end
+
+        def notifies(action, resource_desc, timing = :delay)
+          @notifications << Notification.new(@resource, action, resource_desc, timing)
+        end
+
+        def subscribes(action, resource_desc, timing = :delay)
+          @subscriptions << Subscription.new(@resource, action, resource_desc, timing)
+        end
+
+        def only_if(command)
+          @only_if_command = command
+        end
+
+        def not_if(command)
+          @not_if_command = command
+        end
+
+        def node
+          @resource.runner.node
+        end
+      end
+
       @defined_attributes ||= {}
 
       class << self
@@ -33,17 +87,22 @@ module Itamae
       attr_reader :current_attributes
       attr_reader :subscriptions
       attr_reader :notifications
+      attr_reader :updated
 
       def initialize(recipe, resource_name, &block)
-        @attributes = Hashie::Mash.new
         @current_attributes = Hashie::Mash.new
         @recipe = recipe
         @resource_name = resource_name
-        @notifications = []
-        @subscriptions = []
         @updated = false
 
-        instance_eval(&block) if block_given?
+        EvalContext.new(self).tap do |context|
+          context.instance_eval(&block) if block
+          @attributes = context.attributes
+          @notifications = context.notifications
+          @subscriptions = context.subscriptions
+          @only_if_command = context.only_if_command
+          @not_if_command = context.not_if_command
+        end
 
         process_attributes
       end
@@ -61,7 +120,7 @@ module Itamae
             return
           end
 
-          [specific_action || action].flatten.each do |action|
+          [specific_action || attributes.action].flatten.each do |action|
             run_action(action, options)
           end
 
@@ -117,24 +176,6 @@ module Itamae
         end
 
         @current_action = nil
-      end
-
-      def respond_to_missing?(method, include_private = false)
-        self.class.defined_attributes.has_key?(method) || super
-      end
-
-      def method_missing(method, *args, &block)
-        if self.class.defined_attributes[method]
-          if args.size == 1
-            return @attributes[method] = args.first
-          elsif args.size == 0 && block_given?
-            return @attributes[method] = block
-          elsif args.size == 0
-            return @attributes[method]
-          end
-        end
-
-        super
       end
 
       def pre_action
@@ -196,14 +237,6 @@ module Itamae
         backend.send_file(src, dst)
       end
 
-      def only_if(command)
-        @only_if_command = command
-      end
-
-      def not_if(command)
-        @not_if_command = command
-      end
-
       def do_not_run_because_of_only_if?
         @only_if_command &&
           run_command(@only_if_command, error: false).exit_status != 0
@@ -214,24 +247,16 @@ module Itamae
           run_command(@not_if_command, error: false).exit_status == 0
       end
 
-      def notifies(action, resource_desc, timing = :delay)
-        @notifications << Notification.new(runner, self, action, resource_desc, timing)
-      end
-
-      def subscribes(action, resource_desc, timing = :delay)
-        @subscriptions << Subscription.new(runner, self, action, resource_desc, timing)
-      end
-
-      def node
-        runner.node
-      end
-
       def backend
         Backend.instance
       end
 
       def runner
-        @recipe.runner
+        recipe.runner
+      end
+
+      def node
+        runner.node
       end
 
       def run_command(*args)
@@ -239,7 +264,7 @@ module Itamae
           args << {}
         end
 
-        args.last[:user] ||= user
+        args.last[:user] ||= attributes.user
 
         backend.run_command(*args)
       end

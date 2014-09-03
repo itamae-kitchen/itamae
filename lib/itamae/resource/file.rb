@@ -13,11 +13,11 @@ module Itamae
 
       def pre_action
         begin
-          src = if content_file
-                  ::File.expand_path(content_file, ::File.dirname(@recipe.path))
+          src = if attributes.content_file
+                  ::File.expand_path(attributes.content_file, ::File.dirname(@recipe.path))
                 else
                   f = Tempfile.open('itamae')
-                  f.write(content)
+                  f.write(attributes.content)
                   f.close
                   f.path
                 end
@@ -35,13 +35,12 @@ module Itamae
       end
 
       def set_current_attributes
-        exist = run_specinfra(:check_file_is_file, path)
-        current.exist = exist
+        current.exist = run_specinfra(:check_file_is_file, attributes.path)
 
-        if exist
-          current.mode = run_specinfra(:get_file_mode, path).stdout.chomp
-          current.owner = run_specinfra(:get_file_owner_user, path).stdout.chomp
-          current.group = run_specinfra(:get_file_owner_group, path).stdout.chomp
+        if current.exist
+          current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
+          current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
+          current.group = run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
         else
           current.mode = nil
           current.owner = nil
@@ -53,7 +52,7 @@ module Itamae
         super
 
         if current.exist
-          diff = run_command(["diff", "-u", path, @temppath], error: false)
+          diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
           if diff.exit_status == 0
             # no change
             Logger.debug "file content will not change"
@@ -67,17 +66,17 @@ module Itamae
       end
 
       def action_create(options)
-        if mode
-          run_specinfra(:change_file_mode, @temppath, mode)
+        if attributes.mode
+          run_specinfra(:change_file_mode, @temppath, attributes.mode)
         end
-        if owner || group
-          run_specinfra(:change_file_owner, @temppath, owner, group)
+        if attributes.owner || attributes.group
+          run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
         end
 
-        if run_specinfra(:check_file_is_file, path)
-          run_specinfra(:copy_file, path, "#{path}.bak")
+        if run_specinfra(:check_file_is_file, attributes.path)
+          run_specinfra(:copy_file, attributes.path, "#{attributes.path}.bak")
 
-          unless check_command(["diff", "-q", @temppath, path])
+          unless check_command(["diff", "-q", @temppath, attributes.path])
             # the file is modified
             updated!
           end
@@ -86,12 +85,12 @@ module Itamae
           updated!
         end
 
-        run_specinfra(:move_file, @temppath, path)
+        run_specinfra(:move_file, @temppath, attributes.path)
       end
 
       def action_delete(options)
-        if run_specinfra(:check_file_is_file, path)
-          run_specinfra(:remove_file, path)
+        if run_specinfra(:check_file_is_file, attributes.path)
+          run_specinfra(:remove_file, attributes.path)
         end
       end
     end
