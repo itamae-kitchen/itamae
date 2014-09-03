@@ -1,7 +1,7 @@
 require 'itamae'
 
 module Itamae
-  class Notification < Struct.new(:runner, :defined_in_resource, :action, :target_resource_desc, :timing)
+  class Notification < Struct.new(:defined_in_resource, :action, :target_resource_desc, :timing)
     def resource
       runner.children.find_resource_by_description(target_resource_desc)
     end
@@ -12,6 +12,10 @@ module Itamae
 
     def action_resource
       resource
+    end
+
+    def runner
+      defined_in_resource.recipe.runner
     end
   end
 

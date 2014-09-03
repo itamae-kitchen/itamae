@@ -12,42 +12,42 @@ module Itamae
       define_attribute :uid, type: [String, Integer]
 
       def set_current_attributes
-        @current_attributes[:exist?] = exist?
+        current.exist = exist?
 
-        if @current_attributes[:exist?]
-          @current_attributes[:uid] = run_specinfra(:get_user_uid, username).stdout.strip
-          @current_attributes[:gid] = run_specinfra(:get_user_gid, username).stdout.strip
-          @current_attributes[:home] = run_specinfra(:get_user_home_directory, username).stdout.strip
-          @current_attributes[:password] = current_password
+        if current.exist
+          current.uid = run_specinfra(:get_user_uid, attributes.username).stdout.strip
+          current.gid = run_specinfra(:get_user_gid, attributes.username).stdout.strip
+          current.home = run_specinfra(:get_user_home_directory, attributes.username).stdout.strip
+          current.password = current_password
         end
       end
 
       def action_create(options)
-        if run_specinfra(:check_user_exists, username)
-          if uid && uid.to_s != @current_attributes[:uid]
-            run_specinfra(:update_user_uid, username, uid)
+        if run_specinfra(:check_user_exists, attributes.username)
+          if attributes.uid && attributes.uid.to_s != current.uid
+            run_specinfra(:update_user_uid, attributes.username, attributes.uid)
             updated!
           end
 
-          if gid && gid.to_s != @current_attributes[:gid]
-            run_specinfra(:update_user_gid, username, gid)
+          if attributes.gid && attributes.gid.to_s != current.gid
+            run_specinfra(:update_user_gid, attributes.username, attributes.gid)
             updated!
           end
 
-          if password && password != current_password
-            run_specinfra(:update_user_encrypted_password, username, password)
+          if attributes.password && attributes.password != current_password
+            run_specinfra(:update_user_encrypted_password, attributes.username, attributes.password)
             updated!
           end
         else
           options = {
-            gid:            gid,
-            home_directory: home,
-            password:       password,
-            system_user:    system_user,
-            uid:            uid,
+            gid:            attributes.gid,
+            home_directory: attributes.home,
+            password:       attributes.password,
+            system_user:    attributes.system_user,
+            uid:            attributes.uid,
           }
 
-          run_specinfra(:add_user, username, options)
+          run_specinfra(:add_user, attributes.username, options)
 
           updated!
         end
@@ -55,11 +55,11 @@ module Itamae
 
       private
       def exist?
-        run_specinfra(:check_user_exists, username)
+        run_specinfra(:check_user_exists, attributes.username)
       end
 
       def current_password
-        result = run_specinfra(:get_user_encrypted_password, username)
+        result = run_specinfra(:get_user_encrypted_password, attributes.username)
         if result.success?
           result.stdout.strip
         else

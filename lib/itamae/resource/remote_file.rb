@@ -6,7 +6,8 @@ module Itamae
       define_attribute :source, type: String, required: true
 
       def pre_action
-        content_file(::File.expand_path(source, ::File.dirname(@recipe.path)))
+        attributes.content_file =
+          ::File.expand_path(attributes.source, ::File.dirname(@recipe.path))
 
         super
       end

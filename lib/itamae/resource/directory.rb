@@ -12,34 +12,34 @@ module Itamae
       def pre_action
         case @current_action
         when :create
-          @attributes[:exist?] = true
+          attributes.exist = true
         end
       end
 
       def set_current_attributes
-        exist = run_specinfra(:check_file_is_directory, path)
-        @current_attributes[:exist?] = exist
+        exist = run_specinfra(:check_file_is_directory, attributes.path)
+        current.exist = exist
 
         if exist
-          @current_attributes[:mode] = run_specinfra(:get_file_mode, path).stdout.chomp
-          @current_attributes[:owner] = run_specinfra(:get_file_owner_user, path).stdout.chomp
-          @current_attributes[:group] = run_specinfra(:get_file_owner_group, path).stdout.chomp
+          current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
+          current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
+          current.group = run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
         else
-          @current_attributes[:mode] = nil
-          @current_attributes[:owner] = nil
-          @current_attributes[:group] = nil
+          current.mode = nil
+          current.owner = nil
+          current.group = nil
         end
       end
 
       def action_create(options)
-        if !run_specinfra(:check_file_is_directory, path)
-          run_specinfra(:create_file_as_directory, path)
+        if !run_specinfra(:check_file_is_directory, attributes.path)
+          run_specinfra(:create_file_as_directory, attributes.path)
         end
-        if attributes[:mode]
-          run_specinfra(:change_file_mode, path, attributes[:mode])
+        if attributes.mode
+          run_specinfra(:change_file_mode, attributes.path, attributes.mode)
         end
-        if attributes[:owner] || attributes[:group]
-          run_specinfra(:change_file_owner, path, attributes[:owner], attributes[:group])
+        if attributes.owner || attributes.group
+          run_specinfra(:change_file_owner, attributes.path, attributes.owner, attributes.group)
         end
       end
     end
