@@ -108,8 +108,7 @@ module Itamae
       end
 
       def run(specific_action = nil, options = {})
-        attributes_without_action = attributes.dup.tap {|attr| attr.delete(:action) }
-        Logger.info "#{resource_type} (#{attributes_without_action})..."
+        Logger.info "#{resource_type}[#{resource_name}]"
 
         Logger.formatter.indent do
           if do_not_run_because_of_only_if?
