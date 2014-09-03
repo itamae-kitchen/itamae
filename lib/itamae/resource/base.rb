@@ -1,5 +1,6 @@
 require 'itamae'
 require 'shellwords'
+require 'hashie'
 
 module Itamae
   module Resource
@@ -34,8 +35,8 @@ module Itamae
       attr_reader :notifications
 
       def initialize(recipe, resource_name, &block)
-        @attributes = {}
-        @current_attributes = {}
+        @attributes = Hashie::Mash.new
+        @current_attributes = Hashie::Mash.new
         @recipe = recipe
         @resource_name = resource_name
         @notifications = []
