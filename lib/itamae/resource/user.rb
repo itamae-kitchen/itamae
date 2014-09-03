@@ -12,24 +12,24 @@ module Itamae
       define_attribute :uid, type: [String, Integer]
 
       def set_current_attributes
-        @current_attributes[:exist?] = exist?
+        current.exist = exist?
 
-        if @current_attributes[:exist?]
-          @current_attributes[:uid] = run_specinfra(:get_user_uid, username).stdout.strip
-          @current_attributes[:gid] = run_specinfra(:get_user_gid, username).stdout.strip
-          @current_attributes[:home] = run_specinfra(:get_user_home_directory, username).stdout.strip
-          @current_attributes[:password] = current_password
+        if current.exist
+          current.uid = run_specinfra(:get_user_uid, username).stdout.strip
+          current.gid = run_specinfra(:get_user_gid, username).stdout.strip
+          current.home = run_specinfra(:get_user_home_directory, username).stdout.strip
+          current.password = current_password
         end
       end
 
       def action_create(options)
         if run_specinfra(:check_user_exists, username)
-          if uid && uid.to_s != @current_attributes[:uid]
+          if uid && uid.to_s != current.uid
             run_specinfra(:update_user_uid, username, uid)
             updated!
           end
 
-          if gid && gid.to_s != @current_attributes[:gid]
+          if gid && gid.to_s != current.gid
             run_specinfra(:update_user_gid, username, gid)
             updated!
           end

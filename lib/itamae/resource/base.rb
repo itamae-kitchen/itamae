@@ -92,6 +92,8 @@ module Itamae
 
       private
 
+      alias_method :current, :current_attributes
+
       def run_action(action, options)
         @current_action = action
 

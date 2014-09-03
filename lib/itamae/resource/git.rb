@@ -13,13 +13,13 @@ module Itamae
       def pre_action
         case @current_action
         when :sync
-          @attributes[:exist?] = true
+          attributes.exist = true
         end
       end
 
       def set_current_attributes
         exist = run_specinfra(:check_file_is_directory, destination)
-        @current_attributes[:exist?] = exist
+        current.exist = exist
       end
 
       def action_sync(options)

@@ -30,29 +30,29 @@ module Itamae
 
         case @current_action
         when :create
-          @attributes[:exist?] = true
+          attributes.exist = true
         end
       end
 
       def set_current_attributes
         exist = run_specinfra(:check_file_is_file, path)
-        @current_attributes[:exist?] = exist
+        current.exist = exist
 
         if exist
-          @current_attributes[:mode] = run_specinfra(:get_file_mode, path).stdout.chomp
-          @current_attributes[:owner] = run_specinfra(:get_file_owner_user, path).stdout.chomp
-          @current_attributes[:group] = run_specinfra(:get_file_owner_group, path).stdout.chomp
+          current.mode = run_specinfra(:get_file_mode, path).stdout.chomp
+          current.owner = run_specinfra(:get_file_owner_user, path).stdout.chomp
+          current.group = run_specinfra(:get_file_owner_group, path).stdout.chomp
         else
-          @current_attributes[:mode] = nil
-          @current_attributes[:owner] = nil
-          @current_attributes[:group] = nil
+          current.mode = nil
+          current.owner = nil
+          current.group = nil
         end
       end
 
       def show_differences
         super
 
-        if @current_attributes[:exist?]
+        if current.exist
           diff = run_command(["diff", "-u", path, @temppath], error: false)
           if diff.exit_status == 0
             # no change

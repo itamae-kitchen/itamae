@@ -10,15 +10,15 @@ module Itamae
       def pre_action
         case @current_action
         when :create
-          @attributes[:exist?] = true
+          attributes.exist = true
         end
       end
 
       def set_current_attributes
-        @current_attributes[:exist?] = run_specinfra(:check_file_is_link, link)
+        current.exist = run_specinfra(:check_file_is_link, link)
 
-        if @current_attributes[:exist?]
-          @current_attributes[:to] = run_specinfra(:get_file_link_target, link).stdout.strip
+        if current.exist
+          current.to = run_specinfra(:get_file_link_target, link).stdout.strip
         end
       end
 

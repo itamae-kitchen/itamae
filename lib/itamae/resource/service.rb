@@ -9,19 +9,19 @@ module Itamae
       def pre_action
         case @current_action
         when :start, :restart
-          @attributes[:running?] = true
+          attributes.running = true
         when :stop
-          @attributes[:running?] = false
+          attributes.running = false
         when :enable
-          @attributes[:enabled?] = true
+          attributes.enabled = true
         when :disable
-          @attributes[:enabled?] = false
+          attributes.enabled = false
         end
       end
 
       def set_current_attributes
-        @current_attributes[:running?] = run_specinfra(:check_service_is_running, name)
-        @current_attributes[:enabled?] = run_specinfra(:check_service_is_enabled, name)
+        current.running = run_specinfra(:check_service_is_running, name)
+        current.enabled = run_specinfra(:check_service_is_enabled, name)
       end
 
       def action_start(options)
