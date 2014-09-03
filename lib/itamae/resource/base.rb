@@ -55,7 +55,7 @@ module Itamae
         end
 
         def node
-          @resource.runner.node
+          @resource.recipe.runner.node
         end
       end
 
