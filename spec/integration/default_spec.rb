@@ -32,6 +32,7 @@ end
 describe file('/tmp/template') do
   it { should be_file }
   its(:content) { should match(/Hello/) }
+  its(:content) { should match(/Good bye/) }
 end
 
 describe file('/tmp/file') do
