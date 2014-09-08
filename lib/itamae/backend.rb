@@ -13,6 +13,7 @@ module Specinfra
 
       print "sudo password: "
       @sudo_password = STDIN.noecho(&:gets).strip
+      print "\n"
     end
   end
 end
