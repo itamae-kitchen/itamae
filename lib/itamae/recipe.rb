@@ -49,10 +49,15 @@ module Itamae
       false
     end
 
-    def method_missing(method, name, &block)
+    def method_missing(*args, &block)
+      super unless args.size == 2
+
+      method, name = args
       klass = Resource.get_resource_class(method)
       resource = klass.new(self, name, &block)
       @children << resource
+    rescue
+      super
     end
 
     def include_recipe(recipe)
