@@ -53,11 +53,14 @@ module Itamae
       super unless args.size == 2
 
       method, name = args
-      klass = Resource.get_resource_class(method)
+      begin
+        klass = Resource.get_resource_class(method)
+      rescue NameError
+        super
+      end
+
       resource = klass.new(self, name, &block)
       @children << resource
-    rescue
-      super
     end
 
     def include_recipe(recipe)
