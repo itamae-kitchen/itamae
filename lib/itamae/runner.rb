@@ -20,9 +20,9 @@ module Itamae
 
         if options[:ohai]
           unless Backend.instance.run_command("which ohai", error: false).exit_status == 0
-            # install Chef (I'd like to replace Ohai with single binary...)
-            Logger.info "Installing Chef to use Ohai..."
-            Backend.instance.run_command("curl -L https://www.opscode.com/chef/install.sh | bash")
+            # install Ohai
+            Logger.info "Installing ohai gem..."
+            Backend.instance.run_command("gem install ohai --no-ri --no-rdoc")
           end
 
           Logger.info "Loading node data via ohai..."
