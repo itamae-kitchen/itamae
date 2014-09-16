@@ -9,6 +9,10 @@ build:
     - rvm-use:
         version: 2.1.1
 
+    - script:
+        name: update bundler
+        code: gem update bundler
+
     # A step that executes `bundle install` command
     - bundle-install
 
