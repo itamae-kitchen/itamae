@@ -9,17 +9,29 @@ module Itamae
     attr_reader :children
     attr_reader :delayed_notifications
 
+    class << self
+      def find_recipe_in_gem(recipe)
+        target = recipe.gsub('::', '/')
+        target += '.rb' if target !~ /\.rb$/
+        plugin_name = recipe.split('::')[0]
+
+        spec = Gem.loaded_specs.values.find do |spec|
+          spec.name == "itamae-plugin-recipe-#{plugin_name}"
+        end
+
+        return nil unless spec
+
+        File.join(spec.lib_dirs_glob, 'itamae', 'plugin', 'recipe', target)
+      end
+    end
+
     def initialize(runner, path)
       @runner = runner
       @path = path
-      @children = RecipeChildren.new
       @delayed_notifications = []
 
-      load_children
-    end
-
-    def node
-      @runner.node
+      context = EvalContext.new(self)
+      @children = context.children
     end
 
     def run(options = {})
@@ -36,72 +48,71 @@ module Itamae
       end
     end
 
-    private
+    class EvalContext
+      attr_reader :children
 
-    def load_children
-      instance_eval(File.read(@path), @path, 1)
-    end
+      def initialize(recipe)
+        @recipe = recipe
+        @children = RecipeChildren.new
 
-    def respond_to_missing?(method, include_private = false)
-      Resource.get_resource_class(method)
-      true
-    rescue NameError
-      false
-    end
+        instance_eval(File.read(@recipe.path), @recipe.path, 1)
+      end
 
-    def method_missing(*args, &block)
-      super unless args.size == 2
-
-      method, name = args
-      begin
-        klass = Resource.get_resource_class(method)
+      def respond_to_missing?(method, include_private = false)
+        Resource.get_resource_class(method)
+        true
       rescue NameError
-        super
+        false
       end
 
-      resource = klass.new(self, name, &block)
-      @children << resource
-    end
+      def method_missing(*args, &block)
+        super unless args.size == 2
 
-    def include_recipe(recipe)
-      candidate_paths = [
-        ::File.expand_path(recipe, File.dirname(@path)),
-        find_recipe_from_load_path(recipe),
-      ].compact
-      target = candidate_paths.find {|path| File.exist?(path) }
+        method, name = args
+        begin
+          klass = Resource.get_resource_class(method)
+        rescue NameError
+          super
+        end
 
-      unless target
-        raise NotFoundError, "Recipe not found. (#{recipe})"
+        resource = klass.new(@recipe, name, &block)
+        @children << resource
       end
 
-      if runner.children.find_recipe_by_path(target)
-        Logger.debug "Recipe, #{target}, is skipped because it is already included"
-        return
+      def define(name, params = {}, &block)
+        Resource.const_set(
+          Resource.get_resource_class_name(name),
+          Definition.create_class(name, params, &block)
+        )
       end
 
-      recipe = Recipe.new(@runner, target)
-      @children << recipe
-    end
+      def include_recipe(target)
+        candidate_paths = [
+          ::File.expand_path(target, File.dirname(@recipe.path)),
+          Recipe.find_recipe_in_gem(target),
+        ].compact
+        path = candidate_paths.find {|path| File.exist?(path) }
 
-    def find_recipe_from_load_path(recipe)
-      target = recipe.gsub('::', '/')
-      target += '.rb' if target !~ /\.rb$/
-      plugin_name = recipe.split('::')[0]
+        unless path
+          raise NotFoundError, "Recipe not found. (#{target})"
+        end
 
-      spec = Gem.loaded_specs.values.find do |spec|
-        spec.name == "itamae-plugin-recipe-#{plugin_name}"
+        if runner.children.find_recipe_by_path(path)
+          Logger.debug "Recipe, #{target}, is skipped because it is already included"
+          return
+        end
+
+        recipe = Recipe.new(runner, path)
+        @children << recipe
       end
 
-      return nil unless spec
+      def node
+        runner.node
+      end
 
-      File.join(spec.lib_dirs_glob, 'itamae', 'plugin', 'recipe', target)
-    end
-
-    def define(name, params = {}, &block)
-      Resource.const_set(
-        Resource.get_resource_class_name(name),
-        Definition.create_class(name, params, &block)
-      )
+      def runner
+        @recipe.runner
+      end
     end
   end
 end
