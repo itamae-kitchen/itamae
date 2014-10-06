@@ -59,6 +59,10 @@ Requirements: Vagrant
 $ bundle exec rake spec
 ```
 
+## Presentations
+
+- [(in Japanese) Itamae - Infra as Code 現状確認会](https://speakerdeck.com/ryotarai/itamae-infra-as-code-xian-zhuang-que-ren-hui)
+
 ## Contributing
 
 If you have a problem, please [create an issue](https://github.com/ryotarai/itamae/issues/new) or a pull request.
