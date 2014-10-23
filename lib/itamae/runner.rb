@@ -61,6 +61,13 @@ module Itamae
             opts.merge!(Net::SSH::Config.for(opts[:host], [config.path]))
             opts[:host] = opts.delete(:host_name)
           end
+
+          unless options[:key]
+            print "password: "
+            password = STDIN.noecho(&:gets).strip
+            print "\n"
+            opts.merge!(password: password)
+          end
         end
 
         Backend.instance.set_type(type, opts)
