@@ -62,7 +62,7 @@ module Itamae
             opts[:host] = opts.delete(:host_name)
           end
 
-          unless options[:key]
+          if options[:ask_password]
             print "password: "
             password = STDIN.noecho(&:gets).strip
             print "\n"
