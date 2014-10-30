@@ -21,13 +21,8 @@ module Itamae
         if options[:ohai]
           unless Backend.instance.run_command("which ohai", error: false).exit_status == 0
             # install Ohai
-            Logger.info "Installing ohai package..."
-            begin
-              Backend.instance.run_specinfra(:install_package, "ohai")
-            rescue Itamae::Backend::CommandExecutionError
-              Logger.info "Installing Chef package... (because installing ohai package failed)"
-              Backend.instance.run_command("curl -L https://www.opscode.com/chef/install.sh | bash")
-            end
+            Logger.info "Installing Chef package... (to use Ohai)"
+            Backend.instance.run_command("curl -L https://www.opscode.com/chef/install.sh | bash")
           end
 
           Logger.info "Loading node data via ohai..."
