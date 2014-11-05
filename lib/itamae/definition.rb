@@ -28,7 +28,7 @@ module Itamae
 
       construct_resources
     end
-    
+
     def action_run(options)
       @children.run(options)
     end
@@ -38,7 +38,7 @@ module Itamae
     def construct_resources
       block = self.class.definition_block
 
-      context = Context.new(@attributes.merge(name: resource_name))
+      context = Context.new(self, @attributes.merge(name: resource_name))
       context.instance_exec(&block)
       @children = context.children
     end
@@ -47,7 +47,8 @@ module Itamae
       attr_reader :params
       attr_reader :children
 
-      def initialize(params, &block)
+      def initialize(definition, params, &block)
+        @definition = definition
         @params = params
         @children = RecipeChildren.new
       end
@@ -61,7 +62,7 @@ module Itamae
 
       def method_missing(method, name, &block)
         klass = Resource.get_resource_class(method)
-        resource = klass.new(self, name, &block)
+        resource = klass.new(@definition.recipe, name, &block)
         @children << resource
       end
     end
