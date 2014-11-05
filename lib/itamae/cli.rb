@@ -35,6 +35,7 @@ module Itamae
     option :ohai, type: :boolean, default: false
     option :vagrant, type: :boolean, default: false
     option :ask_password, type: :boolean, default: false
+    option :sudo, type: :boolean, default: true
     def ssh(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
