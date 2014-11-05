@@ -49,6 +49,7 @@ module Itamae
           opts[:user] = options[:user] || Etc.getlogin
           opts[:keys] = [options[:key]] if options[:key]
           opts[:port] = options[:port] if options[:port]
+          opts[:disable_sudo] = true unless options[:sudo]
 
           if options[:vagrant]
             config = Tempfile.new('', Dir.tmpdir)

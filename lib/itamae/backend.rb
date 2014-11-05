@@ -33,6 +33,7 @@ module Itamae
       when :ssh
         Specinfra.configuration.request_pty = true
         Specinfra.configuration.host = options.delete(:host)
+        Specinfra.configuration.disable_sudo = options.delete(:disable_sudo)
         Specinfra.configuration.ssh_options = options
 
         Specinfra.configuration.backend = :ssh
