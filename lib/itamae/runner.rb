@@ -1,5 +1,6 @@
 require 'itamae'
 require 'json'
+require 'yaml'
 
 module Itamae
   class Runner
@@ -33,6 +34,12 @@ module Itamae
           path = File.expand_path(options[:node_json])
           Logger.info "Loading node data from #{path}..."
           hash.merge!(JSON.load(open(path)))
+        end
+
+        if options[:node_yaml]
+          path = File.expand_path(options[:node_yaml])
+          Logger.info "Loading node data from #{path}..."
+          hash.merge!(YAML.load(open(path)))
         end
 
         Node.new(hash)
