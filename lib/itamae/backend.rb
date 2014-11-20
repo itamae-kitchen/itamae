@@ -42,9 +42,7 @@ module Itamae
       end
     end
 
-    def run_command(commands, options = {})
-      options = {error: true}.merge(options)
-
+    def build_command(commands, options)
       if commands.is_a?(Array)
         command = commands.map do |cmd|
           Shellwords.escape(cmd)
@@ -62,10 +60,10 @@ module Itamae
       if user
         command = "sudo -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
       end
+      command
+    end
 
-      Logger.debug "Executing `#{command}`..."
-
-      result = Specinfra::Runner.run_command(command)
+    def build_log(command, result)
       exit_status = result.exit_status
 
       Logger.formatter.indent do
@@ -98,8 +96,33 @@ module Itamae
           end
         end
       end
+    end
 
-      if options[:error] && exit_status != 0
+    def check_command(commands, options = {})
+      options[:error] = false
+      command = build_command(commands, options)
+
+      Logger.debug "Executing `#{command}`..."
+
+      result = Specinfra::Runner.run_command(command)
+
+      build_log(command, result)
+
+      result
+    end
+
+    def run_command(commands, options = {})
+      options = {error: true}.merge(options)
+
+      command = build_command(commands, options)
+
+      Logger.debug "Executing `#{command}`..."
+
+      result = Specinfra::Runner.run_command(command)
+
+      build_log(command, result)
+
+      if options[:error] && result.exit_status != 0
         raise CommandExecutionError
       end
 
