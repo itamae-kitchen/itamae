@@ -133,7 +133,7 @@ module Itamae
       command = Specinfra.command.get(type, *args)
 
       if type.to_s.start_with?("check_")
-        result = run_command(command, error: false)
+        result = check_command(command)
         result.exit_status == 0
       else
         run_command(command)
