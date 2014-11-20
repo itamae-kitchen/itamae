@@ -273,9 +273,9 @@ module Itamae
           args << {}
         end
 
-        args.last[:error] = false
+        args.last[:user] ||= attributes.user
 
-        run_command(*args).exit_status == 0
+        backend.check_command(*args).exit_status == 0
       end
 
       def run_specinfra(*args)

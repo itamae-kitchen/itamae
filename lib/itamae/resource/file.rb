@@ -52,7 +52,7 @@ module Itamae
         super
 
         if current.exist
-          diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
+          diff = check_command(["diff", "-u", attributes.path, @temppath])
           if diff.exit_status == 0
             # no change
             Logger.debug "file content will not change"

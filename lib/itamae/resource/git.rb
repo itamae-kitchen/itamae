@@ -36,7 +36,7 @@ module Itamae
         target = if attributes.revision
                    get_revision(attributes.revision)
                  else
-                   run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+                   check_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
                  end
 
         if new_repository || target != get_revision('HEAD')
@@ -58,7 +58,7 @@ module Itamae
 
       private
       def ensure_git_available
-        unless run_command("which git", error: false).exit_status == 0
+        unless check_command("which git").exit_status == 0
           raise "`git` command is not available. Please install git."
         end
       end
@@ -67,12 +67,16 @@ module Itamae
         run_command(*args, cwd: attributes.destination)
       end
 
+      def check_command_in_repo(*args)
+        check_command(*args, cwd: attributes.destination)
+      end
+
       def current_branch
-        run_command_in_repo("git rev-parse --abbrev-ref HEAD").stdout.strip
+        check_command_in_repo("git rev-parse --abbrev-ref HEAD").stdout.strip
       end
 
       def get_revision(branch)
-        run_command_in_repo("git rev-list #{shell_escape(branch)} | head -n1").stdout.strip
+        check_command_in_repo("git rev-list #{shell_escape(branch)} | head -n1").stdout.strip
       end
     end
   end
