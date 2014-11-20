@@ -63,11 +63,11 @@ module Itamae
       command
     end
 
-    def build_log(command, result)
+    def build_log(command, options, result)
       exit_status = result.exit_status
 
       Logger.formatter.indent do
-        if exit_status == 0 || !options[:error]
+        if result.exit_status == 0 || !options[:error]
           method = :debug
           message = "exited with #{exit_status}"
         else
@@ -106,7 +106,7 @@ module Itamae
 
       result = Specinfra::Runner.run_command(command)
 
-      build_log(command, result)
+      build_log(command, options, result)
 
       result
     end
@@ -120,7 +120,7 @@ module Itamae
 
       result = Specinfra::Runner.run_command(command)
 
-      build_log(command, result)
+      build_log(command, options, result)
 
       if options[:error] && result.exit_status != 0
         raise CommandExecutionError
