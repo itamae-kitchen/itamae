@@ -42,11 +42,30 @@ module Itamae
         Specinfra.configuration.os = {family: options[:family]}
         @output_dir = options[:output_dir]
         unless @output_dir.nil?
-          FileUtils.mkdir_p(@output_dir)
+          FileUtils.mkdir_p("#{@output_dir}/sub_script")
           Specinfra.configuration.dockerfile_finalizer =
             proc { |lines|
+              new_lines = []
+              sub_script_num = 0
+              straight_run = []
+              lines.each do |line|
+                if line.match(/^RUN /)
+                  straight_run << line
+                elsif !straight_run.empty?
+                  sub_script_path = "sub_script/#{"%03d" % sub_script_num}.sh"
+                  open("#{@output_dir}/#{sub_script_path}", 'w') do |f|
+                    f.write(straight_run.join("\n"))
+                  end
+                  sub_script_num += 1
+                  straight_run.clear
+                  new_lines << "RUN sh #{sub_script_path}"
+                  new_lines << line
+                else
+                  new_lines << line
+                end
+              end
               open("#{@output_dir}/Dockerfile", 'w') { |f|
-                f.write lines.join("\n")
+                f.write(new_lines.join("\n"))
               }
             }
         end
