@@ -49,7 +49,7 @@ module Itamae
     desc "dockerfile RECIPE [RECIPE...]", "Create Dockerfile"
     option :node_json, type: :string, aliases: ['-j']
     option :node_yaml, type: :string, aliases: ['-y']
-    option :output, type: :string, aliases: ['-o']
+    option :output_dir, type: :string, aliases: ['-o']
     option :family, required: true, type: :string, aliases: ['-f']
     def dockerfile(*recipe_files)
       if recipe_files.empty?

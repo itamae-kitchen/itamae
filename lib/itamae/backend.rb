@@ -40,11 +40,12 @@ module Itamae
       when :dockerfile
         Specinfra.configuration.backend = :dockerfile
         Specinfra.configuration.os = {family: options[:family]}
-        filename = options.delete(:output)
-        unless filename.nil?
+        @output_dir = options[:output_dir]
+        unless @output_dir.nil?
+          FileUtils.mkdir_p(@output_dir)
           Specinfra.configuration.dockerfile_finalizer =
             proc { |lines|
-              open(filename, 'w') { |f|
+              open("#{@output_dir}/Dockerfile", 'w') { |f|
                 f.write lines.join("\n")
               }
             }
@@ -130,7 +131,27 @@ module Itamae
     end
 
     def send_file(*args)
-      Specinfra::Runner.send_file(*args)
+      case Specinfra.configuration.backend
+      when :dockerfile
+        if @output_dir.nil?
+          Specinfra::Runner.send_file(*args)
+        else
+          src = args[0]
+          dst = args[1]
+          if dst.start_with?('/')
+            new_src = "_root_#{dst}"
+          else
+            new_src = dst
+          end
+          real_new_src = "#{@output_dir}/#{new_src}"
+          FileUtils.mkdir_p(File::dirname(real_new_src))
+          FileUtils.cp_r(src, real_new_src)
+          args[0] = new_src
+          Specinfra::Runner.send_file(*args)
+        end
+      else
+        Specinfra::Runner.send_file(*args)
+      end
     end
   end
 end

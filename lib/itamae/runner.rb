@@ -72,8 +72,8 @@ module Itamae
             opts.merge!(password: password)
           end
         when :dockerfile
-          opts[:output] = options[:output]
           opts[:family] = options[:family]
+          opts[:output_dir] = options[:output_dir]
         end
 
         Backend.instance.set_type(type, opts)
