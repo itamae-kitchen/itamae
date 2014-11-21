@@ -51,6 +51,7 @@ module Itamae
     option :node_yaml, type: :string, aliases: ['-y']
     option :output, type: :string, aliases: ['-o']
     option :ohai, type: :boolean, default: false
+    option :family, required: true, type: :string, aliases: ['-f']
     def dockerfile(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."

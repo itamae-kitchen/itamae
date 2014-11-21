@@ -39,6 +39,7 @@ module Itamae
         Specinfra.configuration.backend = :ssh
       when :dockerfile
         Specinfra.configuration.backend = :dockerfile
+        Specinfra.configuration.os = {family: options[:family]}
         filename = options.delete(:output)
         unless filename.nil?
           Specinfra.configuration.dockerfile_finalizer =
