@@ -37,6 +37,17 @@ module Itamae
         Specinfra.configuration.ssh_options = options
 
         Specinfra.configuration.backend = :ssh
+      when :dockerfile
+        Specinfra.configuration.backend = :dockerfile
+        filename = options.delete(:output)
+        unless filename.nil?
+          Specinfra.configuration.dockerfile_finalizer =
+            proc { |lines|
+              open(filename, 'w') { |f|
+                f.write lines.join("\n")
+              }
+            }
+        end
       else
         raise UnknownBackendTypeError, "'#{type}' backend is unknown."
       end
