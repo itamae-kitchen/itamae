@@ -6,8 +6,9 @@ module Itamae
     class_option :log_level, type: :string, aliases: ['-l'], default: 'info'
     class_option :color, type: :boolean, default: true
 
-    def initialize(*args)
-      super
+    def initialize(args, opts, config)
+      opts = Config.new(opts).load
+      super(args, opts, config)
 
       Itamae::Logger.level = ::Logger.const_get(options[:log_level].upcase)
       Itamae::Logger.formatter.colored = options[:color]
