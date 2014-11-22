@@ -50,7 +50,7 @@ module Itamae
               straight_run = []
               lines.each do |line|
                 if line.match(/^RUN /)
-                  straight_run << line
+                  straight_run << line.sub(/^RUN /, '')
                 elsif !straight_run.empty?
                   sub_script_path = "sub_script/#{"%03d" % sub_script_num}.sh"
                   open("#{@output_dir}/#{sub_script_path}", 'w') do |f|
