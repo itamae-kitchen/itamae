@@ -11,6 +11,18 @@ module Itamae
     def reverse_merge!(other_hash)
       self.replace(reverse_merge(other_hash))
     end
+
+    def [](key)
+      val = super(key)
+      if val.nil?
+        begin
+          val = host_inventory[key]
+        rescue NotImplementedError
+          val = nil
+        end
+      end
+      val
+    end
   end
 end
 
