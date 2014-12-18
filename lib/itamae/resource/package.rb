@@ -25,8 +25,7 @@ module Itamae
 
       def action_install(action_options)
         unless run_specinfra(:check_package_is_installed, attributes.name, attributes.version)
-          command = Specinfra.command.get(:install_package, attributes.name, attributes.version, attributes.options)
-          run_command(command, {user: attributes.user})
+          run_specinfra(:install_package, attributes.name, attributes.version, attributes.options)
           updated!
         end
       end
