@@ -106,15 +106,8 @@ module Itamae
       result
     end
 
-    def run_specinfra(type, *args)
-      command = Specinfra.command.get(type, *args)
-
-      if type.to_s.start_with?("check_")
-        result = run_command(command, error: false)
-        result.exit_status == 0
-      else
-        run_command(command)
-      end
+    def get_command(*args)
+      Specinfra.command.get(*args)
     end
 
     def send_file(*args)
