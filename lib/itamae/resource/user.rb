@@ -5,7 +5,7 @@ module Itamae
     class User < Base
       define_attribute :action, default: :create
       define_attribute :username, type: String, default_name: true
-      define_attribute :gid, type: String
+      define_attribute :gid, type: Integer
       define_attribute :home, type: String
       define_attribute :password, type: String
       define_attribute :system_user, type: [TrueClass, FalseClass]
@@ -16,7 +16,7 @@ module Itamae
 
         if current.exist
           current.uid = run_specinfra(:get_user_uid, attributes.username).stdout.strip
-          current.gid = run_specinfra(:get_user_gid, attributes.username).stdout.strip
+          current.gid = run_specinfra(:get_user_gid, attributes.username).stdout.strip.to_i
           current.home = run_specinfra(:get_user_home_directory, attributes.username).stdout.strip
           current.password = current_password
         end
@@ -29,7 +29,7 @@ module Itamae
             updated!
           end
 
-          if attributes.gid && attributes.gid.to_s != current.gid
+          if attributes.gid && attributes.gid != current.gid
             run_specinfra(:update_user_gid, attributes.username, attributes.gid)
             updated!
           end
