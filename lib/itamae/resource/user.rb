@@ -5,18 +5,18 @@ module Itamae
     class User < Base
       define_attribute :action, default: :create
       define_attribute :username, type: String, default_name: true
-      define_attribute :gid, type: String
+      define_attribute :gid, type: Integer
       define_attribute :home, type: String
       define_attribute :password, type: String
       define_attribute :system_user, type: [TrueClass, FalseClass]
-      define_attribute :uid, type: [String, Integer]
+      define_attribute :uid, type: Integer
 
       def set_current_attributes
         current.exist = exist?
 
         if current.exist
-          current.uid = run_specinfra(:get_user_uid, attributes.username).stdout.strip
-          current.gid = run_specinfra(:get_user_gid, attributes.username).stdout.strip
+          current.uid = run_specinfra(:get_user_uid, attributes.username).stdout.strip.to_i
+          current.gid = run_specinfra(:get_user_gid, attributes.username).stdout.strip.to_i
           current.home = run_specinfra(:get_user_home_directory, attributes.username).stdout.strip
           current.password = current_password
         end
@@ -24,12 +24,12 @@ module Itamae
 
       def action_create(options)
         if run_specinfra(:check_user_exists, attributes.username)
-          if attributes.uid && attributes.uid.to_s != current.uid
+          if attributes.uid && attributes.uid != current.uid
             run_specinfra(:update_user_uid, attributes.username, attributes.uid)
             updated!
           end
 
-          if attributes.gid && attributes.gid.to_s != current.gid
+          if attributes.gid && attributes.gid != current.gid
             run_specinfra(:update_user_gid, attributes.username, attributes.gid)
             updated!
           end
