@@ -2,5 +2,5 @@
 
 Incompatible changes
 
-- `uid` and `gid` attributes of `user` resource accepts only Integer. (https://github.com/ryotarai/itamae/pull/65)
+- `uid` and `gid` attributes of `user` resource accept only Integer. (https://github.com/ryotarai/itamae/pull/65)
 
