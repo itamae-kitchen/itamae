@@ -113,5 +113,9 @@ module Itamae
     def send_file(*args)
       Specinfra::Runner.send_file(*args)
     end
+
+    def send_directory(*args)
+      Specinfra::Runner.send_directory(*args)
+    end
   end
 end
