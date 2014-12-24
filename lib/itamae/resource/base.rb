@@ -236,6 +236,17 @@ module Itamae
         backend.send_file(src, dst)
       end
 
+      def send_directory(src, dst)
+        Logger.debug "Sending a directory from '#{src}' to '#{dst}'..."
+        unless ::File.directory?(src)
+          raise Error, "'#{src}' is not directory."
+        end
+        unless ::File.exist?(src)
+          raise Error, "The directory '#{src}' doesn't exist."
+        end
+        backend.send_directory(src, dst)
+      end
+
       def do_not_run_because_of_only_if?
         @only_if_command &&
           run_command(@only_if_command, error: false).exit_status != 0
