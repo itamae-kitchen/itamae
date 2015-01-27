@@ -1,3 +1,9 @@
+## v1.1.2
+
+Features
+
+- `user` resource accepts group name (String) as its `gid`.
+
 ## v1.1.1
 
 Features
