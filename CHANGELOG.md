@@ -1,3 +1,10 @@
+## v1.1.3
+
+Features
+
+- `group` resource (Thanks to @a2ikm)
+  - https://github.com/itamae-kitchen/itamae/pull/70
+
 ## v1.1.2
 
 Features
