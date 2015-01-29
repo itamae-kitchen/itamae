@@ -1,3 +1,10 @@
+## v1.1.4
+
+Bugfixes
+
+- `Node#[]` with unknown key returns nil. (by @nownabe)
+  - https://github.com/itamae-kitchen/itamae/pull/71
+
 ## v1.1.3
 
 Features
