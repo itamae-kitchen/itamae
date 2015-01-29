@@ -17,7 +17,7 @@ module Itamae
       if val.nil?
         begin
           val = host_inventory[key]
-        rescue NotImplementedError
+        rescue NotImplementedError, NameError
           val = nil
         end
       end
