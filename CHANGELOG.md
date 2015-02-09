@@ -1,3 +1,10 @@
+## v1.1.5
+
+Bugfixes
+
+- Clear current attributes before each action.
+- Turn on updated-flag after each action.
+
 ## v1.1.4
 
 Bugfixes
