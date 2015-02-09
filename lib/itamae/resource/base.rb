@@ -123,8 +123,6 @@ module Itamae
             run_action(action, options)
           end
 
-          updated! if different?
-
           notify(options) if updated?
         end
       rescue Backend::CommandExecutionError
@@ -174,6 +172,8 @@ module Itamae
           unless options[:dry_run]
             public_send("action_#{action}".to_sym, options)
           end
+
+          updated! if different?
         end
 
         @current_action = nil
