@@ -90,7 +90,7 @@ module Itamae
       attr_reader :updated
 
       def initialize(recipe, resource_name, &block)
-        @current_attributes = Hashie::Mash.new
+        clear_current_attributes
         @recipe = recipe
         @resource_name = resource_name
         @updated = false
@@ -155,6 +155,8 @@ module Itamae
       def run_action(action, options)
         @current_action = action
 
+        clear_current_attributes
+
         Logger.info "action: #{action}"
 
         return if action == :nothing
@@ -175,6 +177,10 @@ module Itamae
         end
 
         @current_action = nil
+      end
+
+      def clear_current_attributes
+        @current_attributes = Hashie::Mash.new
       end
 
       def pre_action
