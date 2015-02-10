@@ -20,7 +20,7 @@ $ gem install itamae
 ### Run locally
 
 ```
-$ sudo itamae execute -j example/node.json recipe.rb
+$ sudo itamae local -j example/node.json recipe.rb
 ```
 
 ### Run via SSH
