@@ -1,4 +1,10 @@
-## v1.1.6
+## v1.1.7
+
+Bugfixes
+
+- Fix a typo bug
+
+## v1.1.6 (yanked)
 
 Improvements
 
