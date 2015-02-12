@@ -117,7 +117,7 @@ module Itamae
           set_attributes
         end
 
-        if different? && Logger.level != ::Logger::DEBUG
+        if different? && Logger.level <= ::Logger::DEBUG
           Logger.info "#{resource_type}[#{resource_name}]"
         end
 
