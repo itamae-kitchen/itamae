@@ -46,7 +46,7 @@ namespace :spec do
             cmd << " -j spec/integration/recipes/node.json"
             cmd << " spec/integration/recipes/default.rb"
             cmd << " spec/integration/recipes/default2.rb"
-            cmd << " spec/integration/recipes/default_redefine.rb"
+            cmd << " spec/integration/recipes/redefine.rb"
 
             puts cmd
             system cmd
