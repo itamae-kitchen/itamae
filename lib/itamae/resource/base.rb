@@ -108,9 +108,23 @@ module Itamae
       end
 
       def run(specific_action = nil, options = {})
-        Logger.info "#{resource_type}[#{resource_name}]"
+        Logger.debug "#{resource_type}[#{resource_name}]"
 
         Logger.formatter.indent do
+          Logger.debug "(in set_current_attributes)"
+          set_current_attributes
+
+          set_attributes
+        end
+
+        if different? && Logger.level <= ::Logger::DEBUG
+          Logger.info "#{resource_type}[#{resource_name}]"
+        end
+
+        Logger.formatter.indent do
+          Logger.debug "(in show_differences)"
+          show_differences
+
           if do_not_run_because_of_only_if?
             Logger.info "Execution skipped because of only_if attribute"
             return
@@ -119,10 +133,13 @@ module Itamae
             return
           end
 
-          [specific_action || attributes.action].flatten.each do |action|
-            run_action(action, options)
+          if different?
+            [specific_action || attributes.action].flatten.each do |action|
+              run_action(action, options)
+            end
           end
 
+          updated! if different?
           notify(options) if updated?
         end
       rescue Backend::CommandExecutionError
@@ -153,8 +170,6 @@ module Itamae
       def run_action(action, options)
         @current_action = action
 
-        clear_current_attributes
-
         Logger.info "action: #{action}"
 
         return if action == :nothing
@@ -163,17 +178,9 @@ module Itamae
           Logger.debug "(in pre_action)"
           pre_action
 
-          Logger.debug "(in set_current_attributes)"
-          set_current_attributes
-
-          Logger.debug "(in show_differences)"
-          show_differences
-
           unless options[:dry_run]
             public_send("action_#{action}".to_sym, options)
           end
-
-          updated! if different?
         end
 
         @current_action = nil
@@ -191,10 +198,14 @@ module Itamae
         # do nothing
       end
 
+      def set_attributes
+        # do nothing
+      end
+
       def different?
         @current_attributes.each_pair.any? do |key, current_value|
-          current_value &&
-            @attributes[key] &&
+          !current_value.nil? &&
+            !@attributes[key].nil? &&
             current_value != @attributes[key]
         end
       end
