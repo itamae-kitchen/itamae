@@ -310,9 +310,7 @@ module Itamae
       end
 
       def updated!
-        unless @updated
-          Logger.debug "This resource is updated."
-        end
+        Logger.debug "This resource is updated."
         @updated = true
       end
 
