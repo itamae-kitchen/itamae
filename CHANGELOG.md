@@ -1,3 +1,13 @@
+## v1.1.6
+
+Improvements
+
+- [Normalize mode value of file resource by prepending '0' (by @sorah)](https://github.com/itamae-kitchen/itamae/pull/76)
+
+Bugfixes
+
+- [Fix a problem that occurs when the current value is false. (by @mizzy)](https://github.com/itamae-kitchen/itamae/pull/75)
+
 ## v1.1.5
 
 Bugfixes
