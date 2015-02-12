@@ -139,6 +139,7 @@ module Itamae
             end
           end
 
+          updated! if different?
           notify(options) if updated?
         end
       rescue Backend::CommandExecutionError
