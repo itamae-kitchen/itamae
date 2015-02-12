@@ -49,6 +49,9 @@ module Itamae
       end
 
       def show_differences
+        current.mode    = attributes.mode.rjust(4, '0') if current.mode
+        attributes.mode = attributes.mode.rjust(4, '0') if attributes.mode
+
         super
 
         if current.exist
