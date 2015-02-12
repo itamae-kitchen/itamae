@@ -108,3 +108,6 @@ describe file('/tmp/never_exist4') do
   it { should_not be_file }
 end
 
+describe file('/tmp/created_in_default_redefine') do
+  it { should be_file }
+end
