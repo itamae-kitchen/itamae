@@ -80,6 +80,12 @@ module Itamae
       end
 
       def define(name, params = {}, &block)
+        class_name = Resource.get_resource_class_name(name)
+        if Resource.const_defined?(class_name)
+          Logger.warn "Redefine class. (#{class_name})"
+          return
+        end
+
         Resource.const_set(
           Resource.get_resource_class_name(name),
           Definition.create_class(name, params, &block)
