@@ -7,6 +7,7 @@ module Itamae
     class Formatter
       attr_accessor :colored
       attr_accessor :depth
+      attr_accessor :color
 
       INDENT_LENGTH = 3
 
@@ -19,7 +20,7 @@ module Itamae
       def call(severity, datetime, progname, msg)
         log = "%s : %s%s\n" % ["%5s" % severity, ' ' * INDENT_LENGTH * depth , msg2str(msg)]
         if colored
-          color(log, severity)
+          colorize(log, severity)
         else
           log
         end
@@ -30,6 +31,14 @@ module Itamae
         yield
       ensure
         @depth -= 1
+      end
+
+      def color(code)
+        @prev_color = @color
+        @color = code
+        yield
+      ensure
+        @color = @prev_color
       end
 
       private
@@ -45,17 +54,21 @@ module Itamae
         end
       end
 
-      def color(str, severity)
-        color_code = case severity
-                     when "INFO"
-                       :green
-                     when "WARN"
-                       :magenta
-                     when "ERROR"
-                       :red
-                     else
-                       :clear
-                     end
+      def colorize(str, severity)
+        if @color
+          color_code = @color
+        else
+          color_code = case severity
+                       when "INFO"
+                         :clear
+                       when "WARN"
+                         :magenta
+                       when "ERROR"
+                         :red
+                       else
+                         :clear
+                       end
+        end
         ANSI.public_send(color_code) { str }
       end
     end
@@ -73,7 +86,7 @@ module Itamae
         @log_device = value
         @logger = create_logger
       end
-      
+
       private
 
       def create_logger
