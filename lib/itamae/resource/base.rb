@@ -205,11 +205,15 @@ module Itamae
           if current_value.nil? && value.nil?
             # ignore
           elsif current_value.nil? && !value.nil?
-            Logger.info "#{key} will be '#{value}'"
+            Logger.formatter.color :green do
+              Logger.info "#{key} will be '#{value}'"
+            end
           elsif current_value == value || value.nil?
             Logger.debug "#{key} will not change (current value is '#{current_value}')"
           else
-            Logger.info "#{key} will change from '#{current_value}' to '#{value}'"
+            Logger.formatter.color :green do
+              Logger.info "#{key} will change from '#{current_value}' to '#{value}'"
+            end
           end
         end
       end
