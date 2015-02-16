@@ -1,3 +1,9 @@
+## v1.1.8
+
+Improvements
+
+- [Show differences in green (by @mizzy)](https://github.com/itamae-kitchen/itamae/pull/82)
+
 ## v1.1.7
 
 Bugfixes
