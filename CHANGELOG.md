@@ -1,3 +1,9 @@
+## v1.1.9
+
+Improvements
+
+- Show template file path when rendering the template fails.
+
 ## v1.1.8
 
 Improvements
