@@ -1,3 +1,9 @@
+## v1.1.10
+
+Feature
+
+- `--dot` option to write dependency graph of recipes (Experimental)
+
 ## v1.1.9
 
 Improvements
