@@ -15,6 +15,7 @@ module Itamae
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
+    option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
     option :node_json, type: :string, aliases: ['-j']
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
@@ -28,6 +29,7 @@ module Itamae
     end
 
     desc "ssh RECIPE [RECIPE...]", "Run Itamae via ssh"
+    option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
     option :node_json, type: :string, aliases: ['-j']
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']

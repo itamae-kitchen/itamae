@@ -12,6 +12,15 @@ module Itamae
 
         runner = self.new(node_from_options(options))
         runner.load_recipes(recipe_files)
+
+        if dot_file = options[:dot]
+          Logger.info "Writing dependency graph in DOT to #{dot_file}..."
+          open(dot_file, 'w') do |f|
+            f.write(runner.children.deps_in_dot)
+          end
+          return
+        end
+
         runner.run(dry_run: options[:dry_run])
       end
 

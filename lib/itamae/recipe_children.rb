@@ -39,11 +39,17 @@ module Itamae
       end.flatten
     end
 
-    def recipes
+    def recipes(options = {})
+      options = {recursive: true}.merge(options)
+
       self.select do |item|
         item.is_a?(Recipe)
       end.map do |recipe|
-        [recipe] + recipe.children.recipes
+        if options[:recursive]
+          [recipe] + recipe.children.recipes
+        else
+          recipe
+        end
       end.flatten
     end
 
@@ -56,6 +62,29 @@ module Itamae
           resource.run(options)
         end
       end
+    end
+
+    # returns dependencies graph in DOT
+    def deps_in_dot
+      result = ""
+      result << "digraph recipes {\n"
+      result << _deps_in_dot
+      result << "}"
+
+      result
+    end
+
+    def _deps_in_dot
+      result = ""
+
+      recipes(recursive: false).each do |recipe|
+        recipe.children.recipes(recursive: false).each do |child_recipe|
+          result << %{  "#{recipe.path}" -> "#{child_recipe.path}";\n}
+        end
+        result << recipe.children._deps_in_dot
+      end
+
+      result
     end
   end
 end
