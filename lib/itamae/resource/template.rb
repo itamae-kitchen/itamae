@@ -24,12 +24,11 @@ module Itamae
           end
         end
 
-        def render(template)
-          ERB.new(template, nil, '-').result(binding)
-        end
-
         def render_file(src)
-          render(::File.read(src))
+          template = ::File.read(src)
+          ERB.new(template, nil, '-').tap do |erb|
+            erb.filename = src
+          end.result(binding)
         end
 
         def node
