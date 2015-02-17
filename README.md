@@ -49,7 +49,8 @@ Further example is here: [spec/integration/recipes/default.rb](spec/integration/
 
 ## Documentations
 
-https://github.com/ryotarai/itamae/wiki
+- http://itamae.kitchen/docs.html
+- https://github.com/ryotarai/itamae/wiki
 
 ## Run tests
 
