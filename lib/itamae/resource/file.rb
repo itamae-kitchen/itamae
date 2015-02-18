@@ -60,9 +60,11 @@ module Itamae
             # no change
             Logger.debug "file content will not change"
           else
-            Logger.info "diff:"
-            diff.stdout.each_line do |line|
-              Logger.info "#{line.strip}"
+            Logger.formatter.color :green do
+              Logger.info "diff:"
+              diff.stdout.each_line do |line|
+                Logger.info "#{line.strip}"
+              end
             end
           end
         end
