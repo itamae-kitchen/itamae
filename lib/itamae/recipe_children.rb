@@ -68,6 +68,7 @@ module Itamae
     def deps_in_dot
       result = ""
       result << "digraph recipes {\n"
+      result << "  rankdir=LR;\n"
       result << _deps_in_dot
       result << "}"
 
