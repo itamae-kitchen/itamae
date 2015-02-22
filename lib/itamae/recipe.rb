@@ -29,9 +29,11 @@ module Itamae
       @runner = runner
       @path = path
       @delayed_notifications = []
+      @children = RecipeChildren.new
+    end
 
-      context = EvalContext.new(self)
-      @children = context.children
+    def load
+      EvalContext.new(self)
     end
 
     def run(options = {})
@@ -49,11 +51,8 @@ module Itamae
     end
 
     class EvalContext
-      attr_reader :children
-
       def initialize(recipe)
         @recipe = recipe
-        @children = RecipeChildren.new
 
         instance_eval(File.read(@recipe.path), @recipe.path, 1)
       end
@@ -76,7 +75,7 @@ module Itamae
         end
 
         resource = klass.new(@recipe, name, &block)
-        @children << resource
+        @recipe.children << resource
       end
 
       def define(name, params = {}, &block)
@@ -104,12 +103,13 @@ module Itamae
         end
 
         if runner.children.find_recipe_by_path(path)
-          Logger.debug "Recipe, #{target}, is skipped because it is already included"
+          Logger.debug "Recipe, #{path}, is skipped because it is already included"
           return
         end
 
         recipe = Recipe.new(runner, path)
-        @children << recipe
+        @recipe.children << recipe
+        recipe.load
       end
 
       def node
