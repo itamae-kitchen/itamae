@@ -1,3 +1,9 @@
+## v1.1.12
+
+Bugfixes
+
+- [Update home directory of user resource if changed.](https://github.com/itamae-kitchen/itamae/commit/0b5ad5245af8a7849d36d0598f06b7adb9ac025a)
+
 ## v1.1.11
 
 Bugfixes
