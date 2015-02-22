@@ -1,3 +1,10 @@
+## v1.1.11
+
+Bugfixes
+
+- [Do not include recipes which are already included.](https://github.com/itamae-kitchen/itamae/pull/85)
+    - This may break backward compatibility.
+
 ## v1.1.10
 
 Feature
