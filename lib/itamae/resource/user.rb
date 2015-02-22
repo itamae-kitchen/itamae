@@ -34,8 +34,13 @@ module Itamae
             updated!
           end
 
-          if attributes.password && attributes.password != current_password
+          if attributes.password && attributes.password != current.password
             run_specinfra(:update_user_encrypted_password, attributes.username, attributes.password)
+            updated!
+          end
+
+          if attributes.home && attributes.home != current.home
+            run_specinfra(:update_user_home_directory, attributes.username, attributes.home)
             updated!
           end
         else

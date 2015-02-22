@@ -3,6 +3,7 @@ require 'spec_helper'
 describe user("itamae") do
   it { should exist }
   it { should have_uid 1234 }
+  it { should have_home_directory '/home/itamae' }
 end
 
 describe file('/tmp/included_recipe') do
