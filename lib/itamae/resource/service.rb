@@ -25,7 +25,9 @@ module Itamae
       end
 
       def action_start(options)
-        run_specinfra(:start_service, attributes.name)
+        unless current.running
+          run_specinfra(:start_service, attributes.name)
+        end
       end
 
       def action_stop(options)
