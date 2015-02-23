@@ -1,3 +1,10 @@
+## v1.1.14
+
+Improvements
+
+- Start a service only if the service is not running.
+- Stop a service only if the service is running.
+
 ## v1.1.13
 
 Improvements
