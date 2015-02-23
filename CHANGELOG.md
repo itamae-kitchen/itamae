@@ -1,3 +1,10 @@
+## v1.1.13
+
+Improvements
+
+- [Set executed attr of execute resource for logging purpose.](https://github.com/itamae-kitchen/itamae/pull/86)
+- [Colorize diff output of file resource green.](https://github.com/itamae-kitchen/itamae/pull/87)
+
 ## v1.1.12
 
 Bugfixes
