@@ -1,4 +1,5 @@
 include_recipe "./included.rb"
+include_recipe "./included.rb" # including the same recipe is expected to be skipped.
 
 user "create itamae user" do
   uid 123
