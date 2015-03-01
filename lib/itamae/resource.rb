@@ -13,6 +13,7 @@ require 'itamae/resource/local_ruby_block'
 require 'itamae/resource/git'
 require 'itamae/resource/user'
 require 'itamae/resource/group'
+require 'itamae/resource/gem_package'
 
 module Itamae
   module Resource

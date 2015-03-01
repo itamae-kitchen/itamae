@@ -27,6 +27,16 @@ end
 
 ######
 
+gem_package 'tzinfo' do
+  version '1.1.0'
+end
+
+gem_package 'tzinfo' do
+  version '1.2.2'
+end
+
+######
+
 execute "echo -n > /tmp/notifies"
 
 execute "echo -n 1 >> /tmp/notifies" do

@@ -113,3 +113,7 @@ describe file('/tmp/created_in_redefine') do
   it { should be_file }
   its(:content) { should match(/first/) }
 end
+
+describe command('gem list') do
+  its(:stdout) { should include('tzinfo (1.2.2, 1.1.0)') }
+end
