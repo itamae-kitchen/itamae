@@ -1,3 +1,9 @@
+## v1.1.15
+
+Features
+
+- Implement `gem_package` resource.
+
 ## v1.1.14
 
 Improvements
