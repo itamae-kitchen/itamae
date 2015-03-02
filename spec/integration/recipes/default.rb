@@ -27,6 +27,8 @@ end
 
 ######
 
+package "ruby"
+
 gem_package 'tzinfo' do
   version '1.1.0'
 end
