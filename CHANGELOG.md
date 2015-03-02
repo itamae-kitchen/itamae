@@ -1,3 +1,9 @@
+## v1.1.16
+
+Features
+
+- `source` attribute of `gem_package` resource.
+
 ## v1.1.15
 
 Features
