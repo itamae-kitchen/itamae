@@ -7,6 +7,7 @@ module Itamae
       define_attribute :package_name, type: String, default_name: true
       define_attribute :gem_binary, type: String, default: 'gem'
       define_attribute :version, type: String
+      define_attribute :source, type: String
 
       def pre_action
         case @current_action
@@ -64,6 +65,9 @@ module Itamae
         cmd = [attributes.gem_binary, 'install']
         if attributes.version
           cmd << '-v' << attributes.version
+        end
+        if attributes.source
+          cmd << '--source' << attributes.source
         end
         cmd << attributes.package_name
 
