@@ -87,12 +87,8 @@ module Itamae
             next
           end
 
-          value.each_line do |line|
-            # remove control chars
-            case line.encoding
-            when Encoding::UTF_8
-              line = line.tr("\u0000-\u001f\u007f\u2028",'')
-            end
+          value.gsub("\r", "\n").each_line do |line|
+            line.gsub!(/\p{C}+/, '') # control char
 
             Logger.public_send(method, "#{name} | #{line}")
           end
