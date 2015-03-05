@@ -63,7 +63,7 @@ module Itamae
             Logger.formatter.color :green do
               Logger.info "diff:"
               diff.stdout.each_line do |line|
-                Logger.info "#{line.strip}"
+                Logger.info line.chomp
               end
             end
           end
