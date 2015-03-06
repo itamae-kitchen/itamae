@@ -1,3 +1,9 @@
+## v1.1.17
+
+Bugfixes
+
+- Do not remove space char in output of diff.
+
 ## v1.1.16
 
 Features
