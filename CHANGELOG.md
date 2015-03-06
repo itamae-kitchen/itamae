@@ -1,3 +1,12 @@
+## v1.1.18
+
+Improvements
+
+- [Add remove action to package resource (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/92)
+- Colorize diff output of file resource
+  - removed lines in red
+  - inserted lines in green
+
 ## v1.1.17
 
 Bugfixes
