@@ -55,18 +55,7 @@ module Itamae
         super
 
         if current.exist
-          diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
-          if diff.exit_status == 0
-            # no change
-            Logger.debug "file content will not change"
-          else
-            Logger.formatter.color :green do
-              Logger.info "diff:"
-              diff.stdout.each_line do |line|
-                Logger.info line.chomp
-              end
-            end
-          end
+          show_file_diff
         end
       end
 
@@ -94,6 +83,28 @@ module Itamae
       def action_delete(options)
         if run_specinfra(:check_file_is_file, attributes.path)
           run_specinfra(:remove_file, attributes.path)
+        end
+      end
+
+      def show_file_diff
+        diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
+        if diff.exit_status == 0
+          # no change
+          Logger.debug "file content will not change"
+        else
+          Logger.info "diff:"
+          diff.stdout.each_line do |line|
+            color = if line.start_with?('+')
+                      :green
+                    elsif line.start_with?('-')
+                      :red
+                    else
+                      :clear
+                    end
+            Logger.formatter.color(color) do
+              Logger.info line.chomp
+            end
+          end
         end
       end
     end
