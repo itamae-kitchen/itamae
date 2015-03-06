@@ -69,8 +69,8 @@ module Itamae
 
           if options[:vagrant]
             config = Tempfile.new('', Dir.tmpdir)
-            `vagrant ssh-config #{opts[:host]} > #{config.path}`
-            opts.merge!(Net::SSH::Config.for(opts[:host], [config.path]))
+            `vagrant ssh-config > #{config.path}`
+            opts.merge!(Net::SSH::Config.for('default', [config.path]))
             opts[:host] = opts.delete(:host_name)
           end
 

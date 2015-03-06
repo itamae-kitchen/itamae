@@ -33,7 +33,7 @@ module Itamae
     option :node_json, type: :string, aliases: ['-j']
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
-    option :host, required: true, type: :string, aliases: ['-h']
+    option :host, type: :string, aliases: ['-h']
     option :user, type: :string, aliases: ['-u']
     option :key, type: :string, aliases: ['-i']
     option :port, type: :numeric, aliases: ['-p']
@@ -44,6 +44,10 @@ module Itamae
     def ssh(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
+      end
+
+      unless options[:host] || options[:vagrant]
+        raise "Please set '-h <hostname>' or '--vagrant'"
       end
 
       Runner.run(recipe_files, :ssh, options)
