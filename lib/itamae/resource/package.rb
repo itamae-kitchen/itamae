@@ -12,6 +12,8 @@ module Itamae
         case @current_action
         when :install
           attributes.installed = true
+        when :remove
+          attributes.installed = false
         end
       end
 
@@ -26,6 +28,13 @@ module Itamae
       def action_install(action_options)
         unless run_specinfra(:check_package_is_installed, attributes.name, attributes.version)
           run_specinfra(:install_package, attributes.name, attributes.version, attributes.options)
+          updated!
+        end
+      end
+
+      def action_remove(action_options)
+        if run_specinfra(:check_package_is_installed, attributes.name, nil)
+          run_specinfra(:remove_package, attributes.name, attributes.options)
           updated!
         end
       end

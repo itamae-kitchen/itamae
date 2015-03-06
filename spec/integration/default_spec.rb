@@ -18,6 +18,10 @@ describe package('sl') do
   it { should be_installed }
 end
 
+describe package('resolvconf') do
+  it { should_not be_installed }
+end
+
 describe file('/tmp/remote_file') do
   it { should be_file }
   its(:content) { should match(/Hello Itamae/) }
