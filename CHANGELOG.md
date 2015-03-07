@@ -1,3 +1,9 @@
+## v1.1.19
+
+Improvements
+
+- [`--vagrant` option without `--host` assumes the VM name `default` (by @muratayusuke)](https://github.com/itamae-kitchen/itamae/pull/91)
+
 ## v1.1.18
 
 Improvements
