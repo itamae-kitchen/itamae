@@ -23,6 +23,56 @@ module Itamae
       end
       val
     end
+
+    def validate(schema)
+      errors = Validator.new.validate(schema, self)
+      unless errors.empty?
+        Logger.error "Node validation error:"
+        Logger.formatter.indent do
+          errors.each do |error|
+            Logger.error error.description
+          end
+        end
+      end
+    end
+
+    class Validator
+      class Error < Struct.new(:location, :message)
+        def description
+          "#{location.join('/')} #{message}"
+        end
+      end
+
+      def validate(schema, data)
+        errors = []
+
+        schema.each do |k, v|
+          case v
+          when Hash
+            validate(v, data[k]).each do |error|
+              error[0].unshift(k)
+              errors << error
+            end
+          when Array
+            if data[k].is_a?(Array)
+              data[k].each_with_index do |d, i|
+                unless d.is_a?(v.first)
+                  errors << Error.new([k, i], "error")
+                end
+              end
+            else
+              errors << Error.new([k], "not array")
+            end
+          when Class
+            unless data[k].is_a?(v)
+              errors << Error.new([k], "error")
+            end
+          end
+        end
+
+        errors
+      end
+    end
   end
 end
 
