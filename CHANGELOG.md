@@ -1,8 +1,17 @@
 ## v1.1.19
 
+Features
+
+- `verify` attribute
+  - command will be executed after running resource action.
+  - If it fails, Itamae will abort (notifications will not be executed)
+
 Improvements
 
 - [`--vagrant` option without `--host` assumes the VM name `default` (by @muratayusuke)](https://github.com/itamae-kitchen/itamae/pull/91)
+- `delayed` is a valid notification timing.
+  - same as Chef
+- If invalid notification timing is provided, an error will be raised.
 
 ## v1.1.18
 
