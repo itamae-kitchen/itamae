@@ -215,3 +215,9 @@ file "/tmp/file1" do
   notifies :create, "file[/tmp/never_exist4]"
 end
 
+#####
+
+execute 'true' do
+  verify 'true'
+end
+

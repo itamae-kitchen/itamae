@@ -9,6 +9,7 @@ module Itamae
         attr_reader :attributes
         attr_reader :notifications
         attr_reader :subscriptions
+        attr_reader :verify_commands
         attr_reader :only_if_command
         attr_reader :not_if_command
 
@@ -18,6 +19,7 @@ module Itamae
           @attributes = Hashie::Mash.new
           @notifications = []
           @subscriptions = []
+          @verify_commands = []
         end
 
         def respond_to_missing?(method, include_private = false)
@@ -56,6 +58,11 @@ module Itamae
 
         def node
           @resource.recipe.runner.node
+        end
+
+        # Experimental
+        def verify(command)
+          @verify_commands << command
         end
       end
 
@@ -102,6 +109,7 @@ module Itamae
           @subscriptions = context.subscriptions
           @only_if_command = context.only_if_command
           @not_if_command = context.not_if_command
+          @verify_commands = context.verify_commands
         end
 
         process_attributes
@@ -123,6 +131,7 @@ module Itamae
             run_action(action, options)
           end
 
+          verify unless options[:dry_run]
           notify(options) if updated?
         end
       rescue Backend::CommandExecutionError
@@ -344,6 +353,17 @@ module Itamae
             notification.run(options)
           when :delay
             @recipe.delayed_notifications << notification
+          end
+        end
+      end
+
+      def verify
+        return if @verify_commands.empty?
+
+        Logger.info "Verifying..."
+        Logger.formatter.indent do
+          @verify_commands.each do |command|
+            run_command(command)
           end
         end
       end
