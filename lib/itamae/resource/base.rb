@@ -41,11 +41,11 @@ module Itamae
         end
 
         def notifies(action, resource_desc, timing = :delay)
-          @notifications << Notification.new(@resource, action, resource_desc, timing)
+          @notifications << Notification.create(@resource, action, resource_desc, timing)
         end
 
         def subscribes(action, resource_desc, timing = :delay)
-          @subscriptions << Subscription.new(@resource, action, resource_desc, timing)
+          @subscriptions << Subscription.create(@resource, action, resource_desc, timing)
         end
 
         def only_if(command)
@@ -335,10 +335,9 @@ module Itamae
         (notifications + recipe.children.subscribing(self)).each do |notification|
           message = "Notifying #{notification.action} to #{notification.action_resource.resource_type} resource '#{notification.action_resource.resource_name}'"
 
-          case notification.timing
-          when :delay
+          if notification.delayed?
             message << " (delayed)"
-          when :immediately
+          elsif notification.immediately?
             message << " (immediately)"
           end
 
@@ -348,11 +347,10 @@ module Itamae
             Logger.info "(because it subscribes this resource)"
           end
 
-          case notification.timing
-          when :immediately
-            notification.run(options)
-          when :delay
+          if notification.delayed?
             @recipe.delayed_notifications << notification
+          elsif notification.immediately?
+            notification.run(options)
           end
         end
       end
