@@ -32,6 +32,10 @@ module Itamae
       @children = RecipeChildren.new
     end
 
+    def dir
+      ::File.dirname(@path)
+    end
+
     def load
       EvalContext.new(self)
     end

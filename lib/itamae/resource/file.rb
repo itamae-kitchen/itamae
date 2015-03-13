@@ -6,15 +6,14 @@ module Itamae
       define_attribute :action, default: :create
       define_attribute :path, type: String, default_name: true
       define_attribute :content, type: String, default: ''
-      define_attribute :content_file, type: String
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
 
       def pre_action
         begin
-          src = if attributes.content_file
-                  ::File.expand_path(attributes.content_file, ::File.dirname(@recipe.path))
+          src = if content_file
+                  content_file
                 else
                   f = Tempfile.open('itamae')
                   f.write(attributes.content)
@@ -106,6 +105,11 @@ module Itamae
             end
           end
         end
+      end
+
+      # will be overridden
+      def content_file
+        nil
       end
     end
   end

@@ -85,6 +85,12 @@ remote_file "/tmp/remote_file" do
   source "hello.txt"
 end
 
+remote_file "/tmp/remote_file_auto" do
+  source :auto
+end
+
+######
+
 directory "/tmp/directory" do
   mode "700"
   owner "itamae"
@@ -93,6 +99,11 @@ end
 
 template "/tmp/template" do
   source "hello.erb"
+  variables(goodbye: "Good bye")
+end
+
+template "/tmp/template_auto" do
+  source :auto
   variables(goodbye: "Good bye")
 end
 

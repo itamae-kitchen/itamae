@@ -22,9 +22,11 @@ describe package('resolvconf') do
   it { should_not be_installed }
 end
 
-describe file('/tmp/remote_file') do
-  it { should be_file }
-  its(:content) { should match(/Hello Itamae/) }
+%w!/tmp/remote_file /tmp/remote_file_auto!.each do |f|
+  describe file(f) do
+    it { should be_file }
+    its(:content) { should match(/Hello Itamae/) }
+  end
 end
 
 describe file('/tmp/directory') do
@@ -34,12 +36,14 @@ describe file('/tmp/directory') do
   it { should be_grouped_into "itamae" }
 end
 
-describe file('/tmp/template') do
-  it { should be_file }
-  its(:content) { should match(/Hello/) }
-  its(:content) { should match(/Good bye/) }
-  its(:content) { should match(/^total memory: \d+kB$/) }
-  its(:content) { should match(/^uninitialized node key: $/) }
+%w!/tmp/template /tmp/template_auto!.each do |f|
+  describe file(f) do
+    it { should be_file }
+    its(:content) { should match(/Hello/) }
+    its(:content) { should match(/Good bye/) }
+    its(:content) { should match(/^total memory: \d+kB$/) }
+    its(:content) { should match(/^uninitialized node key: $/) }
+  end
 end
 
 describe file('/tmp/file') do
