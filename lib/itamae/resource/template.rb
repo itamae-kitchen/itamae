@@ -4,15 +4,27 @@ require 'tempfile'
 
 module Itamae
   module Resource
-    class Template < File
-      define_attribute :source, type: String, required: true
+    class Template < RemoteFile
       define_attribute :variables, type: Hash, default: {}
 
       def pre_action
-        src = ::File.expand_path(attributes.source, ::File.dirname(@recipe.path))
-        attributes.content = RenderContext.new(self).render_file(src)
+        attributes.content = RenderContext.new(self).render_file(source_file)
 
         super
+      end
+
+      private
+
+      def content_file
+        nil
+      end
+
+      def source_file_dir
+        "templates"
+      end
+
+      def source_file_ext
+        ".erb"
       end
 
       class RenderContext

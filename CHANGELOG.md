@@ -1,3 +1,10 @@
+## v1.1.20
+
+Features
+
+- `source :auto` of remote_file and template resources.
+  - details: https://github.com/itamae-kitchen/itamae/issues/94
+
 ## v1.1.19
 
 Features
