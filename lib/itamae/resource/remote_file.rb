@@ -24,12 +24,14 @@ module Itamae
 
           searched_paths = []
           dirs.size.times do |i|
-            path = ::File.join(@recipe.dir, source_file_dir, "#{dirs[i..-1].join("/")}#{source_file_ext}")
-            if ::File.exist?(path)
-              Logger.debug "#{path} is used as a source file."
-              return path
-            else
-              searched_paths << path
+            source_file_exts.each do |ext|
+              path = ::File.join(@recipe.dir, source_file_dir, "#{dirs[i..-1].join("/")}#{ext}")
+              if ::File.exist?(path)
+                Logger.debug "#{path} is used as a source file."
+                return path
+              else
+                searched_paths << path
+              end
             end
           end
 
@@ -43,8 +45,8 @@ module Itamae
         "files"
       end
 
-      def source_file_ext
-        ""
+      def source_file_exts
+        [""]
       end
     end
   end

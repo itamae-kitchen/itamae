@@ -23,8 +23,8 @@ module Itamae
         "templates"
       end
 
-      def source_file_ext
-        ".erb"
+      def source_file_exts
+        [".erb", ""]
       end
 
       class RenderContext
