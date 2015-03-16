@@ -59,6 +59,8 @@ module Itamae
           end
         end
         gems
+      rescue Backend::CommandExecutionError
+        []
       end
 
       def install!
