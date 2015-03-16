@@ -1,3 +1,9 @@
+## v1.1.22
+
+Improvements
+
+- `source :auto` accepts a template without .erb extention.
+
 ## v1.1.21
 
 Bugfixes
