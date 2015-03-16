@@ -1,3 +1,10 @@
+## v1.1.21
+
+Bugfixes
+
+- Ignore CommandExecutionError during listing installed gems. (by @eagletmt)
+  - because `gem` command may not be installed in dry-run mode
+
 ## v1.1.20
 
 Features
