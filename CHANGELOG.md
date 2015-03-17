@@ -1,3 +1,9 @@
+## v1.1.23
+
+Feature
+
+- Validate node attributes by `Node#validate!`
+
 ## v1.1.22
 
 Improvements
