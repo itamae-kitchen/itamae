@@ -16,6 +16,13 @@ module Itamae
         end
       end
 
+      def show_differences
+        current.mode    = current.mode.rjust(4, '0') if current.mode
+        attributes.mode = attributes.mode.rjust(4, '0') if attributes.mode
+
+        super
+      end
+
       def set_current_attributes
         exist = run_specinfra(:check_file_is_directory, attributes.path)
         current.exist = exist
