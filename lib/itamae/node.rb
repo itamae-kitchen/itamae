@@ -1,9 +1,12 @@
 require 'itamae'
 require 'hashie'
 require 'json'
+require 'schash'
 
 module Itamae
   class Node < Hashie::Mash
+    ValidationError = Class.new(StandardError)
+
     def reverse_merge(other_hash)
       Hashie::Mash.new(other_hash).merge(self)
     end
@@ -22,6 +25,16 @@ module Itamae
         end
       end
       val
+    end
+
+    def validate!(&block)
+      errors = Schash::Validator.new(&block).validate(self)
+      unless errors.empty?
+        errors.each do |error|
+          Logger.error "'#{error.position.join('->')}' #{error.message}"
+        end
+        raise ValidationError
+      end
     end
   end
 end
