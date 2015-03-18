@@ -1,3 +1,7 @@
+node.reverse_merge!({
+  message: "Hello, Itamae"
+})
+
 include_recipe "./included.rb"
 include_recipe "./included.rb" # including the same recipe is expected to be skipped.
 
@@ -204,7 +208,7 @@ end
 #####
 
 define :definition_example, key: 'default' do
-  execute "echo 'name:#{params[:name]},key:#{params[:key]}' > /tmp/created_by_definition"
+  execute "echo 'name:#{params[:name]},key:#{params[:key]},message:#{node[:message]}' > /tmp/created_by_definition"
 end
 
 definition_example "name" do
