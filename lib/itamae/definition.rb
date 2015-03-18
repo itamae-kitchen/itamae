@@ -65,6 +65,10 @@ module Itamae
         resource = klass.new(@definition.recipe, name, &block)
         @children << resource
       end
+
+      def node
+        @definition.recipe.runner.node
+      end
     end
   end
 end
