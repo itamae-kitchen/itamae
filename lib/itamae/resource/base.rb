@@ -116,26 +116,22 @@ module Itamae
       end
 
       def run(specific_action = nil, options = {})
-        Logger.info "#{resource_type}[#{resource_name}]"
-
-        Logger.formatter.indent do
-          if do_not_run_because_of_only_if?
-            Logger.info "Execution skipped because of only_if attribute"
-            return
-          elsif do_not_run_because_of_not_if?
-            Logger.info "Execution skipped because of not_if attribute"
-            return
-          end
-
-          [specific_action || attributes.action].flatten.each do |action|
-            run_action(action, options)
-          end
-
-          verify unless options[:dry_run]
-          notify(options) if updated?
+        if do_not_run_because_of_only_if?
+          Logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of only_if attribute"
+          return
+        elsif do_not_run_because_of_not_if?
+          Logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of not_if attribute"
+          return
         end
+
+        [specific_action || attributes.action].flatten.each do |action|
+          run_action(action, options)
+        end
+
+        verify unless options[:dry_run]
+        notify(options) if updated?
       rescue Backend::CommandExecutionError
-        Logger.error "Failed."
+        Logger.error "#{resource_type}[#{resource_name}] Failed."
         exit 2
       end
 
@@ -164,26 +160,24 @@ module Itamae
 
         clear_current_attributes
 
-        Logger.info "action: #{action}"
+        Logger.debug "#{resource_type}[#{resource_name}] action: #{action}"
 
         return if action == :nothing
 
-        Logger.formatter.indent do
-          Logger.debug "(in pre_action)"
-          pre_action
+        Logger.debug "(in pre_action)"
+        pre_action
 
-          Logger.debug "(in set_current_attributes)"
-          set_current_attributes
+        Logger.debug "(in set_current_attributes)"
+        set_current_attributes
 
-          Logger.debug "(in show_differences)"
-          show_differences
+        Logger.debug "(in show_differences)"
+        show_differences
 
-          unless options[:dry_run]
-            public_send("action_#{action}".to_sym, options)
-          end
-
-          updated! if different?
+        unless options[:dry_run]
+          public_send("action_#{action}".to_sym, options)
         end
+
+        updated! if different?
 
         @current_action = nil
       end
@@ -215,13 +209,13 @@ module Itamae
             # ignore
           elsif current_value.nil? && !value.nil?
             Logger.formatter.color :green do
-              Logger.info "#{key} will be '#{value}'"
+              Logger.info "#{resource_type}[#{resource_name}] #{key} will be '#{value}'"
             end
           elsif current_value == value || value.nil?
-            Logger.debug "#{key} will not change (current value is '#{current_value}')"
+            Logger.debug "#{resource_type}[#{resource_name}] #{key} will not change (current value is '#{current_value}')"
           else
             Logger.formatter.color :green do
-              Logger.info "#{key} will change from '#{current_value}' to '#{value}'"
+              Logger.info "#{resource_type}[#{resource_name}] #{key} will change from '#{current_value}' to '#{value}'"
             end
           end
         end
