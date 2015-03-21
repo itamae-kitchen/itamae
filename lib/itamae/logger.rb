@@ -9,7 +9,7 @@ module Itamae
       attr_accessor :depth
       attr_accessor :color
 
-      INDENT_LENGTH = 3
+      INDENT_LENGTH = 2
 
       def initialize(*args)
         super
