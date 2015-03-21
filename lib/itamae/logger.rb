@@ -33,6 +33,14 @@ module Itamae
         outdent
       end
 
+      def with_indent_if(condition, &block)
+        if condition
+          with_indent(&block)
+        else
+          block.call
+        end
+      end
+
       def indent
         @depth += 1
       end
