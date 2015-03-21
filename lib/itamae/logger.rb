@@ -34,11 +34,11 @@ module Itamae
       end
 
       def color(code)
-        @prev_color = @color
+        prev_color = @color
         @color = code
         yield
       ensure
-        @color = @prev_color
+        @color = prev_color
       end
 
       private
