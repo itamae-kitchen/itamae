@@ -353,7 +353,7 @@ module Itamae
         return if @verify_commands.empty?
 
         Logger.info "Verifying..."
-        Logger.formatter.indent do
+        Logger.formatter.with_indent do
           @verify_commands.each do |command|
             run_command(command)
           end

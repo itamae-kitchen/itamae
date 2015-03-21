@@ -43,7 +43,7 @@ module Itamae
     def run(options = {})
       Logger.info "Recipe: #{@path}"
 
-      Logger.formatter.indent do
+      Logger.formatter.with_indent do
         @children.run(options)
 
         @delayed_notifications.uniq do |notification|

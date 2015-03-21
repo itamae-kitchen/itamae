@@ -68,7 +68,7 @@ module Itamae
       result = Specinfra::Runner.run_command(command)
       exit_status = result.exit_status
 
-      Logger.formatter.indent do
+      Logger.formatter.with_indent do
         if exit_status == 0 || !options[:error]
           method = :debug
           message = "exited with #{exit_status}"

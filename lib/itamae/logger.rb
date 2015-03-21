@@ -26,11 +26,20 @@ module Itamae
         end
       end
 
-      def indent
-        @depth += 1
+      def with_indent
+        indent
         yield
       ensure
+        outdent
+      end
+
+      def indent
+        @depth += 1
+      end
+
+      def outdent
         @depth -= 1
+        @depth = 0 if @depth < 0
       end
 
       def color(code)
