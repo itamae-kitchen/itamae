@@ -116,6 +116,10 @@ module Itamae
       end
 
       def run(specific_action = nil, options = {})
+        Logger.debug "#{resource_type}[#{resource_name}]"
+
+        Logger.formatter.indent if Logger.debug?
+
         if do_not_run_because_of_only_if?
           Logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of only_if attribute"
           return
@@ -130,6 +134,8 @@ module Itamae
 
         verify unless options[:dry_run]
         notify(options) if updated?
+
+        Logger.formatter.outdent if Logger.debug?
       rescue Backend::CommandExecutionError
         Logger.error "#{resource_type}[#{resource_name}] Failed."
         exit 2
@@ -164,6 +170,7 @@ module Itamae
 
         return if action == :nothing
 
+        Logger.formatter.indent if Logger.debug?
         Logger.debug "(in pre_action)"
         pre_action
 
@@ -178,6 +185,8 @@ module Itamae
         end
 
         updated! if different?
+
+        Logger.formatter.outdent if Logger.debug?
 
         @current_action = nil
       end
