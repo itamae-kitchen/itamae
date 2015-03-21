@@ -1,3 +1,22 @@
+## v1.1.26
+
+Bugfix
+
+- Always outdent.
+
+## v1.1.25
+
+Improvements
+
+- Make logging less verbose by default. (by @eagletmt)
+- Change indent width from 3 to 2.
+
+## v1.1.24
+
+Bugfixes
+
+- Make `node` accessible from define block.
+
 ## v1.1.23
 
 Feature
