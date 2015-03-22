@@ -37,6 +37,38 @@ module Itamae
         Specinfra.configuration.ssh_options = options
 
         Specinfra.configuration.backend = :ssh
+      when :dockerfile
+        Specinfra.configuration.backend = :dockerfile
+        Specinfra.configuration.os = {family: options[:family]}
+        @output_dir = options[:output_dir]
+        unless @output_dir.nil?
+          FileUtils.mkdir_p("#{@output_dir}/sub_script")
+          Specinfra.configuration.dockerfile_finalizer =
+            proc { |lines|
+              new_lines = []
+              sub_script_num = 0
+              straight_run = []
+              lines.each do |line|
+                if line.match(/^RUN /)
+                  straight_run << line.sub(/^RUN /, '')
+                elsif !straight_run.empty?
+                  sub_script_path = "sub_script/#{"%03d" % sub_script_num}.sh"
+                  open("#{@output_dir}/#{sub_script_path}", 'w') do |f|
+                    f.write(straight_run.join("\n"))
+                  end
+                  sub_script_num += 1
+                  straight_run.clear
+                  new_lines << "RUN sh #{sub_script_path}"
+                  new_lines << line
+                else
+                  new_lines << line
+                end
+              end
+              open("#{@output_dir}/Dockerfile", 'w') { |f|
+                f.write(new_lines.join("\n"))
+              }
+            }
+        end
       else
         raise UnknownBackendTypeError, "'#{type}' backend is unknown."
       end
@@ -111,7 +143,27 @@ module Itamae
     end
 
     def send_file(*args)
-      Specinfra::Runner.send_file(*args)
+      case Specinfra.configuration.backend
+      when :dockerfile
+        if @output_dir.nil?
+          Specinfra::Runner.send_file(*args)
+        else
+          src = args[0]
+          dst = args[1]
+          if dst.start_with?('/')
+            new_src = "_root_#{dst}"
+          else
+            new_src = dst
+          end
+          real_new_src = "#{@output_dir}/#{new_src}"
+          FileUtils.mkdir_p(File::dirname(real_new_src))
+          FileUtils.cp_r(src, real_new_src)
+          args[0] = new_src
+          Specinfra::Runner.send_file(*args)
+        end
+      else
+        Specinfra::Runner.send_file(*args)
+      end
     end
 
     def send_directory(*args)

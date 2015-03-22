@@ -53,6 +53,19 @@ module Itamae
       Runner.run(recipe_files, :ssh, options)
     end
 
+    desc "dockerfile RECIPE [RECIPE...]", "Create Dockerfile"
+    option :node_json, type: :string, aliases: ['-j']
+    option :node_yaml, type: :string, aliases: ['-y']
+    option :output_dir, type: :string, aliases: ['-o']
+    option :family, required: true, type: :string, aliases: ['-f']
+    def dockerfile(*recipe_files)
+      if recipe_files.empty?
+        raise "Please specify recipe files."
+      end
+
+      Runner.run(recipe_files, :dockerfile, options)
+    end
+
     desc "version", "Print version"
     def version
       puts "Itamae v#{Itamae::VERSION}"
