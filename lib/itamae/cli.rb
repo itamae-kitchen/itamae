@@ -54,14 +54,9 @@ module Itamae
     end
 
     desc "docker RECIPE [RECIPE...]", "Create Docker image"
-    option :image, type: :string
-    option :container, type: :string
+    option :image, type: :string, required: true
     option :tls_verify_peer, type: :boolean, default: true
     def docker(*recipe_files)
-      unless options[:image] || options[:container]
-        raise "Please set --image or --container"
-      end
-
       if recipe_files.empty?
         raise "Please specify recipe files."
       end
