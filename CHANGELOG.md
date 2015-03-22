@@ -1,3 +1,12 @@
+## v1.2.0
+
+Feature
+
+- Docker backend
+  - This backend builds a Docker image.
+  - Usage: `itamae docker --image baseimage recipe.rb`
+  - NOTE: This feature is experimental.
+
 ## v1.1.26
 
 Bugfix
