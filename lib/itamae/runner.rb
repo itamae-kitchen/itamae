@@ -58,8 +58,6 @@ module Itamae
         opts = {}
 
         case type
-        when :local
-          # do nothing
         when :ssh
           opts[:host] = options[:host]
           opts[:user] = options[:user] || Etc.getlogin
@@ -81,9 +79,11 @@ module Itamae
             print "\n"
             opts.merge!(password: password)
           end
+        when :docker
+          opts = options
         end
 
-        Backend.instance.set_type(type, opts)
+        Backend.set_type(type, opts)
       end
     end
 
@@ -110,6 +110,7 @@ module Itamae
 
     def run(options)
       children.run(options)
+      Backend.instance.finalize
     end
   end
 end
