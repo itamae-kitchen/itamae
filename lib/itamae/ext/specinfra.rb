@@ -8,4 +8,3 @@ Specinfra::Command::Base::User.class_eval do
     end
   end
 end
-

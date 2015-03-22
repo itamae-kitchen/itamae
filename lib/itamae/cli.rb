@@ -53,6 +53,17 @@ module Itamae
       Runner.run(recipe_files, :ssh, options)
     end
 
+    desc "docker RECIPE [RECIPE...]", "Create Docker image"
+    option :image, type: :string, required: true
+    option :tls_verify_peer, type: :boolean, default: true
+    def docker(*recipe_files)
+      if recipe_files.empty?
+        raise "Please specify recipe files."
+      end
+
+      Runner.run(recipe_files, :docker, options)
+    end
+
     desc "version", "Print version"
     def version
       puts "Itamae v#{Itamae::VERSION}"
