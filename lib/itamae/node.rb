@@ -7,6 +7,11 @@ module Itamae
   class Node < Hashie::Mash
     ValidationError = Class.new(StandardError)
 
+    def initialize(initial_hash, backend = nil)
+      super(initial_hash)
+      @backend = backend
+    end
+
     def reverse_merge(other_hash)
       Hashie::Mash.new(other_hash).merge(self)
     end
@@ -19,7 +24,7 @@ module Itamae
       val = super(key)
       if val.nil?
         begin
-          val = host_inventory[key]
+          val = @backend.host_inventory[key]
         rescue NotImplementedError, NameError
           val = nil
         end

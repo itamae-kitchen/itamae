@@ -25,20 +25,17 @@ module Itamae
     CommandExecutionError = Class.new(StandardError)
 
     class << self
-      def set_type(type, opts = {})
-        @instance = self.const_get(type.capitalize).new(opts)
-      end
-
-      def instance
-        unless @instance
-          raise "Before calling Backend.instance, call Backend.set_type."
-        end
-
-        @instance
+      def create(type, opts = {})
+        self.const_get(type.capitalize).new(opts)
       end
     end
 
     class Base
+      def initialize(options)
+        @options = options
+        @backend = create_specinfra_backend
+      end
+
       def run_command(commands, options = {})
         options = {error: true}.merge(options)
 
@@ -62,7 +59,7 @@ module Itamae
 
         Logger.debug "Executing `#{command}`..."
 
-        result = Specinfra::Runner.run_command(command)
+        result = @backend.run_command(command)
         exit_status = result.exit_status
 
         Logger.formatter.with_indent do
@@ -104,61 +101,100 @@ module Itamae
       end
 
       def get_command(*args)
-        Specinfra.command.get(*args)
+        @backend.command.get(*args)
       end
 
       def send_file(*args)
-        Specinfra::Runner.send_file(*args)
+        @backend.send_file(*args)
       end
 
       def send_directory(*args)
-        Specinfra::Runner.send_directory(*args)
+        @backend.send_directory(*args)
+      end
+
+      def host_inventory
+        @backend.host_inventory
       end
 
       def finalize
         # pass
       end
+
+      private
+
+      def create_specinfra_backend
+        raise NotImplementedError
+      end
     end
 
     # TODO: Make Specinfra's backends instanciatable 
     class Local < Base
-      def initialize(options)
-        Specinfra.configuration.backend = :exec
+      private
+      def create_specinfra_backend
+        Specinfra::Backend::Exec.new()
       end
     end
 
     class Ssh < Base
-      def initialize(options)
-        Specinfra.configuration.request_pty = true
-        Specinfra.configuration.host = options.delete(:host)
-        Specinfra.configuration.disable_sudo = options.delete(:disable_sudo)
-        Specinfra.configuration.ssh_options = options
+      private
+      def create_specinfra_backend
+        Specinfra::Backend::Ssh.new(
+          request_pty: true,
+          host: ssh_options[:host_name],
+          disable_sudo: ssh_options[:disable_sudo],
+          ssh_options: ssh_options,
+        )
+      end
 
-        Specinfra.configuration.backend = :ssh
+      def ssh_options
+        opts = {}
+
+        opts[:host_name] = @options[:host]
+        opts[:user] = @options[:user] || Etc.getlogin
+        opts[:keys] = [@options[:key]] if @options[:key]
+        opts[:port] = @options[:port] if @options[:port]
+        opts[:disable_sudo] = true unless @options[:sudo]
+
+        if @options[:vagrant]
+          config = Tempfile.new('', Dir.tmpdir)
+          hostname = opts[:host] || 'default'
+          `vagrant ssh-config #{hostname} > #{config.path}`
+          opts.merge!(Net::SSH::Config.for(hostname, [config.path]))
+          opts[:host] = opts.delete(:host_name)
+        end
+
+        if @options[:ask_password]
+          print "password: "
+          password = STDIN.noecho(&:gets).strip
+          print "\n"
+          opts.merge!(password: password)
+        end
+
+        opts
       end
     end
 
     class Docker < Base
-      def initialize(options)
+      private
+      def create_specinfra_backend
         begin
           require 'docker'
         rescue LoadError
           Logger.fatal "To use docker backend, please install 'docker-api' gem"
         end
 
-        Specinfra.configuration.docker_image = options[:image]
-        Specinfra.configuration.docker_container = options[:container]
-
         # TODO: Move to Specinfra?
-        Excon.defaults[:ssl_verify_peer] = options[:tls_verify_peer]
-
-        Specinfra.configuration.backend = :docker
-
+        Excon.defaults[:ssl_verify_peer] = @options[:tls_verify_peer]
         ::Docker.logger = Logger
+
+        Specinfra::Backend::Docker.new(
+          docker_image: @options[:image],
+          docker_container: @options[:container],
+        )
       end
 
       def finalize
-        image = Specinfra.backend.commit_container
+        image = @backend.commit_container
         Logger.info "Image created: #{image.id}"
       end
     end

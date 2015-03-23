@@ -277,7 +277,7 @@ module Itamae
       end
 
       def backend
-        Backend.instance
+        runner.backend
       end
 
       def runner
