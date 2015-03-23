@@ -160,7 +160,6 @@ module Itamae
           hostname = opts[:host_name] || 'default'
           `vagrant ssh-config #{hostname} > #{config.path}`
           opts.merge!(Net::SSH::Config.for(hostname, [config.path]))
-          opts[:host] = opts.delete(:host_name)
         end
 
         if @options[:ask_password]
