@@ -19,4 +19,5 @@ RSpec.configure do |config|
 end
 
 Itamae::Logger.log_device = StringIO.new
+Specinfra.configuration.error_on_missing_backend_type = false
 
