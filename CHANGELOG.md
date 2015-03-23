@@ -1,3 +1,9 @@
+## v1.2.3
+
+Bugfixes
+
+- Bugs in Node class
+
 ## v1.2.2
 
 Improvements
