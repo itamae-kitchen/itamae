@@ -84,8 +84,6 @@ namespace :release do
     end
     system "git add #{version_file}"
     system "git commit -m 'Bump up version'"
-
-    Rake::Task["release"].invoke
   end
 end
 
