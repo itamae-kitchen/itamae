@@ -2,6 +2,8 @@
 
 Simple and lightweight configuration management tool inspired by Chef.
 
+- [CHANGELOG](https://github.com/itamae-kitchen/itamae/blob/master/CHANGELOG.md)
+
 ## Concept
 
 - Chef-like DSL
