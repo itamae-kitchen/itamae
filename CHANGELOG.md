@@ -1,3 +1,13 @@
+## v1.2.2
+
+Improvements
+
+- Refactor Backend and Runner class for multi backends.
+
+## v1.2.1
+
+(yanked)
+
 ## v1.2.0
 
 Feature
