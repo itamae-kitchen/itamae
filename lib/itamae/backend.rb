@@ -2,6 +2,8 @@ require 'specinfra'
 require 'singleton'
 require 'io/console'
 
+Specinfra.configuration.error_on_missing_backend_type = true
+
 module Specinfra
   module Configuration
     def self.sudo_password
