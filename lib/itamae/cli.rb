@@ -54,6 +54,11 @@ module Itamae
     end
 
     desc "docker RECIPE [RECIPE...]", "Create Docker image"
+    option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
+    option :node_json, type: :string, aliases: ['-j']
+    option :node_yaml, type: :string, aliases: ['-y']
+    option :dry_run, type: :boolean, aliases: ['-n']
+    option :ohai, type: :boolean, default: false
     option :image, type: :string, required: true
     option :tls_verify_peer, type: :boolean, default: true
     def docker(*recipe_files)
