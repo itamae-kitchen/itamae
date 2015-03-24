@@ -1,8 +1,8 @@
-require 'specinfra/core'
+require 'specinfra'
 require 'singleton'
 require 'io/console'
 
-Specinfra::Configuration.error_on_missing_backend_type = true
+Specinfra.configuration.error_on_missing_backend_type = true
 
 module Specinfra
   module Configuration
