@@ -97,15 +97,6 @@ describe TestResource do
       r.stub(:runner).and_return(runner)
     end
   end
-  let(:backend) do
-    double(:backend).tap do |b|
-      b.stub(:commands).and_return(commands)
-    end
-  end
-
-  before do
-    Backend.stub(:instance).and_return(backend)
-  end
 
   describe "#run" do
     before do
