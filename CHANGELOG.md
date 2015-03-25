@@ -1,3 +1,9 @@
+## v1.2.4
+
+Improvements
+
+- Use specinfra/core instead of specinfra.
+
 ## v1.2.3
 
 Bugfixes
