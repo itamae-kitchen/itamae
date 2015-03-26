@@ -23,24 +23,30 @@ module Itamae
     ParseError = Class.new(StandardError)
 
     class << self
-      def get_resource_class_name(method)
-        to_camel_case(method.to_s)
-      end
-
-      def get_resource_plugin_class_name(method)
-        '::Itamae::Plugin::Resource::' + to_camel_case(method.to_s)
-      end
-
       def to_camel_case(str)
         str.split('_').map {|part| part.capitalize}.join
       end
 
       def get_resource_class(method)
         begin
-          const_get(get_resource_class_name(method))
-        rescue NameError => e
-          const_get(get_resource_plugin_class_name(method))
+          self.const_get(to_camel_case(method.to_s))
+        rescue NameError
+          begin
+            ::Itamae::Plugin::Resource.const_get(to_camel_case(method.to_s))
+          rescue NameError
+            raise Error, "#{method} resource is missing."
+          end
         end
+      end
+
+      def define_resource(name, klass)
+        class_name = to_camel_case(name.to_s)
+        if Resource.const_defined?(class_name)
+          Logger.warn "Redefine class. (#{class_name})"
+          return
+        end
+
+        Resource.const_set(class_name, klass)
       end
 
       def parse_description(desc)
