@@ -36,12 +36,13 @@ module Itamae
       ::File.dirname(@path)
     end
 
-    def load
-      EvalContext.new(self)
+    def load(variables = {})
+      context = EvalContext.new(self, variables)
+      context.instance_eval(File.read(path), path, 1)
     end
 
     def run(options = {})
-      Logger.info "Recipe: #{@path}"
+      show_banner
 
       Logger.formatter.with_indent do
         @children.run(options)
@@ -54,11 +55,19 @@ module Itamae
       end
     end
 
+    private
+
+    def show_banner
+      Logger.info "Recipe: #{@path}"
+    end
+
     class EvalContext
-      def initialize(recipe)
+      def initialize(recipe, variables)
         @recipe = recipe
 
-        instance_eval(File.read(@recipe.path), @recipe.path, 1)
+        variables.each do |k, v|
+          define_singleton_method(k) { v }
+        end
       end
 
       def respond_to_missing?(method, include_private = false)
@@ -83,7 +92,7 @@ module Itamae
       end
 
       def define(name, params = {}, &block)
-        Resource.define_resource(name, Definition.create_class(name, params, &block))
+        Resource.define_resource(name, Definition.create_class(name, params, @recipe, &block))
       end
 
       def include_recipe(target)
@@ -113,6 +122,21 @@ module Itamae
 
       def runner
         @recipe.runner
+      end
+    end
+
+    class RecipeFromDefinition < Recipe
+      attr_accessor :definition
+
+      def load(variables = {})
+        context = EvalContext.new(self, variables)
+        context.instance_eval(&@definition.class.definition_block)
+      end
+
+      private
+
+      def show_banner
+        Logger.debug "#{@definition.resource_type}[#{@definition.resource_name}]"
       end
     end
   end

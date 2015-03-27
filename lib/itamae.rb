@@ -1,3 +1,10 @@
+require 'tracer'
+
+Tracer.add_filter {|event, file, line, id, binding, klass|
+  file.include?(File.expand_path('../..', __FILE__))
+}
+#Tracer.on
+
 require "itamae/version"
 require "itamae/runner"
 require "itamae/cli"

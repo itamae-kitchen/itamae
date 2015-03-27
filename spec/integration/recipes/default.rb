@@ -207,9 +207,7 @@ end
 
 #####
 
-define :definition_example, key: 'default' do
-  execute "echo 'name:#{params[:name]},key:#{params[:key]},message:#{node[:message]}' > /tmp/created_by_definition"
-end
+include_recipe "define/default.rb"
 
 definition_example "name" do
   key 'value'
