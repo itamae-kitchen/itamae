@@ -1,3 +1,9 @@
+## v1.2.5
+
+Bugfixes
+
+- Bugs in definition feature.
+
 ## v1.2.4
 
 Improvements
