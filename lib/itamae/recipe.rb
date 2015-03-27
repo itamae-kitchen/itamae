@@ -25,11 +25,15 @@ module Itamae
       end
     end
 
-    def initialize(runner, path)
+    def initialize(runner, path, &block)
       @runner = runner
       @path = path
       @delayed_notifications = []
       @children = RecipeChildren.new
+      @block = block
+
+      p path
+      load
     end
 
     def dir
@@ -37,7 +41,12 @@ module Itamae
     end
 
     def load
-      EvalContext.new(self)
+      context = EvalContext.new(self)
+      if @block
+        context.instance_eval(&@block)
+      else
+        context.instance_eval(File.read(path), path, 1)
+      end
     end
 
     def run(options = {})
@@ -58,7 +67,6 @@ module Itamae
       def initialize(recipe)
         @recipe = recipe
 
-        instance_eval(File.read(@recipe.path), @recipe.path, 1)
       end
 
       def respond_to_missing?(method, include_private = false)
@@ -83,7 +91,7 @@ module Itamae
       end
 
       def define(name, params = {}, &block)
-        Resource.define_resource(name, Definition.create_class(name, params, &block))
+        Resource.define_resource(name, Definition.create_class(name, params, self, &block))
       end
 
       def include_recipe(target)

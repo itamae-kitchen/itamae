@@ -3,9 +3,13 @@ require 'itamae'
 module Itamae
   class Definition < Resource::Base
     class << self
-      def create_class(name, params, &block)
+      attr_accessor :definition_block
+      attr_accessor :defined_in_recipe
+
+      def create_class(name, params, defined_in_recipe, &block)
         Class.new(self).tap do |klass|
           klass.definition_block = block
+          klass.defined_in_recipe = defined_in_recipe
 
           klass.define_attribute :action, default: :run
           params.each_pair do |key, value|
@@ -13,24 +17,23 @@ module Itamae
           end
         end
       end
-
-      def definition_block=(block)
-        @definition_block = block
-      end
-
-      def definition_block
-        @definition_block
-      end
     end
 
     def initialize(*args)
       super
 
-      construct_resources
+      # construct_resources
+      r = Recipe.new(
+        runner,
+        recipe.path,
+        &(self.class.definition_block)
+      )
+
+      # recipe.children << r
     end
 
     def action_run(options)
-      @children.run(options)
+      # @children.run(options)
     end
 
     private
