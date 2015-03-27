@@ -1,3 +1,7 @@
+## v1.2.6
+
+- Remove code for debugging...
+
 ## v1.2.5
 
 Bugfixes
