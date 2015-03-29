@@ -176,6 +176,11 @@ module Itamae
     end
 
     class Docker < Base
+      def finalize
+        image = @backend.commit_container
+        Logger.info "Image created: #{image.id}"
+      end
+
       private
       def create_specinfra_backend
         begin
@@ -192,11 +197,6 @@ module Itamae
           docker_image: @options[:image],
           docker_container: @options[:container],
         )
-      end
-
-      def finalize
-        image = @backend.commit_container
-        Logger.info "Image created: #{image.id}"
       end
     end
   end
