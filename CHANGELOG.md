@@ -1,3 +1,9 @@
+## v1.2.7
+
+Bugfixes
+
+- Backend::Docker#finalize should be public.
+
 ## v1.2.6
 
 - Remove code for debugging...
