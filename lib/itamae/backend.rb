@@ -1,6 +1,7 @@
 require 'specinfra/core'
 require 'singleton'
 require 'io/console'
+require 'net/ssh'
 
 Specinfra::Configuration.error_on_missing_backend_type = true
 
@@ -152,7 +153,10 @@ module Itamae
         opts = {}
 
         opts[:host_name] = @options[:host]
-        opts[:user] = @options[:user] || Etc.getlogin
+
+        # from ssh-config
+        opts.merge!(Net::SSH::Config.for(@options[:host]))
+        opts[:user] = @options[:user] || opts[:user] || Etc.getlogin
         opts[:keys] = [@options[:key]] if @options[:key]
         opts[:port] = @options[:port] if @options[:port]
         opts[:disable_sudo] = true unless @options[:sudo]
