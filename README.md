@@ -17,41 +17,13 @@ Simple and lightweight configuration management tool inspired by Chef.
 $ gem install itamae
 ```
 
-## Basic Usage
+## Getting Started
 
-### Run locally
-
-```
-$ sudo itamae local -j example/node.json recipe.rb
-```
-
-### Run via SSH
-
-```
-$ itamae ssh -j example/node.json -h 192.168.10.10 -p 22 -u user -i /path/to/private_key recipe.rb
-```
-
-#### Vagrant Integration
-
-```
-$ itamae ssh -h vagrant_vm_name --vagrant recipe.rb
-```
-
-## Recipes
-
-You can write recipes like Chef's one.
-
-```ruby
-package "dstat" do
-  action :install
-end
-```
-
-Further example is here: [spec/integration/recipes/default.rb](spec/integration/recipes/default.rb)
+https://github.com/itamae-kitchen/itamae/wiki/Getting-Started
 
 ## Documentations
 
-- https://github.com/itamae-kitchen/itamae/wiki
+https://github.com/itamae-kitchen/itamae/wiki
 
 ## Run tests
 
