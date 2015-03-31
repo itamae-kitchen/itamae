@@ -1,8 +1,14 @@
+## v1.2.8
+
+Improvements
+
+- [Load ~/.ssh/config (by @maruware)](https://github.com/itamae-kitchen/itamae/pull/115)
+
 ## v1.2.7
 
 Bugfixes
 
-- Backend::Docker#finalize should be public.
+- Backend::Docker#finalize should be public. (by @mizzy)
 
 ## v1.2.6
 
