@@ -1,3 +1,9 @@
+## v1.2.10
+
+Bugfixes
+
+- [Use given attribute value even if it's falsey (by @sorah)](https://github.com/itamae-kitchen/itamae/pull/117)
+
 ## v1.2.9
 
 Bugfixes
