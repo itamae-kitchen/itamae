@@ -1,3 +1,20 @@
+## v1.2.9
+
+Bugfixes
+
+- Do not use local variable named `variables`.
+
+If `variables` is used as local variable's name, the following causes a syntax error.
+
+```
+template "..." do
+  variables foo: bar
+  # variables(foo: bar) # This never cause a syntax error
+end
+```
+
+See also: https://bugs.ruby-lang.org/issues/11016
+
 ## v1.2.8
 
 Improvements
