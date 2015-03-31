@@ -21,6 +21,18 @@ describe DefineAttributeTestResource do
       end
     end
 
+    describe "falsey" do
+      subject do
+        described_class.new(double(:recipe), 'resource name') do
+          required_attribute :required_value
+          default_attribute nil
+        end
+      end
+      it "returns the default value" do
+        expect(subject.attributes[:default_attribute]).to eq(nil)
+      end
+    end
+
     describe "required" do
       subject do
         described_class.new(double(:recipe), 'resource name') do
