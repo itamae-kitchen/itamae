@@ -36,8 +36,8 @@ module Itamae
       ::File.dirname(@path)
     end
 
-    def load(variables = {})
-      context = EvalContext.new(self, variables)
+    def load(vars = {})
+      context = EvalContext.new(self, vars)
       context.instance_eval(File.read(path), path, 1)
     end
 
@@ -62,10 +62,10 @@ module Itamae
     end
 
     class EvalContext
-      def initialize(recipe, variables)
+      def initialize(recipe, vars)
         @recipe = recipe
 
-        variables.each do |k, v|
+        vars.each do |k, v|
           define_singleton_method(k) { v }
         end
       end
@@ -128,8 +128,8 @@ module Itamae
     class RecipeFromDefinition < Recipe
       attr_accessor :definition
 
-      def load(variables = {})
-        context = EvalContext.new(self, variables)
+      def load(vars = {})
+        context = EvalContext.new(self, vars)
         context.instance_eval(&@definition.class.definition_block)
       end
 

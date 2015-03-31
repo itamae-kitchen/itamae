@@ -103,12 +103,12 @@ end
 
 template "/tmp/template" do
   source "hello.erb"
-  variables(goodbye: "Good bye")
+  variables goodbye: "Good bye"
 end
 
 template "/tmp/template_auto" do
   source :auto
-  variables(goodbye: "Good bye")
+  variables goodbye: "Good bye"
 end
 
 file "/tmp/file" do
