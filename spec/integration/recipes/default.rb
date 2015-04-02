@@ -2,6 +2,8 @@ node.reverse_merge!({
   message: "Hello, Itamae"
 })
 
+execute 'apt-get update'
+
 include_recipe "./included.rb"
 include_recipe "./included.rb" # including the same recipe is expected to be skipped.
 
