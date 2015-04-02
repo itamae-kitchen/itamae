@@ -11,6 +11,13 @@ module Itamae
       define_attribute :system_user, type: [TrueClass, FalseClass]
       define_attribute :uid, type: Integer
 
+      def pre_action
+        case @current_action
+        when :create
+          attributes.exist = true
+        end
+      end
+
       def set_current_attributes
         current.exist = exist?
 
@@ -74,4 +81,3 @@ module Itamae
     end
   end
 end
-
