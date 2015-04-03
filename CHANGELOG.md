@@ -1,3 +1,9 @@
+## v1.2.11
+
+Bugfixes
+
+- [Show difference of user resource when it is created. by @gongo](https://github.com/itamae-kitchen/itamae/pull/118)
+
 ## v1.2.10
 
 Bugfixes
