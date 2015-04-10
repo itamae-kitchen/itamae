@@ -1,10 +1,14 @@
-box: ruby:2.2.1
+box: ruby
 # Build definition
 build:
   # The steps that will be executed on build
   # See the Ruby section on the wercker devcenter:
   # http://devcenter.wercker.com/articles/languages/ruby.html
   steps:
+    # Uncomment this to force RVM to use a specific Ruby version
+    - rvm-use:
+        version: 2.1.4
+
     - script:
         name: update bundler
         code: gem update bundler
