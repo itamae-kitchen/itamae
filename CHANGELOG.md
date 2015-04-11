@@ -1,3 +1,10 @@
+## v1.2.12
+
+Bugfixes
+
+- Run delayed notifications created by a delayed notification.
+- Set updated false after executing resources.
+
 ## v1.2.11
 
 Bugfixes
