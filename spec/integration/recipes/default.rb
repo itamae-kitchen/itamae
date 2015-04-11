@@ -236,3 +236,42 @@ execute 'true' do
   verify 'true'
 end
 
+#####
+
+execute 'echo 1 > /tmp/multi_delayed_notifies' do
+  notifies :run, "execute[echo 2 >> /tmp/multi_delayed_notifies]"
+end
+
+execute 'echo 2 >> /tmp/multi_delayed_notifies' do
+  action :nothing
+  notifies :run, "execute[echo 3 >> /tmp/multi_delayed_notifies]"
+end
+
+execute 'echo 3 >> /tmp/multi_delayed_notifies' do
+  action :nothing
+  notifies :run, "execute[echo 4 >> /tmp/multi_delayed_notifies]"
+end
+
+execute 'echo 4 >> /tmp/multi_delayed_notifies' do
+  action :nothing
+end
+
+#####
+
+execute 'echo 1 > /tmp/multi_immediately_notifies' do
+  notifies :run, "execute[echo 2 >> /tmp/multi_immediately_notifies]", :immediately
+end
+
+execute 'echo 2 >> /tmp/multi_immediately_notifies' do
+  action :nothing
+  notifies :run, "execute[echo 3 >> /tmp/multi_immediately_notifies]", :immediately
+end
+
+execute 'echo 3 >> /tmp/multi_immediately_notifies' do
+  action :nothing
+  notifies :run, "execute[echo 4 >> /tmp/multi_immediately_notifies]", :immediately
+end
+
+execute 'echo 4 >> /tmp/multi_immediately_notifies' do
+  action :nothing
+end
