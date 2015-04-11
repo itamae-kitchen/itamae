@@ -46,16 +46,21 @@ module Itamae
 
       Logger.formatter.with_indent do
         @children.run(options)
-
-        @delayed_notifications.uniq do |notification|
-          [notification.action, notification.action_resource]
-        end.each do |notification|
-          notification.run(options)
-        end
+        run_delayed_notifications(options)
       end
     end
 
     private
+
+    def run_delayed_notifications(options)
+      @delayed_notifications.uniq! do |notification|
+        [notification.action, notification.action_resource]
+      end
+
+      while notification = @delayed_notifications.shift
+        notification.run(options)
+      end
+    end
 
     def show_banner
       Logger.info "Recipe: #{@path}"
