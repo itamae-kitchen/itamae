@@ -134,6 +134,8 @@ module Itamae
           verify unless options[:dry_run]
           notify(options) if updated?
         end
+
+        @updated = false
       rescue Backend::CommandExecutionError
         Logger.error "#{resource_type}[#{resource_name}] Failed."
         exit 2
