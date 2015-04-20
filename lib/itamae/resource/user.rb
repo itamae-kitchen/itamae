@@ -10,6 +10,7 @@ module Itamae
       define_attribute :password, type: String
       define_attribute :system_user, type: [TrueClass, FalseClass]
       define_attribute :uid, type: Integer
+      define_attribute :shell, type: String
 
       def pre_action
         case @current_action
@@ -25,6 +26,7 @@ module Itamae
           current.uid = run_specinfra(:get_user_uid, attributes.username).stdout.strip.to_i
           current.gid = run_specinfra(:get_user_gid, attributes.username).stdout.strip.to_i
           current.home = run_specinfra(:get_user_home_directory, attributes.username).stdout.strip
+          current.shell = run_specinfra(:get_user_login_shell, attributes.username).stdout.strip
           current.password = current_password
         end
       end
@@ -50,6 +52,11 @@ module Itamae
             run_specinfra(:update_user_home_directory, attributes.username, attributes.home)
             updated!
           end
+
+          if attributes.shell && attributes.shell != current.shell
+            run_specinfra(:update_user_login_shell, attributes.username, attributes.shell)
+            updated!
+          end
         else
           options = {
             gid:            attributes.gid,
@@ -57,6 +64,7 @@ module Itamae
             password:       attributes.password,
             system_user:    attributes.system_user,
             uid:            attributes.uid,
+            shell:          attributes.shell,
           }
 
           run_specinfra(:add_user, attributes.username, options)
