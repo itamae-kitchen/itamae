@@ -1,3 +1,9 @@
+## v1.2.13
+
+Features
+
+- [Add "shell" attribute to user resource (by @toritori0318)](https://github.com/itamae-kitchen/itamae/pull/120)
+
 ## v1.2.12
 
 Bugfixes
