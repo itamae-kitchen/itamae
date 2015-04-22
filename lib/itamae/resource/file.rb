@@ -9,11 +9,20 @@ module Itamae
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
+      define_attribute :block, type: Proc, default: proc {}
 
       def pre_action
         case @current_action
         when :create
           attributes.exist = true
+        when :delete
+          attributes.exist = false
+        when :edit
+          attributes.exist = true
+
+          content = receive_file(attributes.path)
+          attributes.block.call(content)
+          attributes.content = content
         end
 
         send_tempfile
@@ -70,6 +79,14 @@ module Itamae
           run_specinfra(:remove_file, attributes.path)
         end
       end
+
+      def action_edit(options)
+        run_command(['chmod', '--reference', attributes.path, @temppath])
+        run_command(['chown', '--reference', attributes.path, @temppath])
+        run_specinfra(:move_file, @temppath, attributes.path)
+      end
+
+      private
 
       def show_file_diff
         diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)

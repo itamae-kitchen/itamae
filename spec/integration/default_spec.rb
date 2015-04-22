@@ -146,3 +146,11 @@ describe file('/tmp/multi_immediately_notifies') do
   it { should be_file }
   its(:content) { should eq("1\n2\n3\n4\n") }
 end
+
+describe file('/tmp/file_edit_sample') do
+  it { should be_file }
+  its(:content) { should eq("Hello, Itamae") }
+  it { should be_mode 444 }
+  it { should be_owned_by "itamae" }
+  it { should be_grouped_into "itamae" }
+end

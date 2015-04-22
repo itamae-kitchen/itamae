@@ -277,3 +277,19 @@ end
 execute 'echo 4 >> /tmp/multi_immediately_notifies' do
   action :nothing
 end
+
+#####
+
+file '/tmp/file_edit_sample' do
+  content 'Hello, world'
+  owner 'itamae'
+  group 'itamae'
+  mode '444'
+end
+
+file '/tmp/file_edit_sample' do
+  action :edit
+  block do |content|
+    content.gsub!('world', 'Itamae')
+  end
+end

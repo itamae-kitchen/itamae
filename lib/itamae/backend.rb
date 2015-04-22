@@ -107,6 +107,10 @@ module Itamae
         @backend.command.get(*args)
       end
 
+      def receive_file(*args)
+        @backend.receive_file(*args)
+      end
+
       def send_file(*args)
         @backend.send_file(*args)
       end

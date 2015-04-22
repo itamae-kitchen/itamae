@@ -249,6 +249,15 @@ module Itamae
         end
       end
 
+      def receive_file(src, dst = nil)
+        if dst
+          Logger.debug "Receiving a file from '#{src}' to '#{dst}'..."
+        else
+          Logger.debug "Receiving a file from '#{src}'..."
+        end
+        backend.receive_file(src, dst)
+      end
+
       def send_file(src, dst)
         Logger.debug "Sending a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
