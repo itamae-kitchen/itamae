@@ -107,16 +107,32 @@ module Itamae
         @backend.command.get(*args)
       end
 
-      def receive_file(*args)
-        @backend.receive_file(*args)
+      def receive_file(src, dst = nil)
+        if dst
+          Logger.debug "Receiving a file from '#{src}' to '#{dst}'..."
+        else
+          Logger.debug "Receiving a file from '#{src}'..."
+        end
+        @backend.receive_file(src, dst)
       end
 
-      def send_file(*args)
-        @backend.send_file(*args)
+      def send_file(src, dst)
+        Logger.debug "Sending a file from '#{src}' to '#{dst}'..."
+        unless ::File.exist?(src)
+          raise Error, "The file '#{src}' doesn't exist."
+        end
+        @backend.send_file(src, dst)
       end
 
-      def send_directory(*args)
-        @backend.send_directory(*args)
+      def send_directory(src, dst)
+        Logger.debug "Sending a directory from '#{src}' to '#{dst}'..."
+        unless ::File.directory?(src)
+          raise Error, "'#{src}' is not directory."
+        end
+        unless ::File.exist?(src)
+          raise Error, "The directory '#{src}' doesn't exist."
+        end
+        @backend.send_directory(src, dst)
       end
 
       def host_inventory

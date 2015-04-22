@@ -15,7 +15,7 @@ module Itamae
         src = ::File.expand_path(directory, ::File.dirname(@recipe.path))
 
         @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
-        send_directory(src, @temppath)
+        backend.send_directory(src, @temppath)
 
         case @current_action
         when :create

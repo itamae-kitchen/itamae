@@ -20,7 +20,7 @@ module Itamae
         when :edit
           attributes.exist = true
 
-          content = receive_file(attributes.path)
+          content = backend.receive_file(attributes.path)
           attributes.block.call(content)
           attributes.content = content
         end
@@ -127,7 +127,7 @@ module Itamae
                 end
 
           @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
-          send_file(src, @temppath)
+          backend.send_file(src, @temppath)
         ensure
           f.unlink if f
         end
