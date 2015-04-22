@@ -11,26 +11,12 @@ module Itamae
       define_attribute :group, type: String
 
       def pre_action
-        begin
-          src = if content_file
-                  content_file
-                else
-                  f = Tempfile.open('itamae')
-                  f.write(attributes.content)
-                  f.close
-                  f.path
-                end
-
-          @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
-          send_file(src, @temppath)
-        ensure
-          f.unlink if f
-        end
-
         case @current_action
         when :create
           attributes.exist = true
         end
+
+        send_tempfile
       end
 
       def set_current_attributes
@@ -110,6 +96,24 @@ module Itamae
       # will be overridden
       def content_file
         nil
+      end
+
+      def send_tempfile
+        begin
+          src = if content_file
+                  content_file
+                else
+                  f = Tempfile.open('itamae')
+                  f.write(attributes.content)
+                  f.close
+                  f.path
+                end
+
+          @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
+          send_file(src, @temppath)
+        ensure
+          f.unlink if f
+        end
       end
     end
   end
