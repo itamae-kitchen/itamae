@@ -2,6 +2,12 @@
 
 module Specinfra
   module Backend
+    class Base
+      def receive_file(from, to = nil)
+        raise NotImplementedError
+      end
+    end
+
     class Exec < Base
       def receive_file(from, to = nil)
         if to
