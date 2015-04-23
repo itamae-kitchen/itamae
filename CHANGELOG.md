@@ -1,3 +1,9 @@
+## v1.2.14
+
+Features
+
+- "edit" action of "file" resource
+
 ## v1.2.13
 
 Features
