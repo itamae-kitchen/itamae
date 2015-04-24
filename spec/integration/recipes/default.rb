@@ -3,6 +3,9 @@ node.reverse_merge!({
 })
 
 execute 'apt-get update'
+execute 'deluser --remove-home itamae2' do
+  only_if "id itamae2"
+end
 
 include_recipe "./included.rb"
 include_recipe "./included.rb" # including the same recipe is expected to be skipped.
@@ -21,6 +24,13 @@ user "update itamae user" do
   password "$1$TQz9gPMl$nHYrsA5W2ZdZ0Yn021BQH1"
   home '/home/itamae'
   shell '/bin/dash'
+end
+
+user "create itamae2 user with create home directory" do
+  username "itamae2"
+  create_home true
+  home "/home/itamae2"
+  shell "/bin/sh"
 end
 
 ######
