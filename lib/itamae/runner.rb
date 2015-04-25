@@ -66,7 +66,8 @@ module Itamae
         end
 
         Logger.info "Loading node data via ohai..."
-        hash.merge!(JSON.parse(@backend.run_command("ohai").stdout))
+        ohai_directory_option = @options[:ohai_directory] ? "-d #{@options[:ohai_directory]}" : ""
+        hash.merge!(JSON.parse(@backend.run_command("ohai #{ohai_directory_option}").stdout))
       end
 
       if @options[:node_json]
