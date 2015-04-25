@@ -20,9 +20,14 @@ module Itamae
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
     option :ohai, type: :boolean, default: false
+    option :ohai_directory, type: :string, aliases: ['-d']
     def local(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
+      end
+
+      if options[:ohai_directory] && !options[:ohai]
+        raise "Please set '--ohai'"
       end
 
       Runner.run(recipe_files, :local, options)
@@ -38,6 +43,7 @@ module Itamae
     option :key, type: :string, aliases: ['-i']
     option :port, type: :numeric, aliases: ['-p']
     option :ohai, type: :boolean, default: false
+    option :ohai_directory, type: :string, aliases: ['-d']
     option :vagrant, type: :boolean, default: false
     option :ask_password, type: :boolean, default: false
     option :sudo, type: :boolean, default: true
@@ -50,6 +56,10 @@ module Itamae
         raise "Please set '-h <hostname>' or '--vagrant'"
       end
 
+      if options[:ohai_directory] && !options[:ohai]
+        raise "Please set '--ohai'"
+      end
+
       Runner.run(recipe_files, :ssh, options)
     end
 
@@ -59,11 +69,16 @@ module Itamae
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
     option :ohai, type: :boolean, default: false
+    option :ohai_directory, type: :string, aliases: ['-d']
     option :image, type: :string, required: true
     option :tls_verify_peer, type: :boolean, default: true
     def docker(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
+      end
+
+      if options[:ohai_directory] && !options[:ohai]
+        raise "Please set '--ohai'"
       end
 
       Runner.run(recipe_files, :docker, options)
