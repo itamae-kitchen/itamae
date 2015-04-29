@@ -26,6 +26,7 @@ module Itamae
   module Backend
     UnknownBackendTypeError = Class.new(StandardError)
     CommandExecutionError = Class.new(StandardError)
+    SourceNotExistError = Class.new(StandardError)
 
     class << self
       def create(type, opts = {})
@@ -119,18 +120,21 @@ module Itamae
       def send_file(src, dst)
         Logger.debug "Sending a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
-          raise Error, "The file '#{src}' doesn't exist."
+          raise SourceNotExistError, "The file '#{src}' doesn't exist."
+        end
+        unless ::File.file?(src)
+          raise SourceNotExistError, "'#{src}' is not a file."
         end
         @backend.send_file(src, dst)
       end
 
       def send_directory(src, dst)
         Logger.debug "Sending a directory from '#{src}' to '#{dst}'..."
-        unless ::File.directory?(src)
-          raise Error, "'#{src}' is not directory."
-        end
         unless ::File.exist?(src)
-          raise Error, "The directory '#{src}' doesn't exist."
+          raise SourceNotExistError, "The directory '#{src}' doesn't exist."
+        end
+        unless ::File.directory?(src)
+          raise SourceNotExistError, "'#{src}' is not a directory."
         end
         @backend.send_directory(src, dst)
       end
