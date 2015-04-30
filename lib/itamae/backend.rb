@@ -168,7 +168,7 @@ module Itamae
         Specinfra::Backend::Ssh.new(
           request_pty: true,
           host: ssh_options[:host_name],
-          disable_sudo: ssh_options[:disable_sudo],
+          disable_sudo: disable_sudo?,
           ssh_options: ssh_options,
         )
       end
@@ -183,7 +183,6 @@ module Itamae
         opts[:user] = @options[:user] || opts[:user] || Etc.getlogin
         opts[:keys] = [@options[:key]] if @options[:key]
         opts[:port] = @options[:port] if @options[:port]
-        opts[:disable_sudo] = true unless @options[:sudo]
 
         if @options[:vagrant]
           config = Tempfile.new('', Dir.tmpdir)
@@ -200,6 +199,10 @@ module Itamae
         end
 
         opts
+      end
+
+      def disable_sudo?
+        !@options[:sudo]
       end
     end
 

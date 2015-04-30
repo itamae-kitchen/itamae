@@ -52,5 +52,43 @@ module Itamae
         end
       end
     end
+
+    describe Ssh do
+
+      describe "#ssh_options" do
+        subject { ssh.send(:ssh_options) }
+
+        let!(:ssh) { described_class.new(options) }
+        let!(:host_name) { "example.com" }
+        let!(:default_option) do
+          opts = {}
+          opts[:host_name] = nil
+          opts.merge!(Net::SSH::Config.for(host_name))
+          opts[:user] = opts[:user] || Etc.getlogin
+          opts
+        end
+
+        context "with host option" do
+          let(:options) { {host: host_name} }
+          it { is_expected.to eq( default_option.merge({host_name: host_name}) ) }
+        end
+      end
+
+      describe "#disable_sudo?" do
+        subject { ssh.send(:disable_sudo?) }
+
+        let!(:ssh) { described_class.new(options)}
+
+        context "when sudo option is true" do
+          let(:options) { {sudo: true} }
+          it { is_expected.to eq(false) }
+        end
+
+        context "when sudo option is false" do
+          let(:options) { {sudo: false} }
+          it { is_expected.to eq(true) }
+        end
+      end
+    end
   end
 end
