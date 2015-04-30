@@ -1,3 +1,10 @@
+## v1.2.15
+
+Bugfixes
+
+- [Fix --no-sudo to work properly (by @evalphobia)](https://github.com/itamae-kitchen/itamae/pull/126)
+- [Fix a glitch on raising exception when source doesn't exist (by @mozamimy)](https://github.com/itamae-kitchen/itamae/pull/125)
+
 ## v1.2.14
 
 Features
