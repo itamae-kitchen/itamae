@@ -14,6 +14,7 @@ require 'itamae/resource/git'
 require 'itamae/resource/user'
 require 'itamae/resource/group'
 require 'itamae/resource/gem_package'
+require 'itamae/resource/mysql'
 
 module Itamae
   module Resource
