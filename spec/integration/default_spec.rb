@@ -97,6 +97,10 @@ describe file('/tmp-link') do
   end
 end
 
+describe file('/tmp-link-force') do
+  it { should be_linked_to '/tmp' }
+end
+
 describe command('cd /tmp/git_repo && git rev-parse HEAD') do
   its(:stdout) { should match(/3116e170b89dc0f7315b69c1c1e1fd7fab23ac0d/) }
 end

@@ -6,6 +6,7 @@ module Itamae
       define_attribute :action, default: :create
       define_attribute :link, type: String, default_name: true
       define_attribute :to, type: String, required: true
+      define_attribute :force, default: false
 
       def pre_action
         case @current_action
@@ -24,7 +25,7 @@ module Itamae
 
       def action_create(options)
         unless run_specinfra(:check_file_is_linked_to, attributes.link, attributes.to)
-          run_specinfra(:link_file_to, attributes.link, attributes.to)
+          run_specinfra(:link_file_to, attributes.link, attributes.to, force: attributes.force)
         end
       end
     end
