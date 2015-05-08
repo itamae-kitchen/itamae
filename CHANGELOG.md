@@ -1,3 +1,9 @@
+## v1.2.16
+
+Improvements
+
+- [`force` option for `link` resource (by @mikeda)](https://github.com/itamae-kitchen/itamae/pull/128)
+
 ## v1.2.15
 
 Bugfixes
