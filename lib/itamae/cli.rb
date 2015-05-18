@@ -19,7 +19,7 @@ module Itamae
     option :node_json, type: :string, aliases: ['-j']
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
-    option :ohai, type: :boolean, default: false
+    option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
     def local(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
@@ -37,7 +37,7 @@ module Itamae
     option :user, type: :string, aliases: ['-u']
     option :key, type: :string, aliases: ['-i']
     option :port, type: :numeric, aliases: ['-p']
-    option :ohai, type: :boolean, default: false
+    option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
     option :vagrant, type: :boolean, default: false
     option :ask_password, type: :boolean, default: false
     option :sudo, type: :boolean, default: true
@@ -58,7 +58,7 @@ module Itamae
     option :node_json, type: :string, aliases: ['-j']
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
-    option :ohai, type: :boolean, default: false
+    option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
     option :image, type: :string, required: true
     option :tls_verify_peer, type: :boolean, default: true
     def docker(*recipe_files)
