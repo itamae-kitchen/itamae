@@ -1,3 +1,9 @@
+## v1.2.17
+
+Features
+
+- [Support provider for service resource (by @sonots)](https://github.com/itamae-kitchen/itamae/pull/134)
+
 ## v1.2.16
 
 Improvements
