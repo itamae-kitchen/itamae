@@ -128,6 +128,10 @@ module Itamae
       def runner
         @recipe.runner
       end
+
+      def run_command(*args)
+        runner.backend.run_command(*args)
+      end
     end
 
     class RecipeFromDefinition < Recipe

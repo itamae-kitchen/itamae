@@ -60,6 +60,10 @@ module Itamae
           @resource.recipe.runner.node
         end
 
+        def run_command(*args)
+          @resource.recipe.runner.backend.run_command(*args)
+        end
+
         # Experimental
         def verify(command)
           @verify_commands << command

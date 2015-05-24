@@ -299,3 +299,29 @@ file '/tmp/file_edit_sample' do
     content.gsub!('world', 'Itamae')
   end
 end
+
+###
+
+unless run_command("echo -n Hello").stdout == "Hello"
+  raise "run_command in a recipe failed"
+end
+
+define :run_command_in_definition do
+  unless run_command("echo -n Hello").stdout == "Hello"
+    raise "run_command in a definition failed"
+  end
+end
+
+execute "echo Hello" do
+  unless run_command("echo -n Hello").stdout == "Hello"
+    raise "run_command in a resource failed"
+  end
+end
+
+local_ruby_block 'execute run_command' do
+  block do
+    unless run_command("echo -n Hello").stdout == "Hello"
+      raise "run_command in local_ruby_block failed"
+    end
+  end
+end
