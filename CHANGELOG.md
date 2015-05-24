@@ -1,3 +1,9 @@
+## v1.2.18
+
+Features
+
+- `run_command` method in a recipe, definition and resource
+
 ## v1.2.17
 
 Features
