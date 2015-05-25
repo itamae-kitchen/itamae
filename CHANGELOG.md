@@ -1,3 +1,9 @@
+## v1.2.19
+
+Features
+
+- [`create_home` attribute of user resource (by @xibbar)](https://github.com/itamae-kitchen/itamae/pull/131)
+
 ## v1.2.18
 
 Features
