@@ -335,3 +335,13 @@ local_ruby_block 'execute run_command' do
     end
   end
 end
+
+###
+
+v1 = node.memory.total
+v2 = node[:memory][:total]
+v3 = node['memory']['total']
+
+unless v1 == v2 && v2 == v3 && v1 =~ /\A\d+kB\z/
+  raise "failed to fetch host inventory value (#{v1}, #{v2}, #{v3})"
+end
