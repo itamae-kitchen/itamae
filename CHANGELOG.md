@@ -1,3 +1,9 @@
+## v1.2.20
+
+Improvements
+
+- [Wrap host inventory value with Hashie::Mash to access it by a method call](https://github.com/itamae-kitchen/itamae/pull/135)
+
 ## v1.2.19
 
 Features
