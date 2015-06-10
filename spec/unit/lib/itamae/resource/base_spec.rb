@@ -106,7 +106,7 @@ describe TestResource do
   end
   let(:recipe) do
     double(:recipe).tap do |r|
-      r.stub(:runner).and_return(runner)
+      allow(r).to receive(:runner).and_return(runner)
     end
   end
 

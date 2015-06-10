@@ -19,7 +19,7 @@ module Itamae
         pending "Rewrite later"
         recipes.each do |r|
           recipe = double(:recipe)
-          Recipe.stub(:new).with(
+          allow(Recipe).to receive(:new).with(
             an_instance_of(Itamae::Runner),
             File.expand_path(r)
           ).and_return(recipe)
