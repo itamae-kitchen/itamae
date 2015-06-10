@@ -184,8 +184,13 @@ module Itamae
           Logger.debug "(in show_differences)"
           show_differences
 
-          unless options[:dry_run]
-            public_send("action_#{action}".to_sym, options)
+          method_name = "action_#{action}"
+          if options[:dry_run]
+            unless respond_to?(method_name)
+              Logger.error "action #{action.inspect} is unavailable"
+            end
+          else
+            public_send(method_name, options)
           end
 
           updated! if different?

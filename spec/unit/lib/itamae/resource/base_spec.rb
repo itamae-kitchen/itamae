@@ -113,10 +113,21 @@ describe TestResource do
   describe "#run" do
     before do
       subject.attributes.action = :name
+      allow(Itamae::Logger).to receive(:debug)  # suppress logger output
     end
+
     it "executes <ACTION_NAME>_action method" do
       expect(subject).to receive(:action_name)
       subject.run
+    end
+
+    context 'with dry_run' do
+      context 'when specified action is unavailable' do
+        it 'logs error' do
+          expect(Itamae::Logger).to receive(:error).with(/action :name is unavailable/)
+          subject.run(nil, dry_run: true)
+        end
+      end
     end
   end
 end
