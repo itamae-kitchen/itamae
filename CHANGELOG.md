@@ -1,3 +1,10 @@
+## v1.2.21
+
+Improvements
+
+- [Show error message when specified action is unavailable in dry_run mode (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/137)
+- [Fix deprecation warnings in unit tests (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/138)
+
 ## v1.2.20
 
 Improvements
