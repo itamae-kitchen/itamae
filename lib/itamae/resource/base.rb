@@ -175,11 +175,19 @@ module Itamae
         return if action == :nothing
 
         Logger.formatter.with_indent_if(Logger.debug?) do
-          Logger.debug "(in pre_action)"
-          pre_action
+          if self.class.instance_methods(false).include?(:set_attributes)
+            Logger.debug "(in set_attributes)"
+            set_attributes
 
-          Logger.debug "(in set_current_attributes)"
-          set_current_attributes
+            Logger.debug "(in pre_action)"
+            pre_action
+          else
+            Logger.debug "(in pre_action)"
+            pre_action
+
+            Logger.debug "(in set_current_attributes)"
+            set_current_attributes
+          end
 
           Logger.debug "(in show_differences)"
           show_differences
@@ -207,7 +215,12 @@ module Itamae
         # do nothing
       end
 
+      # This is deprecated. use set_attributes instead
       def set_current_attributes
+        # do nothing
+      end
+
+      def set_attributes
         # do nothing
       end
 
