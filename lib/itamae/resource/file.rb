@@ -11,24 +11,7 @@ module Itamae
       define_attribute :group, type: String
       define_attribute :block, type: Proc, default: proc {}
 
-      def pre_action
-        case @current_action
-        when :create
-          attributes.exist = true
-        when :delete
-          attributes.exist = false
-        when :edit
-          attributes.exist = true
-
-          content = backend.receive_file(attributes.path)
-          attributes.block.call(content)
-          attributes.content = content
-        end
-
-        send_tempfile
-      end
-
-      def set_current_attributes
+      def set_attributes
         current.exist = run_specinfra(:check_file_is_file, attributes.path)
 
         if current.exist
@@ -40,6 +23,26 @@ module Itamae
           current.owner = nil
           current.group = nil
         end
+
+        case @current_action
+        when :create, :edit
+          attributes.exist = true
+        when :delete
+          attributes.exist = false
+        end
+      end
+
+      def pre_action
+        case @current_action
+        when :edit
+          attributes.exist = true
+
+          content = backend.receive_file(attributes.path)
+          attributes.block.call(content)
+          attributes.content = content
+        end
+
+        send_tempfile
       end
 
       def show_differences
