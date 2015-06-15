@@ -58,7 +58,7 @@ module Itamae
 
         user = options[:user]
         if user
-          command = "sudo -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
+          command = "sudo -H -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
         end
 
         Logger.debug "Executing `#{command}`..."

@@ -108,6 +108,7 @@ end
 describe file('/tmp/created_by_itamae_user') do
   it { should be_file }
   it { should be_owned_by 'itamae' }
+  its(:content) { should eq('/home/itamae') }
 end
 
 describe file('/tmp/created_in_default2') do

@@ -205,7 +205,7 @@ end
 
 #####
 
-execute "echo Hello > /tmp/created_by_itamae_user" do
+execute "echo -n $HOME > /tmp/created_by_itamae_user" do
   user "itamae"
 end
 
