@@ -1,3 +1,9 @@
+## v1.3.0
+
+Improvements
+
+- Update `HOME` environment variable when `user` attribute is specified. (incompatible change)
+
 ## v1.2.21
 
 Improvements
