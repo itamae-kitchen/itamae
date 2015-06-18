@@ -13,6 +13,8 @@ module Itamae
         case @current_action
         when :create
           attributes.exist = true
+        when :delete
+          attributes.exist = false
         end
       end
 
@@ -47,6 +49,12 @@ module Itamae
         end
         if attributes.owner || attributes.group
           run_specinfra(:change_file_owner, attributes.path, attributes.owner, attributes.group)
+        end
+      end
+
+      def action_delete(options)
+        if run_specinfra(:check_file_is_directory, attributes.path)
+          run_specinfra(:remove_file, attributes.path)
         end
       end
     end
