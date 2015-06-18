@@ -1,3 +1,9 @@
+## v1.3.1
+
+Features
+
+- [Add `delete` action to `directory` resource (by @rrreeeyyy)](https://github.com/itamae-kitchen/itamae/pull/139)
+
 ## v1.3.0
 
 Improvements
