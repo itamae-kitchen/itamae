@@ -37,6 +37,10 @@ describe file('/tmp/directory') do
   it { should be_grouped_into "itamae" }
 end
 
+describe file('/tmp/directory_never_exist1') do
+  it { should_not be_directory }
+end
+
 %w!/tmp/template /tmp/template_auto!.each do |f|
   describe file(f) do
     it { should be_file }
