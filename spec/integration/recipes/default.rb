@@ -115,6 +115,14 @@ directory "/tmp/directory" do
   group "itamae"
 end
 
+directory "/tmp/directory_never_exist1" do
+  action :create
+end
+
+directory "/tmp/directory_never_exist1" do
+  action :delete
+end
+
 template "/tmp/template" do
   source "hello.erb"
   variables goodbye: "Good bye"
