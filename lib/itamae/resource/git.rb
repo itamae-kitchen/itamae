@@ -9,6 +9,7 @@ module Itamae
       define_attribute :destination, type: String, default_name: true
       define_attribute :repository, type: String, required: true
       define_attribute :revision, type: String
+      define_attribute :recursive, default: false
 
       def pre_action
         case @current_action
@@ -29,7 +30,11 @@ module Itamae
         if run_specinfra(:check_file_is_directory, attributes.destination)
           run_command_in_repo(['git', 'fetch', 'origin'])
         else
-          run_command(['git', 'clone', attributes.repository, attributes.destination])
+          if attributes.recursive
+            run_command(['git', 'clone', '--recursive', attributes.repository, attributes.destination])
+          else
+            run_command(['git', 'clone', attributes.repository, attributes.destination])
+          end
           new_repository = true
         end
 
