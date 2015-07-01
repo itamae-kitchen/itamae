@@ -169,3 +169,15 @@ describe file('/home/itamae2') do
   it { should be_owned_by "itamae2" }
   it { should be_grouped_into "itamae2" }
 end
+
+describe file('/tmp/disable_sudo_is_false') do
+  it { should be_file }
+  its(:content) { should eq("root\n") }
+end
+
+describe file('/tmp/disable_sudo_is_true') do
+  let(:current_user) { Specinfra.configuration.ssh_options[:user] }
+
+  it { should be_file }
+  its(:content) { should eq("#{current_user}\n") }
+end

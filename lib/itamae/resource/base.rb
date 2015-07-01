@@ -12,6 +12,7 @@ module Itamae
         attr_reader :verify_commands
         attr_reader :only_if_command
         attr_reader :not_if_command
+        attr_reader :temporary_disable_sudo
 
         def initialize(resource)
           @resource = resource
@@ -68,6 +69,10 @@ module Itamae
         def verify(command)
           @verify_commands << command
         end
+
+        def disable_sudo(temporary_disable_sudo)
+          @temporary_disable_sudo = temporary_disable_sudo
+        end
       end
 
       @defined_attributes ||= {}
@@ -114,6 +119,7 @@ module Itamae
           @only_if_command = context.only_if_command
           @not_if_command = context.not_if_command
           @verify_commands = context.verify_commands
+          @temporary_disable_sudo = context.temporary_disable_sudo
         end
 
         process_attributes
@@ -287,7 +293,18 @@ module Itamae
 
         args.last[:user] ||= attributes.user
 
-        backend.run_command(*args)
+        if @temporary_disable_sudo.nil?
+          backend.run_command(*args)
+        else
+          original_disable_sudo = Specinfra.configuration.disable_sudo
+          Specinfra.configuration.disable_sudo = @temporary_disable_sudo
+
+          result = backend.run_command(*args)
+
+          Specinfra.configuration.disable_sudo = original_disable_sudo
+
+          result
+        end
       end
 
       def check_command(*args)

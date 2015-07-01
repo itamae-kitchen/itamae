@@ -353,3 +353,13 @@ v3 = node['memory']['total']
 unless v1 == v2 && v2 == v3 && v1 =~ /\A\d+kB\z/
   raise "failed to fetch host inventory value (#{v1}, #{v2}, #{v3})"
 end
+
+###
+
+execute "whoami > /tmp/disable_sudo_is_false" do
+  disable_sudo false
+end
+
+execute "whoami > /tmp/disable_sudo_is_true" do
+  disable_sudo true
+end
