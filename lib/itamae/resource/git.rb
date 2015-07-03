@@ -35,6 +35,10 @@ module Itamae
           else
             run_command(['git', 'clone', attributes.repository, attributes.destination])
           end
+          cmd = ['git', 'clone']
+          cmd << '--recursive' if attributes.recursive
+          cmd << attributes.repository << attributes.destination
+          run_command(cmd)
           new_repository = true
         end
 
