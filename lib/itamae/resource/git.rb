@@ -30,11 +30,6 @@ module Itamae
         if run_specinfra(:check_file_is_directory, attributes.destination)
           run_command_in_repo(['git', 'fetch', 'origin'])
         else
-          if attributes.recursive
-            run_command(['git', 'clone', '--recursive', attributes.repository, attributes.destination])
-          else
-            run_command(['git', 'clone', attributes.repository, attributes.destination])
-          end
           cmd = ['git', 'clone']
           cmd << '--recursive' if attributes.recursive
           cmd << attributes.repository << attributes.destination
