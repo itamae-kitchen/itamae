@@ -211,6 +211,11 @@ git "/tmp/git_repo" do
   revision "v0.1.0"
 end
 
+git "/tmp/git_repo_submodule" do
+  repository "https://github.com/mmasaki/fake_repo_including_submodule.git"
+  recursive true
+end
+
 #####
 
 execute "echo -n $HOME > /tmp/created_by_itamae_user" do
