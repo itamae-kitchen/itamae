@@ -1,3 +1,9 @@
+## v1.3.2
+
+Features
+
+- [Add `recursive` attribute to `git` resource (by @mmasaki)](https://github.com/itamae-kitchen/itamae/pull/140)
+
 ## v1.3.1
 
 Features
