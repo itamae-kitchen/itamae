@@ -59,7 +59,8 @@ module Itamae
     option :node_yaml, type: :string, aliases: ['-y']
     option :dry_run, type: :boolean, aliases: ['-n']
     option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
-    option :image, type: :string, required: true
+    option :image, type: :string, desc: "This option or 'container' option is required."
+    option :container, type: :string, desc: "This option or 'image' option is required."
     option :tls_verify_peer, type: :boolean, default: true
     def docker(*recipe_files)
       if recipe_files.empty?
@@ -75,4 +76,3 @@ module Itamae
     end
   end
 end
-
