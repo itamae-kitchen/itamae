@@ -43,61 +43,37 @@ module Itamae
       def run_command(commands, options = {})
         options = {error: true}.merge(options)
 
-        if commands.is_a?(Array)
-          command = commands.map do |cmd|
-            Shellwords.escape(cmd)
-          end.join(' ')
-        else
-          command = commands
-        end
-
-        cwd = options[:cwd]
-        if cwd
-          command = "cd #{Shellwords.escape(cwd)} && #{command}"
-        end
-
-        user = options[:user]
-        if user
-          command = "sudo -H -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
-        end
-
+        command = build_command(commands, options)
         Logger.debug "Executing `#{command}`..."
 
-        result = @backend.run_command(command)
-        exit_status = result.exit_status
+        result = nil
 
         Logger.formatter.with_indent do
-          if exit_status == 0 || !options[:error]
+          reset_output_handler
+          result = @backend.run_command(command)
+          flush_output_handler_buffer
+
+          if result.exit_status == 0 || !options[:error]
             method = :debug
-            message = "exited with #{exit_status}"
+            message = "exited with #{result.exit_status}"
           else
             method = :error
-            message = "Command `#{command}` failed. (exit status: #{exit_status})"
+            message = "Command `#{command}` failed. (exit status: #{result.exit_status})"
+
+            unless Logger.logger.level == ::Logger::DEBUG
+              result.stdout.each_line do |l|
+                log_output_line("stdout", l, :error)
+              end
+              result.stderr.each_line do |l|
+                log_output_line("stderr", l, :error)
+              end
+            end
           end
 
           Logger.public_send(method, message)
-
-          {"stdout" => result.stdout, "stderr" => result.stderr}.each_pair do |name, value|
-            next unless value && value != ''
-
-            if value.bytesize > 1024 * 1024
-              Logger.public_send(method, "#{name} is suppressed because it's too large")
-              next
-            end
-
-            value.each_line do |line|
-              # remove control chars
-              case line.encoding
-              when Encoding::UTF_8
-                line = line.tr("\u0000-\u001f\u007f\u2028",'')
-              end
-
-              Logger.public_send(method, "#{name} | #{line}")
-            end
-          end
         end
 
-        if options[:error] && exit_status != 0
+        if options[:error] && result.exit_status != 0
           raise CommandExecutionError
         end
 
@@ -151,6 +127,59 @@ module Itamae
 
       def create_specinfra_backend
         raise NotImplementedError
+      end
+
+      def reset_output_handler
+        @buf = {}
+        %w!stdout stderr!.each do |output_name|
+          @buf[output_name] = ""
+          handler = lambda do |str|
+            lines = str.split(/\r?\n/, -1)
+            @buf[output_name] += lines.pop
+            unless lines.empty?
+              lines[0] = @buf[output_name] + lines[0]
+              @buf[output_name] = ""
+              lines.each do |l|
+                log_output_line(output_name, l)
+              end
+            end
+          end
+          @backend.public_send("#{output_name}_handler=", handler)
+        end
+      end
+
+      def flush_output_handler_buffer
+        @buf.each do |output_name, line|
+          next if line.empty?
+          log_output_line(output_name, line)
+        end
+      end
+
+      def log_output_line(output_name, line, severity = :debug)
+        line = line.gsub(/[[:cntrl:]]/, '')
+        Logger.public_send(severity, "#{output_name} | #{line}")
+      end
+
+      def build_command(commands, options)
+        if commands.is_a?(Array)
+          command = commands.map do |cmd|
+            Shellwords.escape(cmd)
+          end.join(' ')
+        else
+          command = commands
+        end
+
+        cwd = options[:cwd]
+        if cwd
+          command = "cd #{Shellwords.escape(cwd)} && #{command}"
+        end
+
+        user = options[:user]
+        if user
+          command = "sudo -H -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
+        end
+
+        command
       end
     end
 
