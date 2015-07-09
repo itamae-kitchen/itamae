@@ -1,3 +1,9 @@
+## v1.3.4
+
+Improvements
+
+- [Output stdout/err logs during command execution](https://github.com/itamae-kitchen/itamae/commit/24f140dd9744f30c645422959a6a72b6e31eacc4)
+
 ## v1.3.3
 
 Improvements
