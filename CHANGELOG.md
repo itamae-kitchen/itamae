@@ -1,3 +1,9 @@
+## v1.3.3
+
+Improvements
+
+- [Add `container` option to `docker` subcommand (by @marcy-terui)](https://github.com/itamae-kitchen/itamae/pull/142)
+
 ## v1.3.2
 
 Features
