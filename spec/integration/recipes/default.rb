@@ -263,6 +263,18 @@ end
 
 #####
 
+file "/tmp/file_create_without_content" do
+  content "Hello, World"
+end
+
+file "/tmp/file_create_without_content" do
+  owner "itamae"
+  group "itamae"
+  mode "600"
+end
+
+#####
+
 execute 'true' do
   verify 'true'
 end

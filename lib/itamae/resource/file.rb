@@ -5,7 +5,7 @@ module Itamae
     class File < Base
       define_attribute :action, default: :create
       define_attribute :path, type: String, default_name: true
-      define_attribute :content, type: String, default: ''
+      define_attribute :content, type: String, default: nil
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
@@ -54,24 +54,34 @@ module Itamae
       end
 
       def action_create(options)
-        if attributes.mode
-          run_specinfra(:change_file_mode, @temppath, attributes.mode)
-        end
-        if attributes.owner || attributes.group
-          run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
-        end
+        if attributes.content
+          if attributes.mode
+            run_specinfra(:change_file_mode, @temppath, attributes.mode)
+          end
+          if attributes.owner || attributes.group
+            run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
+          end
 
-        if run_specinfra(:check_file_is_file, attributes.path)
-          unless check_command(["diff", "-q", @temppath, attributes.path])
-            # the file is modified
+          if run_specinfra(:check_file_is_file, attributes.path)
+            unless check_command(["diff", "-q", @temppath, attributes.path])
+              # the file is modified
+              updated!
+            end
+          else
+            # new file
             updated!
           end
-        else
-          # new file
-          updated!
-        end
 
-        run_specinfra(:move_file, @temppath, attributes.path)
+          run_specinfra(:move_file, @temppath, attributes.path)
+        else
+          # do not touch content of file because content is not specfied
+          if attributes.mode
+            run_specinfra(:change_file_mode, attributes.path, attributes.mode)
+          end
+          if attributes.owner || attributes.group
+            run_specinfra(:change_file_owner, attributes.path, attributes.owner, attributes.group)
+          end
+        end
       end
 
       def action_delete(options)

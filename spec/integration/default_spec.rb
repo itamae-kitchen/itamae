@@ -173,3 +173,10 @@ describe file('/home/itamae2') do
   it { should be_owned_by "itamae2" }
   it { should be_grouped_into "itamae2" }
 end
+
+describe file('/tmp/file_create_without_content') do
+  its(:content) { should eq("Hello, World") }
+  it { should be_mode 600 }
+  it { should be_owned_by "itamae" }
+  it { should be_grouped_into "itamae" }
+end
