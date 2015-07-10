@@ -81,8 +81,18 @@ module Itamae
       end
 
       def action_edit(options)
-        run_command(['chmod', '--reference', attributes.path, @temppath])
-        run_command(['chown', '--reference', attributes.path, @temppath])
+        if attributes.mode
+          run_specinfra(:change_file_mode, @temppath, attributes.mode)
+        else
+          run_command(['chmod', '--reference', attributes.path, @temppath])
+        end
+
+        if attributes.owner || attributes.group
+          run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
+        else
+          run_command(['chown', '--reference', attributes.path, @temppath])
+        end
+
         run_specinfra(:move_file, @temppath, attributes.path)
       end
 
