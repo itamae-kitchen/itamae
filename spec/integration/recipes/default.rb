@@ -318,6 +318,9 @@ end
 
 file '/tmp/file_edit_sample' do
   action :edit
+  owner 'itamae2'
+  group 'itamae2'
+  mode '400'
   block do |content|
     content.gsub!('world', 'Itamae')
   end
