@@ -54,11 +54,7 @@ module Itamae
       end
 
       def action_create(options)
-        change_target = if attributes.content
-                          @temppath
-                        else
-                          attributes.path
-                        end
+        change_target = @temppath || attributes.path
 
         if attributes.mode
           run_specinfra(:change_file_mode, change_target, attributes.mode)
@@ -67,7 +63,7 @@ module Itamae
           run_specinfra(:change_file_owner, change_target, attributes.owner, attributes.group)
         end
 
-        if attributes.content
+        if @temppath
           if run_specinfra(:check_file_is_file, attributes.path)
             unless check_command(["diff", "-q", @temppath, attributes.path])
               # the file is modified
@@ -134,6 +130,11 @@ module Itamae
       end
 
       def send_tempfile
+        unless attributes.content || content_file
+          @temppath = nil
+          return
+        end
+
         begin
           src = if content_file
                   content_file
