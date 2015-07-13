@@ -2,7 +2,7 @@
 
 Improvements
 
-- [`create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file](https://github.com/itamae-kitchen/itamae/compare/itamae-kitchen:d4a0abc...itamae-kitchen:bc92034)
+- [`create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file](https://github.com/itamae-kitchen/itamae/compare/itamae-kitchen:d4a0abc...itamae-kitchen:3eae144)
 
 Bugfixes
 
