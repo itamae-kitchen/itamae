@@ -49,7 +49,7 @@ module Itamae
           expanded_path = gem_path if gem_path
         end
 
-        recipe = Recipe.new(self, expanded_path)
+        recipe = Recipe.new(self, expanded_path, @options)
         children << recipe
         recipe.load
       end
@@ -91,4 +91,3 @@ module Itamae
     end
   end
 end
-

@@ -101,10 +101,11 @@ module Itamae
       attr_reader :notifications
       attr_reader :updated
 
-      def initialize(recipe, resource_name, &block)
+      def initialize(recipe, resource_name, options = {}, &block)
         clear_current_attributes
         @recipe = recipe
         @resource_name = resource_name
+        @options = options
         @updated = false
 
         EvalContext.new(self).tap do |context|
