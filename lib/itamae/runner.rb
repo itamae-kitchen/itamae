@@ -43,7 +43,7 @@ module Itamae
 
     def load_recipes(paths)
       paths.each do |path|
-        recipe = Recipe.new(self, File.expand_path(path))
+        recipe = Recipe.new(self, File.expand_path(path), @options)
         children << recipe
         recipe.load
       end
@@ -85,4 +85,3 @@ module Itamae
     end
   end
 end
-

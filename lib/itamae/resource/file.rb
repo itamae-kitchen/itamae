@@ -20,9 +20,11 @@ module Itamae
         when :edit
           attributes.exist = true
 
-          content = backend.receive_file(attributes.path)
-          attributes.block.call(content)
-          attributes.content = content
+          unless @options[:dry_run]
+            content = backend.receive_file(attributes.path)
+            attributes.block.call(content)
+            attributes.content = content
+          end
         end
 
         send_tempfile
@@ -145,4 +147,3 @@ module Itamae
     end
   end
 end
-
