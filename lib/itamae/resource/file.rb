@@ -130,7 +130,7 @@ module Itamae
       end
 
       def send_tempfile
-        unless attributes.content || content_file
+        if current.exist && !attributes.content && !content_file
           @temppath = nil
           return
         end
