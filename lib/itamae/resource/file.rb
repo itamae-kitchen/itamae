@@ -54,14 +54,20 @@ module Itamae
       end
 
       def action_create(options)
-        if attributes.content
-          if attributes.mode
-            run_specinfra(:change_file_mode, @temppath, attributes.mode)
-          end
-          if attributes.owner || attributes.group
-            run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
-          end
+        change_target = if attributes.content
+                          @temppath
+                        else
+                          attributes.path
+                        end
 
+        if attributes.mode
+          run_specinfra(:change_file_mode, change_target, attributes.mode)
+        end
+        if attributes.owner || attributes.group
+          run_specinfra(:change_file_owner, change_target, attributes.owner, attributes.group)
+        end
+
+        if attributes.content
           if run_specinfra(:check_file_is_file, attributes.path)
             unless check_command(["diff", "-q", @temppath, attributes.path])
               # the file is modified
@@ -73,14 +79,6 @@ module Itamae
           end
 
           run_specinfra(:move_file, @temppath, attributes.path)
-        else
-          # do not touch content of file because content is not specfied
-          if attributes.mode
-            run_specinfra(:change_file_mode, attributes.path, attributes.mode)
-          end
-          if attributes.owner || attributes.group
-            run_specinfra(:change_file_owner, attributes.path, attributes.owner, attributes.group)
-          end
         end
       end
 
