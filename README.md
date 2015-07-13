@@ -37,6 +37,10 @@ $ bundle exec rake spec
 
 - [(in Japanese) Itamae - Infra as Code 現状確認会](https://speakerdeck.com/ryotarai/itamae-infra-as-code-xian-zhuang-que-ren-hui)
 
+## Get Involved
+
+[Don't hesitate to join our Slack team!](https://itamae-slackin.herokuapp.com/)
+
 ## Contributing
 
 If you have a problem, please [create an issue](https://github.com/ryotarai/itamae/issues/new) or a pull request.
