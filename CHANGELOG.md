@@ -1,3 +1,13 @@
+## v1.3.5
+
+Improvements
+
+- [`create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file](https://github.com/itamae-kitchen/itamae/compare/itamae-kitchen:d4a0abc...itamae-kitchen:bc92034)
+
+Bugfixes
+
+- [Edit action of file resource should set owner and mode if specified (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/143)
+
 ## v1.3.4
 
 Improvements
