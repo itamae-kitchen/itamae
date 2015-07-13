@@ -54,6 +54,10 @@ module Itamae
       end
 
       def action_create(options)
+        if !current.exist && !@temppath
+          run_command(["touch", attributes.path])
+        end
+
         change_target = @temppath || attributes.path
 
         if attributes.mode
@@ -130,7 +134,7 @@ module Itamae
       end
 
       def send_tempfile
-        if current.exist && !attributes.content && !content_file
+        if !attributes.content && !content_file
           @temppath = nil
           return
         end
