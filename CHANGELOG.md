@@ -1,3 +1,9 @@
+## v1.3.6
+
+Bugfixes
+
+- `create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file
+
 ## v1.3.5
 
 Improvements
