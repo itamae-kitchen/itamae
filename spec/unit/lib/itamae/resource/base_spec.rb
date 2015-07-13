@@ -122,10 +122,12 @@ describe TestResource do
     end
 
     context 'with dry_run' do
+      subject(:dry_run_resource) { described_class.new(recipe, "name", dry_run: true) }
+
       context 'when specified action is unavailable' do
         it 'logs error' do
           expect(Itamae.logger).to receive(:error).with(/action :name is unavailable/)
-          subject.run(nil, dry_run: true)
+          subject.run
         end
       end
     end

@@ -63,20 +63,20 @@ module Itamae
       show_banner
 
       Itamae.logger.with_indent do
-        @children.run(options)
-        run_delayed_notifications(options)
+        @children.run(@options)
+        run_delayed_notifications
       end
     end
 
     private
 
-    def run_delayed_notifications(options)
+    def run_delayed_notifications
       @delayed_notifications.uniq! do |notification|
         [notification.action, notification.action_resource]
       end
 
       while notification = @delayed_notifications.shift
-        notification.run(options)
+        notification.run(@options)
       end
     end
 

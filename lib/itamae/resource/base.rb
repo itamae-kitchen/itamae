@@ -134,11 +134,11 @@ module Itamae
           end
 
           [specific_action || attributes.action].flatten.each do |action|
-            run_action(action, options)
+            run_action(action)
           end
 
-          verify unless options[:dry_run]
-          notify(options) if updated?
+          verify unless @options[:dry_run]
+          notify if updated?
         end
 
         @updated = false
@@ -167,7 +167,7 @@ module Itamae
 
       alias_method :current, :current_attributes
 
-      def run_action(action, options)
+      def run_action(action, options = {})
         original_attributes = @attributes # preserve and restore later
         @current_action = action
 
@@ -188,12 +188,12 @@ module Itamae
           show_differences
 
           method_name = "action_#{action}"
-          if options[:dry_run]
+          if @options[:dry_run]
             unless respond_to?(method_name)
               Itamae.logger.error "action #{action.inspect} is unavailable"
             end
           else
-            public_send(method_name, options)
+            public_send(method_name, @options)
           end
 
           updated! if different?
@@ -328,7 +328,7 @@ module Itamae
         @updated
       end
 
-      def notify(options)
+      def notify(options = {})
         (notifications + recipe.children.subscribing(self)).each do |notification|
           message = "Notifying #{notification.action} to #{notification.action_resource.resource_type} resource '#{notification.action_resource.resource_name}'"
 
@@ -347,7 +347,7 @@ module Itamae
           if notification.delayed?
             @recipe.delayed_notifications << notification
           elsif notification.immediately?
-            notification.run(options)
+            notification.run(@options)
           end
         end
       end
