@@ -313,7 +313,7 @@ module Itamae
       end
 
       def shell_escape(str)
-        Shellwords.escape(str)
+        str.shellescape
       end
 
       def updated!

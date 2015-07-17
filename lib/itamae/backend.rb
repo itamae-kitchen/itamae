@@ -163,7 +163,7 @@ module Itamae
       def build_command(commands, options)
         if commands.is_a?(Array)
           command = commands.map do |cmd|
-            Shellwords.escape(cmd)
+            cmd.shellescape
           end.join(' ')
         else
           command = commands
@@ -171,13 +171,13 @@ module Itamae
 
         cwd = options[:cwd]
         if cwd
-          command = "cd #{Shellwords.escape(cwd)} && #{command}"
+          command = "cd #{cwd.shellescape} && #{command}"
         end
 
         user = options[:user]
         if user
-          command = "cd ~#{Shellwords.escape(user)} ; #{command}"
-          command = "sudo -H -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
+          command = "cd ~#{user.shellescape} ; #{command}"
+          command = "sudo -H -u #{user.shellescape} -- /bin/sh -c #{command.shellescape}"
         end
 
         command
