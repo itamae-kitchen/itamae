@@ -5,7 +5,6 @@ module Itamae
     class Execute < Base
       define_attribute :action, default: :run
       define_attribute :command, type: String, default_name: true
-      define_attribute :cwd, type: String
 
       def pre_action
         case @current_action
@@ -19,7 +18,7 @@ module Itamae
       end
 
       def action_run(options)
-        run_command(attributes.command, cwd: attributes.cwd)
+        run_command(attributes.command)
         updated!
       end
     end
