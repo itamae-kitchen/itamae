@@ -26,6 +26,12 @@ user "update itamae user" do
   shell '/bin/dash'
 end
 
+directory "/home/itamae" do
+  mode "755"
+  owner "itamae"
+  group "itamae"
+end
+
 user "create itamae2 user with create home directory" do
   username "itamae2"
   create_home true
@@ -218,7 +224,7 @@ end
 
 #####
 
-execute "echo -n $HOME > /tmp/created_by_itamae_user" do
+execute "echo -n \"$HOME\n$(pwd)\" > /tmp/created_by_itamae_user" do
   user "itamae"
 end
 
