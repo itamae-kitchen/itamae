@@ -176,6 +176,7 @@ module Itamae
 
         user = options[:user]
         if user
+          command = "cd ~#{Shellwords.escape(user)} ; #{command}"
           command = "sudo -H -u #{Shellwords.escape(user)} -- /bin/sh -c #{Shellwords.escape(command)}"
         end
 
