@@ -27,14 +27,14 @@ module Itamae
 
         new_repository = false
 
-        if run_specinfra(:check_file_is_directory, attributes.destination)
-          run_command_in_repo(['git', 'fetch', 'origin'])
-        else
+        if check_empty_dir
           cmd = ['git', 'clone']
           cmd << '--recursive' if attributes.recursive
           cmd << attributes.repository << attributes.destination
           run_command(cmd)
           new_repository = true
+        else
+          run_command_in_repo(['git', 'fetch', 'origin'])
         end
 
         target = if attributes.revision
@@ -65,6 +65,10 @@ module Itamae
         unless run_command("which git", error: false).exit_status == 0
           raise "`git` command is not available. Please install git."
         end
+      end
+
+      def check_empty_dir
+        run_command("test -z \"$(ls -A #{shell_escape(attributes.destination)})\"", error: false).success?
       end
 
       def run_command_in_repo(*args)
