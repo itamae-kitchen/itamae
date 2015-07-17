@@ -91,6 +91,7 @@ module Itamae
 
       define_attribute :action, type: [Symbol, Array], required: true
       define_attribute :user, type: String
+      define_attribute :cwd, type: String
 
       attr_reader :recipe
       attr_reader :resource_name
@@ -286,6 +287,7 @@ module Itamae
         end
 
         args.last[:user] ||= attributes.user
+        args.last[:cwd]  ||= attributes.cwd
 
         backend.run_command(*args)
       end
