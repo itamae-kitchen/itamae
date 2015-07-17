@@ -48,7 +48,7 @@ module Itamae
 
         super
 
-        if current.exist
+        if current.exist && @temppath
           show_file_diff
         end
       end
