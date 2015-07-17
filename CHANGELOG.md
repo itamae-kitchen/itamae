@@ -1,3 +1,13 @@
+## v1.4.0
+
+Improvements
+
+- Make `cwd` a common attribute. (idea by @tacahilo)
+  - It was an attribute for execute resource
+- When `user` attribute is set, change directory to the user's home directory. (idea by @tacahilo)
+  - even if cd command fail, it will be ignored
+  - directory specified by cwd will take precedence over this
+
 ## v1.3.6
 
 Bugfixes
