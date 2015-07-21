@@ -1,3 +1,10 @@
+## v1.4.1
+
+Improvements
+
+- [`gem_binary` of `gem_package` resource accepts an Array too. (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/149)
+- [`git` resource executes `git clone` if the destination directory is empty (by @tacahilo)](https://github.com/itamae-kitchen/itamae/pull/150)
+
 ## v1.4.0
 
 Improvements
