@@ -16,6 +16,10 @@ module Itamae
         plugin_name = recipe.split('::')[0]
 
         gem_name = "itamae-plugin-recipe-#{plugin_name}"
+        begin
+          gem gem_name
+        rescue LoadError
+        end
         spec = Gem.loaded_specs.values.find do |spec|
           spec.name == gem_name
         end
