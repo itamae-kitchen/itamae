@@ -1,3 +1,9 @@
+## v1.4.2
+
+Improvements
+
+- [Load plugin gems that is not managed by bundler. (by @KitaitiMakoto)](https://github.com/itamae-kitchen/itamae/pull/151)
+
 ## v1.4.1
 
 Improvements
