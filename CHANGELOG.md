@@ -1,3 +1,9 @@
+## v1.4.3
+
+Bugfixes
+
+- [Restore original attributes of a resource after each action.](https://github.com/itamae-kitchen/itamae/commit/28d33da3cb67c6a7635e47845b0055cb17df53a8)
+
 ## v1.4.2
 
 Improvements
