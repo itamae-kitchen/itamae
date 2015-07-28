@@ -133,7 +133,9 @@ module Itamae
           end
 
           [specific_action || attributes.action].flatten.each do |action|
+            original_attributes = @attributes
             run_action(action, options)
+            @attributes = original_attributes
           end
 
           verify unless options[:dry_run]
