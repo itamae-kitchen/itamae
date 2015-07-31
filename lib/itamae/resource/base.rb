@@ -133,9 +133,7 @@ module Itamae
           end
 
           [specific_action || attributes.action].flatten.each do |action|
-            original_attributes = @attributes
             run_action(action, options)
-            @attributes = original_attributes
           end
 
           verify unless options[:dry_run]
@@ -169,6 +167,7 @@ module Itamae
       alias_method :current, :current_attributes
 
       def run_action(action, options)
+        original_attributes = @attributes # preserve and restore later
         @current_action = action
 
         clear_current_attributes
@@ -200,6 +199,7 @@ module Itamae
         end
 
         @current_action = nil
+        @attributes = original_attributes
       end
 
       def clear_current_attributes
