@@ -1,3 +1,9 @@
+## v1.4.4
+
+Features
+
+- `--shell` option for `local`, `ssh` and `docker` subcommands. If it is set, it will be used instead of /bin/sh
+
 ## v1.4.3
 
 Bugfixes
