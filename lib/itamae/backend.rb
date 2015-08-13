@@ -188,7 +188,6 @@ module Itamae
       end
     end
 
-    # TODO: Make Specinfra's backends instanciatable
     class Local < Base
       private
       def create_specinfra_backend
