@@ -14,12 +14,17 @@ module Itamae
       Itamae::Logger.formatter.colored = options[:color]
     end
 
+    def self.define_exec_options
+      option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
+      option :node_json, type: :string, aliases: ['-j']
+      option :node_yaml, type: :string, aliases: ['-y']
+      option :dry_run, type: :boolean, aliases: ['-n']
+      option :shell, type: :string, default: "/bin/sh"
+      option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
+    end
+
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
-    option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
-    option :node_json, type: :string, aliases: ['-j']
-    option :node_yaml, type: :string, aliases: ['-y']
-    option :dry_run, type: :boolean, aliases: ['-n']
-    option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
+    define_exec_options
     def local(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
@@ -29,15 +34,11 @@ module Itamae
     end
 
     desc "ssh RECIPE [RECIPE...]", "Run Itamae via ssh"
-    option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
-    option :node_json, type: :string, aliases: ['-j']
-    option :node_yaml, type: :string, aliases: ['-y']
-    option :dry_run, type: :boolean, aliases: ['-n']
+    define_exec_options
     option :host, type: :string, aliases: ['-h']
     option :user, type: :string, aliases: ['-u']
     option :key, type: :string, aliases: ['-i']
     option :port, type: :numeric, aliases: ['-p']
-    option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
     option :vagrant, type: :boolean, default: false
     option :ask_password, type: :boolean, default: false
     option :sudo, type: :boolean, default: true
@@ -54,11 +55,7 @@ module Itamae
     end
 
     desc "docker RECIPE [RECIPE...]", "Create Docker image"
-    option :dot, type: :string, default: nil, desc: "Only write dependency graph in DOT", banner: "PATH"
-    option :node_json, type: :string, aliases: ['-j']
-    option :node_yaml, type: :string, aliases: ['-y']
-    option :dry_run, type: :boolean, aliases: ['-n']
-    option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
+    define_exec_options
     option :image, type: :string, desc: "This option or 'container' option is required."
     option :container, type: :string, desc: "This option or 'image' option is required."
     option :tls_verify_peer, type: :boolean, default: true

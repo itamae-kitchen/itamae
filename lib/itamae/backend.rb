@@ -177,18 +177,24 @@ module Itamae
         user = options[:user]
         if user
           command = "cd ~#{user.shellescape} ; #{command}"
-          command = "sudo -H -u #{user.shellescape} -- /bin/sh -c #{command.shellescape}"
+          command = "sudo -H -u #{user.shellescape} -- #{shell.shellescape} -c #{command.shellescape}"
         end
 
         command
       end
+
+      def shell
+        @options[:shell]
+      end
     end
 
-    # TODO: Make Specinfra's backends instanciatable 
+    # TODO: Make Specinfra's backends instanciatable
     class Local < Base
       private
       def create_specinfra_backend
-        Specinfra::Backend::Exec.new()
+        Specinfra::Backend::Exec.new(
+          shell: @options[:shell],
+        )
       end
     end
 
@@ -200,6 +206,7 @@ module Itamae
           host: ssh_options[:host_name],
           disable_sudo: disable_sudo?,
           ssh_options: ssh_options,
+          shell: @options[:shell],
         )
       end
 
@@ -257,6 +264,7 @@ module Itamae
         Specinfra::Backend::Docker.new(
           docker_image: @options[:image],
           docker_container: @options[:container],
+          shell: @options[:shell],
         )
       end
     end
