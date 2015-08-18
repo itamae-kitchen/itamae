@@ -106,8 +106,9 @@ module Itamae
       end
 
       def include_recipe(target)
+        expanded_path = ::File.expand_path(target, File.dirname(@recipe.path))
         candidate_paths = [
-          ::File.expand_path(target, File.dirname(@recipe.path)),
+          ::Dir.exists?(expanded_path) ? ::File.join(expanded_path, "default.rb") : expanded_path,
           Recipe.find_recipe_in_gem(target),
         ].compact
         path = candidate_paths.find {|path| File.exist?(path) }
