@@ -1,3 +1,9 @@
+## v1.4.5
+
+Improvements
+
+- [Load `default.rb` if `include_recipe` is called with directory path. (by @Rudolph-Miller)](https://github.com/itamae-kitchen/itamae/pull/156)
+
 ## v1.4.4
 
 Features
