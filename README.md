@@ -1,4 +1,4 @@
-# Itamae [![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Code Climate](https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg)](https://codeclimate.com/github/ryotarai/itamae) [![wercker status](https://app.wercker.com/status/3e7be3b982d3671940a07e3ef45d9f5f/s/master "wercker status")](https://app.wercker.com/project/bykey/3e7be3b982d3671940a07e3ef45d9f5f) [![Slack](https://itamae-slackin.herokuapp.com/badge.svg)](https://itamae-slackin.herokuapp.com/)
+# Itamae [![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Code Climate](https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg)](https://codeclimate.com/github/ryotarai/itamae) [![wercker status](https://app.wercker.com/status/3e7be3b982d3671940a07e3ef45d9f5f/s/master "wercker status")](https://app.wercker.com/project/bykey/3e7be3b982d3671940a07e3ef45d9f5f) [![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://itamae-slackin.herokuapp.com/)
 
 Simple and lightweight configuration management tool inspired by Chef.
 
