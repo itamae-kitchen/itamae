@@ -6,9 +6,9 @@ Simple and lightweight configuration management tool inspired by Chef.
 
 ## Concept
 
-- Chef-like DSL
+- Chef-like DSL (but not compatible with Chef)
 - Simpler and lighter weight than Chef
-- Not compatible with Chef
+- Only recipes
 - Idempotent
 
 ## Installation
