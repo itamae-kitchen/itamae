@@ -19,7 +19,47 @@ $ gem install itamae
 
 ## Getting Started
 
-https://github.com/itamae-kitchen/itamae/wiki/Getting-Started
+Create a recipe file as `recipe.rb`:
+
+```ruby
+package 'nginx' do
+  action :install
+end
+
+service 'nginx' do
+  action [:enable, :start]
+end
+```
+
+And then excute `itamae` command to apply a recipe to a local machine.
+
+```
+$ itamae local recipe.rb
+ INFO : Starting Itamae...
+ INFO : Recipe: /home/user/recipe.rb
+ INFO :    package[nginx]
+ INFO :       action: install
+ INFO :          installed will change from 'false' to 'true'
+ INFO :    service[nginx]
+ INFO :       action: enable
+ INFO :       action: start
+```
+
+Or you can apply a recipe to a remote machine by `itamae ssh`.
+
+```
+$ itamae ssh --host host001.example.jp recipe.rb
+```
+
+You can also apply a recipe to Vagrant VM by `itamae ssh --vagrant`.
+
+```
+$ itamae ssh --vagrant --host vm_name recipe.rb
+```
+
+You can find further information to use Itamae on [Itamae Wiki](https://github.com/itamae-kitchen/itamae/wiki).
+
+Enjoy!
 
 ## Documentations
 
