@@ -7,7 +7,7 @@ build:
   steps:
     # Uncomment this to force RVM to use a specific Ruby version
     - rvm-use:
-        version: 2.1.4
+        version: 2.2.3
 
     - script:
         name: update bundler
