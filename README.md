@@ -61,7 +61,7 @@ You can find further information to use Itamae on [Itamae Wiki](https://github.c
 
 Enjoy!
 
-## Documentations
+## Documentation
 
 https://github.com/itamae-kitchen/itamae/wiki
 
