@@ -228,13 +228,13 @@ module Itamae
           if current_value.nil? && value.nil?
             # ignore
           elsif current_value.nil? && !value.nil?
-            Itamae.logger.formatter.color :green do
+            Itamae.logger.color :green do
               Itamae.logger.info "#{resource_type}[#{resource_name}] #{key} will be '#{value}'"
             end
           elsif current_value == value || value.nil?
             Itamae.logger.debug "#{resource_type}[#{resource_name}] #{key} will not change (current value is '#{current_value}')"
           else
-            Itamae.logger.formatter.color :green do
+            Itamae.logger.color :green do
               Itamae.logger.info "#{resource_type}[#{resource_name}] #{key} will change from '#{current_value}' to '#{value}'"
             end
           end

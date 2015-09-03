@@ -121,7 +121,7 @@ module Itamae
                     else
                       :clear
                     end
-            Itamae.logger.formatter.color(color) do
+            Itamae.logger.color(color) do
               Itamae.logger.info line.chomp
             end
           end

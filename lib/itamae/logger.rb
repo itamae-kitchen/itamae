@@ -4,7 +4,7 @@ require 'ansi/code'
 
 module Itamae
   module Logger
-    module IndentHelper
+    module Helper
       def with_indent
         indent
         yield
@@ -37,6 +37,14 @@ module Itamae
         @indent_depth = val
       end
 
+      def color(code, &block)
+        if self.formatter.respond_to?(:color)
+          self.formatter.color(code, &block)
+        else
+          block.call
+        end
+      end
+
       %w!debug info warn error fatal unknown!.each do |level|
         module_eval(<<-EOC, __FILE__, __LINE__ + 1)
           def #{level}(msg)
@@ -48,7 +56,6 @@ module Itamae
 
     class Formatter
       attr_accessor :colored
-      attr_accessor :color
 
       def call(severity, datetime, progname, msg)
         log = "%s : %s\n" % ["%5s" % severity, msg2str(msg)]
@@ -68,6 +75,7 @@ module Itamae
       end
 
       private
+
       def msg2str(msg)
         case msg
         when ::String
@@ -102,7 +110,7 @@ module Itamae
 
   @logger = ::Logger.new($stdout).tap do |l|
     l.formatter = Itamae::Logger::Formatter.new
-  end.extend(Itamae::Logger::IndentHelper)
+  end.extend(Itamae::Logger::Helper)
 
   class << self
     def logger
@@ -110,7 +118,7 @@ module Itamae
     end
 
     def logger=(l)
-      @logger = l.extend(Itamae::Logger::IndentHelper)
+      @logger = l.extend(Itamae::Logger::Helper)
     end
   end
 end
