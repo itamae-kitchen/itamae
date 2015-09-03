@@ -1,3 +1,9 @@
+## v1.5.1
+
+Improvements
+
+- [Logger can be injected one which doesn't have `color` method.](https://github.com/itamae-kitchen/itamae/commit/7c50f376f69029836047f26ab0a46b41b928c0d3)
+
 ## v1.5.0
 
 Improvements
