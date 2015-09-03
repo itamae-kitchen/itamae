@@ -49,7 +49,7 @@ module Itamae
     def run(options = {})
       show_banner
 
-      Logger.formatter.with_indent do
+      Itamae.logger.with_indent do
         @children.run(options)
         run_delayed_notifications(options)
       end
@@ -68,7 +68,7 @@ module Itamae
     end
 
     def show_banner
-      Logger.info "Recipe: #{@path}"
+      Itamae.logger.info "Recipe: #{@path}"
     end
 
     class EvalContext
@@ -118,7 +118,7 @@ module Itamae
         end
 
         if runner.children.find_recipe_by_path(path)
-          Logger.debug "Recipe, #{path}, is skipped because it is already included"
+          Itamae.logger.debug "Recipe, #{path}, is skipped because it is already included"
           return
         end
 
@@ -151,7 +151,7 @@ module Itamae
       private
 
       def show_banner
-        Logger.debug "#{@definition.resource_type}[#{@definition.resource_name}]"
+        Itamae.logger.debug "#{@definition.resource_type}[#{@definition.resource_name}]"
       end
     end
   end

@@ -44,11 +44,11 @@ module Itamae
           diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
           if diff.exit_status == 0
             # no change
-            Logger.debug "directory content will not change"
+            Itamae.logger.debug "directory content will not change"
           else
-            Logger.info "diff:"
+            Itamae.logger.info "diff:"
             diff.stdout.each_line do |line|
-              Logger.info "#{line.strip}"
+              Itamae.logger.info "#{line.strip}"
             end
           end
         end

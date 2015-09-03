@@ -27,7 +27,7 @@ module Itamae
             source_file_exts.each do |ext|
               path = ::File.join(@recipe.dir, source_file_dir, "#{dirs[i..-1].join("/")}#{ext}")
               if ::File.exist?(path)
-                Logger.debug "#{path} is used as a source file."
+                Itamae.logger.debug "#{path} is used as a source file."
                 return path
               else
                 searched_paths << path

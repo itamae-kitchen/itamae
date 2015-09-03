@@ -44,11 +44,11 @@ module Itamae
         options = {error: true}.merge(options)
 
         command = build_command(commands, options)
-        Logger.debug "Executing `#{command}`..."
+        Itamae.logger.debug "Executing `#{command}`..."
 
         result = nil
 
-        Logger.formatter.with_indent do
+        Itamae.logger.with_indent do
           reset_output_handler
           result = @backend.run_command(command)
           flush_output_handler_buffer
@@ -60,7 +60,7 @@ module Itamae
             method = :error
             message = "Command `#{command}` failed. (exit status: #{result.exit_status})"
 
-            unless Logger.logger.level == ::Logger::DEBUG
+            unless Itamae.logger.level == ::Logger::DEBUG
               result.stdout.each_line do |l|
                 log_output_line("stdout", l, :error)
               end
@@ -70,7 +70,7 @@ module Itamae
             end
           end
 
-          Logger.public_send(method, message)
+          Itamae.logger.public_send(method, message)
         end
 
         if options[:error] && result.exit_status != 0
@@ -86,15 +86,15 @@ module Itamae
 
       def receive_file(src, dst = nil)
         if dst
-          Logger.debug "Receiving a file from '#{src}' to '#{dst}'..."
+          Itamae.logger.debug "Receiving a file from '#{src}' to '#{dst}'..."
         else
-          Logger.debug "Receiving a file from '#{src}'..."
+          Itamae.logger.debug "Receiving a file from '#{src}'..."
         end
         @backend.receive_file(src, dst)
       end
 
       def send_file(src, dst)
-        Logger.debug "Sending a file from '#{src}' to '#{dst}'..."
+        Itamae.logger.debug "Sending a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
           raise SourceNotExistError, "The file '#{src}' doesn't exist."
         end
@@ -105,7 +105,7 @@ module Itamae
       end
 
       def send_directory(src, dst)
-        Logger.debug "Sending a directory from '#{src}' to '#{dst}'..."
+        Itamae.logger.debug "Sending a directory from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
           raise SourceNotExistError, "The directory '#{src}' doesn't exist."
         end
@@ -157,7 +157,7 @@ module Itamae
 
       def log_output_line(output_name, line, severity = :debug)
         line = line.gsub(/[[:cntrl:]]/, '')
-        Logger.public_send(severity, "#{output_name} | #{line}")
+        Itamae.logger.public_send(severity, "#{output_name} | #{line}")
       end
 
       def build_command(commands, options)
@@ -245,7 +245,7 @@ module Itamae
     class Docker < Base
       def finalize
         image = @backend.commit_container
-        Logger.info "Image created: #{image.id}"
+        Itamae.logger.info "Image created: #{image.id}"
       end
 
       private
@@ -253,12 +253,12 @@ module Itamae
         begin
           require 'docker'
         rescue LoadError
-          Logger.fatal "To use docker backend, please install 'docker-api' gem"
+          Itamae.logger.fatal "To use docker backend, please install 'docker-api' gem"
         end
 
         # TODO: Move to Specinfra?
         Excon.defaults[:ssl_verify_peer] = @options[:tls_verify_peer]
-        ::Docker.logger = Logger
+        ::Docker.logger = Itamae.logger
 
         Specinfra::Backend::Docker.new(
           docker_image: @options[:image],

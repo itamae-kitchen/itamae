@@ -204,7 +204,7 @@ end
 
 local_ruby_block "greeting" do
   block do
-    Itamae::Logger.info "板前"
+    Itamae.logger.info "板前"
   end
 end
 
