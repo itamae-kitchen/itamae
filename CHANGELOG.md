@@ -1,3 +1,9 @@
+## v1.5.0
+
+Improvements
+
+- [Make a logger injectable from outside of Itamae.](https://github.com/itamae-kitchen/itamae/pull/160)
+
 ## v1.4.5
 
 Improvements
@@ -417,4 +423,3 @@ Features
 Incompatible changes
 
 - `uid` and `gid` attributes of `user` resource accept only Integer. (https://github.com/ryotarai/itamae/pull/65)
-
