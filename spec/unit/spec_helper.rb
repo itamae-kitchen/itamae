@@ -19,6 +19,5 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
 end
 
-Itamae::Logger.log_device = StringIO.new
+Itamae.logger = ::Logger.new(StringIO.new)
 Specinfra.configuration.error_on_missing_backend_type = false
-
