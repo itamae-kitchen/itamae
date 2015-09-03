@@ -4,28 +4,7 @@ require 'ansi/code'
 
 module Itamae
   module Logger
-    class Formatter
-      attr_accessor :colored
-      attr_accessor :depth
-      attr_accessor :color
-
-      INDENT_LENGTH = 2
-
-      def initialize(*args)
-        super
-
-        @depth = 0
-      end
-
-      def call(severity, datetime, progname, msg)
-        log = "%s : %s%s\n" % ["%5s" % severity, ' ' * INDENT_LENGTH * depth , msg2str(msg)]
-        if colored
-          colorize(log, severity)
-        else
-          log
-        end
-      end
-
+    module IndentHelper
       def with_indent
         indent
         yield
@@ -42,12 +21,42 @@ module Itamae
       end
 
       def indent
-        @depth += 1
+        self.indent_depth += 1
       end
 
       def outdent
-        @depth -= 1
-        @depth = 0 if @depth < 0
+        self.indent_depth -= 1
+        self.indent_depth = 0 if self.indent_depth < 0
+      end
+
+      def indent_depth
+        @indent_depth ||= 0
+      end
+
+      def indent_depth=(val)
+        @indent_depth = val
+      end
+
+      %w!debug info warn error unknown!.each do |level|
+        module_eval(<<-EOC, __FILE__, __LINE__ + 1)
+          def #{level}(msg)
+            super("  " * indent_depth + msg)
+          end
+        EOC
+      end
+    end
+
+    class Formatter
+      attr_accessor :colored
+      attr_accessor :color
+
+      def call(severity, datetime, progname, msg)
+        log = "%s : %s\n" % ["%5s" % severity, msg2str(msg)]
+        if colored
+          colorize(log, severity)
+        else
+          log
+        end
       end
 
       def color(code)
@@ -89,37 +98,19 @@ module Itamae
         ANSI.public_send(color_code) { str }
       end
     end
+  end
 
-    class << self
-      def logger
-        @logger ||= create_logger
-      end
+  @logger = ::Logger.new($stdout).tap do |l|
+    l.formatter = Itamae::Logger::Formatter.new
+  end.extend(Itamae::Logger::IndentHelper)
 
-      def log_device
-        @log_device || $stdout
-      end
+  class << self
+    def logger
+      @logger
+    end
 
-      def log_device=(value)
-        @log_device = value
-        @logger = create_logger
-      end
-
-      private
-
-      def create_logger
-        ::Logger.new(log_device).tap do |logger|
-          logger.formatter = Formatter.new
-        end
-      end
-
-      def respond_to_missing?(method, include_private = false)
-        logger.respond_to?(method)
-      end
-
-      def method_missing(method, *args, &block)
-        logger.public_send(method, *args, &block)
-      end
+    def logger=(l)
+      @logger = l.extend(Itamae::Logger::IndentHelper)
     end
   end
 end
-
