@@ -37,7 +37,7 @@ module Itamae
         @indent_depth = val
       end
 
-      %w!debug info warn error unknown!.each do |level|
+      %w!debug info warn error fatal unknown!.each do |level|
         module_eval(<<-EOC, __FILE__, __LINE__ + 1)
           def #{level}(msg)
             super("  " * indent_depth + msg)

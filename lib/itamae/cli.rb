@@ -10,8 +10,8 @@ module Itamae
       opts = Config.new(opts).load
       super(args, opts, config)
 
-      Itamae::Logger.level = ::Logger.const_get(options[:log_level].upcase)
-      Itamae::Logger.formatter.colored = options[:color]
+      Itamae.logger.level = ::Logger.const_get(options[:log_level].upcase)
+      Itamae.logger.formatter.colored = options[:color]
     end
 
     def self.define_exec_options

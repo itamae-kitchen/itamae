@@ -110,9 +110,9 @@ module Itamae
         diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
         if diff.exit_status == 0
           # no change
-          Logger.debug "file content will not change"
+          Itamae.logger.debug "file content will not change"
         else
-          Logger.info "diff:"
+          Itamae.logger.info "diff:"
           diff.stdout.each_line do |line|
             color = if line.start_with?('+')
                       :green
@@ -121,8 +121,8 @@ module Itamae
                     else
                       :clear
                     end
-            Logger.formatter.color(color) do
-              Logger.info line.chomp
+            Itamae.logger.formatter.color(color) do
+              Itamae.logger.info line.chomp
             end
           end
         end

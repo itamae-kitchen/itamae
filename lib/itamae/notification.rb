@@ -32,7 +32,7 @@ module Itamae
 
     def validate!
       unless [:delay, :delayed, :immediately].include?(timing)
-        Logger.error "'#{timing}' is not valid notification timing. (Valid option is delayed or immediately)"
+        Itamae.logger.error "'#{timing}' is not valid notification timing. (Valid option is delayed or immediately)"
         abort
       end
     end

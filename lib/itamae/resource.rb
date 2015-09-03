@@ -42,7 +42,7 @@ module Itamae
       def define_resource(name, klass)
         class_name = to_camel_case(name.to_s)
         if Resource.const_defined?(class_name)
-          Logger.warn "Redefine class. (#{class_name})"
+          Itamae.logger.warn "Redefine class. (#{class_name})"
           return
         end
 
