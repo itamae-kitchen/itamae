@@ -11,9 +11,7 @@ module Itamae
 
     class << self
       def find_recipe_in_gem(recipe)
-        target = recipe.gsub('::', '/')
-        target += '.rb' if target !~ /\.rb$/
-        plugin_name = recipe.split('::')[0]
+        plugin_name, recipe_file = recipe.split('::')
 
         gem_name = "itamae-plugin-recipe-#{plugin_name}"
         begin
@@ -26,7 +24,20 @@ module Itamae
 
         return nil unless spec
 
-        File.join(spec.lib_dirs_glob, 'itamae', 'plugin', 'recipe', target)
+        candidate_files = []
+        if recipe_file
+          recipe_file += '.rb' unless recipe_file.end_with?('.rb')
+          candidate_files << "#{plugin_name}/#{recipe_file}"
+        else
+          candidate_files << "#{plugin_name}/default.rb"
+          candidate_files << "#{plugin_name}.rb"
+        end
+
+        candidate_files.map do |file|
+          File.join(spec.lib_dirs_glob, 'itamae', 'plugin', 'recipe', file)
+        end.find do |path|
+          File.exist?(path)
+        end
       end
     end
 
