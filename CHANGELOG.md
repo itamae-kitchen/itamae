@@ -1,3 +1,9 @@
+## v1.5.2
+
+Improvements
+
+- [`include_recipe 'plugin_name'` loads `itamae/plugin/recipe/plugin_name/default.rb` too](https://github.com/itamae-kitchen/itamae/pull/162)
+
 ## v1.5.1
 
 Improvements
