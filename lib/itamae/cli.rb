@@ -20,7 +20,7 @@ module Itamae
       option :node_yaml, type: :string, aliases: ['-y']
       option :dry_run, type: :boolean, aliases: ['-n']
       option :shell, type: :string, default: "/bin/sh"
-      option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be inavailable."
+      option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be unavailable."
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
