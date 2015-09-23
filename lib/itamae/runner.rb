@@ -43,7 +43,13 @@ module Itamae
 
     def load_recipes(paths)
       paths.each do |path|
-        recipe = Recipe.new(self, File.expand_path(path))
+        expanded_path = File.expand_path(path)
+        if path.include?('::')
+          gem_path = Recipe.find_recipe_in_gem(path)
+          expanded_path = gem_path if gem_path
+        end
+
+        recipe = Recipe.new(self, expanded_path)
         children << recipe
         recipe.load
       end
