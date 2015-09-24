@@ -1,3 +1,12 @@
+## v1.6.0
+
+Improvements
+
+- [Ignore `--node-yaml` when the result is false (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/165)
+- [Allow `include_recipe` to omit `.rb` extension (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/166)
+  - This is backward-compatible change
+- [Allow `load_recipes` to load plugin recipes directly (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/167)
+
 ## v1.5.2
 
 Improvements
