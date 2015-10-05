@@ -73,13 +73,18 @@ Requirements: Vagrant
 $ bundle exec rake spec
 ```
 
-## Presentations
-
-- [(in Japanese) Itamae - Infra as Code 現状確認会](https://speakerdeck.com/ryotarai/itamae-infra-as-code-xian-zhuang-que-ren-hui)
-
 ## Get Involved
 
-[Don't hesitate to join our Slack team!](https://itamae-slackin.herokuapp.com/)
+- [Join Slack team](https://itamae-slackin.herokuapp.com/)
+
+## Presentations / Articles
+
+### in Japanese
+
+- [Itamae - Infra as Code 現状確認会](https://speakerdeck.com/ryotarai/itamae-infra-as-code-xian-zhuang-que-ren-hui)
+- [クックパッドのサーバプロビジョニング事情 - クックパッド開発者ブログ](http://techlife.cookpad.com/entry/2015/05/12/080000)
+- [Itamaeが構成管理を仕込みます！ ～新進気鋭の国産・構成管理ツール～：連載｜gihyo.jp … 技術評論社](http://gihyo.jp/admin/serial/01/itamae)
+
 
 ## Contributing
 
