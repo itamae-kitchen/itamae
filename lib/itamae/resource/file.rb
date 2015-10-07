@@ -101,6 +101,11 @@ module Itamae
           run_command(['chown', '--reference', attributes.path, @temppath])
         end
 
+        unless check_command(["diff", "-q", @temppath, attributes.path])
+          # the file is modified
+          updated!
+        end
+
         run_specinfra(:move_file, @temppath, attributes.path)
       end
 

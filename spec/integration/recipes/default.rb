@@ -342,6 +342,11 @@ file '/tmp/file_edit_sample' do
   block do |content|
     content.gsub!('world', 'Itamae')
   end
+  notifies :run, "execute[echo 1 >> /tmp/file_edit_notifies]"
+end
+
+execute 'echo 1 >> /tmp/file_edit_notifies' do
+  action :nothing
 end
 
 ###
