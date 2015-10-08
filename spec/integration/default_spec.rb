@@ -180,3 +180,7 @@ describe file('/tmp/file_create_without_content') do
   it { should be_owned_by "itamae" }
   it { should be_grouped_into "itamae" }
 end
+
+describe file('/tmp/file_edit_notifies') do
+  its(:content) { should eq("1") }
+end
