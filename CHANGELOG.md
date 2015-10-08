@@ -1,3 +1,9 @@
+## v1.6.1
+
+Bugfixes
+
+- [Send a notification from `edit` action of `file` resource properly (by @kurochan)](https://github.com/itamae-kitchen/itamae/pull/169)
+
 ## v1.6.0
 
 Improvements
