@@ -150,6 +150,7 @@ module Itamae
                 else
                   f = Tempfile.open('itamae')
                   f.write(attributes.content)
+                  f.chmod(0644)
                   f.close
                   f.path
                 end
@@ -163,4 +164,3 @@ module Itamae
     end
   end
 end
-
