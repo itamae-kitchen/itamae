@@ -41,6 +41,10 @@ describe file('/tmp/directory_never_exist1') do
   it { should_not be_directory }
 end
 
+describe file('/tmp/default_permission_dir') do
+  it { should be_mode 755 }
+end
+
 %w!/tmp/template /tmp/template_auto!.each do |f|
   describe file(f) do
     it { should be_file }
@@ -68,6 +72,10 @@ end
 
 describe file('/tmp/never_exist2') do
   it { should_not be_file }
+end
+
+describe file('/tmp/default_permission_file') do
+  it { should be_mode 644 }
 end
 
 describe file('/tmp/notifies') do
