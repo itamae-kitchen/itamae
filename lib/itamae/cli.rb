@@ -71,5 +71,13 @@ module Itamae
     def version
       puts "Itamae v#{Itamae::VERSION}"
     end
+
+    desc "init NAME", "Create a new project"
+    def init(name)
+      generator = Generators::Project.new
+      generator.destination_root = name
+      generator.invoke_all
+    end
+
   end
 end

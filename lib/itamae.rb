@@ -12,7 +12,9 @@ require "itamae/definition"
 require "itamae/config"
 require "itamae/ext"
 
+require "itamae/generators"
+require "itamae/generators/project"
+
 module Itamae
   # Your code goes here...
 end
-
