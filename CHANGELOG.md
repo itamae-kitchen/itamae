@@ -1,3 +1,9 @@
+## v1.6.2
+
+Bugfixes
+
+- [Treat recipe name, arg of `include_recipe`, including `::` twice or more properly (by @sue445)](https://github.com/itamae-kitchen/itamae/pull/171)
+
 ## v1.6.1
 
 Bugfixes
