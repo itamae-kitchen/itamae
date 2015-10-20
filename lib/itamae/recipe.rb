@@ -11,7 +11,8 @@ module Itamae
 
     class << self
       def find_recipe_in_gem(recipe)
-        plugin_name, recipe_file = recipe.split('::')
+        plugin_name, recipe_file = recipe.split('::', 2)
+        recipe_file = recipe_file.gsub("::", "/") if recipe_file
 
         gem_name = "itamae-plugin-recipe-#{plugin_name}"
         begin
