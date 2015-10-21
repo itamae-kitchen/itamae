@@ -74,7 +74,7 @@ module Itamae
         end
 
         if options[:error] && result.exit_status != 0
-          fail CommandExecutionError, result.stderr
+          raise CommandExecutionError
         end
 
         result
