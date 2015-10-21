@@ -1,3 +1,9 @@
+## v1.6.3
+
+Features
+
+- [New command: `itamae init` which creates files and directories following the best practices (by @hmadison)](https://github.com/itamae-kitchen/itamae/pull/172)
+
 ## v1.6.2
 
 Bugfixes
