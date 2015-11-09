@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'vagrant', github: 'mitchellh/vagrant'
+gem 'vagrant-digitalocean'
 
 path = Pathname.new("Gemfile.local")
 eval(path.read) if path.exist?
