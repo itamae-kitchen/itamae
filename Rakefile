@@ -34,20 +34,32 @@ namespace :spec do
           system env, "#{vagrant_bin} ssh-config #{target} > #{config.path}"
           options = Net::SSH::Config.for(target, [config.path])
 
-          cmd = "bundle exec bin/itamae ssh"
-          cmd << " -h #{options[:host_name]}"
-          cmd << " -u #{options[:user]}"
-          cmd << " -p #{options[:port]}"
-          cmd << " -i #{options[:keys].first}"
-          cmd << " -l #{ENV['LOG_LEVEL'] || 'debug'}"
-          cmd << " -j spec/integration/recipes/node.json"
-          cmd << " spec/integration/recipes/default.rb"
-          cmd << " spec/integration/recipes/default2.rb"
-          cmd << " spec/integration/recipes/redefine.rb"
+          suites = [
+            [
+              "spec/integration/recipes/default.rb",
+              "spec/integration/recipes/default2.rb",
+              "spec/integration/recipes/redefine.rb",
+            ],
+            [
+              "--dry-run",
+              "spec/integration/recipes/dry_run.rb",
+            ],
+          ]
+          suites.each do |suite|
+            cmd = %w!bundle exec bin/itamae ssh!
+            cmd << "-h" << options[:host_name]
+            cmd << "-u" << options[:user]
+            cmd << "-p" << options[:port].to_s
+            cmd << "-i" << options[:keys].first
+            cmd << "-l" << (ENV['LOG_LEVEL'] || 'debug')
+            cmd << "-j" << "spec/integration/recipes/node.json"
+            cmd += suite
 
-          puts cmd
-          system cmd
-          abort unless $?.exitstatus == 0
+            p cmd
+            unless system(*cmd)
+              raise "#{cmd} failed"
+            end
+          end
         end
       end
 
