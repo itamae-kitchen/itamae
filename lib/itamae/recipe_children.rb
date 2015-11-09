@@ -57,7 +57,7 @@ module Itamae
       self.each do |resource|
         case resource
         when Resource::Base
-          resource.run(nil, dry_run: options[:dry_run])
+          resource.run
         when Recipe
           resource.run(options)
         end
