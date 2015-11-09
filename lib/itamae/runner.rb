@@ -20,11 +20,12 @@ module Itamae
           return
         end
 
-        runner.run(dry_run: options[:dry_run])
+        runner.run
       end
     end
 
     attr_reader :backend
+    attr_reader :options
     attr_reader :node
     attr_reader :tmpdir
     attr_reader :children
@@ -49,15 +50,19 @@ module Itamae
           expanded_path = gem_path if gem_path
         end
 
-        recipe = Recipe.new(self, expanded_path, @options)
+        recipe = Recipe.new(self, expanded_path)
         children << recipe
         recipe.load
       end
     end
 
-    def run(options)
-      children.run(options)
+    def run
+      children.run
       @backend.finalize
+    end
+
+    def dry_run?
+      @options[:dry_run]
     end
 
     private

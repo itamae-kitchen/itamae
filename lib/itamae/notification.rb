@@ -10,8 +10,8 @@ module Itamae
       runner.children.find_resource_by_description(target_resource_desc)
     end
 
-    def run(options)
-      action_resource.run(action, options)
+    def run
+      action_resource.run(action)
     end
 
     def action_resource

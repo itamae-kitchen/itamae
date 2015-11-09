@@ -3,7 +3,7 @@ require 'rspec/core/rake_task'
 require 'tempfile'
 require 'net/ssh'
 
-vagrant_bin = ENV['CI'] ? 'vagrant' : '/usr/bin/vagrant'
+vagrant_bin = 'vagrant'
 
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
@@ -16,10 +16,8 @@ namespace :spec do
 
   namespace :integration do
     targets = []
-    Bundler.with_clean_env do
-      `cd spec/integration && #{vagrant_bin} status`.split("\n\n")[1].each_line do |line|
-        targets << line.match(/^[^ ]+/)[0]
-      end
+    `cd spec/integration && #{vagrant_bin} status`.split("\n\n")[1].each_line do |line|
+      targets << line.match(/^[^ ]+/)[0]
     end
 
     task :all     => targets
@@ -30,28 +28,26 @@ namespace :spec do
 
       namespace :provision do
         task target do
-          Bundler.with_clean_env do
-            config = Tempfile.new('', Dir.tmpdir)
-            env = {"VAGRANT_CWD" => File.expand_path('./spec/integration')}
-            system env, "#{vagrant_bin} up #{target}"
-            system env, "#{vagrant_bin} ssh-config #{target} > #{config.path}"
-            options = Net::SSH::Config.for(target, [config.path])
+          config = Tempfile.new('', Dir.tmpdir)
+          env = {"VAGRANT_CWD" => File.expand_path('./spec/integration')}
+          system env, "#{vagrant_bin} up #{target}"
+          system env, "#{vagrant_bin} ssh-config #{target} > #{config.path}"
+          options = Net::SSH::Config.for(target, [config.path])
 
-            cmd = "bundle exec bin/itamae ssh"
-            cmd << " -h #{options[:host_name]}"
-            cmd << " -u #{options[:user]}"
-            cmd << " -p #{options[:port]}"
-            cmd << " -i #{options[:keys].first}"
-            cmd << " -l #{ENV['LOG_LEVEL'] || 'debug'}"
-            cmd << " -j spec/integration/recipes/node.json"
-            cmd << " spec/integration/recipes/default.rb"
-            cmd << " spec/integration/recipes/default2.rb"
-            cmd << " spec/integration/recipes/redefine.rb"
+          cmd = "bundle exec bin/itamae ssh"
+          cmd << " -h #{options[:host_name]}"
+          cmd << " -u #{options[:user]}"
+          cmd << " -p #{options[:port]}"
+          cmd << " -i #{options[:keys].first}"
+          cmd << " -l #{ENV['LOG_LEVEL'] || 'debug'}"
+          cmd << " -j spec/integration/recipes/node.json"
+          cmd << " spec/integration/recipes/default.rb"
+          cmd << " spec/integration/recipes/default2.rb"
+          cmd << " spec/integration/recipes/redefine.rb"
 
-            puts cmd
-            system cmd
-            abort unless $?.exitstatus == 0
-          end
+          puts cmd
+          system cmd
+          abort unless $?.exitstatus == 0
         end
       end
 
@@ -86,4 +82,3 @@ namespace :release do
     system "git commit -m 'Bump up version'"
   end
 end
-

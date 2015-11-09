@@ -20,7 +20,7 @@ module Itamae
         when :edit
           attributes.exist = true
 
-          unless @options[:dry_run]
+          unless runner.dry_run?
             content = backend.receive_file(attributes.path)
             attributes.block.call(content)
             attributes.content = content

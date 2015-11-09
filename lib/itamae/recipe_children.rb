@@ -53,14 +53,9 @@ module Itamae
       end.flatten
     end
 
-    def run(options)
+    def run
       self.each do |resource|
-        case resource
-        when Resource::Base
-          resource.run
-        when Recipe
-          resource.run(options)
-        end
+        resource.run
       end
     end
 

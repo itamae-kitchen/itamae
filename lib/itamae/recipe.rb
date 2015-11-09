@@ -42,12 +42,11 @@ module Itamae
       end
     end
 
-    def initialize(runner, path, options = {})
+    def initialize(runner, path)
       @runner = runner
       @path = path
       @delayed_notifications = []
       @children = RecipeChildren.new
-      @options = options
     end
 
     def dir
@@ -55,15 +54,15 @@ module Itamae
     end
 
     def load(vars = {})
-      context = EvalContext.new(self, vars, @options)
+      context = EvalContext.new(self, vars)
       context.instance_eval(File.read(path), path, 1)
     end
 
-    def run(options = {})
+    def run
       show_banner
 
       Itamae.logger.with_indent do
-        @children.run(@options)
+        @children.run
         run_delayed_notifications
       end
     end
@@ -76,7 +75,7 @@ module Itamae
       end
 
       while notification = @delayed_notifications.shift
-        notification.run(@options)
+        notification.run
       end
     end
 
@@ -85,9 +84,8 @@ module Itamae
     end
 
     class EvalContext
-      def initialize(recipe, vars, options = {})
+      def initialize(recipe, vars)
         @recipe = recipe
-        @options = options
 
         vars.each do |k, v|
           define_singleton_method(k) { v }
@@ -111,7 +109,7 @@ module Itamae
           super
         end
 
-        resource = klass.new(@recipe, name, @options, &block)
+        resource = klass.new(@recipe, name, &block)
         @recipe.children << resource
       end
 
@@ -135,7 +133,7 @@ module Itamae
           return
         end
 
-        recipe = Recipe.new(runner, path, @options)
+        recipe = Recipe.new(runner, path)
         @recipe.children << recipe
         recipe.load
       end
@@ -157,7 +155,7 @@ module Itamae
       attr_accessor :definition
 
       def load(vars = {})
-        context = EvalContext.new(self, vars, @options)
+        context = EvalContext.new(self, vars)
         context.instance_eval(&@definition.class.definition_block)
       end
 
