@@ -48,7 +48,7 @@ module Itamae
       %w!debug info warn error fatal unknown!.each do |level|
         module_eval(<<-EOC, __FILE__, __LINE__ + 1)
           def #{level}(msg)
-            super("  " * indent_depth + msg)
+            super(format("%s%s", "  " * indent_depth, msg))
           end
         EOC
       end

@@ -50,7 +50,7 @@ module Itamae
 
         Itamae.logger.with_indent do
           reset_output_handler
-          result = @backend.run_command(command)
+          result = @backend.run_command(command, options)
           flush_output_handler_buffer
 
           if result.exit_status == 0 || !options[:error]
@@ -246,6 +246,10 @@ module Itamae
       def finalize
         image = @backend.commit_container
         Itamae.logger.info "Image created: #{image.id}"
+      end
+
+      def run_command(commands, options = {})
+        super(commands, options.merge({ tty: true }))
       end
 
       private
