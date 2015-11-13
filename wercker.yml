@@ -68,10 +68,10 @@ build:
   after-steps:
     - script:
         name: shutdown vm
-        code: vagrant destroy -f
+        code: bundle exec vagrant destroy -f
         cwd: spec/integration
 
     - script:
         name: shutdown old vms
-        code: ruby ci/destroy_old_droplets.rb
+        code: bundle exec ruby ci/destroy_old_droplets.rb
 
