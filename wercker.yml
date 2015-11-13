@@ -48,24 +48,16 @@ build:
         code: chmod 600 $HOME/.ssh/id_rsa.vagrant
 
     - script:
-        name: download vagrant
-        code: wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
-
-    - script:
-        name: install vagrant
-        code: sudo dpkg -i vagrant_1.6.3_x86_64.deb
-
-    - script:
         name: install libxml and libxslt
         code: sudo apt-get install libxml2-dev libxslt1-dev
 
     - script:
-        name: install vagrant-digitalocean
-        code: NOKOGIRI_USE_SYSTEM_LIBRARIES=1 vagrant plugin install vagrant-digitalocean
+        name: bundle install
+        code: bundle install --deployment -j4
 
     - script:
         name: start vm
-        code: vagrant up --provider=digital_ocean
+        code: bundle exec vagrant up --provider=digital_ocean
         cwd: spec/integration
 
     # Add more steps here:
@@ -76,10 +68,10 @@ build:
   after-steps:
     - script:
         name: shutdown vm
-        code: vagrant destroy -f
+        code: bundle exec vagrant destroy -f
         cwd: spec/integration
 
     - script:
         name: shutdown old vms
-        code: ruby ci/destroy_old_droplets.rb
+        code: bundle exec ruby ci/destroy_old_droplets.rb
 

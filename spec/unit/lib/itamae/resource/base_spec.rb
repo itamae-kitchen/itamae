@@ -102,7 +102,9 @@ describe TestResource do
 
   let(:commands) { double(:commands) }
   let(:runner) do
-    double(:runner)
+    instance_double(Itamae::Runner).tap do |r|
+      allow(r).to receive(:dry_run?).and_return(false)
+    end
   end
   let(:recipe) do
     double(:recipe).tap do |r|
@@ -119,17 +121,6 @@ describe TestResource do
     it "executes <ACTION_NAME>_action method" do
       expect(subject).to receive(:action_name)
       subject.run
-    end
-
-    context 'with dry_run' do
-      subject(:dry_run_resource) { described_class.new(recipe, "name", dry_run: true) }
-
-      context 'when specified action is unavailable' do
-        it 'logs error' do
-          expect(Itamae.logger).to receive(:error).with(/action :name is unavailable/)
-          subject.run
-        end
-      end
     end
   end
 end

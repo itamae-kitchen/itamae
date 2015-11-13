@@ -5,10 +5,8 @@ require 'tempfile'
 set :backend, :ssh
 
 def vagrant(cmd)
-  Bundler.with_clean_env do
-    env = {"VAGRANT_CWD" => File.dirname(__FILE__)}
-    system env, "/usr/bin/vagrant #{cmd}"
-  end
+  env = {"VAGRANT_CWD" => File.dirname(__FILE__)}
+  system(env, "vagrant #{cmd}")
 end
 
 if ENV['ASK_SUDO_PASSWORD']
@@ -38,8 +36,7 @@ set :ssh_options, options
 # set :disable_sudo, true
 
 # Set environment variables
-# set :env, :LANG => 'C', :LC_MESSAGES => 'C' 
+# set :env, :LANG => 'C', :LC_MESSAGES => 'C'
 
 # Set PATH
 # set :path, '/sbin:/usr/local/sbin:$PATH'
-

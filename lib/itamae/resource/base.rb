@@ -101,11 +101,10 @@ module Itamae
       attr_reader :notifications
       attr_reader :updated
 
-      def initialize(recipe, resource_name, options = {}, &block)
+      def initialize(recipe, resource_name, &block)
         clear_current_attributes
         @recipe = recipe
         @resource_name = resource_name
-        @options = options
         @updated = false
 
         EvalContext.new(self).tap do |context|
@@ -121,7 +120,7 @@ module Itamae
         process_attributes
       end
 
-      def run(specific_action = nil, options = {})
+      def run(specific_action = nil)
         Itamae.logger.debug "#{resource_type}[#{resource_name}]"
 
         Itamae.logger.with_indent_if(Itamae.logger.debug?) do
@@ -137,7 +136,7 @@ module Itamae
             run_action(action)
           end
 
-          verify unless @options[:dry_run]
+          verify unless runner.dry_run?
           notify if updated?
         end
 
@@ -147,7 +146,7 @@ module Itamae
         exit 2
       end
 
-      def action_nothing(options)
+      def action_nothing
         # do nothing
       end
 
@@ -167,7 +166,7 @@ module Itamae
 
       alias_method :current, :current_attributes
 
-      def run_action(action, options = {})
+      def run_action(action)
         original_attributes = @attributes # preserve and restore later
         @current_action = action
 
@@ -188,12 +187,18 @@ module Itamae
           show_differences
 
           method_name = "action_#{action}"
-          if @options[:dry_run]
+          if runner.dry_run?
             unless respond_to?(method_name)
               Itamae.logger.error "action #{action.inspect} is unavailable"
             end
           else
-            public_send(method_name, @options)
+            args = [method_name]
+            if method(method_name).arity == 1
+              # for plugin compatibility
+              args << runner.options
+            end
+
+            public_send(*args)
           end
 
           updated! if different?
@@ -328,7 +333,7 @@ module Itamae
         @updated
       end
 
-      def notify(options = {})
+      def notify
         (notifications + recipe.children.subscribing(self)).each do |notification|
           message = "Notifying #{notification.action} to #{notification.action_resource.resource_type} resource '#{notification.action_resource.resource_name}'"
 
@@ -347,7 +352,7 @@ module Itamae
           if notification.delayed?
             @recipe.delayed_notifications << notification
           elsif notification.immediately?
-            notification.run(@options)
+            notification.run
           end
         end
       end
