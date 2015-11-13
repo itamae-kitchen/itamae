@@ -16,7 +16,12 @@ namespace :spec do
 
   namespace :integration do
     targets = []
-    `cd spec/integration && #{vagrant_bin} status`.split("\n\n")[1].each_line do |line|
+    status = `cd spec/integration && #{vagrant_bin} status`
+    unless $?.exitstatus == 0
+      raise "vagrant status failed.\n#{status}"
+    end
+
+    status.split("\n\n")[1].each_line do |line|
       targets << line.match(/^[^ ]+/)[0]
     end
 
