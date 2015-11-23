@@ -1,4 +1,4 @@
-## v1.6.4.pre
+## v1.7.0.pre
 
 Features
 
