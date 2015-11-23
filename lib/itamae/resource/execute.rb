@@ -24,4 +24,3 @@ module Itamae
     end
   end
 end
-
