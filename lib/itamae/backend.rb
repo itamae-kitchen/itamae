@@ -35,9 +35,12 @@ module Itamae
     end
 
     class Base
+      attr_reader :executed_commands
+      
       def initialize(options)
         @options = options
         @backend = create_specinfra_backend
+        @executed_commands = []
       end
 
       def run_command(commands, options = {})
@@ -50,7 +53,9 @@ module Itamae
 
         Itamae.logger.with_indent do
           reset_output_handler
-          result = @backend.run_command(command)
+
+          result = run_command_with_profiling(command)
+
           flush_output_handler_buffer
 
           if result.exit_status == 0 || !options[:error]
@@ -185,6 +190,16 @@ module Itamae
 
       def shell
         @options[:shell]
+      end
+
+      def run_command_with_profiling(command)
+        start_at = Time.now
+        result = @backend.run_command(command)
+        duration = Time.now.to_f - start_at.to_f
+
+        @executed_commands << {command: command, duration: duration}
+
+        result
       end
     end
 

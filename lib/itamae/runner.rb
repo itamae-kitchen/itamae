@@ -18,6 +18,10 @@ module Itamae
         end
 
         runner.run
+
+        if profile = options[:profile]
+          runner.save_profile(profile)
+        end
       end
     end
 
@@ -66,6 +70,12 @@ module Itamae
       Itamae.logger.info "Writing dependency graph in DOT to #{path}..."
       open(path, 'w') do |f|
         f.write(runner.children.deps_in_dot)
+      end
+    end
+
+    def save_profile(path)
+      open(path, 'w', 0600) do |f|
+        f.write(@backend.executed_commands.to_json)
       end
     end
 

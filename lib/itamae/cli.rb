@@ -21,6 +21,7 @@ module Itamae
       option :dry_run, type: :boolean, aliases: ['-n']
       option :shell, type: :string, default: "/bin/sh"
       option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be unavailable."
+      option :profile, type: :string, desc: "[EXPERIMENTAL] Save profiling data", banner: "PATH"
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
