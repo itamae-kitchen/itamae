@@ -13,10 +13,7 @@ module Itamae
         runner.load_recipes(recipe_files)
 
         if dot_file = options[:dot]
-          Itamae.logger.info "Writing dependency graph in DOT to #{dot_file}..."
-          open(dot_file, 'w') do |f|
-            f.write(runner.children.deps_in_dot)
-          end
+          runner.save_dependency_graph(dot_file)
           return
         end
 
@@ -63,6 +60,13 @@ module Itamae
 
     def dry_run?
       @options[:dry_run]
+    end
+
+    def save_dependency_graph(path)
+      Itamae.logger.info "Writing dependency graph in DOT to #{path}..."
+      open(path, 'w') do |f|
+        f.write(runner.children.deps_in_dot)
+      end
     end
 
     private
