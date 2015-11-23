@@ -1,3 +1,14 @@
+## v1.6.4.pre
+
+Features
+
+- `--profile` option (experimental)
+  - `--profile PATH` saves executed commands to `PATH` in JSON format
+
+Bugfixes
+
+- [Suppress errors of `edit` action of `file` resource when the target file doesn't exist in `dry-run` mode](https://github.com/itamae-kitchen/itamae/pull/144)
+
 ## v1.6.3
 
 Features
