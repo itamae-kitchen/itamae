@@ -35,6 +35,8 @@ module Itamae
       @backend = backend
       @options = options
 
+      prepare_reporters
+
       @node = create_node
       @tmpdir = "/tmp/itamae_tmp"
       @children = RecipeChildren.new
@@ -79,6 +81,12 @@ module Itamae
       end
     end
 
+    def report(*args)
+      @reporters.each do |r|
+        r.event(*args)
+      end
+    end
+
     private
     def create_node
       hash = {}
@@ -107,6 +115,16 @@ module Itamae
       end
 
       Node.new(hash, @backend)
+    end
+
+    def prepare_reporters
+      @reporters = (@options[:reporters] || []).map do |reporter|
+        type = reporter.delete('type')
+        unless type
+          raise "#{type} field is not set"
+        end
+        Reporter.from_type(type).new(reporter)
+      end
     end
   end
 end
