@@ -1,3 +1,7 @@
+## v1.7.0
+
+No change
+
 ## v1.7.0.pre
 
 Features
