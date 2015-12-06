@@ -9,7 +9,6 @@ require "itamae/node"
 require "itamae/backend"
 require "itamae/notification"
 require "itamae/definition"
-require "itamae/config"
 require "itamae/ext"
 
 require "itamae/generators"

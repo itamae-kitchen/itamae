@@ -5,10 +5,10 @@ module Itamae
   class CLI < Thor
     class_option :log_level, type: :string, aliases: ['-l'], default: 'info'
     class_option :color, type: :boolean, default: true
+    class_option :config, type: :string, aliases: ['-c']
 
-    def initialize(args, opts, config)
-      opts = Config.new(opts).load
-      super(args, opts, config)
+    def initialize(*)
+      super
 
       Itamae.logger.level = ::Logger.const_get(options[:log_level].upcase)
       Itamae.logger.formatter.colored = options[:color]
@@ -80,5 +80,13 @@ module Itamae
       generator.invoke_all
     end
 
+    private
+    def options
+      @itamae_options ||= super.dup.tap do |options|
+        if config = options[:config]
+          options.merge!(YAML.load_file(config))
+        end
+      end
+    end
   end
 end
