@@ -3,6 +3,8 @@ require 'thor'
 
 module Itamae
   class CLI < Thor
+    GENERATE_TARGETS = %w[cookbook role].freeze
+
     class_option :log_level, type: :string, aliases: ['-l'], default: 'info'
     class_option :color, type: :boolean, default: true
     class_option :config, type: :string, aliases: ['-c']
@@ -80,12 +82,40 @@ module Itamae
       generator.invoke_all
     end
 
+    desc 'generate [cookbook|role] [NAME]', 'Initialize role or cookbook (short-cut alias: "g")'
+    map 'g' => 'generate'
+    def generate(target, name)
+      validate_generate_target!('generate', target)
+
+      generator = Generators.find(target).new
+      generator.destination_root = File.join("#{target}s", name)
+      generator.copy_files
+    end
+
+    desc 'destroy [cookbook|role] [NAME]', 'Undo role or cookbook (short-cut alias: "d")'
+    map 'd' => 'destroy'
+    def destroy(target, name)
+      validate_generate_target!('destroy', target)
+
+      generator = Generators.find(target).new
+      generator.destination_root = File.join("#{target}s", name)
+      generator.remove_files
+    end
+
     private
     def options
       @itamae_options ||= super.dup.tap do |options|
         if config = options[:config]
           options.merge!(YAML.load_file(config))
         end
+      end
+    end
+
+    def validate_generate_target!(command, target)
+      unless GENERATE_TARGETS.include?(target)
+        msg = %Q!ERROR: "itamae #{command}" was called with "#{target}" !
+        msg << "but expected to be in #{GENERATE_TARGETS.inspect}"
+        fail InvocationError, msg
       end
     end
   end

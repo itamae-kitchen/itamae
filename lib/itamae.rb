@@ -10,9 +10,7 @@ require "itamae/backend"
 require "itamae/notification"
 require "itamae/definition"
 require "itamae/ext"
-
 require "itamae/generators"
-require "itamae/generators/project"
 
 module Itamae
   # Your code goes here...
