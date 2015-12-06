@@ -61,9 +61,11 @@ module Itamae
     def run
       show_banner
 
-      Itamae.logger.with_indent do
-        @children.run
-        run_delayed_notifications
+      @runner.report_with_block(:recipe, path: @path) do
+        Itamae.logger.with_indent do
+          @children.run
+          run_delayed_notifications
+        end
       end
     end
 

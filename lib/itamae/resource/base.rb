@@ -121,26 +121,28 @@ module Itamae
       end
 
       def run(specific_action = nil)
-        Itamae.logger.debug "#{resource_type}[#{resource_name}]"
+        runner.report_with_block(:resource) do
+          Itamae.logger.debug "#{resource_type}[#{resource_name}]"
 
-        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          if do_not_run_because_of_only_if?
-            Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of only_if attribute"
-            return
-          elsif do_not_run_because_of_not_if?
-            Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of not_if attribute"
-            return
+          Itamae.logger.with_indent_if(Itamae.logger.debug?) do
+            if do_not_run_because_of_only_if?
+              Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of only_if attribute"
+              return
+            elsif do_not_run_because_of_not_if?
+              Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of not_if attribute"
+              return
+            end
+
+            [specific_action || attributes.action].flatten.each do |action|
+              run_action(action)
+            end
+
+            verify unless runner.dry_run?
+            notify if updated?
           end
 
-          [specific_action || attributes.action].flatten.each do |action|
-            run_action(action)
-          end
-
-          verify unless runner.dry_run?
-          notify if updated?
+          @updated = false
         end
-
-        @updated = false
       rescue Backend::CommandExecutionError
         Itamae.logger.error "#{resource_type}[#{resource_name}] Failed."
         exit 2
