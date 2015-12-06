@@ -34,8 +34,17 @@ module Itamae
           begin
             ::Itamae::Plugin::Resource.const_get(to_camel_case(method.to_s))
           rescue NameError
-            raise Error, "#{method} resource is missing."
+            autoload_plugin_resource(method)
           end
+        end
+      end
+
+      def autoload_plugin_resource(method)
+        begin
+          require "itamae/plugin/resource/#{method}"
+          ::Itamae::Plugin::Resource.const_get(to_camel_case(method.to_s))
+        rescue LoadError, NameError
+          raise Error, "#{method} resource is missing."
         end
       end
 
