@@ -81,10 +81,17 @@ module Itamae
       end
     end
 
-    def report(*args)
+    def report(event_name, *args)
       @reporters.each do |r|
-        r.event(*args)
+        r.event(event_name, *args)
       end
+    end
+
+    def report_with_block(event_name, *args)
+      report("begin_#{event_name}".to_sym, *args)
+      yield
+    ensure
+      report("end_#{event_name}".to_sym, *args)
     end
 
     private
