@@ -161,45 +161,47 @@ module Itamae
       alias_method :current, :current_attributes
 
       def run_action(action)
-        original_attributes = @attributes # preserve and restore later
-        @current_action = action
+        runner.report_with_block(:action) do
+          original_attributes = @attributes # preserve and restore later
+          @current_action = action
 
-        clear_current_attributes
+          clear_current_attributes
 
-        Itamae.logger.debug "#{resource_type}[#{resource_name}] action: #{action}"
+          Itamae.logger.debug "#{resource_type}[#{resource_name}] action: #{action}"
 
-        return if action == :nothing
+          return if action == :nothing
 
-        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          Itamae.logger.debug "(in pre_action)"
-          pre_action
+          Itamae.logger.with_indent_if(Itamae.logger.debug?) do
+            Itamae.logger.debug "(in pre_action)"
+            pre_action
 
-          Itamae.logger.debug "(in set_current_attributes)"
-          set_current_attributes
+            Itamae.logger.debug "(in set_current_attributes)"
+            set_current_attributes
 
-          Itamae.logger.debug "(in show_differences)"
-          show_differences
+            Itamae.logger.debug "(in show_differences)"
+            show_differences
 
-          method_name = "action_#{action}"
-          if runner.dry_run?
-            unless respond_to?(method_name)
-              Itamae.logger.error "action #{action.inspect} is unavailable"
+            method_name = "action_#{action}"
+            if runner.dry_run?
+              unless respond_to?(method_name)
+                Itamae.logger.error "action #{action.inspect} is unavailable"
+              end
+            else
+              args = [method_name]
+              if method(method_name).arity == 1
+                # for plugin compatibility
+                args << runner.options
+              end
+
+              public_send(*args)
             end
-          else
-            args = [method_name]
-            if method(method_name).arity == 1
-              # for plugin compatibility
-              args << runner.options
-            end
 
-            public_send(*args)
+            updated! if different?
           end
 
-          updated! if different?
+          @current_action = nil
+          @attributes = original_attributes
         end
-
-        @current_action = nil
-        @attributes = original_attributes
       end
 
       def clear_current_attributes
