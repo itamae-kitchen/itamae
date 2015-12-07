@@ -156,6 +156,17 @@ end
 
 ######
 
+http_request "/tmp/http_request.html" do
+  url "https://httpbin.org/get?from=itamae"
+end
+
+http_request "/tmp/http_request_headers.html" do
+  headers "User-Agent" => "Itamae"
+  url "https://httpbin.org/get"
+end
+
+######
+
 service "cron" do
   action :stop
 end
