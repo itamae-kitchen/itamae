@@ -121,7 +121,7 @@ module Itamae
       end
 
       def run(specific_action = nil)
-        runner.report_with_block(:resource, resource_type: resource_type, resource_name: resource_name) do
+        runner.handler.event(:resource, resource_type: resource_type, resource_name: resource_name) do
           Itamae.logger.debug "#{resource_type}[#{resource_name}]"
 
           Itamae.logger.with_indent_if(Itamae.logger.debug?) do
@@ -161,7 +161,7 @@ module Itamae
       alias_method :current, :current_attributes
 
       def run_action(action)
-        runner.report_with_block(:action, action: action) do
+        runner.handler.event(:action, action: action) do
           original_attributes = @attributes # preserve and restore later
           @current_action = action
 
@@ -198,7 +198,7 @@ module Itamae
 
             if different?
               updated!
-              runner.report(:attribute_changed, from: @current_attributes, to: @attributes)
+              runner.handler.event(:attribute_changed, from: @current_attributes, to: @attributes)
             end
           end
 

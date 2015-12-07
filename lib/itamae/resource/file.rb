@@ -138,7 +138,7 @@ module Itamae
               Itamae.logger.info line.chomp
             end
           end
-          runner.report(:file_content_changed, diff: diff.stdout)
+          runner.handler.event(:file_content_changed, diff: diff.stdout)
         end
       end
 
