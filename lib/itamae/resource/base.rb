@@ -196,7 +196,10 @@ module Itamae
               public_send(*args)
             end
 
-            updated! if different?
+            if different?
+              updated!
+              runner.report(:attribute_changed, from: @current_attributes, to: @attributes)
+            end
           end
 
           @current_action = nil
