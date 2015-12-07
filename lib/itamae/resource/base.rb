@@ -138,7 +138,10 @@ module Itamae
             end
 
             verify unless runner.dry_run?
-            notify if updated?
+            if updated?
+              notify
+              runner.handler.event(:resource_updated)
+            end
           end
 
           @updated = false
