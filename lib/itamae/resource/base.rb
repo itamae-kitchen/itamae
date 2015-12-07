@@ -153,15 +153,7 @@ module Itamae
       end
 
       def resource_type
-        humps = []
-        self.class.name.split("::").last.each_char do |c|
-          if "A" <= c && c <= "Z"
-            humps << c.downcase
-          else
-            humps.last << c
-          end
-        end
-        humps.join('_')
+        self.class.name.split("::").last.scan(/[A-Z][^A-Z]+/).map(&:downcase).join('_')
       end
 
       private
