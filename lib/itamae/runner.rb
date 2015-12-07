@@ -88,10 +88,13 @@ module Itamae
     end
 
     def report_with_block(event_name, *args)
-      report("begin_#{event_name}".to_sym, *args)
+      report("#{event_name}_started".to_sym, *args)
       yield
-    ensure
-      report("end_#{event_name}".to_sym, *args)
+    rescue
+      report("#{event_name}_failed".to_sym, *args)
+      raise
+    else
+      report("#{event_name}_completed".to_sym, *args)
     end
 
     private
