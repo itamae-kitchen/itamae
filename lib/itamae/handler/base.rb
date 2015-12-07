@@ -1,5 +1,5 @@
 module Itamae
-  module Reporter
+  module Handler
     class Base
       def initialize(options)
         @options = options

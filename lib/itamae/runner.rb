@@ -35,7 +35,7 @@ module Itamae
       @backend = backend
       @options = options
 
-      prepare_reporters
+      prepare_handlers
 
       @node = create_node
       @tmpdir = "/tmp/itamae_tmp"
@@ -82,7 +82,7 @@ module Itamae
     end
 
     def report(event_name, *args)
-      @reporters.each do |r|
+      @handers.each do |r|
         r.event(event_name, *args)
       end
     end
@@ -127,13 +127,13 @@ module Itamae
       Node.new(hash, @backend)
     end
 
-    def prepare_reporters
-      @reporters = (@options[:reporters] || []).map do |reporter|
-        type = reporter.delete('type')
+    def prepare_handlers
+      @handler = (@options[:handlers] || []).map do |handler|
+        type = handler.delete('type')
         unless type
           raise "#{type} field is not set"
         end
-        Reporter.from_type(type).new(reporter)
+        Handler.from_type(type).new(handler)
       end
     end
   end

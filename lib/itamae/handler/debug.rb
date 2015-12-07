@@ -1,5 +1,5 @@
 module Itamae
-  module Reporter
+  module Handler
     class Debug < Base
       def event(type, payload = {})
         super

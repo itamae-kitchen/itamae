@@ -1,15 +1,15 @@
-require 'itamae/reporter/base'
-require 'itamae/reporter/debug'
+require 'itamae/handler/base'
+require 'itamae/handler/debug'
 
 module Itamae
-  module Reporter
+  module Handler
     def self.from_type(type)
       first_time = true
 
       class_name = type.split('_').map(&:capitalize).join
       self.const_get(class_name)
     rescue NameError
-      require "itamae/reporter/#{type}"
+      require "itamae/handler/#{type}"
 
       if first_time
         first_time = false
