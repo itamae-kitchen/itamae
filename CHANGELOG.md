@@ -1,3 +1,13 @@
+## v1.8.0
+
+Features
+
+- [`generate` and `destroy` subcommands to manipulate cookbooks and roles (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/176)
+
+Improvements
+
+- [Fallback to autoload resource plugin (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/179)
+
 ## v1.7.0
 
 No change
