@@ -60,24 +60,24 @@ module Itamae
     end
 
     # returns dependencies graph in DOT
-    def deps_in_dot
+    def dependency_in_dot
       result = ""
       result << "digraph recipes {\n"
       result << "  rankdir=LR;\n"
-      result << _deps_in_dot
+      result << _dependency_in_dot
       result << "}"
 
       result
     end
 
-    def _deps_in_dot
+    def _dependency_in_dot
       result = ""
 
       recipes(recursive: false).each do |recipe|
         recipe.children.recipes(recursive: false).each do |child_recipe|
           result << %{  "#{recipe.path}" -> "#{child_recipe.path}";\n}
         end
-        result << recipe.children._deps_in_dot
+        result << recipe.children._dependency_in_dot
       end
 
       result

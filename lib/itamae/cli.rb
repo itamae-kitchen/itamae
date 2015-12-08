@@ -17,7 +17,7 @@ module Itamae
     end
 
     def self.define_exec_options
-      option :dot, type: :string, default: nil, desc: "[EXPERIMENTAL] Only write dependency graph in DOT", banner: "PATH"
+      option :recipe_graph, type: :string, desc: "[EXPERIMENTAL] Write recipe dependency graph in DOT", banner: "PATH"
       option :node_json, type: :string, aliases: ['-j']
       option :node_yaml, type: :string, aliases: ['-y']
       option :dry_run, type: :boolean, aliases: ['-n']
