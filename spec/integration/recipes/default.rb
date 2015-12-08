@@ -129,6 +129,12 @@ directory "/tmp/directory_never_exist1" do
   action :delete
 end
 
+directory "/tmp/default_permission_dir" do
+  owner "itamae"
+  group "itamae"
+  action :create
+end
+
 template "/tmp/template" do
   source "hello.erb"
   variables goodbye: "Good bye"
@@ -152,6 +158,11 @@ end
 
 file "/tmp/never_exist2" do
   not_if "exit 0"
+end
+
+file "/tmp/default_permission_file" do
+  content "Hello World"
+  action :create
 end
 
 ######
