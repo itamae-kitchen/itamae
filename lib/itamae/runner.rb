@@ -20,10 +20,13 @@ module Itamae
     attr_reader :node
     attr_reader :tmpdir
     attr_reader :children
+    attr_reader :handler
 
     def initialize(backend, options)
       @backend = backend
       @options = options
+
+      prepare_handler
 
       @node = create_node
       @tmpdir = "/tmp/itamae_tmp"
@@ -105,6 +108,17 @@ module Itamae
       end
 
       Node.new(hash, @backend)
+    end
+
+    def prepare_handler
+      @handler = HandlerProxy.new
+      (@options[:handlers] || []).each do |handler|
+        type = handler.delete('type')
+        unless type
+          raise "#{type} field is not set"
+        end
+        @handler.register_instance(Handler.from_type(type).new(handler))
+      end
     end
   end
 end

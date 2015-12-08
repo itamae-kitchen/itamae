@@ -100,14 +100,15 @@ end
 describe TestResource do
   subject(:resource) { described_class.new(recipe, "name") }
 
-  let(:commands) { double(:commands) }
+  let(:handler) { Itamae::HandlerProxy.new }
   let(:runner) do
     instance_double(Itamae::Runner).tap do |r|
       allow(r).to receive(:dry_run?).and_return(false)
+      allow(r).to receive(:handler).and_return(handler)
     end
   end
   let(:recipe) do
-    double(:recipe).tap do |r|
+    instance_double(Itamae::Recipe).tap do |r|
       allow(r).to receive(:runner).and_return(runner)
     end
   end

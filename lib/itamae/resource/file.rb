@@ -50,8 +50,8 @@ module Itamae
 
         super
 
-        if current.exist && @temppath
-          show_file_diff
+        if @temppath
+          compare_file
         end
       end
 
@@ -113,8 +113,14 @@ module Itamae
 
       private
 
-      def show_file_diff
-        diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
+      def compare_file
+        compare_to = if current.exist
+                       attributes.path
+                     else
+                       '/dev/null'
+                     end
+
+        diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
         if diff.exit_status == 0
           # no change
           Itamae.logger.debug "file content will not change"
@@ -132,6 +138,7 @@ module Itamae
               Itamae.logger.info line.chomp
             end
           end
+          runner.handler.event(:file_content_changed, diff: diff.stdout)
         end
       end
 

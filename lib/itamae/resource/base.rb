@@ -121,26 +121,31 @@ module Itamae
       end
 
       def run(specific_action = nil)
-        Itamae.logger.debug "#{resource_type}[#{resource_name}]"
+        runner.handler.event(:resource, resource_type: resource_type, resource_name: resource_name) do
+          Itamae.logger.debug "#{resource_type}[#{resource_name}]"
 
-        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          if do_not_run_because_of_only_if?
-            Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of only_if attribute"
-            return
-          elsif do_not_run_because_of_not_if?
-            Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of not_if attribute"
-            return
+          Itamae.logger.with_indent_if(Itamae.logger.debug?) do
+            if do_not_run_because_of_only_if?
+              Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of only_if attribute"
+              return
+            elsif do_not_run_because_of_not_if?
+              Itamae.logger.debug "#{resource_type}[#{resource_name}] Execution skipped because of not_if attribute"
+              return
+            end
+
+            [specific_action || attributes.action].flatten.each do |action|
+              run_action(action)
+            end
+
+            verify unless runner.dry_run?
+            if updated?
+              notify
+              runner.handler.event(:resource_updated)
+            end
           end
 
-          [specific_action || attributes.action].flatten.each do |action|
-            run_action(action)
-          end
-
-          verify unless runner.dry_run?
-          notify if updated?
+          @updated = false
         end
-
-        @updated = false
       rescue Backend::CommandExecutionError
         Itamae.logger.error "#{resource_type}[#{resource_name}] Failed."
         exit 2
@@ -151,15 +156,7 @@ module Itamae
       end
 
       def resource_type
-        humps = []
-        self.class.name.split("::").last.each_char do |c|
-          if "A" <= c && c <= "Z"
-            humps << c.downcase
-          else
-            humps.last << c
-          end
-        end
-        humps.join('_')
+        self.class.name.split("::").last.scan(/[A-Z][^A-Z]+/).map(&:downcase).join('_')
       end
 
       private
@@ -167,45 +164,50 @@ module Itamae
       alias_method :current, :current_attributes
 
       def run_action(action)
-        original_attributes = @attributes # preserve and restore later
-        @current_action = action
+        runner.handler.event(:action, action: action) do
+          original_attributes = @attributes # preserve and restore later
+          @current_action = action
 
-        clear_current_attributes
+          clear_current_attributes
 
-        Itamae.logger.debug "#{resource_type}[#{resource_name}] action: #{action}"
+          Itamae.logger.debug "#{resource_type}[#{resource_name}] action: #{action}"
 
-        return if action == :nothing
+          return if action == :nothing
 
-        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          Itamae.logger.debug "(in pre_action)"
-          pre_action
+          Itamae.logger.with_indent_if(Itamae.logger.debug?) do
+            Itamae.logger.debug "(in pre_action)"
+            pre_action
 
-          Itamae.logger.debug "(in set_current_attributes)"
-          set_current_attributes
+            Itamae.logger.debug "(in set_current_attributes)"
+            set_current_attributes
 
-          Itamae.logger.debug "(in show_differences)"
-          show_differences
+            Itamae.logger.debug "(in show_differences)"
+            show_differences
 
-          method_name = "action_#{action}"
-          if runner.dry_run?
-            unless respond_to?(method_name)
-              Itamae.logger.error "action #{action.inspect} is unavailable"
+            method_name = "action_#{action}"
+            if runner.dry_run?
+              unless respond_to?(method_name)
+                Itamae.logger.error "action #{action.inspect} is unavailable"
+              end
+            else
+              args = [method_name]
+              if method(method_name).arity == 1
+                # for plugin compatibility
+                args << runner.options
+              end
+
+              public_send(*args)
             end
-          else
-            args = [method_name]
-            if method(method_name).arity == 1
-              # for plugin compatibility
-              args << runner.options
-            end
 
-            public_send(*args)
+            if different?
+              updated!
+              runner.handler.event(:attribute_changed, from: @current_attributes, to: @attributes)
+            end
           end
 
-          updated! if different?
+          @current_action = nil
+          @attributes = original_attributes
         end
-
-        @current_action = nil
-        @attributes = original_attributes
       end
 
       def clear_current_attributes
