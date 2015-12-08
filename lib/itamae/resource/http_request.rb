@@ -14,12 +14,6 @@ module Itamae
 
         super
       end
-
-      private
-
-      def content_file
-        nil
-      end
     end
   end
 end
