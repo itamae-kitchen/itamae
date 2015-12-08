@@ -11,16 +11,7 @@ module Itamae
         backend = Backend.create(backend_type, options)
         runner = self.new(backend, options)
         runner.load_recipes(recipe_files)
-
-        if recipe_graph_file = options[:recipe_graph]
-          runner.save_dependency_graph(recipe_graph_file)
-        end
-
         runner.run
-
-        if profile = options[:profile]
-          runner.save_profile(profile)
-        end
       end
     end
 
@@ -57,8 +48,16 @@ module Itamae
     end
 
     def run
+      if recipe_graph_file = options[:recipe_graph]
+        save_dependency_graph(recipe_graph_file)
+      end
+
       children.run
       @backend.finalize
+
+      if profile = options[:profile]
+        save_profile(profile)
+      end
     end
 
     def dry_run?
