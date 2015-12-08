@@ -1,3 +1,9 @@
+## v1.8.1 (unreleased)
+
+Improvements
+
+- Rename `--dot` option to `--recipe-graph` option. (experimantal option)
+
 ## v1.8.0
 
 Features
