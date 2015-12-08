@@ -1,3 +1,5 @@
+require 'socket'
+
 module Itamae
   module Handler
     class Base
@@ -24,6 +26,12 @@ module Itamae
         when :action_completed, :action_failed
           @actions.pop
         end
+      end
+
+      private
+
+      def hostname
+        @hostname ||= @options['hostname'] || Socket.gethostname
       end
     end
   end
