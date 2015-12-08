@@ -1,5 +1,4 @@
 require 'itamae/handler/base'
-require 'itamae/handler/debug'
 
 module Itamae
   module Handler
