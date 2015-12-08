@@ -4,7 +4,7 @@ module Itamae
       @instances = []
     end
 
-    def <<(instance)
+    def register_instance(instance)
       @instances << instance
     end
 

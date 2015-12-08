@@ -119,7 +119,7 @@ module Itamae
         unless type
           raise "#{type} field is not set"
         end
-        @handler << Handler.from_type(type).new(handler)
+        @handler.register_instance(Handler.from_type(type).new(handler))
       end
     end
   end
