@@ -1,8 +1,14 @@
-## v1.8.1 (unreleased)
+## v1.9.0 (unreleased)
+
+Features
+
+- [Introduce Handler which handles events from Itamae (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/181)
+  - Compatibility can be broken because this is experimental feature
 
 Improvements
 
-- Rename `--dot` option to `--recipe-graph` option. (experimantal option)
+- Rename `--dot` option to `--recipe-graph` option. (by @ryotarai)
+  - Compatibility can be broken because this is experimental feature
 
 ## v1.8.0
 
@@ -22,12 +28,13 @@ No change
 
 Features
 
-- `--profile` option (experimental)
+- `--profile` option (by @ryotarai)
   - `--profile PATH` saves executed commands to `PATH` in JSON format
+  - Compatibility can be broken because this is experimental feature
 
 Bugfixes
 
-- [Suppress errors of `edit` action of `file` resource when the target file doesn't exist in `dry-run` mode](https://github.com/itamae-kitchen/itamae/pull/144)
+- [Suppress errors of `edit` action of `file` resource when the target file doesn't exist in `dry-run` mode (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/144)
 
 ## v1.6.3
 
@@ -60,19 +67,19 @@ Improvements
 
 Improvements
 
-- [`include_recipe 'plugin_name'` loads `itamae/plugin/recipe/plugin_name/default.rb` too](https://github.com/itamae-kitchen/itamae/pull/162)
+- [`include_recipe 'plugin_name'` loads `itamae/plugin/recipe/plugin_name/default.rb` too (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/162)
 
 ## v1.5.1
 
 Improvements
 
-- [Logger can be injected one which doesn't have `color` method.](https://github.com/itamae-kitchen/itamae/commit/7c50f376f69029836047f26ab0a46b41b928c0d3)
+- [Logger can be injected one which doesn't have `color` method. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/commit/7c50f376f69029836047f26ab0a46b41b928c0d3)
 
 ## v1.5.0
 
 Improvements
 
-- [Make a logger injectable from outside of Itamae.](https://github.com/itamae-kitchen/itamae/pull/160)
+- [Make a logger injectable from outside of Itamae. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/160)
 
 ## v1.4.5
 
@@ -84,13 +91,13 @@ Improvements
 
 Features
 
-- `--shell` option for `local`, `ssh` and `docker` subcommands. If it is set, it will be used instead of /bin/sh
+- `--shell` option for `local`, `ssh` and `docker` subcommands. If it is set, it will be used instead of /bin/sh (by @ryotarai)
 
 ## v1.4.3
 
 Bugfixes
 
-- [Restore original attributes of a resource after each action.](https://github.com/itamae-kitchen/itamae/commit/28d33da3cb67c6a7635e47845b0055cb17df53a8)
+- [Restore original attributes of a resource after each action. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/commit/28d33da3cb67c6a7635e47845b0055cb17df53a8)
 
 ## v1.4.2
 
@@ -119,13 +126,13 @@ Improvements
 
 Bugfixes
 
-- `create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file
+- `create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file (by @ryotarai)
 
 ## v1.3.5
 
 Improvements
 
-- [`create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file](https://github.com/itamae-kitchen/itamae/compare/itamae-kitchen:d4a0abc...itamae-kitchen:3eae144)
+- [`create` action of `file` resource without `content` attribute changes mode and owner without touching the content of the file (by @ryotarai)](https://github.com/itamae-kitchen/itamae/compare/itamae-kitchen:d4a0abc...itamae-kitchen:3eae144)
 
 Bugfixes
 
@@ -135,7 +142,7 @@ Bugfixes
 
 Improvements
 
-- [Output stdout/err logs during command execution](https://github.com/itamae-kitchen/itamae/commit/24f140dd9744f30c645422959a6a72b6e31eacc4)
+- [Output stdout/err logs during command execution (by @ryotarai)](https://github.com/itamae-kitchen/itamae/commit/24f140dd9744f30c645422959a6a72b6e31eacc4)
 
 ## v1.3.3
 
@@ -159,7 +166,7 @@ Features
 
 Improvements
 
-- Update `HOME` environment variable when `user` attribute is specified. (incompatible change)
+- Update `HOME` environment variable when `user` attribute is specified. (incompatible change) (by @ryotarai)
 
 ## v1.2.21
 
@@ -172,7 +179,7 @@ Improvements
 
 Improvements
 
-- [Wrap host inventory value with Hashie::Mash to access it by a method call](https://github.com/itamae-kitchen/itamae/pull/135)
+- [Wrap host inventory value with Hashie::Mash to access it by a method call (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/135)
 
 ## v1.2.19
 
@@ -184,7 +191,7 @@ Features
 
 Features
 
-- `run_command` method in a recipe, definition and resource
+- `run_command` method in a recipe, definition and resource (by @ryotarai)
 
 ## v1.2.17
 
@@ -209,7 +216,7 @@ Bugfixes
 
 Features
 
-- "edit" action of "file" resource
+- "edit" action of "file" resource (by @ryotarai)
 
 ## v1.2.13
 
@@ -221,8 +228,8 @@ Features
 
 Bugfixes
 
-- Run delayed notifications created by a delayed notification.
-- Set updated false after executing resources.
+- Run delayed notifications created by a delayed notification. (by @ryotarai)
+- Set updated false after executing resources. (by @ryotarai)
 
 ## v1.2.11
 
@@ -240,7 +247,7 @@ Bugfixes
 
 Bugfixes
 
-- Do not use local variable named `variables`.
+- Do not use local variable named `variables`. (by @ryotarai)
 
 If `variables` is used as local variable's name, the following causes a syntax error.
 
@@ -267,31 +274,31 @@ Bugfixes
 
 ## v1.2.6
 
-- Remove code for debugging...
+- Remove code for debugging... (by @ryotarai)
 
 ## v1.2.5
 
 Bugfixes
 
-- Bugs in definition feature.
+- Bugs in definition feature. (by @ryotarai)
 
 ## v1.2.4
 
 Improvements
 
-- Use specinfra/core instead of specinfra.
+- Use specinfra/core instead of specinfra. (by @ryotarai)
 
 ## v1.2.3
 
 Bugfixes
 
-- Bugs in Node class
+- Bugs in Node class (by @ryotarai)
 
 ## v1.2.2
 
 Improvements
 
-- Refactor Backend and Runner class for multi backends.
+- Refactor Backend and Runner class for multi backends. (by @ryotarai)
 
 ## v1.2.1
 
@@ -301,41 +308,42 @@ Improvements
 
 Feature
 
-- Docker backend
+- Docker backend (by @ryotarai)
   - This backend builds a Docker image.
   - Usage: `itamae docker --image baseimage recipe.rb`
   - NOTE: This feature is experimental.
+  - Compatibility can be broken because this is experimental feature
 
 ## v1.1.26
 
 Bugfix
 
-- Always outdent.
+- Always outdent. (by @ryotarai)
 
 ## v1.1.25
 
 Improvements
 
 - Make logging less verbose by default. (by @eagletmt)
-- Change indent width from 3 to 2.
+- Change indent width from 3 to 2. (by @ryotarai)
 
 ## v1.1.24
 
 Bugfixes
 
-- Make `node` accessible from define block.
+- Make `node` accessible from define block. (by @ryotarai)
 
 ## v1.1.23
 
 Feature
 
-- Validate node attributes by `Node#validate!`
+- Validate node attributes by `Node#validate!` (by @ryotarai)
 
 ## v1.1.22
 
 Improvements
 
-- `source :auto` accepts a template without .erb extention.
+- `source :auto` accepts a template without .erb extention. (by @ryotarai)
 
 ## v1.1.21
 
@@ -348,7 +356,7 @@ Bugfixes
 
 Features
 
-- `source :auto` of remote_file and template resources.
+- `source :auto` of remote_file and template resources. (by @ryotarai)
   - details: https://github.com/itamae-kitchen/itamae/issues/94
 
 ## v1.1.19
@@ -356,22 +364,22 @@ Features
 Features
 
 - `verify` attribute
-  - command will be executed after running resource action.
+  - command will be executed after running resource action. (by @ryotarai)
   - If it fails, Itamae will abort (notifications will not be executed)
 
 Improvements
 
 - [`--vagrant` option without `--host` assumes the VM name `default` (by @muratayusuke)](https://github.com/itamae-kitchen/itamae/pull/91)
-- `delayed` is a valid notification timing.
+- `delayed` is a valid notification timing. (by @ryotarai)
   - same as Chef
-- If invalid notification timing is provided, an error will be raised.
+- If invalid notification timing is provided, an error will be raised. (by @ryotarai)
 
 ## v1.1.18
 
 Improvements
 
 - [Add remove action to package resource (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/92)
-- Colorize diff output of file resource
+- Colorize diff output of file resource (by @ryotarai)
   - removed lines in red
   - inserted lines in green
 
@@ -379,58 +387,59 @@ Improvements
 
 Bugfixes
 
-- Do not remove space char in output of diff.
+- Do not remove space char in output of diff. (by @ryotarai)
 
 ## v1.1.16
 
 Features
 
-- `source` attribute of `gem_package` resource.
+- `source` attribute of `gem_package` resource. (by @ryotarai)
 
 ## v1.1.15
 
 Features
 
-- Implement `gem_package` resource.
+- Implement `gem_package` resource. (by @ryotarai)
 
 ## v1.1.14
 
 Improvements
 
-- Start a service only if the service is not running.
-- Stop a service only if the service is running.
+- Start a service only if the service is not running. (by @ryotarai)
+- Stop a service only if the service is running. (by @ryotarai)
 
 ## v1.1.13
 
 Improvements
 
-- [Set executed attr of execute resource for logging purpose.](https://github.com/itamae-kitchen/itamae/pull/86)
-- [Colorize diff output of file resource green.](https://github.com/itamae-kitchen/itamae/pull/87)
+- [Set executed attr of execute resource for logging purpose. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/86)
+- [Colorize diff output of file resource green. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/87)
 
 ## v1.1.12
 
 Bugfixes
 
-- [Update home directory of user resource if changed.](https://github.com/itamae-kitchen/itamae/commit/0b5ad5245af8a7849d36d0598f06b7adb9ac025a)
+- [Update home directory of user resource if changed. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/commit/0b5ad5245af8a7849d36d0598f06b7adb9ac025a)
 
 ## v1.1.11
 
 Bugfixes
 
-- [Do not include recipes which are already included.](https://github.com/itamae-kitchen/itamae/pull/85)
+- [Do not include recipes which are already included. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/85)
     - This may break backward compatibility.
 
 ## v1.1.10
 
 Feature
 
-- `--dot` option to write dependency graph of recipes (Experimental)
+- `--dot` option to write dependency graph of recipes
+  - Compatibility can be broken because this is experimental feature
 
 ## v1.1.9
 
 Improvements
 
-- Show template file path when rendering the template fails.
+- Show template file path when rendering the template fails. (by @ryotarai)
 
 ## v1.1.8
 
@@ -442,7 +451,7 @@ Improvements
 
 Bugfixes
 
-- Fix a typo bug
+- Fix a typo bug (by @ryotarai)
 
 ## v1.1.6 (yanked)
 
@@ -458,8 +467,8 @@ Bugfixes
 
 Bugfixes
 
-- Clear current attributes before each action.
-- Turn on updated-flag after each action.
+- Clear current attributes before each action. (by @ryotarai)
+- Turn on updated-flag after each action. (by @ryotarai)
 
 ## v1.1.4
 
@@ -479,17 +488,17 @@ Features
 
 Features
 
-- `user` resource accepts group name (String) as its `gid`.
+- `user` resource accepts group name (String) as its `gid`. (by @ryotarai)
 
 ## v1.1.1
 
 Features
 
-- New resource `remote_directory` which transfers a directory from local to remote like `remote_file` resource. (Thanks to @k0kubun)
+- New resource `remote_directory` which transfers a directory from local to remote like `remote_file` resource. (by @k0kubun)
   - https://github.com/ryotarai/itamae/pull/66
 
 ## v1.1.0
 
 Incompatible changes
 
-- `uid` and `gid` attributes of `user` resource accept only Integer. (https://github.com/ryotarai/itamae/pull/65)
+- [`uid` and `gid` attributes of `user` resource accept only Integer. (by @ryotarai)](https://github.com/ryotarai/itamae/pull/65)
