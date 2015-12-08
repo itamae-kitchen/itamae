@@ -1,6 +1,8 @@
 module Itamae
   module Handler
     class Fluentd < Base
+      attr_accessor :fluent_logger # for test
+
       def initialize(*)
         super
         load_fluent_logger
@@ -9,8 +11,8 @@ module Itamae
       def event(type, payload = {})
         super
 
-        unless @logger.post(type, payload.merge(hostname: hostname))
-          Itamae.logger.warn "Sending logs to Fluentd failed: #{@logger.last_error}"
+        unless @fluent_logger.post(type, payload.merge(hostname: hostname))
+          Itamae.logger.warn "Sending logs to Fluentd failed: #{@fluent_logger.last_error}"
         end
       end
 
@@ -23,7 +25,7 @@ module Itamae
           raise "Loading fluent-logger gem failed. Please install 'fluent-logger' gem to use fluentd handler."
         end
 
-        @logger = Fluent::Logger::FluentLogger.new(tag_prefix, host: fluentd_host, port: fluentd_port)
+        @fluent_logger = Fluent::Logger::FluentLogger.new(tag_prefix, host: fluentd_host, port: fluentd_port)
       end
 
       def tag_prefix

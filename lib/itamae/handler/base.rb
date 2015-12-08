@@ -3,6 +3,8 @@ require 'socket'
 module Itamae
   module Handler
     class Base
+      attr_reader :recipes, :resources, :actions
+
       def initialize(options)
         @options = options
 
