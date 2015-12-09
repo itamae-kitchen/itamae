@@ -70,6 +70,16 @@ describe file('/tmp/never_exist2') do
   it { should_not be_file }
 end
 
+describe file('/tmp/http_request.html') do
+  it { should be_file }
+  its(:content) { should match(/"from": "itamae"/) }
+end
+
+describe file('/tmp/http_request_headers.html') do
+  it { should be_file }
+  its(:content) { should match(/"User-Agent": "Itamae"/) }
+end
+
 describe file('/tmp/notifies') do
   it { should be_file }
   its(:content) { should eq("2431") }
