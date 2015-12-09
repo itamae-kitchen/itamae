@@ -33,13 +33,12 @@ module Itamae
           cmd << attributes.repository << attributes.destination
           run_command(cmd)
           new_repository = true
-        else
-          run_command_in_repo(['git', 'fetch', 'origin'])
         end
 
         target = if attributes.revision
                    get_revision(attributes.revision)
                  else
+                   fetch_origin!
                    run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
                  end
 
@@ -52,6 +51,7 @@ module Itamae
             deploy_old_created = true
           end
 
+          fetch_origin!
           run_command_in_repo(["git", "checkout", target, "-b", DEPLOY_BRANCH])
 
           if deploy_old_created
@@ -81,6 +81,12 @@ module Itamae
 
       def get_revision(branch)
         run_command_in_repo("git rev-list #{shell_escape(branch)} | head -n1").stdout.strip
+      end
+
+      def fetch_origin!
+        return if @origin_fetched
+        @origin_fetched = true
+        run_command_in_repo(['git', 'fetch', 'origin'])
       end
     end
   end
