@@ -1,4 +1,4 @@
-## v1.9.0 (unreleased)
+## v1.9.0
 
 Features
 
