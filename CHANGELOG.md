@@ -2,11 +2,13 @@
 
 Features
 
+- [New resource: `http_request` resource (by @hico-horiuchi)](https://github.com/itamae-kitchen/itamae/pull/180)
 - [Introduce Handler which handles events from Itamae (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/181)
   - Compatibility can be broken because this is experimental feature
 
 Improvements
 
+- [Optimize `git` resource for fixed revision (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/182)
 - Rename `--dot` option to `--recipe-graph` option. (by @ryotarai)
   - Compatibility can be broken because this is experimental feature
 
