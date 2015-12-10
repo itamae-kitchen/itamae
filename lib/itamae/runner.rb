@@ -4,12 +4,15 @@ require 'yaml'
 
 module Itamae
   class Runner
+    EXTENSION_GEM_GROUP = :itamae_extensions
+
     class << self
       def run(recipe_files, backend_type, options)
         Itamae.logger.info "Starting Itamae..."
 
         backend = Backend.create(backend_type, options)
         runner = self.new(backend, options)
+        runner.load_extensions(EXTENSION_GEM_GROUP)
         runner.load_recipes(recipe_files)
         runner.run
       end
@@ -34,6 +37,11 @@ module Itamae
 
       @backend.run_command(["mkdir", "-p", @tmpdir])
       @backend.run_command(["chmod", "777", @tmpdir])
+    end
+
+    def load_extensions(group)
+      Itamae.logger.info "Loading extensions in #{group}..."
+      Bundler.require(group)
     end
 
     def load_recipes(paths)

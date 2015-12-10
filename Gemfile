@@ -14,3 +14,7 @@ group :test do
     gem 'growl'
   end
 end
+
+group :itamae_extensions do
+  gem "some_itamae_extension", path: File.expand_path("../spec/some_itamae_extension", __FILE__)
+end
