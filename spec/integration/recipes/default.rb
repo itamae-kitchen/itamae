@@ -160,6 +160,23 @@ http_request "/tmp/http_request.html" do
   url "https://httpbin.org/get?from=itamae"
 end
 
+http_request "/tmp/http_request_delete.html" do
+  action :delete
+  url "https://httpbin.org/delete?from=itamae"
+end
+
+http_request "/tmp/http_request_post.html" do
+  action :post
+  message "love=sushi"
+  url "https://httpbin.org/post?from=itamae"
+end
+
+http_request "/tmp/http_request_put.html" do
+  action :put
+  message "love=sushi"
+  url "https://httpbin.org/put?from=itamae"
+end
+
 http_request "/tmp/http_request_headers.html" do
   headers "User-Agent" => "Itamae"
   url "https://httpbin.org/get"

@@ -75,6 +75,27 @@ describe file('/tmp/http_request.html') do
   its(:content) { should match(/"from": "itamae"/) }
 end
 
+describe file('/tmp/http_request_delete.html') do
+  it { should be_file }
+  its(:content) { should match(/"from": "itamae"/) }
+end
+
+describe file('/tmp/http_request_post.html') do
+  it { should be_file }
+  its(:content) do
+    should match(/"from": "itamae"/)
+    should match(/"love": "sushi"/)
+  end
+end
+
+describe file('/tmp/http_request_put.html') do
+  it { should be_file }
+  its(:content) do
+    should match(/"from": "itamae"/)
+    should match(/"love": "sushi"/)
+  end
+end
+
 describe file('/tmp/http_request_headers.html') do
   it { should be_file }
   its(:content) { should match(/"User-Agent": "Itamae"/) }
