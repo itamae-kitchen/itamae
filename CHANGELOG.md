@@ -1,3 +1,9 @@
+## v1.9.1
+
+Features
+
+- [Add `get`, `post`, `put`, `delete` and `options` actions to `http_request` resource](https://github.com/itamae-kitchen/itamae/pull/184)
+
 ## v1.9.0
 
 Features
