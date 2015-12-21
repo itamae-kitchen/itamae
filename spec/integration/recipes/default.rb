@@ -65,6 +65,10 @@ gem_package 'tzinfo' do
   version '1.2.2'
 end
 
+gem_package 'bundler' do
+  options ['--no-ri', '--no-rdoc']
+end
+
 ######
 
 execute "echo -n > /tmp/notifies"

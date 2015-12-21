@@ -6,6 +6,7 @@ module Itamae
       define_attribute :action, default: :install
       define_attribute :package_name, type: String, default_name: true
       define_attribute :gem_binary, type: [String, Array], default: 'gem'
+      define_attribute :options, type: [String, Array], default: []
       define_attribute :version, type: String
       define_attribute :source, type: String
 
@@ -64,7 +65,7 @@ module Itamae
       end
 
       def install!
-        cmd = [*Array(attributes.gem_binary), 'install']
+        cmd = [*Array(attributes.gem_binary), 'install', *Array(attributes.options)]
         if attributes.version
           cmd << '-v' << attributes.version
         end
@@ -78,4 +79,3 @@ module Itamae
     end
   end
 end
-
