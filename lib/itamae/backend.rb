@@ -238,7 +238,14 @@ module Itamae
         if @options[:vagrant]
           config = Tempfile.new('', Dir.tmpdir)
           hostname = opts[:host_name] || 'default'
-          `vagrant ssh-config #{hostname} > #{config.path}`
+          vagrant_cmd = "vagrant ssh-config #{hostname} > #{config.path}"
+          if defined?(Bundler)
+            Bundler.with_clean_env do
+              `#{vagrant_cmd}`
+            end
+          else
+            `#{vagrant_cmd}`
+          end
           opts.merge!(Net::SSH::Config.for(hostname, [config.path]))
         end
 
