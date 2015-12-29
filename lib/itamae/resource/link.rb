@@ -6,7 +6,7 @@ module Itamae
       define_attribute :action, default: :create
       define_attribute :link, type: String, default_name: true
       define_attribute :to, type: String, required: true
-      define_attribute :force, default: false
+      define_attribute :force, type: [TrueClass, FalseClass], default: false
 
       def pre_action
         case @current_action
