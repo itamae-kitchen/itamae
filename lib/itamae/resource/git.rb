@@ -9,7 +9,7 @@ module Itamae
       define_attribute :destination, type: String, default_name: true
       define_attribute :repository, type: String, required: true
       define_attribute :revision, type: String
-      define_attribute :recursive, default: false
+      define_attribute :recursive, type: [TrueClass, FalseClass], default: false
 
       def pre_action
         case @current_action
