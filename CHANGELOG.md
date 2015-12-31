@@ -1,3 +1,14 @@
+## v1.9.2
+
+Features
+
+- [New option: `options` for `gem_package` resource (by @hico-horiuchi)](https://github.com/itamae-kitchen/itamae/pull/186)
+
+Improvements
+
+- [Execute `vagrant ssh-config` under `Bundler.with_clean_env` (by @hfm)](https://github.com/itamae-kitchen/itamae/pull/188)
+- [Specify type of `recursive` option for `git` resource and `force` option for `link` resource (by @k0kubun)](https://github.com/itamae-kitchen/itamae/pull/189)
+
 ## v1.9.1
 
 Features
