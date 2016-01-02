@@ -101,6 +101,11 @@ describe file('/tmp/http_request_headers.html') do
   its(:content) { should match(/"User-Agent": "Itamae"/) }
 end
 
+describe file('/tmp/http_request_redirect.html') do
+  it { should be_file }
+  its(:content) { should match(/"from": "itamae"/) }
+end
+
 describe file('/tmp/notifies') do
   it { should be_file }
   its(:content) { should eq("2431") }
