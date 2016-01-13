@@ -148,6 +148,11 @@ file "/tmp/file" do
   mode "777"
 end
 
+file "/tmp/file" do
+  content "Hello New World"
+  mode "777"
+end
+
 execute "echo 'Hello Execute' > /tmp/execute"
 
 file "/tmp/never_exist1" do
