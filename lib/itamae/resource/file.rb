@@ -94,8 +94,8 @@ module Itamae
         if attributes.mode
           run_specinfra(:change_file_mode, @temppath, attributes.mode)
         else
-          mode=run_specinfra(:get_file_mode, attributes.path)
-          run_specinfra(:change_file_mode, @temppath, mode.stdout.chomp)
+          mode=run_specinfra(:get_file_mode, attributes.path).stdout.chomp
+          run_specinfra(:change_file_mode, @temppath, mode)
         end
 
         if attributes.owner || attributes.group
