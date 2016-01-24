@@ -36,7 +36,7 @@ module Itamae
 
     class Base
       attr_reader :executed_commands
-      
+
       def initialize(options)
         @options = options
         @backend = create_specinfra_backend
@@ -189,7 +189,7 @@ module Itamae
       end
 
       def shell
-        @options[:shell]
+        @options[:shell] || '/bin/sh'
       end
 
       def run_command_with_profiling(command)
