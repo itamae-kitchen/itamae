@@ -80,7 +80,9 @@ module Itamae
             updated!
           end
 
-          run_specinfra(:move_file, @temppath, attributes.path)
+          if updated?
+            run_specinfra(:move_file, @temppath, attributes.path)
+          end
         end
       end
 
