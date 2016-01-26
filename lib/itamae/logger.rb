@@ -48,9 +48,24 @@ module Itamae
       %w!debug info warn error fatal unknown!.each do |level|
         module_eval(<<-EOC, __FILE__, __LINE__ + 1)
           def #{level}(msg)
-            super("  " * indent_depth + msg)
+            super(indent_msg(msg))
           end
         EOC
+      end
+
+      private
+
+      def indent_msg(msg)
+        spaces = "  " * indent_depth
+        case msg
+        when ::String
+          "#{spaces}#{msg}"
+        when ::Exception
+          "#{spaces}#{msg.message} (#{msg.class})\n" <<
+          (msg.backtrace || []).map {|f| "#{spaces}#{f}"}.join("\n")
+        else
+          "#{spaces}#{msg.inspect}"
+        end
       end
     end
 
