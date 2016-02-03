@@ -1,3 +1,11 @@
+## v1.9.3
+
+Improvements
+
+- [Support redirect on http_request resource (by @hico-horiuchi)](https://github.com/itamae-kitchen/itamae/pull/190)
+- [Use /bin/bash as default shell if shell is not set (by @hico-horiuchi)](https://github.com/itamae-kitchen/itamae/pull/192)
+- [Stop replacing files which are not updated (by @KitaitiMakoto)](https://github.com/itamae-kitchen/itamae/pull/194)
+
 ## v1.9.2
 
 Features
