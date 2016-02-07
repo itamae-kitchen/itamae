@@ -55,7 +55,7 @@ module Itamae
           run_command_in_repo(["git", "checkout", target, "-b", DEPLOY_BRANCH])
 
           if deploy_old_created
-            run_command_in_repo("git branch -d deploy-old")
+            run_command_in_repo("git branch -D deploy-old")
           end
         end
       end
