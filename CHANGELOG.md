@@ -522,10 +522,10 @@ Features
 Features
 
 - New resource `remote_directory` which transfers a directory from local to remote like `remote_file` resource. (by @k0kubun)
-  - https://github.com/ryotarai/itamae/pull/66
+  - https://github.com/itamae-kitchen/itamae/pull/66
 
 ## v1.1.0
 
 Incompatible changes
 
-- [`uid` and `gid` attributes of `user` resource accept only Integer. (by @ryotarai)](https://github.com/ryotarai/itamae/pull/65)
+- [`uid` and `gid` attributes of `user` resource accept only Integer. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/65)
