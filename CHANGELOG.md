@@ -528,4 +528,4 @@ Features
 
 Incompatible changes
 
-- [`uid` and `gid` attributes of `user` resource accept only Integer. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/65)
+- [`uid` and `gid` attributes of `user` resource accept only Integer. (by @eagletmt)](https://github.com/itamae-kitchen/itamae/pull/65)
