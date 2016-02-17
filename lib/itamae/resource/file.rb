@@ -50,7 +50,7 @@ module Itamae
 
         super
 
-        if @temppath
+        if @temppath && @current_action != :delete
           compare_file
         end
       end

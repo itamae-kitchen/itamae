@@ -16,14 +16,7 @@ module Itamae
       private
 
       def content_file
-        if @current_action == :delete
-          f = Tempfile.open('itamae')
-          f.write(nil)
-          f.close
-          f.path
-        else
-          nil
-        end
+        nil
       end
 
       def source_file_dir
