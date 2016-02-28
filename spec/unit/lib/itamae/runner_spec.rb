@@ -16,9 +16,8 @@ module Itamae
     describe ".run" do
       let(:recipes) { %w! ./recipe1.rb ./recipe2.rb ! }
       it "runs each recipe with the runner" do
-        pending "Rewrite later"
         recipes.each do |r|
-          recipe = double(:recipe)
+          recipe = double(:recipe, load: nil)
           allow(Recipe).to receive(:new).with(
             an_instance_of(Itamae::Runner),
             File.expand_path(r)
