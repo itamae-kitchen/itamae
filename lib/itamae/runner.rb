@@ -8,6 +8,16 @@ module Itamae
       def run(recipe_files, backend_type, options)
         Itamae.logger.info "Starting Itamae..."
 
+        # give a chance to initialize the plugin
+        Gem.loaded_specs.values.each do |spec|
+          next unless spec.name.start_with?('itamae-plugin-')
+
+          begin
+            require spec.name
+          rescue LoadError
+          end
+        end
+
         backend = Backend.create(backend_type, options)
         runner = self.new(backend, options)
         runner.load_recipes(recipe_files)
