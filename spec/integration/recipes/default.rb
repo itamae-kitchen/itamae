@@ -364,6 +364,10 @@ end
 
 #####
 
+execute 'echo -n 1 > /tmp/file_edit_notifies' do
+  action :nothing
+end
+
 file '/tmp/file_edit_sample' do
   content 'Hello, world'
   owner 'itamae'
@@ -382,8 +386,18 @@ file '/tmp/file_edit_sample' do
   notifies :run, "execute[echo -n 1 > /tmp/file_edit_notifies]"
 end
 
-execute 'echo -n 1 > /tmp/file_edit_notifies' do
-  action :nothing
+file '/tmp/file_edit_keeping_mode_owner' do
+  content 'Hello, world'
+  owner 'itamae'
+  group 'itamae'
+  mode '444'
+end
+
+file '/tmp/file_edit_keeping_mode_owner' do
+  action :edit
+  block do |content|
+    content.gsub!('world', 'Itamae')
+  end
 end
 
 ###

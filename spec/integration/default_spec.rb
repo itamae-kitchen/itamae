@@ -208,6 +208,14 @@ describe file('/tmp/file_edit_sample') do
   it { should be_grouped_into "itamae2" }
 end
 
+describe file('/tmp/file_edit_keeping_mode_owner') do
+  it { should be_file }
+  its(:content) { should eq("Hello, Itamae") }
+  it { should be_mode 444 }
+  it { should be_owned_by "itamae" }
+  it { should be_grouped_into "itamae" }
+end
+
 describe file('/home/itamae2') do
   it { should be_directory }
   it { should be_owned_by "itamae2" }
