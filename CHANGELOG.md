@@ -1,3 +1,11 @@
+## v1.9.4
+
+Bugfixes
+
+- [Fix a bug that displays inappropriate diff in file deletion (by @takus)](https://github.com/itamae-kitchen/itamae/pull/200)
+- [Show diff on edit action of file resource in dry-run mode. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/197)
+- [Stop to call `chown --reference` and `chmod --reference` (by @yuichiro-naito)](https://github.com/itamae-kitchen/itamae/pull/193)
+
 ## v1.9.3
 
 Improvements
