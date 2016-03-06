@@ -12,6 +12,8 @@ module Itamae
       define_attribute :block, type: Proc, default: proc {}
 
       def pre_action
+        current.exist = run_specinfra(:check_file_is_file, attributes.path)
+
         case @current_action
         when :create
           attributes.exist = true
@@ -20,7 +22,7 @@ module Itamae
         when :edit
           attributes.exist = true
 
-          unless runner.dry_run?
+          if !runner.dry_run? || current.exist
             content = backend.receive_file(attributes.path)
             attributes.block.call(content)
             attributes.content = content
@@ -31,8 +33,6 @@ module Itamae
       end
 
       def set_current_attributes
-        current.exist = run_specinfra(:check_file_is_file, attributes.path)
-
         if current.exist
           current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
           current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
