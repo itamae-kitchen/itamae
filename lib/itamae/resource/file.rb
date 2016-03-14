@@ -60,15 +60,6 @@ module Itamae
           run_command(["touch", attributes.path])
         end
 
-        change_target = @temppath || attributes.path
-
-        if attributes.mode
-          run_specinfra(:change_file_mode, change_target, attributes.mode)
-        end
-        if attributes.owner || attributes.group
-          run_specinfra(:change_file_owner, change_target, attributes.owner, attributes.group)
-        end
-
         if @temppath
           if run_specinfra(:check_file_is_file, attributes.path)
             unless check_command(["diff", "-q", @temppath, attributes.path])
@@ -79,10 +70,20 @@ module Itamae
             # new file
             updated!
           end
+        end
 
-          if updated?
-            run_specinfra(:move_file, @temppath, attributes.path)
-          end
+        change_target = @temppath && updated?  ? @temppath : attributes.path
+
+        if attributes.mode
+          run_specinfra(:change_file_mode, change_target, attributes.mode)
+        end
+
+        if attributes.owner || attributes.group
+          run_specinfra(:change_file_owner, change_target, attributes.owner, attributes.group)
+        end
+
+        if @temppath && updated?
+          run_specinfra(:move_file, @temppath, attributes.path)
         end
       end
 
