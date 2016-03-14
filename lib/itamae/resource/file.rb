@@ -171,7 +171,11 @@ module Itamae
                 end
 
           @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
+
+          run_command(["touch", @temppath])
+          run_specinfra(:change_file_mode, @temppath, '0600')
           backend.send_file(src, @temppath)
+          run_specinfra(:change_file_mode, @temppath, '0600')
         ensure
           f.unlink if f
         end
