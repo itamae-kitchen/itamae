@@ -1,3 +1,11 @@
+## v1.9.5
+
+Bugfixes
+
+- [Set mode and owner correctly when file not changed (by @sorah)](https://github.com/itamae-kitchen/itamae/commit/438d79e4ef714f637f8f1cb50b01293e5232340a)
+- [Make tempfile unreadable to secure (by @sorah)](https://github.com/itamae-kitchen/itamae/commit/7af1d29fc020e57f3587aace728fbb40e35669cf)
+- [Accept any objects as a log message (by @abicky)](https://github.com/itamae-kitchen/itamae/pull/195)
+
 ## v1.9.4
 
 Bugfixes
