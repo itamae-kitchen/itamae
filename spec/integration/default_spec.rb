@@ -232,3 +232,11 @@ end
 describe file('/tmp/file_edit_notifies') do
   its(:content) { should eq("1") }
 end
+
+describe file('/tmp/file_without_content_change_updates_mode_and_owner') do
+  its(:content) { should eq("Hello, world") }
+  it { should be_mode 666 }
+  it { should be_owned_by "itamae2" }
+  it { should be_grouped_into "itamae2" }
+end
+

@@ -402,6 +402,24 @@ end
 
 ###
 
+file '/tmp/file_without_content_change_updates_mode_and_owner' do
+  action :create
+  content 'Hello, world'
+  owner 'itamae'
+  group 'itamae'
+  mode '444'
+end
+
+file '/tmp/file_without_content_change_updates_mode_and_owner' do
+  action :create
+  content 'Hello, world' # no change
+  owner 'itamae2'
+  group 'itamae2'
+  mode '666'
+end
+
+###
+
 unless run_command("echo -n Hello").stdout == "Hello"
   raise "run_command in a recipe failed"
 end
