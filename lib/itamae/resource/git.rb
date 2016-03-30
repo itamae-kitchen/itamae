@@ -72,7 +72,11 @@ module Itamae
       end
 
       def run_command_in_repo(*args)
-        run_command(*args, cwd: attributes.destination)
+        unless args.last.is_a?(Hash)
+          args << {}
+        end
+        args.last[:cwd] = attributes.destination
+        run_command(*args)
       end
 
       def current_branch
