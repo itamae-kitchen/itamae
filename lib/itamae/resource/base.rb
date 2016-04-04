@@ -139,6 +139,7 @@ module Itamae
 
             verify unless runner.dry_run?
             if updated?
+              runner.diff_found!
               notify
               runner.handler.event(:resource_updated)
             end

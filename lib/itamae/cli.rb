@@ -24,6 +24,7 @@ module Itamae
       option :shell, type: :string, default: "/bin/sh"
       option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be unavailable."
       option :profile, type: :string, desc: "[EXPERIMENTAL] Save profiling data", banner: "PATH"
+      option :detailed_exitcode, type: :boolean, default: false, desc: "Exit code 0 means succeeded and no diff, 1 means errored, and 2 means succeeded and there is a diff"
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
@@ -33,7 +34,7 @@ module Itamae
         raise "Please specify recipe files."
       end
 
-      Runner.run(recipe_files, :local, options)
+      run(recipe_files, :local, options)
     end
 
     desc "ssh RECIPE [RECIPE...]", "Run Itamae via ssh"
@@ -54,7 +55,7 @@ module Itamae
         raise "Please set '-h <hostname>' or '--vagrant'"
       end
 
-      Runner.run(recipe_files, :ssh, options)
+      run(recipe_files, :ssh, options)
     end
 
     desc "docker RECIPE [RECIPE...]", "Create Docker image"
@@ -67,7 +68,7 @@ module Itamae
         raise "Please specify recipe files."
       end
 
-      Runner.run(recipe_files, :docker, options)
+      run(recipe_files, :docker, options)
     end
 
     desc "version", "Print version"
@@ -116,6 +117,13 @@ module Itamae
         msg = %Q!ERROR: "itamae #{command}" was called with "#{target}" !
         msg << "but expected to be in #{GENERATE_TARGETS.inspect}"
         fail InvocationError, msg
+      end
+    end
+
+    def run(recipe_files, backend_type, options)
+      runner = Runner.run(recipe_files, backend_type, options)
+      if options[:detailed_exitcode] && runner.diff?
+        exit 2
       end
     end
   end
