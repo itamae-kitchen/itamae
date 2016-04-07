@@ -12,6 +12,8 @@ module Itamae
         runner = self.new(backend, options)
         runner.load_recipes(recipe_files)
         runner.run
+
+        runner
       end
     end
 
@@ -31,6 +33,7 @@ module Itamae
       @node = create_node
       @tmpdir = "/tmp/itamae_tmp"
       @children = RecipeChildren.new
+      @diff = false
 
       @backend.run_command(["mkdir", "-p", @tmpdir])
       @backend.run_command(["chmod", "777", @tmpdir])
@@ -78,6 +81,14 @@ module Itamae
       open(path, 'w', 0600) do |f|
         f.write(@backend.executed_commands.to_json)
       end
+    end
+
+    def diff?
+      @diff
+    end
+
+    def diff_found!
+      @diff = true
     end
 
     private
