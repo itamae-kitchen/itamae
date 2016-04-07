@@ -24,7 +24,7 @@ module Itamae
       option :shell, type: :string, default: "/bin/sh"
       option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be unavailable."
       option :profile, type: :string, desc: "[EXPERIMENTAL] Save profiling data", banner: "PATH"
-      option :detailed_exitcode, type: :boolean, default: false, desc: "Exit code 0 means succeeded and no diff, 1 means errored, and 2 means succeeded and there is a diff"
+      option :detailed_exitcode, type: :boolean, default: false, desc: "exit code 0 - The run succeeded with no changes or failures, exit code 1 - The run failed, exit code 2 - The run succeeded, and some resources were changed"
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
