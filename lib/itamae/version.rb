@@ -1,3 +1,3 @@
 module Itamae
-  VERSION = "1.9.6.pre"
+  VERSION = "1.9.6"
 end
