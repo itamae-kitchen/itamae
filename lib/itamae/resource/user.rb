@@ -18,6 +18,11 @@ module Itamae
         when :create
           attributes.exist = true
         end
+
+        if attributes.gid.is_a?(String)
+          # convert name to gid
+          attributes.gid = run_specinfra(:get_group_gid, attributes.gid).stdout.to_i
+        end
       end
 
       def set_current_attributes
