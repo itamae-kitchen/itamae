@@ -1,3 +1,14 @@
+## v1.9.6 (pre)
+
+Features
+
+- [Introduce `--detailed-exitcode` option.](https://github.com/itamae-kitchen/itamae/pull/206)
+
+Bugfixes
+
+- [If `git rev-list` fails, do `git fetch origin`](https://github.com/itamae-kitchen/itamae/pull/205)
+- [If gid passed to user resource is a String, treat it as group name.](https://github.com/itamae-kitchen/itamae/pull/207)
+
 ## v1.9.5
 
 Bugfixes
