@@ -73,12 +73,9 @@ module Itamae
       attr_accessor :colored
 
       def call(severity, datetime, progname, msg)
-        log = "%s : %s\n" % ["%5s" % severity, msg2str(msg)]
-        if colored
-          colorize(log, severity)
-        else
-          log
-        end
+        log = "%s : %s" % ["%5s" % severity, msg2str(msg)]
+
+        (colored ? colorize(log, severity) : log) + "\n"
       end
 
       def color(code)
