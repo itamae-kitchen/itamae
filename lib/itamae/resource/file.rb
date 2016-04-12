@@ -30,9 +30,11 @@ module Itamae
         end
 
         send_tempfile
+        compare_file
       end
 
       def set_current_attributes
+        current.modified = false
         if current.exist
           current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
           current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
@@ -51,7 +53,7 @@ module Itamae
         super
 
         if @temppath && @current_action != :delete
-          compare_file
+          show_content_diff
         end
       end
 
@@ -60,19 +62,7 @@ module Itamae
           run_command(["touch", attributes.path])
         end
 
-        if @temppath
-          if run_specinfra(:check_file_is_file, attributes.path)
-            unless check_command(["diff", "-q", @temppath, attributes.path])
-              # the file is modified
-              updated!
-            end
-          else
-            # new file
-            updated!
-          end
-        end
-
-        change_target = @temppath && updated?  ? @temppath : attributes.path
+        change_target = attributes.modified ? @temppath : attributes.path
 
         if attributes.mode
           run_specinfra(:change_file_mode, change_target, attributes.mode)
@@ -82,7 +72,7 @@ module Itamae
           run_specinfra(:change_file_owner, change_target, attributes.owner, attributes.group)
         end
 
-        if @temppath && updated?
+        if attributes.modified
           run_specinfra(:move_file, @temppath, attributes.path)
         end
       end
@@ -110,29 +100,39 @@ module Itamae
           run_specinfra(:change_file_group, @temppath, group)
         end
 
-        unless check_command(["diff", "-q", @temppath, attributes.path])
-          # the file is modified
-          updated!
-        end
-
         run_specinfra(:move_file, @temppath, attributes.path)
       end
 
       private
 
-      def compare_file
-        compare_to = if current.exist
-                       attributes.path
-                     else
-                       '/dev/null'
-                     end
-
-        diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
-        if diff.exit_status == 0
-          # no change
-          Itamae.logger.debug "file content will not change"
+      def compare_to
+        if current.exist
+          attributes.path
         else
+          '/dev/null'
+        end
+      end
+
+      def compare_file
+        attributes.modified = false
+        unless @temppath
+          return
+        end
+
+        case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
+        when 1
+          # diff found
+          attributes.modified = true
+        when 2
+          # error
+          raise Itamae::Backend::CommandExecutionError, "diff command exited with 2"
+        end
+      end
+
+      def show_content_diff
+        if attributes.modified
           Itamae.logger.info "diff:"
+          diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
           diff.stdout.each_line do |line|
             color = if line.start_with?('+')
                       :green
@@ -146,6 +146,9 @@ module Itamae
             end
           end
           runner.handler.event(:file_content_changed, diff: diff.stdout)
+        else
+          # no change
+          Itamae.logger.debug "file content will not change"
         end
       end
 
