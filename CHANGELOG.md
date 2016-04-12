@@ -1,13 +1,20 @@
+## v1.9.7 (pre)
+
+Bugfixes
+
+- [Mark a file as updated in dry-run mode (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/208)
+- [Do not surround LF with the ANSI escape sequence (by @daic-h)](https://github.com/itamae-kitchen/itamae/pull/209)
+
 ## v1.9.6
 
 Features
 
-- [Introduce `--detailed-exitcode` option.](https://github.com/itamae-kitchen/itamae/pull/206)
+- [Introduce `--detailed-exitcode` option. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/206)
 
 Bugfixes
 
-- [If `git rev-list` fails, do `git fetch origin`](https://github.com/itamae-kitchen/itamae/pull/205)
-- [If gid passed to user resource is a String, treat it as group name.](https://github.com/itamae-kitchen/itamae/pull/207)
+- [If `git rev-list` fails, do `git fetch origin` (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/205)
+- [If gid passed to user resource is a String, treat it as group name. (by @ryotarai)](https://github.com/itamae-kitchen/itamae/pull/207)
 
 ## v1.9.5
 
@@ -48,7 +55,7 @@ Improvements
 
 Features
 
-- [Add `get`, `post`, `put`, `delete` and `options` actions to `http_request` resource](https://github.com/itamae-kitchen/itamae/pull/184)
+- [Add `get`, `post`, `put`, `delete` and `options` actions to `http_request` resource (by @hico-horiuchi)](https://github.com/itamae-kitchen/itamae/pull/184)
 
 ## v1.9.0
 
