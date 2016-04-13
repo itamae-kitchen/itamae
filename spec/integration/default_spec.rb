@@ -51,9 +51,19 @@ end
   end
 end
 
+describe file('/var/itamae/backup/tmp') do
+  it { should be_directory }
+  it { should be_mode 777 }
+end
+
+describe command('cat /var/itamae/backup/tmp/file.itamae-*') do
+  its(:stdout) { should match(/Hello World/) }
+  its(:exit_status) { should eq(0) }
+end
+
 describe file('/tmp/file') do
   it { should be_file }
-  its(:content) { should match(/Hello World/) }
+  its(:content) { should match(/Hello New World/) }
   it { should be_mode 777 }
 end
 

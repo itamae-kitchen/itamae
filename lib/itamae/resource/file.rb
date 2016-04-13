@@ -3,12 +3,15 @@ require 'itamae'
 module Itamae
   module Resource
     class File < Base
+      BACKUP_PATH = '/var/itamae/backup'.freeze
+
       define_attribute :action, default: :create
       define_attribute :path, type: String, default_name: true
       define_attribute :content, type: String, default: nil
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
+      define_attribute :backup, type: [FalseClass, Integer], default: 5
       define_attribute :block, type: Proc, default: proc {}
 
       def pre_action
@@ -58,6 +61,8 @@ module Itamae
       end
 
       def action_create(options)
+        backup if current.exist
+
         if !current.exist && !@temppath
           run_command(["touch", attributes.path])
         end
@@ -84,6 +89,8 @@ module Itamae
       end
 
       def action_edit(options)
+        backup if current.exist
+
         if attributes.mode
           run_specinfra(:change_file_mode, @temppath, attributes.mode)
         else
@@ -181,6 +188,35 @@ module Itamae
           run_specinfra(:change_file_mode, @temppath, '0600')
         ensure
           f.unlink if f
+        end
+      end
+
+      def backup
+        return if !attributes.backup || attributes.backup <= 0
+
+        savetime = Time.now.strftime('%Y%m%d%H%M%S')
+        backup_filename = "#{attributes.path}.itamae-#{savetime}"
+        backup_path = ::File.join(BACKUP_PATH, backup_filename)
+        backup_directory = ::File.dirname(backup_path)
+
+        run_specinfra(:create_file_as_directory, backup_directory)
+        run_specinfra(:change_file_mode, backup_directory, '0777')
+        run_specinfra(:copy_file, attributes.path, backup_path)
+        Itamae.logger.info "#{attributes.path} backed up to #{backup_path}"
+
+        basename = ::File.basename(attributes.path)
+        backup_files = run_command(['ls', '-1', backup_directory])
+        backup_files = backup_files.stdout.chomp.split("\n").select { |f|
+          f.match(/\A#{basename}.itamae-[0-9]+\z/)
+        }.reverse
+
+        if backup_files.length > attributes.backup
+          remainder = backup_files.slice(attributes.backup..-1)
+          remainder.each do |backup_to_delete|
+            backup_to_delete = ::File.join(backup_directory, backup_to_delete)
+            run_specinfra(:remove_file, backup_to_delete)
+            Itamae.logger.info "#{attributes.path} removed backup at #{backup_to_delete}"
+          end
         end
       end
     end
