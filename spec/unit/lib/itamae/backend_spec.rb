@@ -73,6 +73,26 @@ module Itamae
           let(:options) { {host: host_name} }
           it { is_expected.to eq( default_option.merge({host_name: host_name}) ) }
         end
+
+        context "with ssh_config option" do
+          around do |example|
+            Tempfile.create("ssh_config") do |temp|
+              temp.write(<<EOF)
+Host ex1
+  HostName example.com
+  User myname
+  Port 10022
+EOF
+              temp.flush
+              @ssh_config = temp.path
+              example.run
+            end
+          end
+
+          let(:options) { {host: "ex1", ssh_config: @ssh_config} }
+
+          it { is_expected.to a_hash_including({host_name: "example.com", user: "myname", port: 10022}) }
+        end
       end
 
       describe "#disable_sudo?" do

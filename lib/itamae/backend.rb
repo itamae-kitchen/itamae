@@ -230,7 +230,8 @@ module Itamae
         opts[:host_name] = @options[:host]
 
         # from ssh-config
-        opts.merge!(Net::SSH::Config.for(@options[:host]))
+        ssh_config_files = @options[:ssh_config] ? [@options[:ssh_config]] : Net::SSH::Config.default_files
+        opts.merge!(Net::SSH::Config.for(@options[:host], ssh_config_files))
         opts[:user] = @options[:user] || opts[:user] || Etc.getlogin
         opts[:keys] = [@options[:key]] if @options[:key]
         opts[:port] = @options[:port] if @options[:port]
