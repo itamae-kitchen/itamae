@@ -413,6 +413,17 @@ end
 
 ###
 
+execute "touch -d 2016-05-02T12:34:56 /tmp/file_edit_without_content_change_keeping_timestamp"
+
+file "/tmp/file_edit_without_content_change_keeping_timestamp" do
+  action :edit
+  block do |content|
+    # no change
+  end
+end
+
+###
+
 file '/tmp/file_without_content_change_updates_mode_and_owner' do
   action :create
   content 'Hello, world'
