@@ -420,6 +420,22 @@ end
 
 ###
 
+execute "touch -d 2016-05-01T01:23:45 /tmp/file_with_content_change_updates_timestamp"
+
+file "/tmp/file_with_content_change_updates_timestamp" do
+  content "Hello, world"
+end
+
+###
+
+execute "echo 'Hello, world' > /tmp/file_without_content_change_keeping_timestamp ; touch -d 2016-05-01T12:34:56 /tmp/file_without_content_change_keeping_timestamp"
+
+file "/tmp/file_without_content_change_keeping_timestamp" do
+  content "Hello, world\n"
+end
+
+###
+
 unless run_command("echo -n Hello").stdout == "Hello"
   raise "run_command in a recipe failed"
 end
