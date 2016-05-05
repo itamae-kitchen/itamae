@@ -239,4 +239,3 @@ describe file('/tmp/file_without_content_change_updates_mode_and_owner') do
   it { should be_owned_by "itamae2" }
   it { should be_grouped_into "itamae2" }
 end
-
