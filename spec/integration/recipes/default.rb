@@ -402,6 +402,17 @@ end
 
 ###
 
+execute "touch -d 2016-05-02T01:23:45 /tmp/file_edit_with_content_change_updates_timestamp"
+
+file "/tmp/file_edit_with_content_change_updates_timestamp" do
+  action :edit
+  block do |content|
+    content[0 .. -1] = "Hello, world"
+  end
+end
+
+###
+
 file '/tmp/file_without_content_change_updates_mode_and_owner' do
   action :create
   content 'Hello, world'
