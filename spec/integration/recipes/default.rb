@@ -450,7 +450,7 @@ end
 
 ###
 
-execute "echo 'Hello, world' > /tmp/file_without_content_change_keeping_timestamp ; touch -d 2016-05-01T12:34:56 /tmp/file_without_content_change_keeping_timestamp"
+execute "f=/tmp/file_without_content_change_keeping_timestamp && echo 'Hello, world' > $f && touch -d 2016-05-01T12:34:56 $f"
 
 file "/tmp/file_without_content_change_keeping_timestamp" do
   content "Hello, world\n"
