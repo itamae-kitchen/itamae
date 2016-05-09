@@ -402,12 +402,12 @@ end
 
 ###
 
-execute "touch -d 2016-05-02T01:23:45 /tmp/file_edit_with_content_change_updates_timestamp"
+execute "f=/tmp/file_edit_with_content_change_updates_timestamp && echo 'Hello, world' > $f && touch -d 2016-05-02T01:23:45 $f"
 
 file "/tmp/file_edit_with_content_change_updates_timestamp" do
   action :edit
   block do |content|
-    content[0 .. -1] = "Hello, world"
+    content.gsub!('world', 'Itamae')
   end
 end
 
