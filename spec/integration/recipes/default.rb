@@ -402,6 +402,28 @@ end
 
 ###
 
+execute "f=/tmp/file_edit_with_content_change_updates_timestamp && echo 'Hello, world' > $f && touch -d 2016-05-02T01:23:45Z $f"
+
+file "/tmp/file_edit_with_content_change_updates_timestamp" do
+  action :edit
+  block do |content|
+    content.gsub!('world', 'Itamae')
+  end
+end
+
+###
+
+execute "touch -d 2016-05-02T12:34:56Z /tmp/file_edit_without_content_change_keeping_timestamp"
+
+file "/tmp/file_edit_without_content_change_keeping_timestamp" do
+  action :edit
+  block do |content|
+    # no change
+  end
+end
+
+###
+
 file '/tmp/file_without_content_change_updates_mode_and_owner' do
   action :create
   content 'Hello, world'
@@ -416,6 +438,22 @@ file '/tmp/file_without_content_change_updates_mode_and_owner' do
   owner 'itamae2'
   group 'itamae2'
   mode '666'
+end
+
+###
+
+execute "touch -d 2016-05-01T01:23:45Z /tmp/file_with_content_change_updates_timestamp"
+
+file "/tmp/file_with_content_change_updates_timestamp" do
+  content "Hello, world"
+end
+
+###
+
+execute "f=/tmp/file_without_content_change_keeping_timestamp && echo 'Hello, world' > $f && touch -d 2016-05-01T12:34:56Z $f"
+
+file "/tmp/file_without_content_change_keeping_timestamp" do
+  content "Hello, world\n"
 end
 
 ###

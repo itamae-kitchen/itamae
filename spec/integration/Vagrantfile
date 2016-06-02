@@ -17,6 +17,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     mv /tmp/sources.list /etc/apt/sources.list
     apt-get update
   fi
+  echo America/New_York > /etc/timezone
+  dpkg-reconfigure --frontend noninteractive tzdata
       EOC
     end
 

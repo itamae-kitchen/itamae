@@ -84,23 +84,22 @@ module Itamae
       end
 
       def action_edit(options)
-        if attributes.mode
-          run_specinfra(:change_file_mode, @temppath, attributes.mode)
-        else
-          mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
-          run_specinfra(:change_file_mode, @temppath, mode)
+        change_target = attributes.modified ? @temppath : attributes.path
+
+        if attributes.mode || attributes.modified
+          mode = attributes.mode || run_specinfra(:get_file_mode, attributes.path).stdout.chomp
+          run_specinfra(:change_file_mode, change_target, mode)
         end
 
-        if attributes.owner || attributes.group
-          run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
-        else
-          owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
-          group = run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
-          run_specinfra(:change_file_owner, @temppath, owner)
-          run_specinfra(:change_file_group, @temppath, group)
+        if attributes.owner || attributes.group || attributes.modified
+          owner = attributes.owner || run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
+          group = attributes.group || run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
+          run_specinfra(:change_file_owner, change_target, owner, group)
         end
 
-        run_specinfra(:move_file, @temppath, attributes.path)
+        if attributes.modified
+          run_specinfra(:move_file, @temppath, attributes.path)
+        end
       end
 
       private
