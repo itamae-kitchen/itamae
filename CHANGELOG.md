@@ -1,3 +1,9 @@
+## v1.9.8
+
+Bugfixes
+
+- [edit action of file resource: Keep mtime if no change](https://github.com/itamae-kitchen/itamae/pull/212)
+
 ## v1.9.7 (pre)
 
 Bugfixes
