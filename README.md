@@ -90,7 +90,7 @@ $ bundle exec rake spec
 
 ## Contributing
 
-If you have a problem, please [create an issue](https://github.com/ryotarai/itamae/issues/new) or a pull request.
+If you have a problem, please [create an issue](https://github.com/itamae-kitchen/itamae/issues/new) or a pull request.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)

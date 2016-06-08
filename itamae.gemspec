@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ryota Arai"]
   spec.email         = ["ryota.arai@gmail.com"]
   spec.summary       = %q{Simple Configuration Management Tool}
-  spec.homepage      = "https://github.com/ryotarai/itamae"
+  spec.homepage      = "https://github.com/itamae-kitchen/itamae"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
