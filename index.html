@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Itamae by itamae-kitchen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Itamae</h1>
+      <h2 class="project-tagline">Configuration management tool inspired by Chef, but simpler and lightweight. Formerly known as Lightchef.</h2>
+      <a href="https://github.com/itamae-kitchen/itamae" class="btn">View on GitHub</a>
+      <a href="https://github.com/itamae-kitchen/itamae/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/itamae-kitchen/itamae/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="" class="anchor" href="#" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/itamae-kitchen/itamae"><img src="https://raw.githubusercontent.com/itamae-kitchen/itamae-logos/master/small/FA-Itamae-horizontal-01-180x72.png" alt=""></a>
+</h1>
+
+<p><a href="http://badge.fury.io/rb/itamae"><img src="https://badge.fury.io/rb/itamae.svg" alt="Gem Version"></a> <a href="https://codeclimate.com/github/ryotarai/itamae"><img src="https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg" alt="Code Climate"></a> <a href="https://app.wercker.com/project/bykey/3e7be3b982d3671940a07e3ef45d9f5f"><img src="https://app.wercker.com/status/3e7be3b982d3671940a07e3ef45d9f5f/s/master" alt="wercker status" title="wercker status"></a> <a href="https://itamae-slackin.herokuapp.com/"><img src="https://img.shields.io/badge/slack-join-blue.svg" alt="Slack"></a></p>
+
+<p>Simple and lightweight configuration management tool inspired by Chef.</p>
+
+<ul>
+<li><a href="https://github.com/itamae-kitchen/itamae/blob/master/CHANGELOG.md">CHANGELOG</a></li>
+</ul>
+
+<h2>
+<a id="concept" class="anchor" href="#concept" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Concept</h2>
+
+<ul>
+<li>Chef-like DSL (but not compatible with Chef)</li>
+<li>Simpler and lighter weight than Chef</li>
+<li>Only recipes</li>
+<li>Idempotent</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<pre><code>$ gem install itamae
+</code></pre>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>Create a recipe file as <code>recipe.rb</code>:</p>
+
+<div class="highlight highlight-source-ruby"><pre>package <span class="pl-s"><span class="pl-pds">'</span>nginx<span class="pl-pds">'</span></span> <span class="pl-k">do</span>
+  action <span class="pl-c1">:install</span>
+<span class="pl-k">end</span>
+
+service <span class="pl-s"><span class="pl-pds">'</span>nginx<span class="pl-pds">'</span></span> <span class="pl-k">do</span>
+  action [<span class="pl-c1">:enable</span>, <span class="pl-c1">:start</span>]
+<span class="pl-k">end</span></pre></div>
+
+<p>And then excute <code>itamae</code> command to apply a recipe to a local machine.</p>
+
+<pre><code>$ itamae local recipe.rb
+ INFO : Starting Itamae...
+ INFO : Recipe: /home/user/recipe.rb
+ INFO :    package[nginx]
+ INFO :       action: install
+ INFO :          installed will change from 'false' to 'true'
+ INFO :    service[nginx]
+ INFO :       action: enable
+ INFO :       action: start
+</code></pre>
+
+<p>Or you can apply a recipe to a remote machine by <code>itamae ssh</code>.</p>
+
+<pre><code>$ itamae ssh --host host001.example.jp recipe.rb
+</code></pre>
+
+<p>You can also apply a recipe to Vagrant VM by <code>itamae ssh --vagrant</code>.</p>
+
+<pre><code>$ itamae ssh --vagrant --host vm_name recipe.rb
+</code></pre>
+
+<p>You can find further information to use Itamae on <a href="https://github.com/itamae-kitchen/itamae/wiki">Itamae Wiki</a>.</p>
+
+<p>Enjoy!</p>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p><a href="https://github.com/itamae-kitchen/itamae/wiki">https://github.com/itamae-kitchen/itamae/wiki</a></p>
+
+<h2>
+<a id="run-tests" class="anchor" href="#run-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run tests</h2>
+
+<p>Requirements: Vagrant</p>
+
+<pre><code>$ bundle exec rake spec
+</code></pre>
+
+<h2>
+<a id="get-involved" class="anchor" href="#get-involved" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get Involved</h2>
+
+<ul>
+<li><a href="https://itamae-slackin.herokuapp.com/">Join Slack team</a></li>
+</ul>
+
+<h2>
+<a id="presentations--articles" class="anchor" href="#presentations--articles" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Presentations / Articles</h2>
+
+<h3>
+<a id="in-japanese" class="anchor" href="#in-japanese" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>in Japanese</h3>
+
+<ul>
+<li><a href="https://speakerdeck.com/ryotarai/itamae-infra-as-code-xian-zhuang-que-ren-hui">Itamae - Infra as Code 現状確認会</a></li>
+<li><a href="http://techlife.cookpad.com/entry/2015/05/12/080000">クックパッドのサーバプロビジョニング事情 - クックパッド開発者ブログ</a></li>
+<li><a href="http://gihyo.jp/admin/serial/01/itamae">Itamaeが構成管理を仕込みます！ ～新進気鋭の国産・構成管理ツール～：連載｜gihyo.jp … 技術評論社</a></li>
+</ul>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>If you have a problem, please <a href="https://github.com/itamae-kitchen/itamae/issues/new">create an issue</a> or a pull request.</p>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/itamae-kitchen/itamae">Itamae</a> is maintained by <a href="https://github.com/itamae-kitchen">itamae-kitchen</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
