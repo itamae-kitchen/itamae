@@ -174,9 +174,16 @@ module Itamae
 
           @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
 
-          run_command(["touch", @temppath])
-          run_specinfra(:change_file_mode, @temppath, '0600')
-          backend.send_file(src, @temppath)
+          if backend.is_a?(Itamae::Backend::Docker)
+            run_command(["mkdir", @temppath])
+            backend.send_file(src, @temppath)
+            @temppath = ::File.join(@temppath, ::File.basename(src))
+          else
+            run_command(["touch", @temppath])
+            run_specinfra(:change_file_mode, @temppath, '0600')
+            backend.send_file(src, @temppath)
+          end
+
           run_specinfra(:change_file_mode, @temppath, '0600')
         ensure
           f.unlink if f
