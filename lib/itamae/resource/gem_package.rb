@@ -14,6 +14,8 @@ module Itamae
         case @current_action
         when :install
           attributes.installed = true
+        when :uninstall
+          attributes.installed = false
         end
       end
 
@@ -39,6 +41,13 @@ module Itamae
           end
         else
           install!
+          updated!
+        end
+      end
+
+      def action_uninstall(action_options)
+        if current.installed
+          uninstall!
           updated!
         end
       end
@@ -71,6 +80,18 @@ module Itamae
         end
         if attributes.source
           cmd << '--source' << attributes.source
+        end
+        cmd << attributes.package_name
+
+        run_command(cmd)
+      end
+
+      def uninstall!
+        cmd = [*Array(attributes.gem_binary), 'uninstall', '--ignore-dependencies', '--executables', *Array(attributes.options)]
+        if attributes.version
+          cmd << '-v' << attributes.version
+        else
+          cmd << '--all'
         end
         cmd << attributes.package_name
 
