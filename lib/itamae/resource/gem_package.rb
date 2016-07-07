@@ -46,10 +46,7 @@ module Itamae
       end
 
       def action_uninstall(action_options)
-        if current.installed
-          uninstall!
-          updated!
-        end
+        uninstall! if current.installed
       end
 
       def action_upgrade(action_options)
