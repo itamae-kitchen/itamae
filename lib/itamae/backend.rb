@@ -221,6 +221,7 @@ module Itamae
           disable_sudo: disable_sudo?,
           ssh_options: ssh_options,
           shell: @options[:shell],
+          login_shell: @options[:login_shell],
         )
       end
 
