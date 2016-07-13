@@ -149,6 +149,10 @@ describe command('cd /tmp/git_repo_submodule/empty_repo && cat README.md') do
   its(:stdout) { should match(/Empty Repo/) }
 end
 
+describe command('cd /tmp/git_repo_depth_1 && git rev-list --count HEAD') do
+  its(:stdout) { should eq "1\n" }
+end
+
 describe file('/tmp/created_by_itamae_user') do
   it { should be_file }
   it { should be_owned_by 'itamae' }
