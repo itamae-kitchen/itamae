@@ -1,3 +1,15 @@
+## v1.9.9
+
+Features
+
+- [`itamae ssh` now accepts `--ssh-config` option](https://github.com/itamae-kitchen/itamae/pull/211)
+- [Introduce `--login-shell` option](https://github.com/itamae-kitchen/itamae/pull/217)
+- [`gem_package` resource has `uninstall` action](https://github.com/itamae-kitchen/itamae/pull/216)
+
+Bugfixes
+
+- [`send_file` fails against docker backend](https://github.com/itamae-kitchen/itamae/pull/215)
+
 ## v1.9.8
 
 Bugfixes
