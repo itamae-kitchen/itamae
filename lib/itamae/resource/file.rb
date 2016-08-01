@@ -179,8 +179,6 @@ module Itamae
             backend.send_file(src, @temppath)
             @temppath = ::File.join(@temppath, ::File.basename(src))
           else
-            run_command(["touch", @temppath])
-            run_specinfra(:change_file_mode, @temppath, '0600')
             backend.send_file(src, @temppath)
           end
 
