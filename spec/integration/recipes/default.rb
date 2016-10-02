@@ -507,6 +507,11 @@ local_ruby_block 'execute run_command' do
   end
 end
 
+execute "/tmp/subscribed_from_parent" do
+  action :nothing
+  subscribes :run, 'execute[subscribed from parent]'
+end
+
 ###
 
 v1 = node.memory.total
@@ -516,3 +521,4 @@ v3 = node['memory']['total']
 unless v1 == v2 && v2 == v3 && v1 =~ /\A\d+kB\z/
   raise "failed to fetch host inventory value (#{v1}, #{v2}, #{v3})"
 end
+

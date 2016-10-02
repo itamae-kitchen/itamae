@@ -7,3 +7,7 @@ else
 end
 
 execute "touch /tmp/included_recipe"
+
+execute "subscribed from parent" do
+  command "true"
+end
