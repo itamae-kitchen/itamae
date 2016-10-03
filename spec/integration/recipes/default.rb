@@ -507,7 +507,7 @@ local_ruby_block 'execute run_command' do
   end
 end
 
-execute "/tmp/subscribed_from_parent" do
+execute "touch /tmp/subscribed_from_parent" do
   action :nothing
   subscribes :run, 'execute[subscribed from parent]'
 end
