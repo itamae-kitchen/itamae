@@ -337,7 +337,7 @@ module Itamae
       end
 
       def notify
-        (notifications + recipe.children.subscribing(self)).each do |notification|
+        (notifications + runner.children.subscribing(self)).each do |notification|
           message = "Notifying #{notification.action} to #{notification.action_resource.resource_type} resource '#{notification.action_resource.resource_name}'"
 
           if notification.delayed?

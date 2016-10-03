@@ -263,3 +263,7 @@ end
 describe file('/tmp/file_without_content_change_keeping_timestamp') do
   its(:mtime) { should eq(DateTime.iso8601("2016-05-01T12:34:56Z")) }
 end
+
+describe file('/tmp/subscribed_from_parent') do
+  it { should be_file }
+end
