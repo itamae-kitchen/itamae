@@ -173,6 +173,13 @@ file "/tmp/file" do
   mode "777"
 end
 
+file "/tmp/file_with_suid" do
+  content "Hello World"
+  mode "4755"
+  owner "itamae"
+  group "itamae"
+end
+
 execute "echo 'Hello Execute' > /tmp/execute"
 
 file "/tmp/never_exist1" do
@@ -409,6 +416,20 @@ file '/tmp/file_edit_sample' do
     content.gsub!('world', 'Itamae')
   end
   notifies :run, "execute[echo -n 1 > /tmp/file_edit_notifies]"
+end
+
+file '/tmp/file_edit_with_suid' do
+  content 'Hello, world'
+  owner 'itamae'
+  group 'itamae'
+  mode '600'
+end
+
+file '/tmp/file_edit_with_suid' do
+  action :edit
+  owner 'itamae2'
+  group 'itamae2'
+  mode '4755'
 end
 
 file '/tmp/file_edit_keeping_mode_owner' do
