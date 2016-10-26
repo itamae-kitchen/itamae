@@ -57,6 +57,13 @@ describe file('/tmp/file') do
   it { should be_mode 777 }
 end
 
+describe file('/tmp/file_with_suid') do
+  it { should be_file }
+  it { should be_mode 4755 }
+  it { should be_owned_by "itamae" }
+  it { should be_grouped_into "itamae" }
+end
+
 describe file('/tmp/execute') do
   it { should be_file }
   its(:content) { should match(/Hello Execute/) }
@@ -212,6 +219,13 @@ describe file('/tmp/file_edit_sample') do
   it { should be_file }
   its(:content) { should eq("Hello, Itamae") }
   it { should be_mode 400 }
+  it { should be_owned_by "itamae2" }
+  it { should be_grouped_into "itamae2" }
+end
+
+describe file('/tmp/file_edit_with_suid') do
+  it { should be_file }
+  it { should be_mode 4755 }
   it { should be_owned_by "itamae2" }
   it { should be_grouped_into "itamae2" }
 end
