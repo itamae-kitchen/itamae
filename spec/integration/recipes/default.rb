@@ -291,6 +291,11 @@ git "/tmp/git_repo_submodule" do
   recursive true
 end
 
+git "/tmp/git_repo_depth_1" do
+  repository "https://github.com/ryotarai/infrataster.git"
+  depth 1
+end
+
 #####
 
 execute "echo -n \"$HOME\n$(pwd)\" > /tmp/created_by_itamae_user" do

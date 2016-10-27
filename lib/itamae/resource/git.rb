@@ -10,6 +10,7 @@ module Itamae
       define_attribute :repository, type: String, required: true
       define_attribute :revision, type: String
       define_attribute :recursive, type: [TrueClass, FalseClass], default: false
+      define_attribute :depth, type: Integer
 
       def pre_action
         case @current_action
@@ -30,6 +31,7 @@ module Itamae
         if check_empty_dir
           cmd = ['git', 'clone']
           cmd << '--recursive' if attributes.recursive
+          cmd += ['--depth', attributes.depth.to_s] if attributes.depth
           cmd << attributes.repository << attributes.destination
           run_command(cmd)
           new_repository = true
