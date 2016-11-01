@@ -148,7 +148,11 @@ describe file('/tmp-link-force') do
   it { should be_linked_to '/tmp' }
 end
 
-describe file('/tmp-link-force/tmp-link-force') do
+describe file('/tmp/link-force-no-dereference') do
+  it { should be_linked_to 'link-force-no-dereference2' }
+end
+
+describe file('/tmp/link-force-no-dereference/link-force-no-dereference2') do
   it { should_not exist }
 end
 
