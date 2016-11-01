@@ -264,9 +264,11 @@ link "/tmp-link" do
 end
 
 execute "touch /tmp-link-force"
-link "/tmp-link-force" do
-  to "/tmp"
-  force true
+2.times do
+  link "/tmp-link-force" do
+    to "/tmp"
+    force true
+  end
 end
 
 #####
