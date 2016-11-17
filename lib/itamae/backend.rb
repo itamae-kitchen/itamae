@@ -288,6 +288,7 @@ module Itamae
           docker_image: @options[:image],
           docker_container: @options[:container],
           shell: @options[:shell],
+          docker_container_create_options: @options[:docker_container_create_options],
         )
       end
     end
