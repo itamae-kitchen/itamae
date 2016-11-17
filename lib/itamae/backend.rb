@@ -270,7 +270,7 @@ module Itamae
       def finalize
         image = @backend.commit_container
         if @options[:tag]
-          repo, tag = @options[:tag].split(':')
+          repo, _, tag = @options[:tag].rpartition(':')
           image.tag(repo: repo, tag: tag)
         end
         Itamae.logger.info "Image created: #{image.id}"
