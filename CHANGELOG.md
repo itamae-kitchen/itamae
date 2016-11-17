@@ -1,3 +1,20 @@
+## v1.9.10
+
+Features
+
+- [Add depth attribute to git resource](https://github.com/itamae-kitchen/itamae/pull/219)
+- [Support force link a direcotory](https://github.com/itamae-kitchen/itamae/pull/229)
+- [Add support password authentication for ssh](https://github.com/itamae-kitchen/itamae/pull/227)
+
+Bugfixes
+
+- [Run a resource subscribing a resource in child recipe](https://github.com/itamae-kitchen/itamae/pull/224)
+- [Change file owner first, then change file permissions](https://github.com/itamae-kitchen/itamae/pull/228)
+
+Improvements
+
+- [Dir.exists? is deprecated, use Dir.exist?](https://github.com/itamae-kitchen/itamae/pull/226)
+
 ## v1.9.9
 
 Features
