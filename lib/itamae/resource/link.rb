@@ -25,7 +25,8 @@ module Itamae
 
       def action_create(options)
         unless run_specinfra(:check_file_is_linked_to, attributes.link, attributes.to)
-          run_specinfra(:link_file_to, attributes.link, attributes.to, force: attributes.force)
+          run_specinfra(:link_file_to, attributes.link, attributes.to,
+            force: attributes.force, no_dereference: attributes.force)
         end
       end
     end

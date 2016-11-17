@@ -148,6 +148,14 @@ describe file('/tmp-link-force') do
   it { should be_linked_to '/tmp' }
 end
 
+describe file('/tmp/link-force-no-dereference') do
+  it { should be_linked_to 'link-force-no-dereference2' }
+end
+
+describe file('/tmp/link-force-no-dereference/link-force-no-dereference2') do
+  it { should_not exist }
+end
+
 describe command('cd /tmp/git_repo && git rev-parse HEAD') do
   its(:stdout) { should match(/3116e170b89dc0f7315b69c1c1e1fd7fab23ac0d/) }
 end
