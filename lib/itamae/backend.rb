@@ -269,7 +269,15 @@ module Itamae
     class Docker < Base
       def finalize
         image = @backend.commit_container
-        image.tag(repo: @options[:repository], tag: @options[:tag]) if @options[:repository]
+        if @options[:tag]
+          opt = @options[:tag].split(':')
+          if opt.size > 2
+            # private docker registry
+            image.tag(repo: opt[0..1].join(':'), tag: opt[2])
+          else
+            image.tag(repo: opt[0], tag: opt[1])
+          end
+        end
         Itamae.logger.info "Image created: #{image.id}"
       end
 
