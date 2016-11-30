@@ -257,6 +257,8 @@ module Itamae
           password = STDIN.noecho(&:gets).strip
           print "\n"
           opts.merge!(password: password)
+        else\
+          opts.merge!(keys_only: true)
         end
 
         opts
