@@ -111,5 +111,36 @@ EOF
         end
       end
     end
+
+    describe Docker do
+      subject { described_class.new options }
+      let(:options) do
+        { image: "ubuntu:16.04", shell: "/bin/sh" }
+      end
+      let(:image) { double(tag: nil, id: 1) }
+      let(:backend) { double(commit_container: image) }
+
+      before do
+        allow(Specinfra::Backend::Docker).to receive(:new).with(docker_image: "ubuntu:16.04", shell: "/bin/sh", docker_container: nil).and_return(backend)
+      end
+
+      describe "#finalize" do
+        after { subject.finalize }
+
+        it { expect(backend).to receive(:commit_container).and_return(image) }
+
+        context "with repository and tag option" do
+          let(:options) do
+            { image: "ubuntu:16.04", shell: "/bin/sh", repository: "repository", tag: "tag" }
+          end
+
+          it { expect(image).to receive(:tag).with(repo: "repository", tag: "tag", force: true).and_return(nil) }
+        end
+
+        context "without repository and tag option" do
+          it { expect(image).to_not receive(:tag) }
+        end
+      end
+    end
   end
 end

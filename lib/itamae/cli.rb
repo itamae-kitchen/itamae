@@ -65,6 +65,8 @@ module Itamae
     option :image, type: :string, desc: "This option or 'container' option is required."
     option :container, type: :string, desc: "This option or 'image' option is required."
     option :tls_verify_peer, type: :boolean, default: true
+    option :repository, type: :string, desc: "Docker image repository"
+    option :tag, type: :string, desc: "Docker image tag"
     def docker(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
