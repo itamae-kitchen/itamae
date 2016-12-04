@@ -258,7 +258,7 @@ module Itamae
           print "\n"
           opts.merge!(password: password)
         else
-          opts.merge!(keys_only: true)
+          opts.merge!(keys_only: true) if options[:key]
         end
 
         opts
