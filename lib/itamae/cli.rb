@@ -5,15 +5,11 @@ module Itamae
   class CLI < Thor
     GENERATE_TARGETS = %w[cookbook role].freeze
 
-    class_option :log_level, type: :string, aliases: ['-l'], default: 'info'
-    class_option :color, type: :boolean, default: true
-    class_option :config, type: :string, aliases: ['-c']
-
     def initialize(*)
       super
 
-      Itamae.logger.level = ::Logger.const_get(options[:log_level].upcase)
-      Itamae.logger.formatter.colored = options[:color]
+      Itamae.logger.level = ::Logger.const_get(options[:log_level].upcase) if options[:log_level]
+      Itamae.logger.formatter.colored = options[:color] if options[:color]
     end
 
     def self.define_exec_options
@@ -26,6 +22,9 @@ module Itamae
       option :ohai, type: :boolean, default: false, desc: "This option is DEPRECATED and will be unavailable."
       option :profile, type: :string, desc: "[EXPERIMENTAL] Save profiling data", banner: "PATH"
       option :detailed_exitcode, type: :boolean, default: false, desc: "exit code 0 - The run succeeded with no changes or failures, exit code 1 - The run failed, exit code 2 - The run succeeded, and some resources were changed"
+      option :log_level, type: :string, aliases: ['-l'], default: 'info'
+      option :color, type: :boolean, default: true
+      option :config, type: :string, aliases: ['-c']
     end
 
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
