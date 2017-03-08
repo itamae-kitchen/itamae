@@ -1,3 +1,15 @@
+## v1.9.11
+
+Features
+
+- [docker backend: Support image tagging](https://github.com/itamae-kitchen/itamae/pull/230)
+- [docker backend: Support docker_container_create_options](https://github.com/itamae-kitchen/itamae/pull/231)
+
+
+Bugfixes
+
+- [Fix help subcommand](https://github.com/itamae-kitchen/itamae/pull/235)
+
 ## v1.9.10
 
 Features
