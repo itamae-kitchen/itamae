@@ -1,4 +1,5 @@
 require "itamae/version"
+require "itamae/configuration"
 require "itamae/runner"
 require "itamae/cli"
 require "itamae/recipe"

@@ -119,18 +119,4 @@ module Itamae
       end
     end
   end
-
-  @logger = ::Logger.new($stdout).tap do |l|
-    l.formatter = Itamae::Logger::Formatter.new
-  end.extend(Itamae::Logger::Helper)
-
-  class << self
-    def logger
-      @logger
-    end
-
-    def logger=(l)
-      @logger = l.extend(Itamae::Logger::Helper)
-    end
-  end
 end
