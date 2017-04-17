@@ -27,6 +27,11 @@ module Itamae
         end
         described_class.run(recipes, :local, {})
       end
+
+      it "require extensions automatically" do
+        described_class.run([], :local, {})
+        expect(described_class).to respond_to(:itamae_extended)
+      end
     end
   end
 end
