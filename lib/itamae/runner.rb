@@ -115,7 +115,7 @@ module Itamae
       if @options[:node_yaml]
         path = File.expand_path(@options[:node_yaml])
         Itamae.logger.info "Loading node data from #{path}..."
-        hash.merge!(YAML.load(open(path)) || {})
+        hash.merge!(YAML.load(ERB.new(open(path).read).result) || {})
       end
 
       Node.new(hash, @backend)
