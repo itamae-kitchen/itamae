@@ -1,4 +1,5 @@
 require 'itamae'
+require 'itamae/mash'
 require 'hashie'
 require 'json'
 require 'schash'
@@ -10,7 +11,7 @@ module Itamae
     attr_reader :mash
 
     def initialize(hash, backend)
-      @mash = Hashie::Mash.new(hash)
+      @mash = Itamae::Mash.new(hash)
       @backend = backend
     end
 
@@ -43,7 +44,7 @@ module Itamae
     private
 
     def _reverse_merge(other_hash)
-      Hashie::Mash.new(other_hash).merge(@mash)
+      Itamae::Mash.new(other_hash).merge(@mash)
     end
 
     def method_missing(method, *args)
@@ -63,7 +64,7 @@ module Itamae
     def fetch_inventory_value(key)
       value = @backend.host_inventory[key]
       if value.is_a?(Hash)
-        value = Hashie::Mash.new(value)
+        value = Itamae::Mash.new(value)
       end
 
       value
