@@ -73,6 +73,17 @@ module Itamae
       run(recipe_files, :docker, options)
     end
 
+    desc "jail RECIPE [RECIPE...]", "Run Itamae in jail"
+    define_exec_options
+    option :jail_name, type: :string, desc: "Jail Hostname"
+    def jail(*recipe_files)
+      if recipe_files.empty?
+        raise "Please specify recipe files."
+      end
+
+      run(recipe_files, :jexec, options)
+    end
+
     desc "version", "Print version"
     def version
       puts "Itamae v#{Itamae::VERSION}"

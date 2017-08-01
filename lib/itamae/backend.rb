@@ -212,6 +212,17 @@ module Itamae
       end
     end
 
+    class Jexec < Base
+      private
+      def create_specinfra_backend
+        Specinfra::Backend::Jexec.new(
+          shell: @options[:shell],
+          login_shell: @options[:login_shell],
+          jail_name: @options[:jail_name],
+        )
+      end
+    end
+
     class Ssh < Base
       private
       def create_specinfra_backend
