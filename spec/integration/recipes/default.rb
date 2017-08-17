@@ -1,3 +1,4 @@
+# coding: utf-8
 node.reverse_merge!({
   message: "Hello, Itamae"
 })
@@ -83,7 +84,7 @@ gem_package 'rake' do
 end
 
 gem_package 'test-unit' do
-  version '3.1.9'
+  version '3.1.8'
 end
 
 gem_package 'test-unit' do
