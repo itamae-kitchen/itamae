@@ -103,7 +103,7 @@ module Itamae
         end
 
         Itamae.logger.info "Loading node data via ohai..."
-        hash.merge!(JSON.parse(@backend.run_command("ohai").stdout))
+        hash.merge!(JSON.parse(@backend.run_command("ohai 2>/dev/null").stdout))
       end
 
       if @options[:node_json]
