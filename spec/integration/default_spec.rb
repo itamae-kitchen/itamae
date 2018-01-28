@@ -196,7 +196,7 @@ describe command('gem list') do
 end
 
 describe command('gem list') do
-  its(:stdout) { should include('rake (11.1.0)') }
+  its(:stdout) { should include('rake (11.1.0') } # bundler 1.16 require rake 10
 end
 
 describe command('gem list') do
