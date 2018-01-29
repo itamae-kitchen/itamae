@@ -1,77 +1,57 @@
-box: wercker/rvm
-# Build definition
+box: drecom/ubuntu-ruby:2.3.1
+
 build:
-  # The steps that will be executed on build
-  # See the Ruby section on the wercker devcenter:
-  # http://devcenter.wercker.com/articles/languages/ruby.html
   steps:
-    # Uncomment this to force RVM to use a specific Ruby version
-    - rvm-use:
-        version: 2.2.3
 
+build-xenial:
+  steps:
     - script:
-        name: update bundler
-        code: gem update bundler
-
-    # A step that executes `bundle install` command
-    - bundle-install
-
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
-    - script:
-        name: echo ruby information
+        name: install bundler 1.12.5
         code: |
-          echo "ruby version $(ruby --version) running"
-          echo "from location $(which ruby)"
-          echo -p "gem list: $(gem list)"
-
+          gem uninstall bundler --all --force
+          gem install bundler -v 1.12.5 --no-document
+    - script:
+        name: download vagrant
+        code: wget https://releases.hashicorp.com/vagrant/1.8.4/vagrant_1.8.4_x86_64.deb
+    - script:
+        name: install vagrant
+        code: dpkg -i vagrant_1.8.4_x86_64.deb
+    - script:
+        name: install vagrant plugin vagrant-digitalocean
+        code: vagrant plugin install vagrant-digitalocean
     - script:
         name: create .ssh directory
         code: mkdir -p $HOME/.ssh
-
     - create-file:
         name: put private key
         filename: $HOME/.ssh/id_rsa.vagrant
         overwrite: true
         hide-from-log: true
         content: $DIGITALOCEAN_PRIVATE_KEY
-
     - create-file:
         name: put public key
         filename: $HOME/.ssh/id_rsa.vagrant.pub
         overwrite: true
         hide-from-log: true
         content: $DIGITALOCEAN_PUBLIC_KEY
-
     - script:
         name: chmod 600 id_rsa
         code: chmod 600 $HOME/.ssh/id_rsa.vagrant
-
-    - script:
-        name: install libxml and libxslt
-        code: sudo apt-get install libxml2-dev libxslt1-dev
-
-    - script:
-        name: bundle install
-        code: bundle install --deployment -j4
-
     - script:
         name: start vm
-        code: bundle exec vagrant up --provider=digital_ocean
+        code: vagrant up --provider=digital_ocean
         cwd: spec/integration
-
-    # Add more steps here:
+    - script:
+        name: install g++
+        code: apt update && apt install --assume-yes g++
+    - script:
+        name: bundle install
+        code: bundle install --force
     - script:
         name: rspec
         code: bundle exec rake spec
-
   after-steps:
     - script:
-        name: shutdown vm
-        code: bundle exec vagrant destroy -f
-        cwd: spec/integration
-
-    - script:
-        name: shutdown old vms
-        code: bundle exec ruby ci/destroy_old_droplets.rb
-
+      name: shutdown vm
+      code: vagrant destroy -f
+      cwd: spec/integration
