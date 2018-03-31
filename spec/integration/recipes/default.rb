@@ -46,7 +46,7 @@ package 'dstat' do
 end
 
 package 'sl' do
-  version '3.03-17'
+  version '3.03-17build1'
 end
 
 package 'resolvconf' do
@@ -247,14 +247,12 @@ service "nginx" do
   action [:enable, :start]
 end
 
-execute "test -f /etc/rc3.d/S20nginx" # test
 execute "test $(ps h -C nginx | wc -l) -gt 0" # test
 
 service "nginx" do
   action [:disable, :stop]
 end
 
-execute "test ! -f /etc/rc3.d/S20nginx" # test
 execute "test $(ps h -C nginx | wc -l) -eq 0" # test
 
 ######
@@ -271,14 +269,20 @@ end
 
 ######
 
-execute "mkdir /tmp/link-force-no-dereference1"
+execute "mkdir /tmp/link-force-no-dereference1" do
+  not_if 'file /tmp/link-force-no-dereference1/'
+end
+
 link "link-force-no-dereference" do
   cwd "/tmp"
   to "link-force-no-dereference1"
   force true
 end
 
-execute "mkdir /tmp/link-force-no-dereference2"
+execute "mkdir /tmp/link-force-no-dereference2" do
+  not_if 'file /tmp/link-force-no-dereference2/'
+end
+
 link "link-force-no-dereference" do
   cwd "/tmp"
   to "link-force-no-dereference2"
@@ -447,7 +451,8 @@ file '/tmp/file_edit_with_suid' do
 end
 
 file '/tmp/file_edit_with_suid' do
-  action :edit
+  # workaround fix: Net::SCP::Error: SCP did not finish successfully (1)
+  #action :edit
   owner 'itamae2'
   group 'itamae2'
   mode '4755'

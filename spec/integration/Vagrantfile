@@ -1,25 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-require 'vagrant-digitalocean'
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.define :trusty do |c|
-    c.vm.hostname  = 'itamae-trusty'
+Vagrant.configure(2) do |config|
+  config.vm.define :xenial do |c|
+    c.vm.hostname  = 'itamae-xenial'
     c.vm.hostname += "-#{ENV['WERCKER_BUILD_ID']}" if ENV['WERCKER_BUILD_ID']
     c.vm.provider :virtualbox do |provider, override|
-      override.vm.box = "ubuntu/trusty64"
-      override.vm.provision :shell, inline: <<-EOC
-  cat /etc/apt/sources.list | sed -e 's|http://[^ ]*|mirror://mirrors.ubuntu.com/mirrors.txt|g' > /tmp/sources.list
-  if !(diff -q /etc/apt/sources.list /tmp/sources.list); then
-    mv /tmp/sources.list /etc/apt/sources.list
-    apt-get update
-  fi
-  echo America/New_York > /etc/timezone
-  dpkg-reconfigure --frontend noninteractive tzdata
-      EOC
+      override.vm.box = "ubuntu/xenial64"
     end
 
     c.vm.provider :digital_ocean do |provider, override|
@@ -29,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       provider.ssh_key_name = ENV['WERCKER'] ? 'vagrant/wercker/itamae' : 'Vagrant'
       provider.token = ENV['DIGITALOCEAN_TOKEN']
-      provider.image = 'ubuntu-14-04-x64' # ubuntu
+      provider.image = 'ubuntu-16-04-x64' # ubuntu
       provider.region = 'nyc3'
       provider.size = '512mb'
     end
