@@ -19,7 +19,13 @@ namespace :spec do
 
     targets.each do |target|
       desc "Run provision and specs to #{target}"
-      task target => ["provision:#{target}", "serverspec:#{target}"]
+      task target => ["docker:#{target}", "provision:#{target}", "serverspec:#{target}"]
+
+      namespace :docker do
+        task target do
+          sh "docker run --privileged -d --name itamae #{target} /sbin/init"
+        end
+      end
 
       namespace :provision do
         task target do
