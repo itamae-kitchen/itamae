@@ -83,11 +83,11 @@ gem_package 'rake' do
 end
 
 gem_package 'test-unit' do
-  version '3.2.0'
+  version '2.5.5'
 end
 
 gem_package 'test-unit' do
-  version '3.1.9'
+  version '2.4.9'
 end
 
 gem_package 'test-unit' do
