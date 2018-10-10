@@ -19,3 +19,6 @@ notifications:
 matrix:
   allow_failures:
   - rvm: ruby-head
+branches:
+  only:
+  - master
