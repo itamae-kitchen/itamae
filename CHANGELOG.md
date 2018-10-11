@@ -451,7 +451,7 @@ Feature
 
 Improvements
 
-- `source :auto` accepts a template without .erb extention. (by @ryotarai)
+- `source :auto` accepts a template without .erb extension. (by @ryotarai)
 
 ## v1.1.21
 
