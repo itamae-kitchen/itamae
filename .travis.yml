@@ -29,6 +29,8 @@ script:
   - bundle exec rake spec
 notifications:
   email: false
+  slack:
+    secure: PcecHsVS6lw89K5PllW8xFlzu0d04p6lYfxlUZL0/yp9flAczElJME4RshSMSkbnu5e2Iw8KUA2xB1jkAzDo9qYoXveaKyjkFUOb1ZxYIVxzzfoDDwUNTMmSoyjZjvbeBUcpxxmxy6nXa3zS+gA2ohqWhS9WTTlTqyM5RriDjZ8=
 matrix:
   allow_failures:
   - rvm: ruby-head
