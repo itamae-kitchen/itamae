@@ -1,3 +1,21 @@
+## Unreleased
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.12...master)
+
+## v1.9.12
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.11...v1.9.12)
+
+Features
+
+- [jail backend: add support of FreeBSD Jail (`itamae jail`)](https://github.com/itamae-kitchen/itamae/pull/249)
+
+Bugfixes
+
+- [docker backend: Fixed edit action of file resource doesn't work with docker backend](https://github.com/itamae-kitchen/itamae/pull/257)
+
+Improvements
+
+- [Print '(dry-run)' first in dry-run mode](https://github.com/itamae-kitchen/itamae/pull/252)
+
 ## v1.9.11
 
 Features
