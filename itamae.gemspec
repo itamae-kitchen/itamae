@@ -6,8 +6,8 @@ require 'itamae/version'
 Gem::Specification.new do |spec|
   spec.name          = "itamae"
   spec.version       = Itamae::VERSION
-  spec.authors       = ["Ryota Arai"]
-  spec.email         = ["ryota.arai@gmail.com"]
+  spec.authors       = ["Ryota Arai", "Yusuke Nakamura", "sue445"]
+  spec.email         = ["ryota.arai@gmail.com", "yusuke1994525@gmail.com", "sue445@sue445.net"]
   spec.summary       = %q{Simple Configuration Management Tool}
   spec.homepage      = "https://github.com/itamae-kitchen/itamae"
   spec.license       = "MIT"
