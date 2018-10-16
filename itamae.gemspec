@@ -6,11 +6,20 @@ require 'itamae/version'
 Gem::Specification.new do |spec|
   spec.name          = "itamae"
   spec.version       = Itamae::VERSION
-  spec.authors       = ["Ryota Arai"]
-  spec.email         = ["ryota.arai@gmail.com"]
+  spec.authors       = ["Ryota Arai", "Yusuke Nakamura", "sue445"]
+  spec.email         = ["ryota.arai@gmail.com", "yusuke1994525@gmail.com", "sue445@sue445.net"]
   spec.summary       = %q{Simple Configuration Management Tool}
-  spec.homepage      = "https://github.com/itamae-kitchen/itamae"
+  spec.homepage      = "https://itamae.kitchen/"
   spec.license       = "MIT"
+
+  if spec.respond_to?(:metadata)
+    spec.metadata["homepage_uri"] = spec.homepage
+    spec.metadata["source_code_uri"] = "https://github.com/itamae-kitchen/itamae"
+    spec.metadata["changelog_uri"] = "https://github.com/itamae-kitchen/itamae/blob/master/CHANGELOG.md"
+  else
+    raise "RubyGems 2.0 or newer is required to protect against " \
+      "public gem pushes."
+  end
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
