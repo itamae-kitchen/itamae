@@ -556,6 +556,20 @@ end
 
 ###
 
+file "/tmp/empty_file1" do
+  content ""
+end
+
+remote_file "/tmp/empty_file2" do
+  source "files/empty_file"
+end
+
+template "/tmp/empty_file3" do
+  source "templates/empty_file.erb"
+end
+
+###
+
 v1 = node.memory.total
 v2 = node[:memory][:total]
 v3 = node['memory']['total']
