@@ -22,12 +22,14 @@ namespace :spec do
       task target => ["docker:#{target}", "provision:#{target}", "serverspec:#{target}"]
 
       namespace :docker do
+        desc "Run docker for #{target}"
         task target do
           sh "docker run --privileged -d --name itamae #{target} /sbin/init"
         end
       end
 
       namespace :provision do
+        desc "Run itamae to #{target}"
         task target do
           suites = [
             [
