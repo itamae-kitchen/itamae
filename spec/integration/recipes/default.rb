@@ -271,14 +271,14 @@ end
 
 ######
 
-execute "mkdir /tmp/link-force-no-dereference1"
+execute "mkdir -p /tmp/link-force-no-dereference1"
 link "link-force-no-dereference" do
   cwd "/tmp"
   to "link-force-no-dereference1"
   force true
 end
 
-execute "mkdir /tmp/link-force-no-dereference2"
+execute "mkdir -p /tmp/link-force-no-dereference2"
 link "link-force-no-dereference" do
   cwd "/tmp"
   to "link-force-no-dereference2"
