@@ -303,3 +303,21 @@ end
 describe file('/tmp/subscribed_from_parent') do
   it { should be_file }
 end
+
+describe file('/tmp/empty_file1') do
+  it { should exist }
+  it { should be_file }
+  its(:content) { should eq "" }
+end
+
+describe file('/tmp/empty_file2') do
+  it { should exist }
+  it { should be_file }
+  its(:content) { should eq "" }
+end
+
+describe file('/tmp/empty_file3') do
+  it { should exist }
+  it { should be_file }
+  its(:content) { should eq "" }
+end
