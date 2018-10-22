@@ -1,8 +1,8 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.12...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.13...master)
 
 ## v1.9.13
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.11...v1.9.12)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.12...v1.9.13)
 
 Bugfixes
 
