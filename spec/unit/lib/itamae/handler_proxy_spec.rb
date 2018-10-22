@@ -20,8 +20,8 @@ module Itamae
             expect(handler).to receive(:event).with(:name_started, :arg)
             expect(handler).to receive(:event).with(:name_failed, :arg)
             expect {
-              subject.event(:name, :arg) { raise }
-            }.to raise_error
+              subject.event(:name, :arg) { raise "name is failed" }
+            }.to raise_error "name is failed"
           end
         end
       end

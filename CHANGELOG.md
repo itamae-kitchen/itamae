@@ -1,3 +1,28 @@
+## Unreleased
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.13...master)
+
+## v1.9.13
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.12...v1.9.13)
+
+Bugfixes
+
+- [Fixed. Can not create empty file](https://github.com/itamae-kitchen/itamae/pull/269)
+
+## v1.9.12
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.11...v1.9.12)
+
+Features
+
+- [jail backend: add support of FreeBSD Jail (`itamae jail`)](https://github.com/itamae-kitchen/itamae/pull/249)
+
+Bugfixes
+
+- [docker backend: Fixed edit action of file resource doesn't work with docker backend](https://github.com/itamae-kitchen/itamae/pull/257)
+
+Improvements
+
+- [Print '(dry-run)' first in dry-run mode](https://github.com/itamae-kitchen/itamae/pull/252)
+
 ## v1.9.11
 
 Features
@@ -451,7 +476,7 @@ Feature
 
 Improvements
 
-- `source :auto` accepts a template without .erb extention. (by @ryotarai)
+- `source :auto` accepts a template without .erb extension. (by @ryotarai)
 
 ## v1.1.21
 

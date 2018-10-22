@@ -6,7 +6,7 @@ module Itamae
   class Runner
     class << self
       def run(recipe_files, backend_type, options)
-        Itamae.logger.info "Starting Itamae..."
+        Itamae.logger.info "Starting Itamae... #{options[:dry_run] ? '(dry-run)' : ''}"
 
         backend = Backend.create(backend_type, options)
         runner = self.new(backend, options)

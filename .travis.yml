@@ -1,0 +1,39 @@
+language: ruby
+sudo: required
+services:
+  - docker
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+  - ruby-head
+bundler_args: "--jobs=4 --retry=3"
+cache:
+  bundler: true
+  directories:
+    - $HOME/docker
+
+before_cache:
+  # Save tagged docker images
+  - >
+    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+
+before_install:
+  - gem update --system --no-document
+  - gem install bundler --no-document
+  # Load cached docker images
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+
+script:
+  - bundle exec rake spec
+notifications:
+  email: false
+  slack:
+    secure: PcecHsVS6lw89K5PllW8xFlzu0d04p6lYfxlUZL0/yp9flAczElJME4RshSMSkbnu5e2Iw8KUA2xB1jkAzDo9qYoXveaKyjkFUOb1ZxYIVxzzfoDDwUNTMmSoyjZjvbeBUcpxxmxy6nXa3zS+gA2ohqWhS9WTTlTqyM5RriDjZ8=
+matrix:
+  allow_failures:
+  - rvm: ruby-head
+branches:
+  only:
+  - master

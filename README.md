@@ -1,6 +1,6 @@
 # [![](https://raw.githubusercontent.com/itamae-kitchen/itamae-logos/master/small/FA-Itamae-horizontal-01-180x72.png)](https://github.com/itamae-kitchen/itamae)
 
-[![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Code Climate](https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg)](https://codeclimate.com/github/ryotarai/itamae) [![wercker status](https://app.wercker.com/status/3e7be3b982d3671940a07e3ef45d9f5f/s/master "wercker status")](https://app.wercker.com/project/bykey/3e7be3b982d3671940a07e3ef45d9f5f) [![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://itamae-slackin.herokuapp.com/)
+[![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Code Climate](https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg)](https://codeclimate.com/github/ryotarai/itamae) [![Build Status](https://travis-ci.org/itamae-kitchen/itamae.svg?branch=master)](https://travis-ci.org/itamae-kitchen/itamae) [![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://itamae-slackin.herokuapp.com/)
 
 Simple and lightweight configuration management tool inspired by Chef.
 

@@ -118,6 +118,13 @@ module Itamae
           return
         end
 
+        # When the path currently doesn't exist yet, :change_file_xxx should be performed against `@temppath`.
+        # Checking that by `diff -q /dev/null xxx` doesn't work when xxx's content is "", because /dev/null's content is also "".
+        if !current.exist && attributes.exist
+          attributes.modified = true
+          return
+        end
+
         case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
         when 1
           # diff found
