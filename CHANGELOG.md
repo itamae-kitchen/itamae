@@ -1,6 +1,13 @@
 ## Unreleased
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.12...master)
 
+## v1.9.13
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.11...v1.9.12)
+
+Bugfixes
+
+- [Fixed. Can not create empty file](https://github.com/itamae-kitchen/itamae/pull/269)
+
 ## v1.9.12
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.11...v1.9.12)
 
