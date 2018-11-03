@@ -161,6 +161,18 @@ module Itamae
         context.instance_eval(&@definition.class.definition_block)
       end
 
+      def run
+        if @definition.do_not_run_because_of_only_if?
+          Itamae.logger.debug "#{@definition.resource_type}[#{@definition.resource_name}] Execution skipped because of only_if attribute"
+          return
+        elsif @definition.do_not_run_because_of_not_if?
+          Itamae.logger.debug "#{@definition.resource_type}[#{@definition.resource_name}] Execution skipped because of not_if attribute"
+          return
+        end
+
+        super
+      end
+
       private
 
       def show_banner
