@@ -14,3 +14,10 @@ set :docker_container, ENV["DOCKER_CONTAINER"]
 
 # Set PATH
 # set :path, '/sbin:/usr/local/sbin:$PATH'
+
+RSpec.configure do |config|
+  unless ENV["CI"]
+    # focus is enabled only local (Run all specs at CI)
+    config.filter_run_when_matching :focus
+  end
+end
