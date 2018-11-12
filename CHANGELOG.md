@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.13...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.0...master)
+
+## v1.10.0
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.13...v1.10.0)
+
+Features
+
+- [Support `only_if` and `not_if` inside a `define`](https://github.com/itamae-kitchen/itamae/pull/271)
 
 ## v1.9.13
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.12...v1.9.13)
