@@ -160,6 +160,16 @@ module Itamae
         self.class.name.split("::").last.scan(/[A-Z][^A-Z]+/).map(&:downcase).join('_')
       end
 
+      def do_not_run_because_of_only_if?
+        @only_if_command &&
+          run_command(@only_if_command, error: false).exit_status != 0
+      end
+
+      def do_not_run_because_of_not_if?
+        @not_if_command &&
+          run_command(@not_if_command, error: false).exit_status == 0
+      end
+
       private
 
       alias_method :current, :current_attributes
@@ -268,16 +278,6 @@ module Itamae
             end
           end
         end
-      end
-
-      def do_not_run_because_of_only_if?
-        @only_if_command &&
-          run_command(@only_if_command, error: false).exit_status != 0
-      end
-
-      def do_not_run_because_of_not_if?
-        @not_if_command &&
-          run_command(@not_if_command, error: false).exit_status == 0
       end
 
       def backend

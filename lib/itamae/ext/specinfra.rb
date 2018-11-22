@@ -18,6 +18,16 @@ module Specinfra
       end
     end
 
+    class Docker < Exec
+      def receive_file(from, to = nil)
+        if to
+          send_file(from, to)
+        else
+          run_command("cat #{from}").stdout
+        end
+      end
+    end
+
     class Ssh < Exec
       def receive_file(from, to = nil)
         scp_download!(from, to)

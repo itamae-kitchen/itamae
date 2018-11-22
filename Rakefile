@@ -3,8 +3,6 @@ require 'rspec/core/rake_task'
 require 'tempfile'
 require 'net/ssh'
 
-vagrant_bin = 'vagrant'
-
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
 
@@ -15,30 +13,24 @@ namespace :spec do
   end
 
   namespace :integration do
-    targets = []
-    status = `cd spec/integration && #{vagrant_bin} status`
-    unless $?.exitstatus == 0
-      raise "vagrant status failed.\n#{status}"
-    end
-
-    status.split("\n\n")[1].each_line do |line|
-      targets << line.match(/^[^ ]+/)[0]
-    end
+    targets = ["ubuntu:trusty"]
 
     task :all     => targets
 
     targets.each do |target|
       desc "Run provision and specs to #{target}"
-      task target => ["provision:#{target}", "serverspec:#{target}"]
+      task target => ["docker:#{target}", "provision:#{target}", "serverspec:#{target}"]
+
+      namespace :docker do
+        desc "Run docker for #{target}"
+        task target do
+          sh "docker run --privileged -d --name itamae #{target} /sbin/init"
+        end
+      end
 
       namespace :provision do
+        desc "Run itamae to #{target}"
         task target do
-          config = Tempfile.new('', Dir.tmpdir)
-          env = {"VAGRANT_CWD" => File.expand_path('./spec/integration')}
-          system env, "#{vagrant_bin} up #{target}"
-          system env, "#{vagrant_bin} ssh-config #{target} > #{config.path}"
-          options = Net::SSH::Config.for(target, [config.path])
-
           suites = [
             [
               "spec/integration/recipes/default.rb",
@@ -51,13 +43,11 @@ namespace :spec do
             ],
           ]
           suites.each do |suite|
-            cmd = %w!bundle exec bin/itamae ssh!
-            cmd << "-h" << options[:host_name]
-            cmd << "-u" << options[:user]
-            cmd << "-p" << options[:port].to_s
-            cmd << "-i" << options[:keys].first
+            cmd = %w!bundle exec bin/itamae docker!
             cmd << "-l" << (ENV['LOG_LEVEL'] || 'debug')
             cmd << "-j" << "spec/integration/recipes/node.json"
+            cmd << "--container" << "itamae"
+            cmd << "--tag" << "itamae:latest"
             cmd += suite
 
             p cmd
@@ -71,7 +61,7 @@ namespace :spec do
       namespace :serverspec do
         desc "Run serverspec tests to #{target}"
         RSpec::Core::RakeTask.new(target.to_sym) do |t|
-          ENV['TARGET_HOST'] = target
+          ENV['DOCKER_CONTAINER'] = "itamae"
           t.ruby_opts = '-I ./spec/integration'
           t.pattern = "spec/integration/*_spec.rb"
         end

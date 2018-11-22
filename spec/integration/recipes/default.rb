@@ -83,11 +83,11 @@ gem_package 'rake' do
 end
 
 gem_package 'test-unit' do
-  version '3.2.0'
+  version '2.5.5'
 end
 
 gem_package 'test-unit' do
-  version '3.1.9'
+  version '2.4.9'
 end
 
 gem_package 'test-unit' do
@@ -271,14 +271,14 @@ end
 
 ######
 
-execute "mkdir /tmp/link-force-no-dereference1"
+execute "mkdir -p /tmp/link-force-no-dereference1"
 link "link-force-no-dereference" do
   cwd "/tmp"
   to "link-force-no-dereference1"
   force true
 end
 
-execute "mkdir /tmp/link-force-no-dereference2"
+execute "mkdir -p /tmp/link-force-no-dereference2"
 link "link-force-no-dereference" do
   cwd "/tmp"
   to "link-force-no-dereference2"
@@ -340,6 +340,28 @@ include_recipe "define/default.rb"
 
 definition_example "name" do
   key 'value'
+end
+
+execute "touch /tmp/trigger_for_definition_example_2"
+
+definition_example_2 "created" do
+  key     "value2"
+  only_if "test -f /tmp/trigger_for_definition_example_2"
+end
+
+definition_example_2 "not_created" do
+  key    "value2"
+  not_if "test -f /tmp/trigger_for_definition_example_2"
+end
+
+definition_example_3 "created" do
+  key    "value3"
+  not_if "test -f /tmp/this_file_is_not_exists"
+end
+
+definition_example_3 "not_created" do
+  key     "value3"
+  only_if "test -f /tmp/this_file_is_not_exists"
 end
 
 #####
@@ -552,6 +574,20 @@ end
 execute "touch /tmp/subscribed_from_parent" do
   action :nothing
   subscribes :run, 'execute[subscribed from parent]'
+end
+
+###
+
+file "/tmp/empty_file1" do
+  content ""
+end
+
+remote_file "/tmp/empty_file2" do
+  source "files/empty_file"
+end
+
+template "/tmp/empty_file3" do
+  source "templates/empty_file.erb"
 end
 
 ###
