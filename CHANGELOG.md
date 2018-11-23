@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.1...master)
+
+## v1.10.1
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.0...v1.10.1)
+
+Bugfixes
+
+- [fail `--ohai` option when using ohai v13.0.1 or higher](https://github.com/itamae-kitchen/itamae/pull/251)
 
 ## v1.10.0
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.9.13...v1.10.0)
