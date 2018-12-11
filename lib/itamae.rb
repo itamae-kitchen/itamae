@@ -13,6 +13,7 @@ require "itamae/notification"
 require "itamae/definition"
 require "itamae/ext"
 require "itamae/generators"
+require "itamae/mash"
 
 module Itamae
   # Your code goes here...
