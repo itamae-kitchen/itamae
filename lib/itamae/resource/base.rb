@@ -16,7 +16,7 @@ module Itamae
         def initialize(resource)
           @resource = resource
 
-          @attributes = Hashie::Mash.new
+          @attributes = Itamae::Mash.new
           @notifications = []
           @subscriptions = []
           @verify_commands = []
@@ -222,7 +222,7 @@ module Itamae
       end
 
       def clear_current_attributes
-        @current_attributes = Hashie::Mash.new
+        @current_attributes = Itamae::Mash.new
       end
 
       def pre_action
