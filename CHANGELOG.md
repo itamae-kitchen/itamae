@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.1...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.2...master)
+
+## v1.10.2
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.1...v1.10.2)
+
+Bugfixes
+
+- [Disable mash warnings (review catch up)](https://github.com/itamae-kitchen/itamae/pull/273)
 
 ## v1.10.1
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.0...v1.10.1)
