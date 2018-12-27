@@ -14,17 +14,18 @@ namespace :spec do
 
   namespace :integration do
     targets = ["ubuntu:trusty"]
+    container_name = 'itamae'
 
     task :all     => targets
 
     targets.each do |target|
       desc "Run provision and specs to #{target}"
-      task target => ["docker:#{target}", "provision:#{target}", "serverspec:#{target}"]
+      task target => ["docker:#{target}", "provision:#{target}", "serverspec:#{target}", 'clean_docker_container']
 
       namespace :docker do
         desc "Run docker for #{target}"
         task target do
-          sh "docker run --privileged -d --name itamae #{target} /sbin/init"
+          sh "docker run --privileged -d --name #{container_name} #{target} /sbin/init"
         end
       end
 
@@ -46,7 +47,7 @@ namespace :spec do
             cmd = %w!bundle exec bin/itamae docker!
             cmd << "-l" << (ENV['LOG_LEVEL'] || 'debug')
             cmd << "-j" << "spec/integration/recipes/node.json"
-            cmd << "--container" << "itamae"
+            cmd << "--container" << container_name
             cmd << "--tag" << "itamae:latest"
             cmd += suite
 
@@ -61,10 +62,15 @@ namespace :spec do
       namespace :serverspec do
         desc "Run serverspec tests to #{target}"
         RSpec::Core::RakeTask.new(target.to_sym) do |t|
-          ENV['DOCKER_CONTAINER'] = "itamae"
+          ENV['DOCKER_CONTAINER'] = container_name
           t.ruby_opts = '-I ./spec/integration'
           t.pattern = "spec/integration/*_spec.rb"
         end
+      end
+
+      desc 'Clean a docker container for test'
+      task :clean_docker_container do
+        sh('docker', 'rm', '-f', container_name)
       end
     end
   end
