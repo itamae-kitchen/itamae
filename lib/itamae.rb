@@ -1,6 +1,5 @@
 require "itamae/version"
 require "itamae/runner"
-require "itamae/cli"
 require "itamae/recipe"
 require "itamae/resource"
 require "itamae/handler"
