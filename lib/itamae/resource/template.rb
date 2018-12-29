@@ -38,9 +38,14 @@ module Itamae
 
         def render_file(src)
           template = ::File.read(src)
-          ERB.new(template, nil, '-').tap do |erb|
-            erb.filename = src
-          end.result(binding)
+          erb =
+            if ERB.instance_method(:initialize).parameters.assoc(:key) # Ruby 2.6+
+              ERB.new(template, trim_mode: '-')
+            else
+              ERB.new(template, nil, '-')
+            end
+          erb.filename = src
+          erb.result(binding)
         end
 
         def node
