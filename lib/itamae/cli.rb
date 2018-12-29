@@ -1,4 +1,3 @@
-require 'itamae'
 require 'thor'
 
 module Itamae
