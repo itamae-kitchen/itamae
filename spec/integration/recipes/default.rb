@@ -66,6 +66,7 @@ gem_package 'tzinfo' do
 end
 
 gem_package 'bundler' do
+  version '1.17.3'
   options ['--no-ri', '--no-rdoc']
 end
 
