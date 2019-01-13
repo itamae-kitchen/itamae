@@ -20,9 +20,10 @@ class IntegrationLocalSpecRunner
   CONTAINER_NAME = 'itamae'
   include FileUtils
 
-  def initialize(suites, specs)
+  def initialize(suites, specs, ruby_version: RUBY_VERSION)
     @suites = suites
     @specs = specs
+    @ruby_version = ruby_version
   end
 
   def run
@@ -37,7 +38,7 @@ class IntegrationLocalSpecRunner
     mount_dir = Pathname(__dir__).join('../').to_s
     Thread.new do
       Thread.current.abort_on_exception = true
-      sh 'docker', 'run', '--privileged', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{RUBY_VERSION}", 'sleep', '1d'
+      sh 'docker', 'run', '--privileged', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
     end
     
     sleep 0.5 until `docker ps` =~ /itamae$/
