@@ -1,5 +1,7 @@
 desc 'Run integration test on `itamae local` command'
 task 'spec:integration:local' do
+  next if RUBY_DESCRIPTION.include?('dev')
+
   IntegrationLocalSpecRunner.new(
     [
       [
