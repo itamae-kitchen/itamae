@@ -70,7 +70,7 @@ class IntegrationLocalSpecRunner
   end
 
   def clean_docker_container
-    sh('docker', 'rm', '-f', @container_name)
+    sh('docker', 'rm', '-f', CONTAINER_NAME)
   end
 
   def docker_exec(*cmd, options: [])
