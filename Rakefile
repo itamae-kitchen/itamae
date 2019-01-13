@@ -3,6 +3,10 @@ require 'rspec/core/rake_task'
 require 'tempfile'
 require 'net/ssh'
 
+Dir['tasks/*.rb'].each do |file|
+  require_relative file
+end
+
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
 
