@@ -21,7 +21,7 @@ class IntegrationLocalSpecRunner
   CONTAINER_NAME = 'itamae'
   include FileUtils
 
-  def initialize(suites, specs, ruby_version: RUBY_VERSION)
+  def initialize(suites, specs, ruby_version: RUBY_VERSION.split('.')[0..1].join('.'))
     @suites = suites
     @specs = specs
     @ruby_version = ruby_version
