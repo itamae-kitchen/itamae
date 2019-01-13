@@ -37,19 +37,7 @@ class IntegrationLocalSpecRunner
 
   def docker_run
     mount_dir = Pathname(__dir__).join('../').to_s
-    if container_alive?
-      raise "Docker container is already running. Please stop the container with `docker rm -f #{CONTAINER_NAME}`"
-    end
-
-    Thread.new do
-      begin
-        sh 'docker', 'run', '--privileged', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
-      rescue RuntimeError
-        # Suppress RuntimeError because it occurred by clean_docker_container
-      end
-    end
-
-    sleep 0.5 until container_alive?
+    sh 'docker', 'run', '--privileged', '-d', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
   end
 
   def prepare
@@ -82,9 +70,5 @@ class IntegrationLocalSpecRunner
 
   def docker_exec(*cmd, options: [])
     sh 'docker', 'exec', '--env', 'LANG=en_US.utf8', *options, CONTAINER_NAME, *cmd
-  end
-
-  def container_alive?
-    `docker ps` =~ /itamae$/
   end
 end
