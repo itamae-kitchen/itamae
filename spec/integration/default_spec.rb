@@ -185,8 +185,12 @@ describe command('gem list') do
   its(:stdout) { should_not include('test-unit') }
 end
 
-describe command('ri Bundler') do
-  its(:stderr) { should eq("Nothing known about Bundler\n") }
+describe command('gem list') do
+  its(:stdout) { should include('ast (2.0.0)') }
+end
+
+describe command('ri AST') do
+  its(:stderr) { should eq("Nothing known about AST\n") }
 end
 
 describe file('/tmp/created_by_definition') do
