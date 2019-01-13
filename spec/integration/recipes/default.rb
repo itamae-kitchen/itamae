@@ -45,10 +45,6 @@ package 'dstat' do
   action :install
 end
 
-package 'sl' do
-  version '3.03-17'
-end
-
 package 'resolvconf' do
   action :remove
 end
@@ -63,11 +59,6 @@ end
 
 gem_package 'tzinfo' do
   version '1.2.2'
-end
-
-gem_package 'bundler' do
-  version '1.17.3'
-  options ['--no-ri', '--no-rdoc']
 end
 
 gem_package 'rake' do
@@ -223,42 +214,6 @@ http_request "/tmp/http_request_redirect.html" do
   redirect_limit 1
   url "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Fget%3Ffrom%3Ditamae"
 end
-
-######
-
-service "cron" do
-  action :stop
-end
-
-execute "ps -C cron > /tmp/cron_stopped; true"
-
-service "cron" do
-  action :start
-end
-
-execute "ps -C cron > /tmp/cron_running; true"
-
-######
-
-package "nginx" do
-  options "--force-yes"
-end
-
-service "nginx" do
-  action [:enable, :start]
-end
-
-execute "test -f /etc/rc3.d/S20nginx" # test
-execute "test $(ps h -C nginx | wc -l) -gt 0" # test
-
-service "nginx" do
-  action [:disable, :stop]
-end
-
-execute "test ! -f /etc/rc3.d/S20nginx" # test
-execute "test $(ps h -C nginx | wc -l) -eq 0" # test
-
-######
 
 link "/tmp-link" do
   to "/tmp"

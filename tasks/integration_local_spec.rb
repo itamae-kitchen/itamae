@@ -6,6 +6,7 @@ task 'spec:integration:local' do
         "spec/integration/recipes/default.rb",
         "spec/integration/recipes/default2.rb",
         "spec/integration/recipes/redefine.rb",
+        "spec/integration/recipes/local.rb",
       ],
       [
         "--dry-run",
