@@ -13,7 +13,7 @@ task 'spec:integration:local' do
         "spec/integration/recipes/dry_run.rb",
       ],
     ],
-    Dir['spec/integration/*_spec.rb']
+    ['spec/integration/default_spec.rb']
   ).run
 end
 
