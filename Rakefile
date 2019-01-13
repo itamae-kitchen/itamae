@@ -20,7 +20,7 @@ namespace :spec do
     targets = ["ubuntu:trusty"]
     container_name = 'itamae'
 
-    task :all     => targets
+    task :all     => targets + ['spec:integration:local']
 
     targets.each do |target|
       desc "Run provision and specs to #{target}"
