@@ -1,6 +1,10 @@
 desc 'Run integration test on `itamae local` command'
 task 'spec:integration:local' do
-  next if RUBY_DESCRIPTION.include?('dev')
+  if RUBY_DESCRIPTION.include?('dev')
+    $stderr.puts "This integration test is skipped with unreleased Ruby."
+    $stderr.puts "Use released Ruby to execute this integration test."
+    next
+  end
 
   IntegrationLocalSpecRunner.new(
     [
