@@ -1,41 +1,75 @@
-desc 'Run integration test on `itamae local` command'
-task 'spec:integration:local' do
-  if RUBY_DESCRIPTION.include?('dev')
-    $stderr.puts "This integration test is skipped with unreleased Ruby."
-    $stderr.puts "Use released Ruby to execute this integration test."
-    next
+desc 'Run all integration tests on `itamae local` command'
+task 'spec:integration:local' => ['spec:integration:local:main', 'spec:integration:local:ordinary_user']
+
+namespace 'spec:integration:local' do
+  desc 'Run main integration test with `itamae local`'
+  task 'main' do
+    if RUBY_DESCRIPTION.include?('dev')
+      $stderr.puts "This integration test is skipped with unreleased Ruby."
+      $stderr.puts "Use released Ruby to execute this integration test."
+      next
+    end
+
+    IntegrationLocalSpecRunner.new(
+      [
+        [
+          "spec/integration/recipes/default.rb",
+          "spec/integration/recipes/default2.rb",
+          "spec/integration/recipes/redefine.rb",
+          "spec/integration/recipes/local.rb",
+        ],
+        [
+          "--dry-run",
+          "spec/integration/recipes/dry_run.rb",
+        ],
+      ],
+      ['spec/integration/default_spec.rb']
+    ).run
+    
   end
 
-  IntegrationLocalSpecRunner.new(
-    [
+  desc 'Run integration test for ordinary user with `itamae local`'
+  task 'ordinary_user' do
+    if RUBY_DESCRIPTION.include?('dev')
+      $stderr.puts "This integration test is skipped with unreleased Ruby."
+      $stderr.puts "Use released Ruby to execute this integration test."
+      next
+    end
+
+    runner = IntegrationLocalSpecRunner.new(
       [
-        "spec/integration/recipes/default.rb",
-        "spec/integration/recipes/default2.rb",
-        "spec/integration/recipes/redefine.rb",
-        "spec/integration/recipes/local.rb",
+        [
+          "--dry-run",
+          "spec/integration/recipes/ordinary_user.rb",
+        ],
+        [
+          "spec/integration/recipes/ordinary_user.rb"
+        ],
       ],
-      [
-        "--dry-run",
-        "spec/integration/recipes/dry_run.rb",
-      ],
-    ],
-    ['spec/integration/default_spec.rb']
-  ).run
+      ['spec/integration/ordinary_user_spec.rb'],
+      user: 'ordinary_san'
+    )
+    runner.docker_exec 'useradd', 'ordinary_san', '-p', '*'
+    runner.docker_exec 'sh', '-c', 'echo "ordinary_san ALL=NOPASSWD: ALL" >> /etc/sudoers'
+    runner.run
+  end
 end
 
 class IntegrationLocalSpecRunner
   CONTAINER_NAME = 'itamae'
   include FileUtils
 
-  def initialize(suites, specs, ruby_version: RUBY_VERSION.split('.')[0..1].join('.'))
+  def initialize(suites, specs, ruby_version: RUBY_VERSION.split('.')[0..1].join('.'), user: nil)
     @suites = suites
     @specs = specs
     @ruby_version = ruby_version
+    @user = user
+
+    docker_run
+    prepare
   end
 
   def run
-    docker_run
-    prepare
     provision
     serverspec
     clean_docker_container
@@ -61,7 +95,9 @@ class IntegrationLocalSpecRunner
       cmd << "-j" << "spec/integration/recipes/node.json"
       cmd += suite
 
-      docker_exec(*cmd, options: %w[--workdir /itamae])
+      options = %w[--workdir /itamae]
+      options.push('--user',  @user) if @user
+      docker_exec(*cmd, options: options)
     end
   end
 
