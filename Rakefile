@@ -3,6 +3,10 @@ require 'rspec/core/rake_task'
 require 'tempfile'
 require 'net/ssh'
 
+Dir['tasks/*.rb'].each do |file|
+  require_relative file
+end
+
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
 
@@ -16,7 +20,7 @@ namespace :spec do
     targets = ["ubuntu:trusty"]
     container_name = 'itamae'
 
-    task :all     => targets
+    task :all     => targets + ['spec:integration:local']
 
     targets.each do |target|
       desc "Run provision and specs to #{target}"
@@ -37,6 +41,7 @@ namespace :spec do
               "spec/integration/recipes/default.rb",
               "spec/integration/recipes/default2.rb",
               "spec/integration/recipes/redefine.rb",
+              "spec/integration/recipes/docker.rb",
             ],
             [
               "--dry-run",
@@ -64,7 +69,7 @@ namespace :spec do
         RSpec::Core::RakeTask.new(target.to_sym) do |t|
           ENV['DOCKER_CONTAINER'] = container_name
           t.ruby_opts = '-I ./spec/integration'
-          t.pattern = "spec/integration/*_spec.rb"
+          t.pattern = "spec/integration/[default|docker]_spec.rb"
         end
       end
 

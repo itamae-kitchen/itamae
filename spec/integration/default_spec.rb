@@ -119,34 +119,6 @@ describe file('/tmp/subscribes') do
   its(:content) { should eq("2431") }
 end
 
-describe file('/tmp/cron_stopped') do
-  it { should be_file }
-  its(:content) do
-    expect(subject.content.lines.size).to eq 1
-  end
-end
-
-# FIXME: cron service is not running in docker...
-#
-# root@3450c6da6ea5:/# ps -C cron
-#   PID TTY          TIME CMD
-# root@3450c6da6ea5:/# service cron start
-# Rather than invoking init scripts through /etc/init.d, use the service(8)
-# utility, e.g. service cron start
-#
-# Since the script you are attempting to invoke has been converted to an
-# Upstart job, you may also use the start(8) utility, e.g. start cron
-# root@3450c6da6ea5:/# ps -C cron
-#   PID TTY          TIME CMD
-# root@3450c6da6ea5:/#
-
-# describe file('/tmp/cron_running') do
-#   it { should be_file }
-#   its(:content) do
-#     expect(subject.content.lines.size).to eq 2
-#   end
-# end
-
 describe file('/tmp-link') do
   it { should be_linked_to '/tmp' }
   its(:content) do
@@ -206,15 +178,19 @@ describe command('gem list') do
 end
 
 describe command('gem list') do
-  its(:stdout) { should include('rake (11.1.0)') }
+  its(:stdout) { should match(/^rake \(.*11.1.0.*\)/) }
 end
 
 describe command('gem list') do
   its(:stdout) { should_not include('test-unit') }
 end
 
-describe command('ri Bundler') do
-  its(:stderr) { should eq("Nothing known about Bundler\n") }
+describe command('gem list') do
+  its(:stdout) { should include('ast (2.0.0)') }
+end
+
+describe command('ri AST') do
+  its(:stderr) { should eq("Nothing known about AST\n") }
 end
 
 describe file('/tmp/created_by_definition') do
