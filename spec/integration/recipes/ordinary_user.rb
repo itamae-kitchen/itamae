@@ -1,14 +1,3 @@
-user "create another ordinary user" do
-  user 'root'
-  uid 123
-  username "itamae"
-  password "$1$ltOY8bZv$iZ57f1KAp8jwKViNm3pze."
-  home '/home/foo'
-  shell '/bin/sh'
-end
-
-###
-
 remote_file "/tmp/remote_file" do
   source "hello.txt"
 end
@@ -21,6 +10,13 @@ remote_file "/tmp/remote_file_root" do
 end
 
 remote_file "/tmp/remote_file_another_ordinary" do
+  user 'itamae'
+  owner 'itamae'
+  group 'itamae'
+  source "hello.txt"
+end
+
+remote_file "/tmp/remote_file_another_ordinary_with_root" do
   user 'root'
   owner 'itamae'
   group 'itamae'
@@ -41,6 +37,13 @@ file "/tmp/file_root" do
 end
 
 file "/tmp/file_another_ordinary" do
+  user 'itamae'
+  owner 'itamae'
+  group 'itamae'
+  content 'Hello World'
+end
+
+file "/tmp/file_another_ordinary_with_root" do
   user 'root'
   owner 'itamae'
   group 'itamae'
@@ -63,6 +66,14 @@ template "/tmp/template_root" do
 end
 
 template "/tmp/template_another_ordinary" do
+  user 'itamae'
+  owner 'itamae'
+  group 'itamae'
+  source "hello.erb"
+  variables goodbye: "Good bye"
+end
+
+template "/tmp/template_another_ordinary_with_root" do
   user 'root'
   owner 'itamae'
   group 'itamae'
@@ -84,6 +95,13 @@ http_request "/tmp/http_request_root.html" do
 end
 
 http_request "/tmp/http_request_another_ordinary.html" do
+  user 'itamae'
+  owner 'itamae'
+  group 'itamae'
+  url "https://httpbin.org/get?from=itamae"
+end
+
+http_request "/tmp/http_request_another_ordinary_with_root.html" do
   user 'root'
   owner 'itamae'
   group 'itamae'

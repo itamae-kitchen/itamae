@@ -50,7 +50,8 @@ namespace 'spec:integration:local' do
       user: 'ordinary_san'
     )
     runner.docker_exec 'useradd', 'ordinary_san', '-p', '*'
-    runner.docker_exec 'sh', '-c', 'echo "ordinary_san ALL=NOPASSWD: ALL" >> /etc/sudoers'
+    runner.docker_exec 'useradd', 'itamae', '-p', '*', '--create-home'
+    runner.docker_exec 'sh', '-c', 'echo "ordinary_san ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers'
     runner.run
   end
 end
