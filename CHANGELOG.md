@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.2...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.3...master)
+
+## v1.10.3
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.2...v1.10.3)
+
+Bugfixes
+
+- [Make `send_file` aware of `user` option](https://github.com/itamae-kitchen/itamae/pull/277)
 
 ## v1.10.2
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.1...v1.10.2)
