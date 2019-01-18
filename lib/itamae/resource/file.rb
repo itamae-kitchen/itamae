@@ -183,12 +183,12 @@ module Itamae
 
           if backend.is_a?(Itamae::Backend::Docker)
             run_command(["mkdir", @temppath])
-            backend.send_file(src, @temppath)
+            backend.send_file(src, @temppath, user: attributes.user)
             @temppath = ::File.join(@temppath, ::File.basename(src))
           else
             run_command(["touch", @temppath])
             run_specinfra(:change_file_mode, @temppath, '0600')
-            backend.send_file(src, @temppath)
+            backend.send_file(src, @temppath, user: attributes.user)
           end
 
           run_specinfra(:change_file_mode, @temppath, '0600')

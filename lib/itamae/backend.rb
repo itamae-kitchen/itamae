@@ -98,7 +98,7 @@ module Itamae
         @backend.receive_file(src, dst)
       end
 
-      def send_file(src, dst)
+      def send_file(src, dst, user: nil)
         Itamae.logger.debug "Sending a file from '#{src}' to '#{dst}'..."
         unless ::File.exist?(src)
           raise SourceNotExistError, "The file '#{src}' doesn't exist."
@@ -106,7 +106,15 @@ module Itamae
         unless ::File.file?(src)
           raise SourceNotExistError, "'#{src}' is not a file."
         end
-        @backend.send_file(src, dst)
+
+        if self.instance_of?(Backend::Local)
+          read_command = build_command("cat #{src.shellescape}", {})
+          write_command = build_command("cat > #{dst.shellescape}", user: user)
+          command = [read_command, write_command].join(' | ')
+          run_command(command)
+        else
+          @backend.send_file(src, dst)
+        end
       end
 
       def send_directory(src, dst)
