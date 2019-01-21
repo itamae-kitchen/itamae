@@ -1,5 +1,3 @@
-require 'itamae'
-
 module Itamae
   class Recipe
     NotFoundError = Class.new(StandardError)

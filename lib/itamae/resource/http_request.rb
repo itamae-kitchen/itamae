@@ -1,4 +1,3 @@
-require 'itamae'
 require 'uri'
 require 'net/https'
 

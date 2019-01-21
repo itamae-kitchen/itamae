@@ -1,4 +1,3 @@
-require 'itamae'
 require 'logger'
 require 'ansi/code'
 

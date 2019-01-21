@@ -1,5 +1,3 @@
-require 'itamae'
-
 module Itamae
   class Notification < Struct.new(:defined_in_resource, :action, :target_resource_desc, :timing)
     def self.create(*args)

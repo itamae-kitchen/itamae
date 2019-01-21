@@ -1,4 +1,3 @@
-require 'itamae'
 require 'json'
 require 'yaml'
 

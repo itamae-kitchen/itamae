@@ -1,5 +1,3 @@
-require 'itamae'
-
 module Itamae
   module Resource
     class Git < Base
