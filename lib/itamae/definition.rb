@@ -1,5 +1,3 @@
-require 'itamae'
-
 module Itamae
   class Definition < Resource::Base
     class << self

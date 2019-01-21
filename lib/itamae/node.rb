@@ -1,4 +1,3 @@
-require 'itamae'
 require 'hashie'
 require 'json'
 require 'schash'

@@ -1,4 +1,3 @@
-require 'itamae'
 require 'itamae/resource/base'
 require 'itamae/resource/file'
 require 'itamae/resource/package'

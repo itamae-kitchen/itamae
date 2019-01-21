@@ -1,4 +1,3 @@
-require 'itamae'
 require 'logger'
 require 'ansi/code'
 
@@ -71,6 +70,10 @@ module Itamae
 
     class Formatter
       attr_accessor :colored
+
+      def initialize
+        @color = nil
+      end
 
       def call(severity, datetime, progname, msg)
         log = "%s : %s" % ["%5s" % severity, msg2str(msg)]
