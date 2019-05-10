@@ -1,5 +1,19 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.3...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.4...master)
+
+## v1.10.4
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.3...v1.10.4)
+
+Bugfixes
+
+- [Suppress Ruby warnings (by @pocke)](https://github.com/itamae-kitchen/itamae/pull/284)
+- [Suppress Ruby warning (by @pocke)](https://github.com/itamae-kitchen/itamae/pull/287)
+- [Run test cases correctly (by @pocke)](https://github.com/itamae-kitchen/itamae/pull/289)
+
+Improvements
+
+- [Add description to --tag option of docker subcommand (by @pocke)](https://github.com/itamae-kitchen/itamae/pull/286)
+- [Refine `itamae docker`'s created message (by @pocke)](https://github.com/itamae-kitchen/itamae/pull/288)
 
 ## v1.10.3
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.2...v1.10.3)
