@@ -293,7 +293,7 @@ module Itamae
           image.tag(repo: m[:repo], tag: m[:tag])
         end
         log_message = "Image created: #{image.id}"
-        log_message << ", and tagged as #{@options[:tag]}"
+        log_message << ", and tagged as #{@options[:tag]}" if @options[:tag]
         Itamae.logger.info log_message
       end
 
