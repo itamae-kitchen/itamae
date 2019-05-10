@@ -9,7 +9,7 @@ module Specinfra
   module Configuration
     def self.sudo_password
       return ENV['SUDO_PASSWORD'] if ENV['SUDO_PASSWORD']
-      return @sudo_password if @sudo_password
+      return @sudo_password if defined?(@sudo_password)
 
       # TODO: Fix this dirty hack
       return nil unless caller.any? {|call| call.include?('channel_data') }
