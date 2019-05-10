@@ -292,7 +292,9 @@ module Itamae
         /\A(?<repo>.+?)(?:|:(?<tag>[^:]+))\z/.match(@options[:tag]) do |m|
           image.tag(repo: m[:repo], tag: m[:tag])
         end
-        Itamae.logger.info "Image created: #{image.id}"
+        log_message = "Image created: #{image.id}"
+        log_message << ", and tagged as #{@options[:tag]}"
+        Itamae.logger.info log_message
       end
 
       private
