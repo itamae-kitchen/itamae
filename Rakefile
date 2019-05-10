@@ -69,7 +69,7 @@ namespace :spec do
         RSpec::Core::RakeTask.new(target.to_sym) do |t|
           ENV['DOCKER_CONTAINER'] = container_name
           t.ruby_opts = '-I ./spec/integration'
-          t.pattern = "spec/integration/[default|docker]_spec.rb"
+          t.pattern = "spec/integration/{default,docker}_spec.rb"
         end
       end
 
