@@ -18,7 +18,7 @@ before_install:
   - travis_retry gem install bundler --no-document || travis_retry gem install bundler --no-document -v 1.17.3
 
 script:
-  - bundle exec rake spec
+  - RUBYOPT=$SPEC_RUBYOPT bundle exec rake spec
 notifications:
   email: false
   slack:
@@ -28,9 +28,9 @@ matrix:
   - rvm: ruby-head
   include:
   - rvm: 2.6
-    env: RUBYOPT="--jit"
+    env: SPEC_RUBYOPT="--jit"
   - rvm: ruby-head
-    env: RUBYOPT="--jit"
+    env: SPEC_RUBYOPT="--jit"
 branches:
   only:
   - master
