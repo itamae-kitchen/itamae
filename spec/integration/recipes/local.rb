@@ -1,6 +1,4 @@
-package 'sl' do
-  version '3.03-17+b2'
-end
+package 'sl'
 
 ######
 
