@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.4...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.5...master)
+
+## v1.10.5
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.4...v1.10.5)
+
+Improvements
+
+- [Check http status code in `http_request` resource (by @takumin)](https://github.com/itamae-kitchen/itamae/pull/296)
 
 ## v1.10.4
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.3...v1.10.4)
