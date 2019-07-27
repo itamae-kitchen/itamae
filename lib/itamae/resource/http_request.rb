@@ -5,6 +5,9 @@ module Itamae
   module Resource
     class HttpRequest < File
       RedirectLimitExceeded = Class.new(StandardError)
+      HTTPClientError = Class.new(StandardError)
+      HTTPServerError = Class.new(StandardError)
+      HTTPUnknownError = Class.new(StandardError)
 
       alias_method :_action_create, :action_create
       undef_method :action_create, :action_delete, :action_edit
@@ -48,7 +51,10 @@ module Itamae
             response = http.method(attributes.action).call(uri.request_uri, attributes.message, attributes.headers)
           end
 
-          if response.kind_of?(Net::HTTPRedirection)
+          case response
+          when Net::HTTPSuccess
+            break
+          when Net::HTTPRedirection
             if redirects_followed < attributes.redirect_limit
               uri = URI.parse(response["location"])
               redirects_followed += 1
@@ -56,8 +62,12 @@ module Itamae
             else
               raise RedirectLimitExceeded
             end
+          when Net::HTTPClientError
+            raise HTTPClientError
+          when Net::HTTPServerError
+            raise HTTPServerError
           else
-            break
+            raise HTTPUnknownError
           end
         end
 
