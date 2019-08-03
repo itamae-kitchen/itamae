@@ -49,7 +49,7 @@ namespace :spec do
             ],
           ]
           suites.each do |suite|
-            cmd = %w!bundle exec ruby -w bin/itamae docker!
+            cmd = %w!ruby -w bin/itamae docker!
             cmd << "-l" << (ENV['LOG_LEVEL'] || 'debug')
             cmd << "-j" << "spec/integration/recipes/node.json"
             cmd << "--container" << container_name
