@@ -18,13 +18,13 @@ module Itamae
       describe ".send_file" do
         context "the source file doesn't exist" do
           subject { -> { itamae_backend.send_file("src", "dst") } }
-          it { expect(subject).to raise_error(Itamae::Backend::SourceNotExistError, "The file 'src' doesn't exist.") }
+          it { expect{ subject }.to raise_error(Itamae::Backend::SourceNotExistError, "The file 'src' doesn't exist.") }
         end
 
         context "the source file exist, but it is not a regular file" do
           before { Dir.mkdir("src")  }
           subject { -> { itamae_backend.send_file("src", "dst") } }
-          it { expect(subject).to raise_error(Itamae::Backend::SourceNotExistError, "'src' is not a file.") }
+          it { expect{ subject }.to raise_error(Itamae::Backend::SourceNotExistError, "'src' is not a file.") }
         end
 
         context "the source file is a regular file" do
@@ -37,13 +37,13 @@ module Itamae
       describe ".send_directory" do
         context "the source directory doesn't exist" do
           subject { -> { itamae_backend.send_directory("src", "dst") } }
-          it { expect(subject).to raise_error(Itamae::Backend::SourceNotExistError, "The directory 'src' doesn't exist.") }
+          it { expect{ subject }.to raise_error(Itamae::Backend::SourceNotExistError, "The directory 'src' doesn't exist.") }
         end
 
         context "the source directory exist, but it is not a directory" do
           before { FileUtils.touch("src")  }
           subject { -> { itamae_backend.send_directory("src", "dst") } }
-          it { expect(subject).to raise_error(Itamae::Backend::SourceNotExistError, "'src' is not a directory.") }
+          it { expect{ subject }.to raise_error(Itamae::Backend::SourceNotExistError, "'src' is not a directory.") }
         end
 
         context "the source directory is a directory" do
