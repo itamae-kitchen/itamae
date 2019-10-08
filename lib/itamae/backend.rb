@@ -188,12 +188,17 @@ module Itamae
         end
 
         user = options[:user]
-        if user
+        if user && use_sudo?
           command = "cd ~#{user.shellescape} ; #{command}"
           command = "sudo -H -u #{user.shellescape} -- #{shell.shellescape} -c #{command.shellescape}"
         end
 
         command
+      end
+
+      def use_sudo?
+        return true unless @options.key?(:sudo)
+        !!@options[:sudo]
       end
 
       def shell
