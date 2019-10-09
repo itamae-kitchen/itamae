@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.5...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.6...master)
+
+## v1.10.6
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.5...v1.10.6)
+
+Improvements
+
+- [Don't use `sudo` when `--no-sudo` is passed](https://github.com/itamae-kitchen/itamae/pull/302)
 
 ## v1.10.5
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.4...v1.10.5)
