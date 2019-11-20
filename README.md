@@ -77,7 +77,7 @@ $ bundle exec rake spec
 
 ## Get Involved
 
-- [Join Slack team](https://join.slack.com/t/itamae/shared_invite/enQtNTExNTI3ODM1NTY5LTM5MWJlZTgwODE0YTUwMThiNzZjN2I1MGNlZjE2NjlmNzg5NTNlOTliMDhkNDNmNTQ2ZTgwMzZjNjI5NDJiZGI)
+- [Join Slack team](https://itamae-slackin.herokuapp.com)
 
 ## Presentations / Articles
 
