@@ -14,7 +14,6 @@ cache:
   bundler: true
 
 before_install:
-  - travis_retry gem update --system || travis_retry gem update --system 2.7.8
   - travis_retry gem install bundler --no-document || travis_retry gem install bundler --no-document -v 1.17.3
 
 script:
