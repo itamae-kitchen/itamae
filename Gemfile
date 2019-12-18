@@ -11,3 +11,5 @@ group :test do
     gem 'growl'
   end
 end
+
+gem 'excon', git: 'https://github.com/unasuke/excon.git', branch: 'frozen_string_literal'
