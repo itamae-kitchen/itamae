@@ -57,13 +57,16 @@ namespace 'spec:integration:local' do
 end
 
 class IntegrationLocalSpecRunner
+  RUBY_VERSION_ALIAS = {
+    '2.7' => '2.7-rc', # workaround until ruby:2.7 is pushed
+  }
   CONTAINER_NAME = 'itamae'
   include FileUtils
 
   def initialize(suites, specs, ruby_version: RUBY_VERSION.split('.')[0..1].join('.'), user: nil)
     @suites = suites
     @specs = specs
-    @ruby_version = ruby_version
+    @ruby_version = RUBY_VERSION_ALIAS.fetch(ruby_version, ruby_version)
     @user = user
 
     docker_run
