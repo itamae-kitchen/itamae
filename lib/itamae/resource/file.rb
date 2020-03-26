@@ -9,6 +9,10 @@ module Itamae
       define_attribute :group, type: String
       define_attribute :block, type: Proc, default: proc {}
 
+      class << self
+        attr_accessor :sha256sum_available
+      end
+
       def pre_action
         current.exist = run_specinfra(:check_file_is_file, attributes.path)
 
@@ -25,6 +29,11 @@ module Itamae
             attributes.block.call(content)
             attributes.content = content
           end
+        end
+
+        if exists_and_not_modified?
+          attributes.modified = false
+          return
         end
 
         send_tempfile
@@ -133,6 +142,19 @@ module Itamae
         end
       end
 
+      def exists_and_not_modified?
+        return false unless current.exist && sha256sum_available?
+
+        current_digest = run_command(["sha256sum", attributes.path]).stdout.split(/\s/, 2).first
+        digest = if content_file
+          Digest::SHA256.file(content_file).hexdigest
+        else
+          Digest::SHA256.hexdigest(attributes.content.to_s)
+        end
+
+        current_digest == digest
+      end
+
       def show_content_diff
         if attributes.modified
           Itamae.logger.info "diff:"
@@ -193,6 +215,12 @@ module Itamae
         ensure
           f.unlink if f
         end
+      end
+
+      def sha256sum_available?
+        return self.class.sha256sum_available unless self.class.sha256sum_available.nil?
+
+        self.class.sha256sum_available = run_command(["sha256sum", "--version"], error: false).exit_status == 0
       end
     end
   end
