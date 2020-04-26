@@ -82,6 +82,7 @@ Host ex1
   HostName example.com
   User myname
   Port 10022
+  StrictHostKeyChecking no
 EOF
               temp.flush
               @ssh_config = temp.path
@@ -91,7 +92,7 @@ EOF
 
           let(:options) { {host: "ex1", ssh_config: @ssh_config} }
 
-          it { is_expected.to a_hash_including({host_name: "example.com", user: "myname", port: 10022}) }
+          it { is_expected.to a_hash_including({host_name: "example.com", user: "myname", port: 10022, verify_host_key: :never}) }
         end
       end
 
