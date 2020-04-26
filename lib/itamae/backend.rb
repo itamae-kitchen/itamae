@@ -261,6 +261,8 @@ module Itamae
         opts[:password] = @options[:password] if @options[:password]
         opts[:keys] = [@options[:key]] if @options[:key]
         opts[:port] = @options[:port] if @options[:port]
+        opts[:verify_host_key] = :never if opts[:strict_host_key_checking] == false
+        opts.delete(:strict_host_key_checking)
 
         if @options[:vagrant]
           config = Tempfile.new('', Dir.tmpdir)
