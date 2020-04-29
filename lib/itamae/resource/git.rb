@@ -88,7 +88,7 @@ module Itamae
         return result.stdout.strip if result.exit_status == 0
 
         fetch_origin!
-        run_command_in_repo("git rev-parse #{shell_escape(branch)}").strip
+        run_command_in_repo("git rev-parse #{shell_escape(branch)}").stdout.strip
       end
 
       def fetch_origin!
