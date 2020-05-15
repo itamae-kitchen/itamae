@@ -1,5 +1,14 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.7...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.8...master)
+
+## v1.10.8
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.7...v1.10.8)
+
+Improvements
+
+- [Print "(in action_XXX)" as a debug log](https://github.com/itamae-kitchen/itamae/pull/315)
+- [Reduce `check_package_is_installed` calling when package version is not specified](https://github.com/itamae-kitchen/itamae/pull/314)
+- [Simplify Git resource's get_revision method](https://github.com/itamae-kitchen/itamae/pull/313)
 
 ## v1.10.7
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.6...v1.10.7)
