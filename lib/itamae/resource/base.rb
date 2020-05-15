@@ -195,6 +195,7 @@ module Itamae
             show_differences
 
             method_name = "action_#{action}"
+            Itamae.logger.debug "(in #{method_name})"
             if runner.dry_run?
               unless respond_to?(method_name)
                 Itamae.logger.error "action #{action.inspect} is unavailable"
