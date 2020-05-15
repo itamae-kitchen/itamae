@@ -24,6 +24,8 @@ module Itamae
       end
 
       def action_install(action_options)
+        return if !attributes.version && current.installed
+
         unless run_specinfra(:check_package_is_installed, attributes.name, attributes.version)
           run_specinfra(:install_package, attributes.name, attributes.version, attributes.options)
           updated!
@@ -31,7 +33,7 @@ module Itamae
       end
 
       def action_remove(action_options)
-        if run_specinfra(:check_package_is_installed, attributes.name, nil)
+        if current.installed
           run_specinfra(:remove_package, attributes.name, attributes.options)
           updated!
         end
