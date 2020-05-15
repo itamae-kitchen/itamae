@@ -84,11 +84,11 @@ module Itamae
       end
 
       def get_revision(branch)
-        result = run_command_in_repo("git rev-list #{shell_escape(branch)}", error: false)
-        unless result.exit_status == 0
-          fetch_origin!
-        end
-        run_command_in_repo("git rev-list #{shell_escape(branch)}").stdout.lines.first.strip
+        result = run_command_in_repo("git rev-parse #{shell_escape(branch)}", error: false)
+        return result.stdout.strip if result.exit_status == 0
+
+        fetch_origin!
+        run_command_in_repo("git rev-parse #{shell_escape(branch)}").stdout.strip
       end
 
       def fetch_origin!
