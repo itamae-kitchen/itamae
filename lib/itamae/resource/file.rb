@@ -195,7 +195,7 @@ module Itamae
                 else
                   f = 
                     if Gem.win_platform?
-                      Tempfile.open('itamae', :mode=>IO::RDWR | IO::CREAT | IO::TRUNC | IO::BINARY)
+                      Tempfile.open('itamae', :mode=>IO::BINARY)
                     else
                       Tempfile.open('itamae')
                     end
