@@ -193,7 +193,7 @@ module Itamae
           src = if content_file
                   content_file
                 else
-                  f = Tempfile.open('itamae')
+                  f = Tempfile.open('itamae', :mode=>IO::RDWR | IO::CREAT | IO::TRUNC | IO::BINARY)
                   f.write(attributes.content)
                   f.close
                   f.path
