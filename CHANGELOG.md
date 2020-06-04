@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.8...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.9...master)
+
+## v1.10.9
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.8...v1.10.9)
+
+Improvements
+
+- [Fix CRLF problem in windows](https://github.com/itamae-kitchen/itamae/pull/316)
 
 ## v1.10.8
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.7...v1.10.8)
