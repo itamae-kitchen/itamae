@@ -193,7 +193,12 @@ module Itamae
           src = if content_file
                   content_file
                 else
-                  f = Tempfile.open('itamae')
+                  f = 
+                    if Gem.win_platform?
+                      Tempfile.open('itamae', :mode=>IO::BINARY)
+                    else
+                      Tempfile.open('itamae')
+                    end
                   f.write(attributes.content)
                   f.close
                   f.path
