@@ -126,6 +126,7 @@ module Itamae
   @logger = ::Logger.new($stdout).tap do |l|
     l.formatter = Itamae::Logger::Formatter.new
   end.extend(Itamae::Logger::Helper)
+  $stdout.sync = true
 
   class << self
     def logger
