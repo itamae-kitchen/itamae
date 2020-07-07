@@ -104,7 +104,7 @@ describe file('/tmp/http_request_headers.html') do
   its(:content) { should match(/"User-Agent":\s*"Itamae"/) }
 end
 
-describe file('/tmp/http_request_redirect.html') do
+xdescribe file('/tmp/http_request_redirect.html') do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
