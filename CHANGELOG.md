@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.9...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.10...master)
+
+## v1.10.10
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.9...v1.10.10)
+
+Improvements
+
+- [Make output unbuffered](https://github.com/itamae-kitchen/itamae/pull/317)
 
 ## v1.10.9
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.8...v1.10.9)
