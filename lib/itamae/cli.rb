@@ -116,6 +116,11 @@ module Itamae
       generator.remove_files
     end
 
+    desc 'list', 'list plugin recipes'
+    def list
+      Itamae::List.new.run
+    end
+
     private
     def options
       @itamae_options ||= super.dup.tap do |options|
