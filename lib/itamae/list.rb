@@ -34,7 +34,7 @@ module Itamae
       end
 
       # from rubygems Gem::Commands::QueryCommand#output_versions
-      versions.each do |gem_name, matching_tuples|
+      versions.each do |_, matching_tuples|
         matching_tuples = matching_tuples.sort_by { |n,_| n.version }.reverse
         platforms = Hash.new { |h,version| h[version] = [] }
         matching_tuples.each do |n, _|
