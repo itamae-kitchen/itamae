@@ -1,5 +1,9 @@
 module Itamae
   class List
+    def initialize(file = $stdout)
+      @file = file
+    end
+
     def run
       require 'rubygems'
       require 'rubygems/exceptions'
@@ -52,9 +56,9 @@ module Itamae
     private
 
     def scan_lib(name, dir)
-      puts name + ' gem:'
+      @file.puts name + ' gem:'
       Dir.glob(dir + '/lib/itamae/plugin/recipe/**/*.rb') do |f|
-        puts '  ' + to_recipe_name(f, dir)
+        @file.puts '  ' + to_recipe_name(f, dir)
       end
     end
 
