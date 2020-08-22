@@ -8,6 +8,9 @@ module Gem
   def self.searcher=(searcher)
     @searcher = searcher
   end
+  def self.java_platform?
+    false
+  end
 end
 
 module Itamae
@@ -30,10 +33,8 @@ module Itamae
       Gem::DefaultUserInteraction.ui = Gem::MockGemUi.new
 
       tmpdir = File.realpath Dir.tmpdir
-      tmpdir.tap(&Gem::UNTAINT)
 
       @tempdir = File.join(tmpdir, "test_rubygems_#{$$}")
-      @tempdir.tap(&Gem::UNTAINT)
 
       FileUtils.mkdir_p @tempdir
 
@@ -58,7 +59,6 @@ module Itamae
       $LOAD_PATH.map! do |s|
         expand_path = File.realpath(s) rescue File.expand_path(s)
         if expand_path != s
-          expand_path.tap(&Gem::UNTAINT)
           if s.instance_variable_defined?(:@gem_prelude_index)
             expand_path.instance_variable_set(:@gem_prelude_index, expand_path)
           end

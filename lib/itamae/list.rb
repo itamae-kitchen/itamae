@@ -7,6 +7,7 @@ module Itamae
     def run
       require 'rubygems'
       require 'rubygems/exceptions'
+      require 'rubygems/name_tuple'
       require 'pathname'
 
       pattern = /^itamae-plugin-recipe/
