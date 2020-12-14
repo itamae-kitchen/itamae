@@ -4,6 +4,7 @@ module Itamae
       define_attribute :action, default: :create
       define_attribute :path, type: String, default_name: true
       define_attribute :content, type: String, default: nil
+      define_attribute :sensitive, default: false
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
@@ -156,6 +157,11 @@ module Itamae
       end
 
       def show_content_diff
+        if attributes.sensitive
+          Itamae.logger.info("diff exists, but not displaying sensitive content")
+          return
+        end
+
         if attributes.modified
           Itamae.logger.info "diff:"
           diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
