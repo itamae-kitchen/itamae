@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.10...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...master)
+
+## v1.11.0
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...master)
+
+Improvements
+
+- [file: add support for sensitive files (by @terceiro)](https://github.com/itamae-kitchen/itamae/pull/325)
 
 ## v1.10.10
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.9...v1.10.10)
