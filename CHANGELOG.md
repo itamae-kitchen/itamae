@@ -1,5 +1,13 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.1...master)
+
+## v1.11.1
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...v1.11.1)
+
+Improvements
+
+- [Support Ruby 3.0.0](https://github.com/itamae-kitchen/itamae/pull/326)
+- [file: improve diff output (by @terceiro)](https://github.com/itamae-kitchen/itamae/pull/327)
 
 ## v1.11.0
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.10...v1.11.0)
