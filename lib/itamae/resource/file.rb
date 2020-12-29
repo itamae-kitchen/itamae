@@ -164,7 +164,7 @@ module Itamae
 
         if attributes.modified
           Itamae.logger.info "diff:"
-          diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
+          diff = run_command(["diff", "-u", "--label=#{attributes.path} (BEFORE)", compare_to, "--label=#{attributes.path} (AFTER)", @temppath], error: false)
           diff.stdout.each_line do |line|
             color = if line.start_with?('+')
                       :green
