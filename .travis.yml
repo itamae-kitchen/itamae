@@ -9,6 +9,7 @@ rvm:
   - 2.5
   - 2.6
   - 2.7
+  - 3.0
   - ruby-head
 bundler_args: "--jobs=4 --retry=3"
 cache:
@@ -30,6 +31,8 @@ matrix:
   - rvm: 2.6
     env: SPEC_RUBYOPT="--jit"
   - rvm: 2.7
+    env: SPEC_RUBYOPT="--jit"
+  - rvm: 3.0
     env: SPEC_RUBYOPT="--jit"
   - rvm: ruby-head
     env: SPEC_RUBYOPT="--jit"
