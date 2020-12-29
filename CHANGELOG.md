@@ -2,7 +2,7 @@
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...master)
 
 ## v1.11.0
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.10.10...v1.11.0)
 
 Improvements
 
