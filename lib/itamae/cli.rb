@@ -27,6 +27,14 @@ module Itamae
       option :config, type: :string, aliases: ['-c']
     end
 
+    def self.options
+      @itamae_options ||= super.dup.tap do |options|
+        if config = options[:config]
+          options.merge!(YAML.load_file(config))
+        end
+      end
+    end
+
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
     define_exec_options
     def local(*recipe_files)
@@ -117,14 +125,6 @@ module Itamae
     end
 
     private
-    def options
-      @itamae_options ||= super.dup.tap do |options|
-        if config = options[:config]
-          options.merge!(YAML.load_file(config))
-        end
-      end
-    end
-
     def validate_generate_target!(command, target)
       unless GENERATE_TARGETS.include?(target)
         msg = %Q!ERROR: "itamae #{command}" was called with "#{target}" !
