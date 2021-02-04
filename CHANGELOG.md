@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.1...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.2...master)
+
+## v1.11.2
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.1...v1.11.2)
+
+Bugfixes
+
+- [Support thor-1.1.0 (by @chaaaaarlotte)](https://github.com/itamae-kitchen/itamae/pull/329)
 
 ## v1.11.1
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.0...v1.11.1)
