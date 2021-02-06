@@ -53,7 +53,7 @@ module Itamae
 
     def load(vars = {})
       context = EvalContext.new(self, vars)
-      context.instance_eval(File.read(path), path, 1)
+      InstanceEval.new(File.read(path), path, 1, context: context).call
     end
 
     def run
@@ -150,6 +150,25 @@ module Itamae
         runner.backend.run_command(*args)
       end
     end
+
+    class InstanceEval
+      def initialize(src, path, lineno, context:)
+        # Using instance_eval + eval to allow top-level class/module definition without `::`.
+        # To pass args without introducing any local/instance variables, this code is also eval-ed.
+        @code = <<-RUBY
+          @context.instance_eval do
+            eval(#{src.dump}, nil, #{path.dump}, #{lineno})
+          end
+        RUBY
+        @context = context
+      end
+
+      # This method has no local variables to avoid spilling them to recipes.
+      def call
+        eval(@code)
+      end
+    end
+    private_constant :InstanceEval
 
     class RecipeFromDefinition < Recipe
       attr_accessor :definition

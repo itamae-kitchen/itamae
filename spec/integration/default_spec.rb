@@ -333,3 +333,21 @@ describe file('/tmp/empty_file3') do
   it { should be_file }
   its(:content) { should eq "" }
 end
+
+describe file('/tmp/toplevel_module') do
+  it { should exist }
+  it { should be_file }
+  its(:content) { should eq "helper" }
+end
+
+describe file('/tmp/local_variables') do
+  it { should exist }
+  it { should be_file }
+  its(:content) { should eq "[]" }
+end
+
+describe file('/tmp/instance_variables') do
+  it { should exist }
+  it { should be_file }
+  its(:content) { should eq "[:@recipe]" } # backward compatibility
+end
