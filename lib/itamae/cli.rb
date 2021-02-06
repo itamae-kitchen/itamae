@@ -25,6 +25,7 @@ module Itamae
       option :log_level, type: :string, aliases: ['-l'], default: 'info'
       option :color, type: :boolean, default: true
       option :config, type: :string, aliases: ['-c']
+      option :tmp_dir, type: :string, aliases: ['-t'], default: "/tmp/itamae_tmp"
     end
 
     def self.options
