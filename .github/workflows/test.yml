@@ -52,6 +52,17 @@ jobs:
 
       - run: bundle exec rake spec:unit
 
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*unit* ({0},{1})', matrix.ruby, matrix.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   integration-docker:
     runs-on: ubuntu-latest
 
@@ -101,6 +112,17 @@ jobs:
       - run: bundle exec rake spec:integration:serverspec:ubuntu:trusty
       - run: bundle exec rake spec:integration:clean_docker_container
 
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*integration-docker* ({0},{1})', matrix.ruby, matrix.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   integration-local:
     runs-on: ubuntu-latest
 
@@ -142,3 +164,34 @@ jobs:
 
       - run: bundle exec rake spec:integration:local:main
       - run: bundle exec rake spec:integration:local:ordinary_user
+
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*integration-local* ({0},{1})', matrix.ruby, matrix.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    needs:
+      - unit
+      - integration-docker
+      - integration-local
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notification (success)
+        uses: lazy-actions/slatify@master
+        if: always()
+        continue-on-error: true
+        with:
+          job_name: '*notify*'
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
