@@ -80,6 +80,8 @@ jobs:
         rubyopt:
           - ""
           - "--jit"
+        image:
+          - ubuntu:trusty
         exclude:
           # --jit is available since MRI 2.6
           - ruby:    "2.3"
@@ -91,6 +93,7 @@ jobs:
 
     env:
       RUBYOPT: ${{ matrix.rubyopt }}
+      TEST_IMAGE: ${{ matrix.image }}
 
     steps:
       - uses: actions/checkout@v2
@@ -102,22 +105,22 @@ jobs:
 
       - run: bundle update
 
-      - run: bundle exec rake spec:integration:docker:ubuntu:trusty
+      - run: bundle exec rake spec:integration:docker:boot
 
-      - run: bundle exec rake spec:integration:provision:ubuntu:trusty
+      - run: bundle exec rake spec:integration:docker:provision
         env:
           # FIXME: avoid error for "Command `chmod 777 /tmp/itamae_tmp` failed. (exit status: 1)"
           ITAMAE_TMP_DIR: /var/tmp/itamae_tmp
 
-      - run: bundle exec rake spec:integration:serverspec:ubuntu:trusty
-      - run: bundle exec rake spec:integration:clean_docker_container
+      - run: bundle exec rake spec:integration:docker:serverspec
+      - run: bundle exec rake spec:integration:docker:clean_docker_container
 
       - name: Slack Notification (not success)
         uses: lazy-actions/slatify@master
         if: "! success()"
         continue-on-error: true
         with:
-          job_name: ${{ format('*integration-docker* ({0},{1})', matrix.ruby, matrix.rubyopt) }}
+          job_name: ${{ format('*integration-docker* ({0},{1},{2})', matrix.ruby, matrix.rubyopt, matrix.image) }}
           type: ${{ job.status }}
           icon_emoji: ":octocat:"
           url: ${{ secrets.SLACK_WEBHOOK }}
