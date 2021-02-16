@@ -54,6 +54,7 @@ namespace :spec do
             cmd << "-j" << "spec/integration/recipes/node.json"
             cmd << "--container" << container_name
             cmd << "--tag" << "itamae:latest"
+            cmd << "--tmp-dir" << (ENV['ITAMAE_TMP_DIR'] || '/tmp/itamae_tmp')
             cmd += suite
 
             p cmd

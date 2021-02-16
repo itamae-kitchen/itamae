@@ -92,7 +92,12 @@ jobs:
       - run: bundle update
 
       - run: bundle exec rake spec:integration:docker:ubuntu:trusty
+
       - run: bundle exec rake spec:integration:provision:ubuntu:trusty
+        env:
+          # FIXME: avoid error for "Command `chmod 777 /tmp/itamae_tmp` failed. (exit status: 1)"
+          ITAMAE_TMP_DIR: /var/tmp/itamae_tmp
+
       - run: bundle exec rake spec:integration:serverspec:ubuntu:trusty
       - run: bundle exec rake spec:integration:clean_docker_container
 
