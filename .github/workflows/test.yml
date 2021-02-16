@@ -1,0 +1,139 @@
+name: test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        ruby:
+          - "2.3"
+          - "2.4"
+          - "2.5"
+          - "2.6"
+          - "2.7"
+          - "3.0"
+        rubyopt:
+          - ""
+          - "--jit"
+        exclude:
+          # --jit is available since MRI 2.6
+          - ruby:    "2.3"
+            rubyopt: "--jit"
+          - ruby:    "2.4"
+            rubyopt: "--jit"
+          - ruby:    "2.5"
+            rubyopt: "--jit"
+
+    env:
+      RUBYOPT: ${{ matrix.rubyopt }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - run: bundle update
+
+      - run: bundle exec rake spec:unit
+
+  integration-docker:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        ruby:
+          - "2.3"
+          - "2.4"
+          - "2.5"
+          - "2.6"
+          - "2.7"
+          - "3.0"
+        rubyopt:
+          - ""
+          - "--jit"
+        exclude:
+          # --jit is available since MRI 2.6
+          - ruby:    "2.3"
+            rubyopt: "--jit"
+          - ruby:    "2.4"
+            rubyopt: "--jit"
+          - ruby:    "2.5"
+            rubyopt: "--jit"
+
+    env:
+      RUBYOPT: ${{ matrix.rubyopt }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - run: bundle update
+
+      - run: bundle exec rake spec:integration:docker:ubuntu:trusty
+      - run: bundle exec rake spec:integration:provision:ubuntu:trusty
+      - run: bundle exec rake spec:integration:serverspec:ubuntu:trusty
+      - run: bundle exec rake spec:integration:clean_docker_container
+
+  integration-local:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        ruby:
+          - "2.3"
+          - "2.4"
+          - "2.5"
+          - "2.6"
+          - "2.7"
+          - "3.0"
+        rubyopt:
+          - ""
+          - "--jit"
+        exclude:
+          # --jit is available since MRI 2.6
+          - ruby:    "2.3"
+            rubyopt: "--jit"
+          - ruby:    "2.4"
+            rubyopt: "--jit"
+          - ruby:    "2.5"
+            rubyopt: "--jit"
+
+    env:
+      RUBYOPT: ${{ matrix.rubyopt }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - run: bundle update
+
+      - run: bundle exec rake spec:integration:local:main
+      - run: bundle exec rake spec:integration:local:ordinary_user
