@@ -1,10 +1,14 @@
-lvars = binding.local_variables
-ivars = instance_variables
+node.reverse_merge!(
+  variables: {
+    lvars: binding.local_variables,
+    ivars: instance_variables,
+  }
+)
 
 file "/tmp/local_variables" do
-  content lvars.to_s
+  content node[:variables][:lvars].to_s
 end
 
 file "/tmp/instance_variables" do
-  content ivars.to_s
+  content node[:variables][:ivars].to_s
 end
