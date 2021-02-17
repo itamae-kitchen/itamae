@@ -556,3 +556,9 @@ unless v1 == v2 && v2 == v3 && v1 =~ /\A\d+kB\z/
   raise "failed to fetch host inventory value (#{v1}, #{v2}, #{v3})"
 end
 
+include_recipe "toplevel_module"
+file "/tmp/toplevel_module" do
+  content ToplevelModule.helper
+end
+
+include_recipe "variables"
