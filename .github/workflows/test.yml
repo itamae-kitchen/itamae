@@ -9,6 +9,8 @@ on:
       - opened
       - synchronize
       - reopened
+  schedule:
+    - cron: "0 0 * * 5" # JST 9:00 (Sat)
 
 jobs:
   unit:
