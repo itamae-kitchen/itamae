@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.1...master)
+
+## v1.12.1
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.0...v1.12.1)
+
+Improvements
+
+- [Allow defining top-level modules without `::`](https://github.com/itamae-kitchen/itamae/pull/332)
 
 ## v1.12.0
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.11.2...v1.12.0)
