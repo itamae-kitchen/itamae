@@ -39,7 +39,7 @@ module Itamae
         super
 
         if current.exist
-          diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
+          diff = run_command(["diff", "-u", "-r", attributes.path, @temppath], error: false)
           if diff.exit_status == 0
             # no change
             Itamae.logger.debug "directory content will not change"
