@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.1...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.2...master)
+
+## v1.12.2
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.1...v1.12.2)
+
+Improvements
+
+- [remote_directory: add diff -r option](https://github.com/itamae-kitchen/itamae/pull/338)
 
 ## v1.12.1
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.0...v1.12.1)
