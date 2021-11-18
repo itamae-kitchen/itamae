@@ -98,7 +98,7 @@ module Itamae
         unless @backend.run_command("which ohai", error: false).exit_status == 0
           # install Ohai
           Itamae.logger.info "Installing Chef package... (to use Ohai)"
-          @backend.run_command("curl -L https://www.opscode.com/chef/install.sh | bash")
+          @backend.run_command("curl -L https://omnitruck.chef.io/install.sh | bash")
         end
 
         Itamae.logger.info "Loading node data via ohai..."
