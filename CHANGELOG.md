@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.2...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.3...master)
+
+## v1.12.3
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.2...v1.12.3)
+
+Bugfixes
+
+- [Fix Chef install script URL (by @NPoi)](https://github.com/itamae-kitchen/itamae/pull/339)
 
 ## v1.12.2
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.1...v1.12.2)
