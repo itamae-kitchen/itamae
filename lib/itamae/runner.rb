@@ -30,7 +30,7 @@ module Itamae
       prepare_handler
 
       @node = create_node
-      @tmpdir = options[:tmp_dir]
+      @tmpdir = options[:tmp_dir] || '/tmp/itamae_tmp'
       @children = RecipeChildren.new
       @diff = false
 
