@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.3...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.4...master)
+
+## v1.12.4
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.3...v1.12.4)
+
+Improvements
+
+- [Initialize tmp_dir if no tmpdir option was specified.](https://github.com/itamae-kitchen/itamae/pull/341)
 
 ## v1.12.3
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.2...v1.12.3)
