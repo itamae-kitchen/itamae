@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.4...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.5...master)
+
+## v1.12.5
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.4...v1.12.5)
+
+Bugfixes
+
+- [Define exit_on_failure? to suppress thor's warning](https://github.com/itamae-kitchen/itamae/pull/344)
 
 ## v1.12.4
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.3...v1.12.4)
