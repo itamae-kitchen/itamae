@@ -36,6 +36,10 @@ module Itamae
       end
     end
 
+    def self.exit_on_failure?
+      true
+    end
+
     desc "local RECIPE [RECIPE...]", "Run Itamae locally"
     define_exec_options
     def local(*recipe_files)

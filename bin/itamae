@@ -2,4 +2,3 @@
 
 require 'itamae/cli'
 Itamae::CLI.start
-
