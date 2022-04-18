@@ -93,9 +93,11 @@ jobs:
           - "2.6"
           - "2.7"
           - "3.0"
+          - "3.1"
         rubyopt:
           - ""
           - "--jit"
+          - "--yjit"
         image:
           - ubuntu:trusty
         exclude:
@@ -106,6 +108,19 @@ jobs:
             rubyopt: "--jit"
           - ruby:    "2.5"
             rubyopt: "--jit"
+          # --yjit is available since MRI 3.1
+          - ruby:    "2.3"
+            rubyopt: "--yjit"
+          - ruby:    "2.4"
+            rubyopt: "--yjit"
+          - ruby:    "2.5"
+            rubyopt: "--yjit"
+          - ruby:    "2.6"
+            rubyopt: "--yjit"
+          - ruby:    "2.7"
+            rubyopt: "--yjit"
+          - ruby:    "3.0"
+            rubyopt: "--yjit"
 
     env:
       RUBYOPT: ${{ matrix.rubyopt }}
@@ -156,9 +171,11 @@ jobs:
           - "2.6"
           - "2.7"
           - "3.0"
+          - "3.1"
         rubyopt:
           - ""
           - "--jit"
+          - "--yjit"
         exclude:
           # --jit is available since MRI 2.6
           - ruby:    "2.3"
@@ -167,6 +184,19 @@ jobs:
             rubyopt: "--jit"
           - ruby:    "2.5"
             rubyopt: "--jit"
+          # --yjit is available since MRI 3.1
+          - ruby:    "2.3"
+            rubyopt: "--yjit"
+          - ruby:    "2.4"
+            rubyopt: "--yjit"
+          - ruby:    "2.5"
+            rubyopt: "--yjit"
+          - ruby:    "2.6"
+            rubyopt: "--yjit"
+          - ruby:    "2.7"
+            rubyopt: "--yjit"
+          - ruby:    "3.0"
+            rubyopt: "--yjit"
 
     env:
       RUBYOPT: ${{ matrix.rubyopt }}
