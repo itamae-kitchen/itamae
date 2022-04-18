@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.5...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.6...master)
+
+## v1.12.6
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.5...v1.12.6)
+
+Bugfixes
+
+- [Support Psych4.x](https://github.com/itamae-kitchen/itamae/pull/348)
 
 ## v1.12.5
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.4...v1.12.5)
