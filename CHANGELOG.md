@@ -6,7 +6,7 @@
 
 Bugfixes
 
-- [Support Psych4.x](https://github.com/itamae-kitchen/itamae/pull/348)
+- [Support Psych4.x](https://github.com/itamae-kitchen/itamae/pull/347)
 
 ## v1.12.5
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.4...v1.12.5)
