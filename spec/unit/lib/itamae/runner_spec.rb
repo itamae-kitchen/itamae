@@ -69,8 +69,6 @@ module Itamae
           expect(runner.node[:array]).to eq [456]
           expect(runner.node[:shared][:foo]).to eq true
           expect(runner.node[:shared][:bar]).to eq false
-        ensure
-          [json_one, json_two, yaml_one, yaml_two].each(&:unlink)
         end
       end
     end
