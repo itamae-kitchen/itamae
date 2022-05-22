@@ -91,8 +91,10 @@ module Itamae
     end
 
     private
+
     def create_node
       hash = {}
+      hash.extend(Hashie::Extensions::DeepMerge)
 
       if @options[:ohai]
         unless @backend.run_command("which ohai", error: false).exit_status == 0
@@ -105,20 +107,23 @@ module Itamae
         hash.merge!(JSON.parse(@backend.run_command("ohai 2>/dev/null").stdout))
       end
 
-      if @options[:node_json]
-        path = File.expand_path(@options[:node_json])
+      @options.fetch(:node_json, []).each do |name|
+        path = File.expand_path(name)
         Itamae.logger.info "Loading node data from #{path}..."
-        hash.merge!(JSON.load(open(path)))
+
+        hash.deep_merge!(JSON.parse(File.read(path)))
       end
 
-      if @options[:node_yaml]
-        path = File.expand_path(@options[:node_yaml])
+      @options.fetch(:node_yaml, []).each do |name|
+        path = File.expand_path(name)
         Itamae.logger.info "Loading node data from #{path}..."
-        yaml = YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(open(path)) : YAML.load(open(path))
-        hash.merge!(yaml || {})
+
+        yaml = YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(File.read(path)) : YAML.load(File.read(path))
+        hash.deep_merge!(yaml || {})
       end
 
-      Node.new(hash, @backend)
+      # 'hash.dup' ensures that we pass a pristine Hash object without Hashie extensions
+      Node.new(hash.dup, @backend)
     end
 
     def prepare_handler

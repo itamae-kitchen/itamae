@@ -14,8 +14,8 @@ module Itamae
 
     def self.define_exec_options
       option :recipe_graph, type: :string, desc: "[EXPERIMENTAL] Write recipe dependency graph in DOT", banner: "PATH"
-      option :node_json, type: :string, aliases: ['-j']
-      option :node_yaml, type: :string, aliases: ['-y']
+      option :node_json, type: :string, aliases: ['-j'], repeatable: true
+      option :node_yaml, type: :string, aliases: ['-y'], repeatable: true
       option :dry_run, type: :boolean, aliases: ['-n']
       option :shell, type: :string, default: "/bin/sh"
       option :login_shell, type: :boolean, default: false
