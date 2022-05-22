@@ -21,7 +21,7 @@ namespace :spec do
   namespace :integration do
     container_name = 'itamae'
 
-    task :all => ['spec:integration:docker' 'spec:integration:local']
+    task :all => ['spec:integration:docker', 'spec:integration:local']
 
     desc "Run provision and specs"
     task :docker => ["docker:boot", "docker:provision", "docker:serverspec", 'docker:clean_docker_container']
