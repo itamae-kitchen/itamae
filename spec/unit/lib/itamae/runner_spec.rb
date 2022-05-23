@@ -28,5 +28,49 @@ module Itamae
         described_class.run(recipes, :local, {})
       end
     end
+
+    describe "#initialize" do
+      context "with multiple node_json and node_yaml files" do
+        def build_temp_file(data)
+          file = Tempfile.new
+          file.write data
+          file.close
+          file
+        end
+
+        it "merges hashes and overwrites arrays" do
+          json_one = build_temp_file %({ "vars_from_json": { "one": 1 }, "shared": { "foo": true } })
+          json_two = build_temp_file %({ "vars_from_json": { "two": 2 } })
+          yaml_one = build_temp_file %(
+            vars_from_yaml:
+              three: 3
+            array:
+              - 123
+            shared:
+              bar: false
+          )
+          yaml_two = build_temp_file %(
+            vars_from_yaml:
+              four: 4
+            array:
+              - 456
+          )
+
+          runner = described_class.new(
+            spy,
+            node_json: [json_one.path, json_two.path],
+            node_yaml: [yaml_one.path, yaml_two.path]
+          )
+
+          expect(runner.node[:vars_from_json][:one]).to eq 1
+          expect(runner.node[:vars_from_json][:two]).to eq 2
+          expect(runner.node[:vars_from_yaml][:three]).to eq 3
+          expect(runner.node[:vars_from_yaml][:four]).to eq 4
+          expect(runner.node[:array]).to eq [456]
+          expect(runner.node[:shared][:foo]).to eq true
+          expect(runner.node[:shared][:bar]).to eq false
+        end
+      end
+    end
   end
 end
