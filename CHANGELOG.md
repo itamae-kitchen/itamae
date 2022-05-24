@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.6...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.0...master)
+
+## v1.13.0
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.6...v1.13.0)
+
+Improvements
+
+- [Support repeatable "node_json" and "node_yaml" options](https://github.com/itamae-kitchen/itamae/pull/351)
 
 ## v1.12.6
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.5...v1.12.6)
