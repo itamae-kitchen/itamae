@@ -33,7 +33,7 @@ service 'nginx' do
 end
 ```
 
-And then excute `itamae` command to apply a recipe to a local machine.
+And then execute `itamae` command to apply a recipe to a local machine.
 
 ```
 $ itamae local recipe.rb
