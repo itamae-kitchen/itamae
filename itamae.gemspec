@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
     spec.metadata["homepage_uri"] = spec.homepage
     spec.metadata["source_code_uri"] = "https://github.com/itamae-kitchen/itamae"
     spec.metadata["changelog_uri"] = "https://github.com/itamae-kitchen/itamae/blob/master/CHANGELOG.md"
+    spec.metadata["rubygems_mfa_required"] = "true"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
