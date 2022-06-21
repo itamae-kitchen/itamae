@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.1...master)
+
+## v1.13.1
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.0...v1.13.1)
+
+Improvements
+
+- [Made MFA mandatory for gem releases](https://github.com/itamae-kitchen/itamae/pull/354)
 
 ## v1.13.0
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.12.6...v1.13.0)
