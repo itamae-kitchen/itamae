@@ -5,7 +5,13 @@ module Itamae
       define_attribute :block, type: Proc
 
       def action_run(options)
-        attributes.block.call
+        if attributes[:cwd]
+          Dir.chdir(attributes[:cwd]) do
+            attributes.block.call
+          end
+        else
+          attributes.block.call
+        end
       end
     end
   end
