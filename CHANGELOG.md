@@ -1,5 +1,13 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.1...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.0...master)
+
+# v1.14.0
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.1...v1.14.0)
+
+Bugfixes
+
+- [Execute local_ruby_block code inside of chdir-ed block if cwd presented](https://github.com/itamae-kitchen/itamae/pull/355)
+
 
 ## v1.13.1
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.0...v1.13.1)
