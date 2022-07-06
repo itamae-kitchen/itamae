@@ -527,6 +527,15 @@ local_ruby_block 'execute run_command' do
   end
 end
 
+local_ruby_block "pwd with cwd attribute" do
+  cwd "/tmp"
+  block do
+    unless `pwd`.chomp == "/tmp"
+      raise "working directory mismatched"
+    end
+  end
+end
+
 execute "touch /tmp/subscribed_from_parent" do
   action :nothing
   subscribes :run, 'execute[subscribed from parent]'
