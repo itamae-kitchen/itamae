@@ -1,7 +1,15 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.1...master)
 
-# v1.14.0
+## v1.14.1
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.0...v1.14.1)
+
+Bugfixes
+
+- [Add Itamae::Runner recipe_files argument data type validation (by @dvinciguerra)](https://github.com/itamae-kitchen/itamae/pull/356)
+
+
+## v1.14.0
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.13.1...v1.14.0)
 
 Bugfixes
