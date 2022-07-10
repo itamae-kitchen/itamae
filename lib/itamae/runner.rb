@@ -5,6 +5,10 @@ module Itamae
   class Runner
     class << self
       def run(recipe_files, backend_type, options)
+        unless recipe_files.is_a? Array
+          raise ArgumentError, 'recipe_files must be an Array'
+        end
+
         Itamae.logger.info "Starting Itamae... #{options[:dry_run] ? '(dry-run)' : ''}"
 
         backend = Backend.create(backend_type, options)

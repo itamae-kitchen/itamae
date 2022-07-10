@@ -27,6 +27,14 @@ module Itamae
         end
         described_class.run(recipes, :local, {})
       end
+
+      it "raises error for invalid recipes argument type" do
+        [nil, "recipe.rb"].each do |recipe|
+          expect do
+            described_class.run(recipe, :local, {})
+          end.to raise_error(ArgumentError, 'recipe_files must be an Array')
+        end
+      end
     end
 
     describe "#initialize" do
