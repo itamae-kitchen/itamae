@@ -57,7 +57,7 @@ jobs:
       RUBYOPT: ${{ matrix.rubyopt }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -127,7 +127,7 @@ jobs:
       TEST_IMAGE: ${{ matrix.image }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -202,7 +202,7 @@ jobs:
       RUBYOPT: ${{ matrix.rubyopt }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: ruby/setup-ruby@v1
         with:
