@@ -55,35 +55,43 @@ package "ruby"
 
 gem_package 'tzinfo' do
   version '1.1.0'
+  cwd '/tmp'
 end
 
 gem_package 'tzinfo' do
   version '1.2.2'
+  cwd '/tmp'
 end
 
 gem_package 'rake' do
   version '11.1.0'
+  cwd '/tmp'
 end
 
 gem_package 'rake' do
   version '11.2.2'
+  cwd '/tmp'
 end
 
 gem_package 'rake' do
   action :uninstall
   version '11.2.2'
+  cwd '/tmp'
 end
 
 gem_package 'test-unit' do
   version '2.5.5'
+  cwd '/tmp'
 end
 
 gem_package 'test-unit' do
   version '2.4.9'
+  cwd '/tmp'
 end
 
 gem_package 'test-unit' do
   action :uninstall
+  cwd '/tmp'
 end
 
 ######
