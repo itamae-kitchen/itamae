@@ -82,7 +82,10 @@ class IntegrationLocalSpecRunner
   end
 
   def prepare
-    docker_exec 'gem', 'install', 'bundler'
+    # Install the same version of bundler into the Docker container as is installed locally
+    current_bundler_version = /([0-9.]+)/.match(`bundle -v`).captures[0]
+    docker_exec 'gem', 'install', 'bundler', '-v', current_bundler_version
+
     docker_exec 'bundle', 'install', options: %w[--workdir /itamae]
     docker_exec 'apt-get', 'update', '-y'
     docker_exec 'apt-get', 'install', 'locales', 'sudo', '-y'
