@@ -7,6 +7,7 @@ end
 gem_package 'ast' do
   version '2.0.0'
   options ['--no-ri', '--no-rdoc']
+  cwd '/tmp'
 end
 
 ######

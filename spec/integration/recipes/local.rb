@@ -5,6 +5,7 @@ package 'sl'
 gem_package 'ast' do
   version '2.0.0'
   options ['--no-document']
+  cwd '/tmp'
 end
 
 ######
