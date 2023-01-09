@@ -1,0 +1,116 @@
+name: test_main
+
+on:
+  workflow_call:
+    inputs:
+      ruby:
+        required: true
+        type: string
+      rubyopt:
+        required: false
+        type: string
+        default: ""
+    secrets:
+      SLACK_WEBHOOK:
+        required: true
+
+env:
+  RUBYOPT: ${{ inputs.rubyopt }}
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby }}
+          bundler-cache: true
+
+      - run: bundle update
+
+      - run: bundle exec rake spec:unit
+
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*unit* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  integration-docker:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        image:
+          - ubuntu:trusty
+
+    env:
+      TEST_IMAGE: ${{ matrix.image }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby }}
+          bundler-cache: true
+
+      - run: bundle update
+
+      - run: bundle exec rake spec:integration:docker:boot
+
+      - run: bundle exec rake spec:integration:docker:provision
+        env:
+          # FIXME: avoid error for "Command `chmod 777 /tmp/itamae_tmp` failed. (exit status: 1)"
+          ITAMAE_TMP_DIR: /var/tmp/itamae_tmp
+
+      - run: bundle exec rake spec:integration:docker:serverspec
+      - run: bundle exec rake spec:integration:docker:clean_docker_container
+
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*integration-docker* ({0},{1},{2})', inputs.ruby, inputs.rubyopt, matrix.image) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  integration-local:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby }}
+          bundler-cache: true
+
+      - run: bundle update
+
+      - run: bundle exec rake spec:integration:local:main
+      - run: bundle exec rake spec:integration:local:ordinary_user
+
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*integration-local* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
