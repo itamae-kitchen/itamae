@@ -91,6 +91,9 @@ jobs:
   integration-local:
     runs-on: ubuntu-latest
 
+    # NOTE: Use debian buster+
+    if: ${{ inputs.ruby >= '2.4' }}
+
     steps:
       - uses: actions/checkout@v3
 
