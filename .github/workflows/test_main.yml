@@ -28,6 +28,7 @@ jobs:
         with:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
+          bundler: default
 
       - run: bundle update
 
@@ -64,6 +65,7 @@ jobs:
         with:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
+          bundler: default
 
       - run: bundle update
 
@@ -101,6 +103,7 @@ jobs:
         with:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
+          bundler: default
 
       - run: bundle update
 
