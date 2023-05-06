@@ -28,6 +28,7 @@ jobs:
         with:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
+          bundler: default
 
       - run: bundle update
 
@@ -64,6 +65,7 @@ jobs:
         with:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
+          bundler: default
 
       - run: bundle update
 
@@ -91,6 +93,9 @@ jobs:
   integration-local:
     runs-on: ubuntu-latest
 
+    # NOTE: When ruby is 2.3, tests run on stretch. But stretch is already EOL and didn't work apt-get
+    if: ${{ inputs.ruby >= '2.4' }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -98,6 +103,7 @@ jobs:
         with:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
+          bundler: default
 
       - run: bundle update
 
