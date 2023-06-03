@@ -1,4 +1,4 @@
-require 'itamae'
+require_relative "../itamae"
 require 'thor'
 
 module Itamae

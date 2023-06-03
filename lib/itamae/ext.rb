@@ -1,1 +1,1 @@
-require 'itamae/ext/specinfra'
+require_relative "ext/specinfra"

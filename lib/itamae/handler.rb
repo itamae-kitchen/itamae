@@ -1,4 +1,4 @@
-require 'itamae/handler/base'
+require_relative "handler/base"
 
 module Itamae
   module Handler
@@ -8,7 +8,7 @@ module Itamae
       class_name = type.split('_').map(&:capitalize).join
       self.const_get(class_name)
     rescue NameError
-      require "itamae/handler/#{type}"
+      require_relative "handler/#{type}"
 
       if first_time
         first_time = false

@@ -1,4 +1,4 @@
-require 'itamae'
+require_relative "../../../../../lib/itamae"
 
 class DefineAttributeTestResource < Itamae::Resource::Base
   define_attribute :action, default: :create

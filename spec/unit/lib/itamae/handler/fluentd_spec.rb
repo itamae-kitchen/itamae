@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'itamae/handler/fluentd'
+require_relative "../../../../../lib/itamae/handler/fluentd"
 
 describe Itamae::Handler::Fluentd do
   subject(:handler) do

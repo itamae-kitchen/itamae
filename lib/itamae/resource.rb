@@ -1,19 +1,19 @@
-require 'itamae/resource/base'
-require 'itamae/resource/file'
-require 'itamae/resource/package'
-require 'itamae/resource/remote_directory'
-require 'itamae/resource/remote_file'
-require 'itamae/resource/directory'
-require 'itamae/resource/template'
-require 'itamae/resource/http_request'
-require 'itamae/resource/execute'
-require 'itamae/resource/service'
-require 'itamae/resource/link'
-require 'itamae/resource/local_ruby_block'
-require 'itamae/resource/git'
-require 'itamae/resource/user'
-require 'itamae/resource/group'
-require 'itamae/resource/gem_package'
+require_relative "resource/base"
+require_relative "resource/file"
+require_relative "resource/package"
+require_relative "resource/remote_directory"
+require_relative "resource/remote_file"
+require_relative "resource/directory"
+require_relative "resource/template"
+require_relative "resource/http_request"
+require_relative "resource/execute"
+require_relative "resource/service"
+require_relative "resource/link"
+require_relative "resource/local_ruby_block"
+require_relative "resource/git"
+require_relative "resource/user"
+require_relative "resource/group"
+require_relative "resource/gem_package"
 
 module Itamae
   module Resource
@@ -41,7 +41,7 @@ module Itamae
 
       def autoload_plugin_resource(method)
         begin
-          require "itamae/plugin/resource/#{method}"
+          require_relative "plugin/resource/#{method}"
           ::Itamae::Plugin::Resource.const_get(to_camel_case(method.to_s))
         rescue LoadError, NameError
           raise Error, "#{method} resource is missing."

@@ -1,6 +1,6 @@
-require "itamae/generators/cookbook"
-require "itamae/generators/project"
-require "itamae/generators/role"
+require_relative "generators/cookbook"
+require_relative "generators/project"
+require_relative "generators/role"
 
 module Itamae
   module Generators

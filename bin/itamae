@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'itamae/cli'
+require_relative "../lib/itamae/cli"
 Itamae::CLI.start

@@ -1,7 +1,7 @@
 require 'hashie'
 require 'json'
 require 'schash'
-require 'itamae/mash'
+require_relative "mash"
 
 module Itamae
   class Node
