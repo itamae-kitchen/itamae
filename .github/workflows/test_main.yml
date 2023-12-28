@@ -14,9 +14,6 @@ on:
       SLACK_WEBHOOK:
         required: true
 
-env:
-  RUBYOPT: ${{ inputs.rubyopt }}
-
 jobs:
   unit:
     runs-on: ubuntu-latest
@@ -33,6 +30,8 @@ jobs:
       - run: bundle update
 
       - run: bundle exec rake spec:unit
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
         uses: lazy-actions/slatify@master
@@ -70,14 +69,23 @@ jobs:
       - run: bundle update
 
       - run: bundle exec rake spec:integration:docker:boot
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
 
       - run: bundle exec rake spec:integration:docker:provision
         env:
+          RUBYOPT: ${{ inputs.rubyopt }}
+
           # FIXME: avoid error for "Command `chmod 777 /tmp/itamae_tmp` failed. (exit status: 1)"
           ITAMAE_TMP_DIR: /var/tmp/itamae_tmp
 
       - run: bundle exec rake spec:integration:docker:serverspec
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
+
       - run: bundle exec rake spec:integration:docker:clean_docker_container
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
         uses: lazy-actions/slatify@master
@@ -108,7 +116,12 @@ jobs:
       - run: bundle update
 
       - run: bundle exec rake spec:integration:local:main
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
+
       - run: bundle exec rake spec:integration:local:ordinary_user
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
         uses: lazy-actions/slatify@master
