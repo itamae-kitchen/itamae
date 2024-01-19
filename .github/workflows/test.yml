@@ -54,6 +54,12 @@ jobs:
           - ruby:    "3.0"
             rubyopt: "--yjit"
 
+          # --jit is same to --yjit since MRI 3.2 (don't test both `--jit` and `--yjit`)
+          - ruby:    "3.2"
+            rubyopt: "--yjit"
+          - ruby:    "3.3"
+            rubyopt: "--yjit"
+
     uses: ./.github/workflows/test_main.yml
     with:
       ruby: ${{ matrix.ruby }}
