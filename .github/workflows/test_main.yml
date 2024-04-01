@@ -51,6 +51,7 @@ jobs:
       matrix:
         image:
           - ubuntu:trusty
+          - ubuntu:xenial
 
     env:
       TEST_IMAGE: ${{ matrix.image }}
