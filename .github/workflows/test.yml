@@ -59,6 +59,12 @@ jobs:
             rubyopt: "--yjit"
           - ruby:    "3.3"
             rubyopt: "--yjit"
+        include:
+          # ruby-debug is the same as ruby-head but with assertions enabled (-DRUBY_DEBUG=1)
+          - ruby: "debug"
+            rubyopt: "" # See also https://bugs.ruby-lang.org/issues/20205 (enable frozen string literal as default)
+          - ruby: "debug"
+            rubyopt: "--disable=frozen-string-literal"
 
     uses: ./.github/workflows/test_main.yml
     with:
