@@ -34,15 +34,13 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
-        uses: lazy-actions/slatify@master
+        uses: act10ns/slack@v2
         if: "! success()"
         continue-on-error: true
         with:
-          job_name: ${{ format('*unit* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
-          type: ${{ job.status }}
-          icon_emoji: ":octocat:"
-          url: ${{ secrets.SLACK_WEBHOOK }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          matrix: ${{ toJson(matrix) }}
 
   integration-docker:
     runs-on: ubuntu-latest
@@ -88,15 +86,13 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
-        uses: lazy-actions/slatify@master
+        uses: act10ns/slack@v2
         if: "! success()"
         continue-on-error: true
         with:
-          job_name: ${{ format('*integration-docker* ({0},{1},{2})', inputs.ruby, inputs.rubyopt, matrix.image) }}
-          type: ${{ job.status }}
-          icon_emoji: ":octocat:"
-          url: ${{ secrets.SLACK_WEBHOOK }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          matrix: ${{ toJson(matrix) }}
 
   integration-local:
     runs-on: ubuntu-latest
@@ -124,12 +120,10 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
-        uses: lazy-actions/slatify@master
+        uses: act10ns/slack@v2
         if: "! success()"
         continue-on-error: true
         with:
-          job_name: ${{ format('*integration-local* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
-          type: ${{ job.status }}
-          icon_emoji: ":octocat:"
-          url: ${{ secrets.SLACK_WEBHOOK }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          matrix: ${{ toJson(matrix) }}
