@@ -1,6 +1,6 @@
 # [![](https://raw.githubusercontent.com/itamae-kitchen/itamae-logos/master/small/FA-Itamae-horizontal-01-180x72.png)](https://github.com/itamae-kitchen/itamae)
 
-[![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Code Climate](https://codeclimate.com/github/ryotarai/itamae/badges/gpa.svg)](https://codeclimate.com/github/ryotarai/itamae) [![test](https://github.com/itamae-kitchen/itamae/actions/workflows/test.yml/badge.svg)](https://github.com/itamae-kitchen/itamae/actions/workflows/test.yml) [![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://join.slack.com/t/itamae/shared_invite/enQtNTExNTI3ODM1NTY5LTM5MWJlZTgwODE0YTUwMThiNzZjN2I1MGNlZjE2NjlmNzg5NTNlOTliMDhkNDNmNTQ2ZTgwMzZjNjI5NDJiZGI)
+[![Gem Version](https://badge.fury.io/rb/itamae.svg)](http://badge.fury.io/rb/itamae) [![Maintainability](https://api.codeclimate.com/v1/badges/1de79e271cff2a43091f/maintainability)](https://codeclimate.com/github/itamae-kitchen/itamae/maintainability) [![test](https://github.com/itamae-kitchen/itamae/actions/workflows/test.yml/badge.svg)](https://github.com/itamae-kitchen/itamae/actions/workflows/test.yml) [![Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://join.slack.com/t/itamae/shared_invite/enQtNTExNTI3ODM1NTY5LTM5MWJlZTgwODE0YTUwMThiNzZjN2I1MGNlZjE2NjlmNzg5NTNlOTliMDhkNDNmNTQ2ZTgwMzZjNjI5NDJiZGI)
 
 Simple and lightweight configuration management tool inspired by Chef.
 
