@@ -5,6 +5,7 @@ describe user("itamae") do
   it { should have_uid 1234 }
   it { should have_home_directory '/home/itamae' }
   it { should have_login_shell '/bin/dash' }
+  it { should_not be_is_system_user }
 end
 
 describe user("itamae_system") do
