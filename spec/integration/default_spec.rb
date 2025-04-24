@@ -7,6 +7,16 @@ describe user("itamae") do
   it { should have_login_shell '/bin/dash' }
 end
 
+describe user("itamae_system") do
+  it { should exist }
+  it { should be_is_system_user }
+end
+
+describe group("itamae_system") do
+  it { should exist }
+  it { should be_is_system_group }
+end
+
 describe file('/tmp/included_recipe') do
   it { should be_file }
 end
