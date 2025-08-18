@@ -274,10 +274,12 @@ end
 
 describe file('/tmp/file_edit_with_content_change_updates_timestamp') do
   its(:mtime) { should be > DateTime.iso8601("2016-05-02T01:23:45Z") }
+  its(:content) { should eq "Hello, Itamae\n" }
 end
 
 describe file('/tmp/file_edit_without_content_change_keeping_timestamp') do
   its(:mtime) { should eq(DateTime.iso8601("2016-05-02T12:34:56Z")) }
+  its(:content) { should eq "" }
 end
 
 describe file('/home/itamae2') do
@@ -306,10 +308,12 @@ end
 
 describe file('/tmp/file_with_content_change_updates_timestamp') do
   its(:mtime) { should be > DateTime.iso8601("2016-05-01T01:23:45Z") }
+  its(:content) { should eq "Hello, world" }
 end
 
 describe file('/tmp/file_without_content_change_keeping_timestamp') do
   its(:mtime) { should eq(DateTime.iso8601("2016-05-01T12:34:56Z")) }
+  its(:content) { should eq "Hello, world\n" }
 end
 
 describe file('/tmp/subscribed_from_parent') do
