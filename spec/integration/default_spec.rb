@@ -11,7 +11,7 @@ describe file('/tmp/included_recipe') do
   it { should be_file }
 end
 
-describe package('dstat') do
+describe package('jq') do
   it { should be_installed }
 end
 

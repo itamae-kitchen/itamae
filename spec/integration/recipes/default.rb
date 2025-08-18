@@ -41,7 +41,7 @@ end
 
 ######
 
-package 'dstat' do
+package 'jq' do
   action :install
 end
 
