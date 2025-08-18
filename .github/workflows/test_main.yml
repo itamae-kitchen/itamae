@@ -101,8 +101,8 @@ jobs:
   integration-local:
     runs-on: ubuntu-latest
 
-    # NOTE: When ruby is 2.3, tests run on stretch. But stretch is already EOL and didn't work apt-get
-    if: ${{ inputs.ruby >= '2.4' }}
+    # NOTE: When ruby is 2.5, tests run on buster. But buster is already EOL and didn't work apt-get
+    if: ${{ inputs.ruby >= '2.6' }}
 
     steps:
       - uses: actions/checkout@v4
