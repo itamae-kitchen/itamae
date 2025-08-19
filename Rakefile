@@ -29,7 +29,7 @@ namespace :spec do
     namespace :docker do
       desc "Run docker"
       task :boot do
-        sh "docker run --privileged -d --name #{container_name} #{TEST_IMAGE} /sbin/init"
+        sh "docker run --env SKIP_HTTP_REQUEST_TEST --privileged -d --name #{container_name} #{TEST_IMAGE} /sbin/init"
       end
 
       desc "Run itamae"

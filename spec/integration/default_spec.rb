@@ -77,34 +77,34 @@ describe file('/tmp/never_exist2') do
   it { should_not be_file }
 end
 
-describe file('/tmp/http_request.html') do
+describe file('/tmp/http_request.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
 
-describe file('/tmp/http_request_delete.html') do
+describe file('/tmp/http_request_delete.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
 
-describe file('/tmp/http_request_post.html') do
-  it { should be_file }
-  its(:content) { should match(/"from":\s*"itamae"/) }
-  its(:content) { should match(/"love":\s*"sushi"/) }
-end
-
-describe file('/tmp/http_request_put.html') do
+describe file('/tmp/http_request_post.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
   its(:content) { should match(/"love":\s*"sushi"/) }
 end
 
-describe file('/tmp/http_request_headers.html') do
+describe file('/tmp/http_request_put.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
+  it { should be_file }
+  its(:content) { should match(/"from":\s*"itamae"/) }
+  its(:content) { should match(/"love":\s*"sushi"/) }
+end
+
+describe file('/tmp/http_request_headers.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"User-Agent":\s*"Itamae"/) }
 end
 
-xdescribe file('/tmp/http_request_redirect.html') do
+xdescribe file('/tmp/http_request_redirect.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
