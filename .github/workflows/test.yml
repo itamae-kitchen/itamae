@@ -28,7 +28,10 @@ jobs:
           - "3.1"
           - "3.2"
           - "3.3"
-          - "3.4"
+
+          # FIXME: workaround for https://github.com/itamae-kitchen/itamae/issues/377
+          # - "3.4"
+          - "3.4.2"
         rubyopt:
           - ""
           - "--jit"
@@ -60,13 +63,26 @@ jobs:
             rubyopt: "--yjit"
           - ruby:    "3.3"
             rubyopt: "--yjit"
+
+          # FIXME: workaround for https://github.com/itamae-kitchen/itamae/issues/377
           - ruby:    "3.4"
+            rubyopt: "--yjit"
+          - ruby:    "3.4.2"
             rubyopt: "--yjit"
 
     uses: ./.github/workflows/test_main.yml
     with:
       ruby: ${{ matrix.ruby }}
       rubyopt: ${{ matrix.rubyopt }}
+
+      # This repository uses matrix to run 50+ builds in a pipeline.
+      # This results in simultaneous requests being sent to httpbin.org,
+      # similar to a DDoS attack, often causing 500 errors and test failures.
+      #
+      # e.g. https://github.com/itamae-kitchen/itamae/actions/runs/17045210601/job/48319099479?pr=379
+      #
+      # Therefore, I suppressed simultaneous requests to httpbin.org.
+      skip_http_request_test: ${{ (matrix.ruby == '2.3' && matrix.rubyopt == '') && 'false' || 'true' }}
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 

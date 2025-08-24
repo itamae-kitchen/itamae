@@ -10,6 +10,9 @@ on:
         required: false
         type: string
         default: ""
+      skip_http_request_test:
+        required: true
+        type: string
     secrets:
       SLACK_WEBHOOK:
         required: true
@@ -56,6 +59,7 @@ jobs:
 
     env:
       TEST_IMAGE: ${{ matrix.image }}
+      SKIP_HTTP_REQUEST_TEST: ${{ inputs.skip_http_request_test }}
 
     steps:
       - uses: actions/checkout@v4
@@ -101,8 +105,11 @@ jobs:
   integration-local:
     runs-on: ubuntu-latest
 
-    # NOTE: When ruby is 2.3, tests run on stretch. But stretch is already EOL and didn't work apt-get
-    if: ${{ inputs.ruby >= '2.4' }}
+    # NOTE: When ruby is 2.5, tests run on buster. But buster is already EOL and didn't work apt-get
+    if: ${{ inputs.ruby >= '2.6' }}
+
+    env:
+      SKIP_HTTP_REQUEST_TEST: ${{ inputs.skip_http_request_test }}
 
     steps:
       - uses: actions/checkout@v4

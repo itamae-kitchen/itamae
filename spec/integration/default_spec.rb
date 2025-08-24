@@ -11,7 +11,7 @@ describe file('/tmp/included_recipe') do
   it { should be_file }
 end
 
-describe package('dstat') do
+describe package('jq') do
   it { should be_installed }
 end
 
@@ -77,34 +77,34 @@ describe file('/tmp/never_exist2') do
   it { should_not be_file }
 end
 
-describe file('/tmp/http_request.html') do
+describe file('/tmp/http_request.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
 
-describe file('/tmp/http_request_delete.html') do
+describe file('/tmp/http_request_delete.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
 
-describe file('/tmp/http_request_post.html') do
-  it { should be_file }
-  its(:content) { should match(/"from":\s*"itamae"/) }
-  its(:content) { should match(/"love":\s*"sushi"/) }
-end
-
-describe file('/tmp/http_request_put.html') do
+describe file('/tmp/http_request_post.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
   its(:content) { should match(/"love":\s*"sushi"/) }
 end
 
-describe file('/tmp/http_request_headers.html') do
+describe file('/tmp/http_request_put.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
+  it { should be_file }
+  its(:content) { should match(/"from":\s*"itamae"/) }
+  its(:content) { should match(/"love":\s*"sushi"/) }
+end
+
+describe file('/tmp/http_request_headers.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"User-Agent":\s*"Itamae"/) }
 end
 
-xdescribe file('/tmp/http_request_redirect.html') do
+xdescribe file('/tmp/http_request_redirect.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   its(:content) { should match(/"from":\s*"itamae"/) }
 end
@@ -274,10 +274,12 @@ end
 
 describe file('/tmp/file_edit_with_content_change_updates_timestamp') do
   its(:mtime) { should be > DateTime.iso8601("2016-05-02T01:23:45Z") }
+  its(:content) { should eq "Hello, Itamae\n" }
 end
 
 describe file('/tmp/file_edit_without_content_change_keeping_timestamp') do
   its(:mtime) { should eq(DateTime.iso8601("2016-05-02T12:34:56Z")) }
+  its(:content) { should eq "" }
 end
 
 describe file('/home/itamae2') do
@@ -306,10 +308,12 @@ end
 
 describe file('/tmp/file_with_content_change_updates_timestamp') do
   its(:mtime) { should be > DateTime.iso8601("2016-05-01T01:23:45Z") }
+  its(:content) { should eq "Hello, world" }
 end
 
 describe file('/tmp/file_without_content_change_keeping_timestamp') do
   its(:mtime) { should eq(DateTime.iso8601("2016-05-01T12:34:56Z")) }
+  its(:content) { should eq "Hello, world\n" }
 end
 
 describe file('/tmp/subscribed_from_parent') do
