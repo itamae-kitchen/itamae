@@ -36,17 +36,16 @@ jobs:
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
 
-      # TODO: for develop
-      # - name: Slack Notification (not success)
-      #   uses: lazy-actions/slatify@master
-      #   if: "! success()"
-      #   continue-on-error: true
-      #   with:
-      #     job_name: ${{ format('*unit* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
-      #     type: ${{ job.status }}
-      #     icon_emoji: ":octocat:"
-      #     url: ${{ secrets.SLACK_WEBHOOK }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*unit* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   integration-docker:
     runs-on: ubuntu-latest
@@ -92,17 +91,16 @@ jobs:
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
 
-      # TODO: for develop
-      # - name: Slack Notification (not success)
-      #   uses: lazy-actions/slatify@master
-      #   if: "! success()"
-      #   continue-on-error: true
-      #   with:
-      #     job_name: ${{ format('*integration-docker* ({0},{1},{2})', inputs.ruby, inputs.rubyopt, matrix.image) }}
-      #     type: ${{ job.status }}
-      #     icon_emoji: ":octocat:"
-      #     url: ${{ secrets.SLACK_WEBHOOK }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*integration-docker* ({0},{1},{2})', inputs.ruby, inputs.rubyopt, matrix.image) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   integration-local:
     runs-on: ubuntu-latest
@@ -132,14 +130,13 @@ jobs:
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
 
-      # TODO: for develop
-      # - name: Slack Notification (not success)
-      #   uses: lazy-actions/slatify@master
-      #   if: "! success()"
-      #   continue-on-error: true
-      #   with:
-      #     job_name: ${{ format('*integration-local* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
-      #     type: ${{ job.status }}
-      #     icon_emoji: ":octocat:"
-      #     url: ${{ secrets.SLACK_WEBHOOK }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Slack Notification (not success)
+        uses: lazy-actions/slatify@master
+        if: "! success()"
+        continue-on-error: true
+        with:
+          job_name: ${{ format('*integration-local* ({0},{1})', inputs.ruby, inputs.rubyopt) }}
+          type: ${{ job.status }}
+          icon_emoji: ":octocat:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+          token: ${{ secrets.GITHUB_TOKEN }}
