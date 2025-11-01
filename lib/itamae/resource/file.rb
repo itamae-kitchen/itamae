@@ -214,7 +214,19 @@ module Itamae
 
           if backend.is_a?(Itamae::Backend::Docker)
             run_command(["mkdir", @temppath])
+
+            # NOTE: From rubygems v3.6.7, Gem::Package::TarWriter#add_file uses SOURCE_DATE_EPOCH env var to set file mtime.
+            #   This is a workaround for Docker backend where Gem::Package::TarWriter#add_file used in Docker backend.
+            #   See also:
+            #     * https://github.com/ruby/rubygems/pull/8673
+            #     * https://github.com/itamae-kitchen/itamae/issues/377
+            #     * https://github.com/itamae-kitchen/itamae/pull/378
+            current_source_date_epoch_env = ENV["SOURCE_DATE_EPOCH"]
+            ENV["SOURCE_DATE_EPOCH"] = Time.now.to_i.to_s unless current_source_date_epoch_env
             backend.send_file(src, @temppath, user: attributes.user)
+            ENV["SOURCE_DATE_EPOCH"] = current_source_date_epoch_env
+            # end of NOTE
+
             @temppath = ::File.join(@temppath, ::File.basename(src))
           else
             run_command(["touch", @temppath])
