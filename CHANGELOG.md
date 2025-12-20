@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.1...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.2...master)
+
+## v1.14.2
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.1...v1.14.2)
+
+Bugfixes
+
+- [Add workaround for `Gem::Package::TarWriter#add_file`](https://github.com/itamae-kitchen/itamae/pull/378)
 
 ## v1.14.1
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.0...v1.14.1)
