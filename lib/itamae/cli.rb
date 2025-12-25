@@ -129,6 +129,11 @@ module Itamae
       generator.remove_files
     end
 
+    desc 'list', 'list plugin recipes'
+    def list
+      Itamae::List.new.run
+    end
+
     private
     def validate_generate_target!(command, target)
       unless GENERATE_TARGETS.include?(target)
