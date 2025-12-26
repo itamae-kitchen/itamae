@@ -29,10 +29,12 @@ jobs:
           - "3.2"
           - "3.3"
           - "3.4"
+          - "4.0"
         rubyopt:
           - ""
           - "--jit"
           - "--yjit"
+          - "--zjit"
         exclude:
           # --jit is available since MRI 2.6
           - ruby:    "2.3"
@@ -62,6 +64,30 @@ jobs:
             rubyopt: "--yjit"
           - ruby:    "3.4"
             rubyopt: "--yjit"
+          - ruby:    "4.0"
+            rubyopt: "--yjit"
+
+          # --zjit is available since MRI 4.0
+          - ruby:    "2.3"
+            rubyopt: "--zjit"
+          - ruby:    "2.4"
+            rubyopt: "--zjit"
+          - ruby:    "2.5"
+            rubyopt: "--zjit"
+          - ruby:    "2.6"
+            rubyopt: "--zjit"
+          - ruby:    "2.7"
+            rubyopt: "--zjit"
+          - ruby:    "3.0"
+            rubyopt: "--zjit"
+          - ruby:    "3.1"
+            rubyopt: "--zjit"
+          - ruby:    "3.2"
+            rubyopt: "--zjit"
+          - ruby:    "3.3"
+            rubyopt: "--zjit"
+          - ruby:    "3.4"
+            rubyopt: "--zjit"
 
     uses: ./.github/workflows/test_main.yml
     with:
