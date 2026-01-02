@@ -39,6 +39,17 @@ user "create itamae2 user with create home directory" do
   shell "/bin/sh"
 end
 
+group "create itamae_system group" do
+  groupname "itamae_system"
+  system_group true
+end
+
+user "create itamae_system user" do
+  gid "itamae_system"
+  username "itamae_system"
+  system_user true
+end
+
 ######
 
 package 'jq' do
