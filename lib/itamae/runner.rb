@@ -95,14 +95,14 @@ module Itamae
       hash = {}
 
       if @options[:ohai]
-        unless @backend.run_command("which ohai", error: false).exit_status == 0
+        unless @backend.run_command(["which", "ohai"], error: false).exit_status == 0
           # install Ohai
           Itamae.logger.info "Installing Chef package... (to use Ohai)"
           @backend.run_command("curl -L https://omnitruck.chef.io/install.sh | bash")
         end
 
         Itamae.logger.info "Loading node data via ohai..."
-        hash.merge!(JSON.parse(@backend.run_command("ohai 2>/dev/null").stdout))
+        hash.merge!(JSON.parse(@backend.run_command(["ohai"], error: false).stdout))
       end
 
       if @options[:node_json]
