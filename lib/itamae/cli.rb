@@ -8,7 +8,13 @@ module Itamae
     def initialize(*)
       super
 
-      Itamae.logger.level = ::Logger.const_get(options[:log_level].upcase) if options[:log_level]
+      if options[:log_level]
+        level_name = options[:log_level].upcase
+        unless %w[DEBUG INFO WARN ERROR FATAL UNKNOWN].include?(level_name)
+          raise ArgumentError, "Invalid log level: #{options[:log_level]}"
+        end
+        Itamae.logger.level = ::Logger.const_get(level_name)
+      end
       Itamae.logger.formatter.colored = options[:color] if options[:color]
     end
 
