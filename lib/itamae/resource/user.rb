@@ -6,6 +6,7 @@ module Itamae
       define_attribute :gid, type: [Integer, String]
       define_attribute :home, type: String
       define_attribute :password, type: String
+      define_attribute :sensitive, default: false
       define_attribute :system_user, type: [TrueClass, FalseClass]
       define_attribute :uid, type: Integer
       define_attribute :shell, type: String
@@ -33,6 +34,16 @@ module Itamae
           current.shell = run_specinfra(:get_user_login_shell, attributes.username).stdout.strip
           current.password = current_password
         end
+      end
+
+      def show_differences
+        saved_password = @current_attributes[:password]
+        saved_attr_password = @attributes[:password]
+        @current_attributes[:password] = nil
+        @attributes[:password] = nil
+        super
+        @current_attributes[:password] = saved_password
+        @attributes[:password] = saved_attr_password
       end
 
       def action_create(options)
