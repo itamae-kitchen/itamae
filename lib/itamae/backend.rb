@@ -265,7 +265,8 @@ module Itamae
         if @options[:vagrant]
           config = Tempfile.new('', Dir.tmpdir)
           hostname = opts[:host_name] || 'default'
-          vagrant_cmd = "vagrant ssh-config #{hostname} > #{config.path}"
+          require 'shellwords'
+          vagrant_cmd = "vagrant ssh-config #{hostname.shellescape} > #{config.path.shellescape}"
           if defined?(Bundler)
             Bundler.with_clean_env do
               `#{vagrant_cmd}`
