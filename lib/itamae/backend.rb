@@ -263,17 +263,22 @@ module Itamae
         opts[:port] = @options[:port] if @options[:port]
 
         if @options[:vagrant]
-          config = Tempfile.new('', Dir.tmpdir)
-          hostname = opts[:host_name] || 'default'
-          vagrant_cmd = "vagrant ssh-config #{hostname} > #{config.path}"
-          if defined?(Bundler)
-            Bundler.with_clean_env do
+          config = Tempfile.new('itamae-ssh-config', Dir.tmpdir)
+          begin
+            hostname = opts[:host_name] || 'default'
+            vagrant_cmd = "vagrant ssh-config #{hostname} > #{config.path}"
+            if defined?(Bundler)
+              Bundler.with_clean_env do
+                `#{vagrant_cmd}`
+              end
+            else
               `#{vagrant_cmd}`
             end
-          else
-            `#{vagrant_cmd}`
+            opts.merge!(Net::SSH::Config.for(hostname, [config.path]))
+          ensure
+            config.close
+            config.unlink
           end
-          opts.merge!(Net::SSH::Config.for(hostname, [config.path]))
         end
 
         if @options[:ask_password]
