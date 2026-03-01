@@ -39,7 +39,7 @@ module Itamae
                    get_revision(attributes.revision)
                  else
                    fetch_origin!
-                   run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+                   run_command_in_repo(["git", "ls-remote", "origin", "HEAD"]).stdout.split("\t").first.strip
                  end
 
         if new_repository || target != get_revision('HEAD')
