@@ -210,7 +210,8 @@ module Itamae
                   f.path
                 end
 
-          @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
+          require 'securerandom'
+          @temppath = ::File.join(runner.tmpdir, SecureRandom.hex(16))
 
           if backend.is_a?(Itamae::Backend::Docker)
             run_command(["mkdir", @temppath])

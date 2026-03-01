@@ -12,7 +12,8 @@ module Itamae
         directory = ::File.expand_path(attributes.source, ::File.dirname(@recipe.path))
         src = ::File.expand_path(directory, ::File.dirname(@recipe.path))
 
-        @temppath = ::File.join(runner.tmpdir, Time.now.to_f.to_s)
+        require 'securerandom'
+        @temppath = ::File.join(runner.tmpdir, SecureRandom.hex(16))
         backend.send_directory(src, @temppath)
 
         case @current_action
