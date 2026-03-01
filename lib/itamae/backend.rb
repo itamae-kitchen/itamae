@@ -311,7 +311,7 @@ module Itamae
         end
 
         # TODO: Move to Specinfra?
-        Excon.defaults[:ssl_verify_peer] = @options[:tls_verify_peer]
+        Excon.defaults[:ssl_verify_peer] = @options.fetch(:tls_verify_peer, true)
         ::Docker.logger = Itamae.logger
 
         Specinfra::Backend::Docker.new(
