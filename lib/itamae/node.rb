@@ -56,7 +56,7 @@ module Itamae
       super
     end
 
-    def respond_to?(method, priv = false)
+    def respond_to_missing?(method, priv = false)
       @mash.respond_to?(method, priv) || super
     end
 
