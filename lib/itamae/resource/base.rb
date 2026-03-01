@@ -146,9 +146,9 @@ module Itamae
 
           @updated = false
         end
-      rescue Backend::CommandExecutionError
+      rescue Backend::CommandExecutionError => e
         Itamae.logger.error "#{resource_type}[#{resource_name}] Failed."
-        exit 2
+        raise
       end
 
       def action_nothing
