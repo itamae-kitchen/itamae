@@ -75,7 +75,7 @@ module Itamae
 
       recipes(recursive: false).each do |recipe|
         recipe.children.recipes(recursive: false).each do |child_recipe|
-          result << %{  "#{recipe.path}" -> "#{child_recipe.path}";\n}
+          result << %{  "#{recipe.path.gsub('"', '\\"')}" -> "#{child_recipe.path.gsub('"', '\\"')}";\n}
         end
         result << recipe.children._dependency_in_dot
       end
