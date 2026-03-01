@@ -23,7 +23,7 @@ module Specinfra
         if to
           send_file(from, to)
         else
-          run_command("cat #{from}").stdout
+          run_command(["cat", from]).stdout
         end
       end
     end
