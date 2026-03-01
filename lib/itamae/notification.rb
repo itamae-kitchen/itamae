@@ -28,12 +28,11 @@ module Itamae
       timing == :immediately
     end
 
-    def validate!
-      unless [:delay, :delayed, :immediately].include?(timing)
-        Itamae.logger.error "'#{timing}' is not valid notification timing. (Valid option is delayed or immediately)"
-        abort
-      end
-    end
+   def validate!
+     unless [:delay, :delayed, :immediately].include?(timing)
+       raise ArgumentError, "'#{timing}' is not valid notification timing. (Valid option is delayed or immediately)"
+     end
+   end
   end
 
   class Subscription < Notification
