@@ -2,6 +2,7 @@ require 'specinfra/core'
 require 'singleton'
 require 'io/console'
 require 'net/ssh'
+require 'etc'
 
 Specinfra::Configuration.error_on_missing_backend_type = true
 
