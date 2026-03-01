@@ -60,8 +60,8 @@ module Itamae
           run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
         end
 
-        if run_specinfra(:check_file_is_file, attributes.path)
-          unless check_command(["diff", "-q", @temppath, attributes.path])
+        if run_specinfra(:check_file_is_directory, attributes.path)
+          unless check_command(["diff", "-q", "-r", @temppath, attributes.path])
             updated!
           end
         else
