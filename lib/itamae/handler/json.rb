@@ -10,12 +10,17 @@ module Itamae
       def event(type, payload = {})
         super
         @f.puts({'time' => Time.now.iso8601, 'event' => type, 'payload' => payload}.to_json)
+        @f.flush
+      end
+
+      def finalize
+        @f.close if @f
       end
 
       private
 
       def open_file
-        @f = open(@options.fetch('path'), 'a')
+        @f = File.open(@options.fetch('path'), 'a')
       end
     end
   end
