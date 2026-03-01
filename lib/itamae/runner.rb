@@ -39,7 +39,7 @@ module Itamae
       @diff = false
 
       @backend.run_command(["mkdir", "-p", @tmpdir])
-      @backend.run_command(["chmod", "777", @tmpdir])
+      @backend.run_command(["chmod", "700", @tmpdir])
     end
 
     def load_recipes(paths)
