@@ -244,6 +244,12 @@ module Itamae
       def show_differences
         @current_attributes.each_pair do |key, current_value|
           value = @attributes[key]
+          if @attributes[:sensitive]
+            if !current_value.nil? && !value.nil? && current_value != value
+              Itamae.logger.info "#{resource_type}[#{resource_name}] #{key} will change (sensitive value suppressed)"
+            end
+            next
+          end
           if current_value.nil? && value.nil?
             # ignore
           elsif current_value.nil? && !value.nil?
