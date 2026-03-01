@@ -68,8 +68,10 @@ module Itamae
           updated!
         end
 
-        run_specinfra(:remove_file, attributes.path)
-        run_specinfra(:move_file, @temppath, attributes.path)
+        if updated?
+          run_specinfra(:remove_file, attributes.path) if run_specinfra(:check_file_is_directory, attributes.path)
+          run_specinfra(:move_file, @temppath, attributes.path)
+        end
       end
 
       def action_delete(options)
