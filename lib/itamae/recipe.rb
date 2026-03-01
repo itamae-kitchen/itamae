@@ -17,8 +17,8 @@ module Itamae
           gem gem_name
         rescue LoadError
         end
-        spec = Gem.loaded_specs.values.find do |spec|
-          spec.name == gem_name
+        spec = Gem.loaded_specs.values.find do |s|
+          s.name == gem_name
         end
 
         return nil unless spec
