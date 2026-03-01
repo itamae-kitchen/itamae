@@ -28,9 +28,15 @@ module Itamae
     CommandExecutionError = Class.new(StandardError)
     SourceNotExistError = Class.new(StandardError)
 
+    VALID_BACKENDS = %w[local ssh docker jexec].freeze
+
     class << self
       def create(type, opts = {})
-        self.const_get(type.capitalize).new(opts)
+        type_str = type.to_s
+        unless VALID_BACKENDS.include?(type_str)
+          raise UnknownBackendTypeError, "Unknown backend type: #{type}"
+        end
+        self.const_get(type_str.capitalize).new(opts)
       end
     end
 
