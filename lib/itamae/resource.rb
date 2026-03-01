@@ -40,6 +40,9 @@ module Itamae
       end
 
       def autoload_plugin_resource(method)
+        unless method.to_s.match?(/\A[a-z_][a-z0-9_]*\z/)
+          raise Error, "#{method} is not a valid resource name."
+        end
         begin
           require "itamae/plugin/resource/#{method}"
           ::Itamae::Plugin::Resource.const_get(to_camel_case(method.to_s))
