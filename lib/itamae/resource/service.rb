@@ -5,9 +5,18 @@ module Itamae
       define_attribute :name, type: String, default_name: true
       define_attribute :provider, type: Symbol, default: nil
 
+      VALID_PROVIDERS = [:systemd, :upstart, :sysvinit].freeze
+
       def initialize(*args)
         super
-        @under = attributes.provider ? "_under_#{attributes.provider}" : ""
+        @under = if attributes.provider
+                   unless VALID_PROVIDERS.include?(attributes.provider)
+                     raise ArgumentError, "Invalid service provider '#{attributes.provider}'. Valid: #{VALID_PROVIDERS.join(', ')}"
+                   end
+                   "_under_#{attributes.provider}"
+                 else
+                   ""
+                 end
       end
 
       def pre_action
