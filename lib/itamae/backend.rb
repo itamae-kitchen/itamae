@@ -108,10 +108,14 @@ module Itamae
         end
 
         if self.instance_of?(Backend::Local)
-          read_command = build_command("cat #{src.shellescape}", {})
-          write_command = build_command("cat > #{dst.shellescape}", user: user)
-          command = [read_command, write_command].join(' | ')
-          run_command(command)
+          if user
+            read_command = build_command("cat #{src.shellescape}", {})
+            write_command = build_command("cat > #{dst.shellescape}", user: user)
+            command = [read_command, write_command].join(' | ')
+            run_command(command)
+          else
+            FileUtils.cp(src, dst)
+          end
         else
           @backend.send_file(src, dst)
         end
