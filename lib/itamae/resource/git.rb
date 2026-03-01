@@ -47,7 +47,7 @@ module Itamae
 
           deploy_old_created = false
           if current_branch == DEPLOY_BRANCH
-            run_command_in_repo("git branch -m deploy-old")
+            run_command_in_repo(["git", "branch", "-m", "deploy-old"])
             deploy_old_created = true
           end
 
@@ -55,14 +55,14 @@ module Itamae
           run_command_in_repo(["git", "checkout", target, "-b", DEPLOY_BRANCH])
 
           if deploy_old_created
-            run_command_in_repo("git branch -d deploy-old")
+            run_command_in_repo(["git", "branch", "-d", "deploy-old"])
           end
         end
       end
 
       private
       def ensure_git_available
-        unless run_command("which git", error: false).exit_status == 0
+        unless run_command(["which", "git"], error: false).exit_status == 0
           raise "`git` command is not available. Please install git."
         end
       end
@@ -80,7 +80,7 @@ module Itamae
       end
 
       def current_branch
-        run_command_in_repo("git rev-parse --abbrev-ref HEAD").stdout.strip
+        run_command_in_repo(["git", "rev-parse", "--abbrev-ref", "HEAD"]).stdout.strip
       end
 
       def get_revision(branch)
