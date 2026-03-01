@@ -71,13 +71,13 @@ module Itamae
 
     def save_dependency_graph(path)
       Itamae.logger.info "Writing recipe dependency graph to #{path}..."
-      open(path, 'w') do |f|
+      File.open(path, 'w') do |f|
         f.write(children.dependency_in_dot)
       end
     end
 
     def save_profile(path)
-      open(path, 'w', 0600) do |f|
+      File.open(path, 'w', 0600) do |f|
         f.write(@backend.executed_commands.to_json)
       end
     end
