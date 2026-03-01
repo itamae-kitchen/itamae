@@ -27,7 +27,7 @@ module Itamae
     def _event_with_block(event_name, *args, &block)
       event("#{event_name}_started".to_sym, *args)
       block.call
-    rescue
+    rescue Exception => e
       event("#{event_name}_failed".to_sym, *args)
       raise
     else
