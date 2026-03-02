@@ -268,7 +268,8 @@ module Itamae
           hostname = opts[:host_name] || 'default'
           vagrant_cmd = "vagrant ssh-config #{hostname} > #{config.path}"
           if defined?(Bundler)
-            Bundler.with_clean_env do
+            bundler_method = Bundler.respond_to?(:with_unbundled_env) ? :with_unbundled_env : :with_clean_env
+            Bundler.public_send(bundler_method) do
               `#{vagrant_cmd}`
             end
           else
