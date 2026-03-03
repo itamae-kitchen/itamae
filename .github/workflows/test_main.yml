@@ -55,7 +55,7 @@ jobs:
 
       matrix:
         image:
-          - ubuntu:trusty
+          - ubuntu:jammy
 
     env:
       TEST_IMAGE: ${{ matrix.image }}
