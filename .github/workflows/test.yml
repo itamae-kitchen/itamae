@@ -19,9 +19,6 @@ jobs:
 
       matrix:
         ruby:
-          - "2.3"
-          - "2.4"
-          - "2.5"
           - "2.6"
           - "2.7"
           - "3.0"
@@ -36,20 +33,7 @@ jobs:
           - "--yjit"
           - "--zjit"
         exclude:
-          # --jit is available since MRI 2.6
-          - ruby:    "2.3"
-            rubyopt: "--jit"
-          - ruby:    "2.4"
-            rubyopt: "--jit"
-          - ruby:    "2.5"
-            rubyopt: "--jit"
           # --yjit is available since MRI 3.1
-          - ruby:    "2.3"
-            rubyopt: "--yjit"
-          - ruby:    "2.4"
-            rubyopt: "--yjit"
-          - ruby:    "2.5"
-            rubyopt: "--yjit"
           - ruby:    "2.6"
             rubyopt: "--yjit"
           - ruby:    "2.7"
@@ -68,12 +52,6 @@ jobs:
             rubyopt: "--yjit"
 
           # --zjit is available since MRI 4.0
-          - ruby:    "2.3"
-            rubyopt: "--zjit"
-          - ruby:    "2.4"
-            rubyopt: "--zjit"
-          - ruby:    "2.5"
-            rubyopt: "--zjit"
           - ruby:    "2.6"
             rubyopt: "--zjit"
           - ruby:    "2.7"
@@ -101,7 +79,7 @@ jobs:
       # e.g. https://github.com/itamae-kitchen/itamae/actions/runs/17045210601/job/48319099479?pr=379
       #
       # Therefore, I suppressed simultaneous requests to httpbin.org.
-      skip_http_request_test: ${{ (matrix.ruby == '2.3' && matrix.rubyopt == '') && 'false' || 'true' }}
+      skip_http_request_test: ${{ (matrix.ruby == '2.6' && matrix.rubyopt == '') && 'false' || 'true' }}
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
