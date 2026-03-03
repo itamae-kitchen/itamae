@@ -3,7 +3,13 @@ require 'ansi/code'
 
 module Itamae
   module Logger
+    LEVELS = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN].freeze
+
     module Helper
+      def acceptable_level?(level)
+        Itamae::Logger::LEVELS.include?(level.to_s.upcase)
+      end
+
       def with_indent
         indent
         yield

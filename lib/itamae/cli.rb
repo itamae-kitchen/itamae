@@ -9,11 +9,10 @@ module Itamae
       super
 
       if options[:log_level]
-        level_name = options[:log_level].upcase
-        unless %w[DEBUG INFO WARN ERROR FATAL UNKNOWN].include?(level_name)
-          raise ArgumentError, "Invalid log level: #{options[:log_level]}"
+        unless Itamae.logger.acceptable_level?(options[:log_level])
+          raise ArgumentError, "Unknown log level '#{options[:log_level]}'. Valid levels: #{Itamae::Logger::LEVELS.map(&:downcase).join(', ')}"
         end
-        Itamae.logger.level = ::Logger.const_get(level_name)
+        Itamae.logger.level = ::Logger.const_get(options[:log_level].upcase)
       end
       Itamae.logger.formatter.colored = options[:color] if options[:color]
     end
