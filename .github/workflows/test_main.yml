@@ -20,6 +20,7 @@ on:
 jobs:
   unit:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v6.0.2
@@ -29,8 +30,6 @@ jobs:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
           bundler: default
-
-      - run: bundle update
 
       - run: bundle exec rake spec:unit
         env:
@@ -49,6 +48,7 @@ jobs:
 
   integration-docker:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     strategy:
       fail-fast: false
@@ -70,8 +70,6 @@ jobs:
           bundler-cache: true
           bundler: default
 
-      - run: bundle update
-
       - run: bundle exec rake spec:integration:docker:boot
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
@@ -87,7 +85,8 @@ jobs:
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
 
-      - run: bundle exec rake spec:integration:docker:clean_docker_container
+      - if: always()
+        run: bundle exec rake spec:integration:docker:clean_docker_container
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
 
@@ -104,6 +103,7 @@ jobs:
 
   integration-local:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     # NOTE: When ruby is 2.5, tests run on buster. But buster is already EOL and didn't work apt-get
     if: ${{ inputs.ruby >= '2.6' }}
@@ -119,8 +119,6 @@ jobs:
           ruby-version: ${{ inputs.ruby }}
           bundler-cache: true
           bundler: default
-
-      - run: bundle update
 
       - run: bundle exec rake spec:integration:local:main
         env:
