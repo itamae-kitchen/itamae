@@ -54,6 +54,29 @@ module Itamae
       end
     end
 
+    describe "VALID_BACKENDS" do
+      it "lists known backend types" do
+        expect(Itamae::Backend::VALID_BACKENDS).to eq(%w[local ssh docker jexec])
+      end
+    end
+
+    describe ".create" do
+      it "accepts valid backend types" do
+        %w[local ssh docker jexec].each do |type|
+          expect(Itamae::Backend).to receive(:const_get).with(type.capitalize).and_return(double(new: nil))
+          Itamae::Backend.create(type)
+        end
+      end
+
+      it "raises UnknownBackendTypeError for invalid backend types" do
+        %w[foo NOTREAL Exec Base].each do |type|
+          expect {
+            Itamae::Backend.create(type)
+          }.to raise_error(Itamae::Backend::UnknownBackendTypeError, "Unknown backend type: #{type}")
+        end
+      end
+    end
+
     describe Ssh do
 
       describe "#ssh_options" do
