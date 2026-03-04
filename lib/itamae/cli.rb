@@ -31,7 +31,13 @@ module Itamae
     def self.options
       @itamae_options ||= super.dup.tap do |options|
         if config = options[:config]
-          options.merge!(YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(config) : YAML.load(config))
+          options.merge!(
+            if YAML.respond_to?(:unsafe_load_file)
+              YAML.unsafe_load_file(config)
+            else
+              YAML.load_file(config)
+            end
+          )
         end
       end
     end
