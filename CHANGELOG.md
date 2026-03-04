@@ -3,14 +3,7 @@
 
 Improvements
 
-- [CI against for Ruby 4.0 by sue445](https://github.com/itamae-kitchen/itamae/pull/383)
-- [Bump actions/checkout from 5.0.0 to 6.0.1 by dependabot\[bot\]](https://github.com/itamae-kitchen/itamae/pull/386)
-- [Bump step-security/harden-runner from 2.13.0 to 2.14.0 by dependabot\[bot\]](https://github.com/itamae-kitchen/itamae/pull/385)
-- [Bump rubygems/release-gem from 1.1.1 to 1.1.2 by dependabot\[bot\]](https://github.com/itamae-kitchen/itamae/pull/384)
-- [Bump step-security/harden-runner from 2.14.0 to 2.14.1 by dependabot\[bot\]](https://github.com/itamae-kitchen/itamae/pull/388)
-- [Bump actions/checkout from 6.0.1 to 6.0.2 by dependabot\[bot\]](https://github.com/itamae-kitchen/itamae/pull/387)
 - [Add 'etc' library requirement in backend.rb by neidiom](https://github.com/itamae-kitchen/itamae/pull/389)
-- [Bump step-security/harden-runner from 2.14.1 to 2.15.0 by dependabot\[bot\]](https://github.com/itamae-kitchen/itamae/pull/396)
 - [Prefer `Bundler.with_unbundled_env` over deprecated `with_clean_env` by neidiom](https://github.com/itamae-kitchen/itamae/pull/390)
 - [Convert ohai commands to array form in runner by neidiom](https://github.com/itamae-kitchen/itamae/pull/395)
 - [Use `respond_to_missing?` instead of `respond_to?` in Node by neidiom](https://github.com/itamae-kitchen/itamae/pull/409)
