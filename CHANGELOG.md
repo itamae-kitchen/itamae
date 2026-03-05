@@ -1,6 +1,15 @@
 ## Unreleased
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.2...master)
 
+Improvements
+
+- [Add 'etc' library requirement in backend.rb by neidiom](https://github.com/itamae-kitchen/itamae/pull/389)
+- [Prefer `Bundler.with_unbundled_env` over deprecated `with_clean_env` by neidiom](https://github.com/itamae-kitchen/itamae/pull/390)
+- [Convert ohai commands to array form in runner by neidiom](https://github.com/itamae-kitchen/itamae/pull/395)
+- [Use `respond_to_missing?` instead of `respond_to?` in Node by neidiom](https://github.com/itamae-kitchen/itamae/pull/409)
+- [Replace abort with raise in notification validation by neidiom](https://github.com/itamae-kitchen/itamae/pull/410)
+- [Fix shadowed variable in `include_recipe` find block by neidiom](https://github.com/itamae-kitchen/itamae/pull/408)
+
 ## v1.14.2
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.1...v1.14.2)
 
