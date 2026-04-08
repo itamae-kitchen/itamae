@@ -43,7 +43,7 @@ jobs:
         with:
           status: ${{ job.status }}
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          matrix: ${{ toJson(matrix) }}
+          inputs: ${{ toJson(inputs) }}
 
   integration-docker:
     runs-on: ubuntu-latest
@@ -133,4 +133,4 @@ jobs:
         with:
           status: ${{ job.status }}
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          matrix: ${{ toJson(matrix) }}
+          inputs: ${{ toJson(inputs) }}
