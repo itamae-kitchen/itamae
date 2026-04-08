@@ -37,7 +37,7 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
-        uses: act10ns/slack@v2
+        uses: act10ns/slack@d96404edccc6d6467fc7f8134a420c851b1e9054 # v2.2.0
         if: "! success()"
         continue-on-error: true
         with:
@@ -90,7 +90,7 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
-        uses: act10ns/slack@v2
+        uses: act10ns/slack@d96404edccc6d6467fc7f8134a420c851b1e9054 # v2.2.0
         if: "! success()"
         continue-on-error: true
         with:
@@ -127,7 +127,7 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - name: Slack Notification (not success)
-        uses: act10ns/slack@v2
+        uses: act10ns/slack@d96404edccc6d6467fc7f8134a420c851b1e9054 # v2.2.0
         if: "! success()"
         continue-on-error: true
         with:
