@@ -10,7 +10,7 @@ end
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
 
-TEST_IMAGE = ENV["TEST_IMAGE"] || "ubuntu:trusty"
+TEST_IMAGE = ENV["TEST_IMAGE"] || "ubuntu:xenial"
 
 namespace :spec do
   RSpec::Core::RakeTask.new("unit") do |task|
