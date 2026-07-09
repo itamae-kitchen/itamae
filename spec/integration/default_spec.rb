@@ -5,6 +5,17 @@ describe user("itamae") do
   it { should have_uid 1234 }
   it { should have_home_directory '/home/itamae' }
   it { should have_login_shell '/bin/dash' }
+  it { should_not be_is_system_user }
+end
+
+describe user("itamae_system") do
+  it { should exist }
+  it { should be_is_system_user }
+end
+
+describe group("itamae_system") do
+  it { should exist }
+  it { should be_is_system_group }
 end
 
 describe file('/tmp/included_recipe') do

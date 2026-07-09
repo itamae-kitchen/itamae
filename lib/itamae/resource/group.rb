@@ -4,6 +4,7 @@ module Itamae
       define_attribute :action, default: :create
       define_attribute :groupname, type: String, default_name: true
       define_attribute :gid, type: Integer
+      define_attribute :system_group, type: [TrueClass, FalseClass]
 
       def set_current_attributes
         current.exist = exist?
@@ -21,7 +22,8 @@ module Itamae
           end
         else
           options = {
-            gid: attributes.gid,
+            gid:          attributes.gid,
+            system_group: attributes.system_group,
           }
 
           run_specinfra(:add_group, attributes.groupname, options)
