@@ -10,7 +10,7 @@
 #   - local  backend: itamae runs in a container -> NETWORK_URL (shared network)
 # The container therefore exposes both a published loopback port and a shared network.
 module HttpbinServer
-  IMAGE     = 'mccutchen/go-httpbin:2.24.0'
+  IMAGE     = 'ghcr.io/mccutchen/go-httpbin:2.24.0'
   NETWORK   = 'itamae-test'
   CONTAINER = 'httpbin'
   PORT      = 8080 # container port; also the port in NETWORK_URL
