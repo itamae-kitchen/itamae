@@ -11,6 +11,7 @@ on:
       - reopened
   schedule:
     - cron: "0 0 * * 5" # JST 9:00 (Fri)
+  workflow_dispatch:
 
 jobs:
   test_main:
