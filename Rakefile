@@ -24,9 +24,19 @@ namespace :spec do
     task :all => ['spec:integration:docker', 'spec:integration:local']
 
     desc "Run provision and specs"
-    task :docker => ["docker:boot", "docker:provision", "docker:serverspec", 'docker:clean_docker_container']
+    task :docker => ["docker:httpbin_start", "docker:boot", "docker:provision", "docker:serverspec", 'docker:clean_docker_container', "docker:httpbin_stop"]
 
     namespace :docker do
+      desc "Start a local go-httpbin server for http_request tests"
+      task :httpbin_start do
+        HttpbinServer.start
+      end
+
+      desc "Stop the local go-httpbin server"
+      task :httpbin_stop do
+        HttpbinServer.stop
+      end
+
       desc "Run docker"
       task :boot do
         sh "docker run --env SKIP_HTTP_REQUEST_TEST --privileged -d --name #{container_name} #{TEST_IMAGE} /sbin/init"

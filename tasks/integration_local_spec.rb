@@ -10,22 +10,27 @@ namespace 'spec:integration:local' do
       next
     end
 
-    IntegrationLocalSpecRunner.new(
-      [
+    HttpbinServer.start
+    ENV['HTTPBIN_URL'] = HttpbinServer::NETWORK_URL
+    begin
+      IntegrationLocalSpecRunner.new(
         [
-          "spec/integration/recipes/default.rb",
-          "spec/integration/recipes/default2.rb",
-          "spec/integration/recipes/redefine.rb",
-          "spec/integration/recipes/local.rb",
+          [
+            "spec/integration/recipes/default.rb",
+            "spec/integration/recipes/default2.rb",
+            "spec/integration/recipes/redefine.rb",
+            "spec/integration/recipes/local.rb",
+          ],
+          [
+            "--dry-run",
+            "spec/integration/recipes/dry_run.rb",
+          ],
         ],
-        [
-          "--dry-run",
-          "spec/integration/recipes/dry_run.rb",
-        ],
-      ],
-      ['spec/integration/default_spec.rb']
-    ).run
-    
+        ['spec/integration/default_spec.rb']
+      ).run
+    ensure
+      HttpbinServer.stop
+    end
   end
 
   desc 'Run integration test for ordinary user with `itamae local`'
@@ -36,23 +41,29 @@ namespace 'spec:integration:local' do
       next
     end
 
-    runner = IntegrationLocalSpecRunner.new(
-      [
+    HttpbinServer.start
+    ENV['HTTPBIN_URL'] = HttpbinServer::NETWORK_URL
+    begin
+      runner = IntegrationLocalSpecRunner.new(
         [
-          "--dry-run",
-          "spec/integration/recipes/ordinary_user.rb",
+          [
+            "--dry-run",
+            "spec/integration/recipes/ordinary_user.rb",
+          ],
+          [
+            "spec/integration/recipes/ordinary_user.rb"
+          ],
         ],
-        [
-          "spec/integration/recipes/ordinary_user.rb"
-        ],
-      ],
-      ['spec/integration/ordinary_user_spec.rb'],
-      user: 'ordinary_san'
-    )
-    runner.docker_exec 'useradd', 'ordinary_san', '-p', '*'
-    runner.docker_exec 'useradd', 'itamae', '-p', '*', '--create-home'
-    runner.docker_exec 'sh', '-c', 'echo "ordinary_san ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers'
-    runner.run
+        ['spec/integration/ordinary_user_spec.rb'],
+        user: 'ordinary_san'
+      )
+      runner.docker_exec 'useradd', 'ordinary_san', '-p', '*'
+      runner.docker_exec 'useradd', 'itamae', '-p', '*', '--create-home'
+      runner.docker_exec 'sh', '-c', 'echo "ordinary_san ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers'
+      runner.run
+    ensure
+      HttpbinServer.stop
+    end
   end
 end
 
@@ -78,7 +89,7 @@ class IntegrationLocalSpecRunner
 
   def docker_run
     mount_dir = Pathname(__dir__).join('../').to_s
-    sh 'docker', 'run', '--env', 'SKIP_HTTP_REQUEST_TEST', '--privileged', '-d', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
+    sh 'docker', 'run', '--env', 'SKIP_HTTP_REQUEST_TEST', '--env', 'HTTPBIN_URL', '--network', HttpbinServer::NETWORK, '--privileged', '-d', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
   end
 
   def prepare
@@ -115,6 +126,6 @@ class IntegrationLocalSpecRunner
   end
 
   def docker_exec(*cmd, options: [])
-    sh 'docker', 'exec', '--env', 'LANG=en_US.utf8', '--env', 'SKIP_HTTP_REQUEST_TEST', *options, CONTAINER_NAME, *cmd
+    sh 'docker', 'exec', '--env', 'LANG=en_US.utf8', '--env', 'SKIP_HTTP_REQUEST_TEST', '--env', 'HTTPBIN_URL', *options, CONTAINER_NAME, *cmd
   end
 end
