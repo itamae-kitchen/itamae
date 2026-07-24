@@ -70,6 +70,10 @@ jobs:
 
       - run: bundle update
 
+      - run: bundle exec rake spec:integration:docker:httpbin_start
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
+
       - run: bundle exec rake spec:integration:docker:boot
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
@@ -86,6 +90,11 @@ jobs:
           RUBYOPT: ${{ inputs.rubyopt }}
 
       - run: bundle exec rake spec:integration:docker:clean_docker_container
+        env:
+          RUBYOPT: ${{ inputs.rubyopt }}
+
+      - run: bundle exec rake spec:integration:docker:httpbin_stop
+        if: always()
         env:
           RUBYOPT: ${{ inputs.rubyopt }}
 

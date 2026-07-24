@@ -84,28 +84,30 @@ end
 ###
 
 unless ENV["SKIP_HTTP_REQUEST_TEST"] == "true"
+  httpbin_url = ENV.fetch("HTTPBIN_URL") { "http://127.0.0.1:#{ENV.fetch('HTTPBIN_HOST_PORT', '8080')}" }
+
   http_request "/tmp/http_request.html" do
-    url "https://httpbin.org/get?from=itamae"
+    url "#{httpbin_url}/get?from=itamae"
   end
 
   http_request "/tmp/http_request_root.html" do
     user 'root'
     owner 'root'
     group 'root'
-    url "https://httpbin.org/get?from=itamae"
+    url "#{httpbin_url}/get?from=itamae"
   end
 
   http_request "/tmp/http_request_another_ordinary.html" do
     user 'itamae'
     owner 'itamae'
     group 'itamae'
-    url "https://httpbin.org/get?from=itamae"
+    url "#{httpbin_url}/get?from=itamae"
   end
 
   http_request "/tmp/http_request_another_ordinary_with_root.html" do
     user 'root'
     owner 'itamae'
     group 'itamae'
-    url "https://httpbin.org/get?from=itamae"
+    url "#{httpbin_url}/get?from=itamae"
   end
 end

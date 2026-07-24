@@ -88,14 +88,14 @@ describe file('/tmp/http_request.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] =
   it { should be_file }
   it { should be_owned_by "ordinary_san" }
   it { should be_grouped_into "ordinary_san" }
-  its(:content) { should match(/"from":\s*"itamae"/) }
+  its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
 end
 
 describe file('/tmp/http_request_root.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
   it { should be_owned_by "root" }
   it { should be_grouped_into "root" }
-  its(:content) { should match(/"from":\s*"itamae"/) }
+  its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
 end
 
 %w[/tmp/http_request_another_ordinary.html /tmp/http_request_another_ordinary_with_root.html].each do |path|
@@ -103,6 +103,6 @@ end
     it { should be_file }
     it { should be_owned_by "itamae" }
     it { should be_grouped_into "itamae" }
-    its(:content) { should match(/"from":\s*"itamae"/) }
+    its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
   end
 end

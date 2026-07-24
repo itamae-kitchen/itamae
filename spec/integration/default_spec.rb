@@ -79,29 +79,29 @@ end
 
 describe file('/tmp/http_request.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
-  its(:content) { should match(/"from":\s*"itamae"/) }
+  its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
 end
 
 describe file('/tmp/http_request_delete.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
-  its(:content) { should match(/"from":\s*"itamae"/) }
+  its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
 end
 
 describe file('/tmp/http_request_post.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
-  its(:content) { should match(/"from":\s*"itamae"/) }
-  its(:content) { should match(/"love":\s*"sushi"/) }
+  its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
+  its(:content) { should match(/"love":\s*\[?\s*"sushi"/) }
 end
 
 describe file('/tmp/http_request_put.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
-  its(:content) { should match(/"from":\s*"itamae"/) }
-  its(:content) { should match(/"love":\s*"sushi"/) }
+  its(:content) { should match(/"from":\s*\[?\s*"itamae"/) }
+  its(:content) { should match(/"love":\s*\[?\s*"sushi"/) }
 end
 
 describe file('/tmp/http_request_headers.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do
   it { should be_file }
-  its(:content) { should match(/"User-Agent":\s*"Itamae"/) }
+  its(:content) { should match(/"User-Agent":\s*\[?\s*"Itamae"/) }
 end
 
 xdescribe file('/tmp/http_request_redirect.html'), unless: ENV["SKIP_HTTP_REQUEST_TEST"] == "true"  do

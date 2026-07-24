@@ -193,35 +193,39 @@ end
 ######
 
 unless ENV["SKIP_HTTP_REQUEST_TEST"] == "true"
+  httpbin_url = ENV.fetch("HTTPBIN_URL") { "http://127.0.0.1:#{ENV.fetch('HTTPBIN_HOST_PORT', '8080')}" }
+
   http_request "/tmp/http_request.html" do
-    url "https://httpbin.org/get?from=itamae"
+    url "#{httpbin_url}/get?from=itamae"
   end
 
   http_request "/tmp/http_request_delete.html" do
     action :delete
-    url "https://httpbin.org/delete?from=itamae"
+    url "#{httpbin_url}/delete?from=itamae"
   end
 
   http_request "/tmp/http_request_post.html" do
     action :post
+    headers "Content-Type" => "application/x-www-form-urlencoded"
     message "love=sushi"
-    url "https://httpbin.org/post?from=itamae"
+    url "#{httpbin_url}/post?from=itamae"
   end
 
   http_request "/tmp/http_request_put.html" do
     action :put
+    headers "Content-Type" => "application/x-www-form-urlencoded"
     message "love=sushi"
-    url "https://httpbin.org/put?from=itamae"
+    url "#{httpbin_url}/put?from=itamae"
   end
 
   http_request "/tmp/http_request_headers.html" do
     headers "User-Agent" => "Itamae"
-    url "https://httpbin.org/get"
+    url "#{httpbin_url}/get"
   end
 
   # http_request "/tmp/http_request_redirect.html" do
   #   redirect_limit 1
-  #   url "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Fget%3Ffrom%3Ditamae"
+  #   url "#{httpbin_url}/redirect-to?url=#{httpbin_url}/get%3Ffrom%3Ditamae"
   # end
 end
 
