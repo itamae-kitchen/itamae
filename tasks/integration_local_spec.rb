@@ -89,7 +89,7 @@ class IntegrationLocalSpecRunner
 
   def docker_run
     mount_dir = Pathname(__dir__).join('../').to_s
-    sh 'docker', 'run', '--env', 'SKIP_HTTP_REQUEST_TEST', '--env', 'HTTPBIN_URL', '--network', HttpbinServer::NETWORK, '--privileged', '-d', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
+    sh 'docker', 'run', '--env', 'HTTPBIN_URL', '--network', HttpbinServer::NETWORK, '--privileged', '-d', '--name', CONTAINER_NAME, '-v', "#{mount_dir}:/itamae", "ruby:#{@ruby_version}", 'sleep', '1d'
   end
 
   def prepare
@@ -126,6 +126,6 @@ class IntegrationLocalSpecRunner
   end
 
   def docker_exec(*cmd, options: [])
-    sh 'docker', 'exec', '--env', 'LANG=en_US.utf8', '--env', 'SKIP_HTTP_REQUEST_TEST', '--env', 'HTTPBIN_URL', *options, CONTAINER_NAME, *cmd
+    sh 'docker', 'exec', '--env', 'LANG=en_US.utf8', '--env', 'HTTPBIN_URL', *options, CONTAINER_NAME, *cmd
   end
 end
