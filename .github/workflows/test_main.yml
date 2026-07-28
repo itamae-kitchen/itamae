@@ -58,6 +58,11 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      - name: Pull Docker Hub images through mirror.gcr.io
+        run: |
+          sudo cp .github/workflows/docker-daemon.json /etc/docker/daemon.json
+          sudo systemctl restart docker
+
       - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
           ruby-version: ${{ inputs.ruby }}
@@ -111,6 +116,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Pull Docker Hub images through mirror.gcr.io
+        run: |
+          sudo cp .github/workflows/docker-daemon.json /etc/docker/daemon.json
+          sudo systemctl restart docker
 
       - uses: ruby/setup-ruby@9eb537ca036ebaed86729dcb9309076e4c5c3b74 # v1.314.0
         with:
