@@ -321,7 +321,18 @@ module Itamae
           docker_container: @options[:container],
           shell: @options[:shell],
           docker_container_create_options: @options[:docker_container_create_options],
+          docker_container_exec_options: docker_container_exec_options,
         )
+      end
+
+      # docker-api treats `wait` as the read timeout of the exec API call, which
+      # limits how long a command may produce no output, not its total runtime.
+      # Without it, Excon's 60 seconds default applies.
+      def docker_container_exec_options
+        timeout = @options[:docker_exec_timeout]
+        return nil unless timeout
+
+        {wait: timeout}
       end
     end
   end

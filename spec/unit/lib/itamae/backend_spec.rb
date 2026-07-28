@@ -111,5 +111,26 @@ EOF
         end
       end
     end
+
+    describe Docker do
+      describe "#docker_container_exec_options" do
+        subject { docker.send(:docker_container_exec_options) }
+
+        # Creating the specinfra backend would talk to the Docker daemon
+        before { allow_any_instance_of(described_class).to receive(:create_specinfra_backend) }
+
+        let!(:docker) { described_class.new(options) }
+
+        context "without docker_exec_timeout option" do
+          let(:options) { {container: 'itamae'} }
+          it { is_expected.to eq(nil) }
+        end
+
+        context "with docker_exec_timeout option" do
+          let(:options) { {container: 'itamae', docker_exec_timeout: 600} }
+          it { is_expected.to eq({wait: 600}) }
+        end
+      end
+    end
   end
 end

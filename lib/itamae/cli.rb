@@ -78,6 +78,7 @@ module Itamae
     option :container, type: :string, desc: "This option or 'image' option is required."
     option :tls_verify_peer, type: :boolean, default: true
     option :tag, type: :string, desc: 'Tag name of created docker image.'
+    option :docker_exec_timeout, type: :numeric, desc: 'Seconds to wait for output from a command running in the container. (default: 60)'
     def docker(*recipe_files)
       if recipe_files.empty?
         raise "Please specify recipe files."
