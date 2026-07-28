@@ -45,6 +45,9 @@ jobs:
   integration-docker:
     runs-on: ubuntu-latest
 
+    # NOTE: --docker-exec-timeout raises the per-command timeout, so bound the job instead
+    timeout-minutes: 30
+
     strategy:
       fail-fast: false
 

@@ -63,6 +63,7 @@ namespace :spec do
           cmd << "--container" << container_name
           cmd << "--tag" << "itamae:latest"
           cmd << "--tmp-dir" << (ENV['ITAMAE_TMP_DIR'] || '/tmp/itamae_tmp')
+          cmd << "--docker-exec-timeout" << (ENV['ITAMAE_DOCKER_EXEC_TIMEOUT'] || '600')
           cmd += suite
 
           p cmd
