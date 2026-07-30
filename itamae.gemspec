@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "thor", ">= 1.0.0"
-  spec.add_runtime_dependency "specinfra", [">= 2.64.0", "< 3.0.0"]
+  spec.add_runtime_dependency "specinfra", [">= 2.81.0", "< 3.0.0"]
   spec.add_runtime_dependency "hashie"
   spec.add_runtime_dependency "ansi"
   spec.add_runtime_dependency "schash", "~> 0.1.0"
