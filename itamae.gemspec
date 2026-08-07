@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "thor", ">= 1.0.0"
-  spec.add_runtime_dependency "specinfra", [">= 2.64.0", "< 3.0.0"]
+  spec.add_runtime_dependency "specinfra", [">= 2.81.0", "< 3.0.0"]
   spec.add_runtime_dependency "hashie"
   spec.add_runtime_dependency "ansi"
   spec.add_runtime_dependency "schash", "~> 0.1.0"
@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", ">= 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "serverspec", "~> 2.1"
+  spec.add_development_dependency "serverspec", "~> 2.43"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "docker-api", "~> 2"
   spec.add_development_dependency "fakefs"
