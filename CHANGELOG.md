@@ -1,8 +1,13 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.2...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.15.0...master)
+
+## v1.15.0
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.2...v1.15.0)
 
 Improvements
 
+- [Add `system_group` option to `group` resource by takumin](https://github.com/itamae-kitchen/itamae/pull/297)
+  - NOTE: This bumps the minimum required specinfra version to 2.81.0.
 - [Add 'etc' library requirement in backend.rb by neidiom](https://github.com/itamae-kitchen/itamae/pull/389)
 - [Prefer `Bundler.with_unbundled_env` over deprecated `with_clean_env` by neidiom](https://github.com/itamae-kitchen/itamae/pull/390)
 - [Convert ohai commands to array form in runner by neidiom](https://github.com/itamae-kitchen/itamae/pull/395)
