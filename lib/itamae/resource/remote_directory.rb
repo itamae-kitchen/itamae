@@ -7,6 +7,8 @@ module Itamae
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
+      define_attribute :recursive_mode, type: [TrueClass, FalseClass], default: false
+      define_attribute :recursive_owner_and_group, type: [TrueClass, FalseClass], default: false
 
       def pre_action
         directory = ::File.expand_path(attributes.source, ::File.dirname(@recipe.path))
@@ -54,10 +56,10 @@ module Itamae
 
       def action_create(options)
         if attributes.mode
-          run_specinfra(:change_file_mode, @temppath, attributes.mode)
+          run_specinfra(:change_file_mode, @temppath, attributes.mode, recursive: attributes.recursive_mode)
         end
         if attributes.owner || attributes.group
-          run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group)
+          run_specinfra(:change_file_owner, @temppath, attributes.owner, attributes.group, recursive: attributes.recursive_owner_and_group)
         end
 
         if run_specinfra(:check_file_is_file, attributes.path)
