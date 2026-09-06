@@ -282,7 +282,7 @@ git "/tmp/git_repo" do
 end
 
 git "/tmp/git_repo_submodule" do
-  repository "https://github.com/mmasaki/fake_repo_including_submodule.git"
+  repository "https://github.com/itamae-kitchen/fake_repo_including_submodule.git"
   recursive true
 end
 
