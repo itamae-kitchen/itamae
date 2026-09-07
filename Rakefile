@@ -10,7 +10,7 @@ end
 desc 'Run unit and integration specs.'
 task :spec => ['spec:unit', 'spec:integration:all']
 
-TEST_IMAGE = ENV["TEST_IMAGE"] || "ubuntu:trusty"
+TEST_IMAGE = ENV["TEST_IMAGE"] || "ubuntu:noble"
 
 namespace :spec do
   RSpec::Core::RakeTask.new("unit") do |task|
@@ -20,6 +20,8 @@ namespace :spec do
 
   namespace :integration do
     container_name = 'itamae'
+    # TEST_IMAGE plus an init system; see spec/integration/Dockerfile.
+    boot_image = 'itamae-integration'
 
     task :all => ['spec:integration:docker', 'spec:integration:local']
 
@@ -37,9 +39,18 @@ namespace :spec do
         HttpbinServer.stop
       end
 
+      desc "Build a bootable image from TEST_IMAGE"
+      task :build do
+        sh 'docker', 'build',
+           '--build-arg', "BASE_IMAGE=#{TEST_IMAGE}",
+           '-t', boot_image,
+           '-f', 'spec/integration/Dockerfile',
+           'spec/integration'
+      end
+
       desc "Run docker"
-      task :boot do
-        sh "docker run --privileged -d --name #{container_name} #{TEST_IMAGE} /sbin/init"
+      task :boot => :build do
+        sh "docker run --privileged -d --name #{container_name} #{boot_image} /sbin/init"
       end
 
       desc "Run itamae"

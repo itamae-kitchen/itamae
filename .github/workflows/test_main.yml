@@ -50,7 +50,7 @@ jobs:
 
       matrix:
         image:
-          - ubuntu:trusty
+          - ubuntu:noble
 
     env:
       TEST_IMAGE: ${{ matrix.image }}

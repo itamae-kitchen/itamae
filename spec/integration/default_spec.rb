@@ -192,7 +192,7 @@ describe command('gem list') do
 end
 
 describe command('gem list') do
-  its(:stdout) { should_not include('test-unit') }
+  its(:stdout) { should_not include('paint') }
 end
 
 describe command('gem list') do
