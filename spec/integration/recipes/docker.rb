@@ -1,16 +1,18 @@
 package 'sl' do
-  version '3.03-17'
+  version '5.02-1'
 end
 
 ######
 
 gem_package 'ast' do
   version '2.0.0'
-  options ['--no-ri', '--no-rdoc']
+  options ['--no-document']
   cwd '/tmp'
 end
 
 ######
+
+package "cron"
 
 service "cron" do
   action :stop
@@ -34,12 +36,12 @@ service "nginx" do
   action [:enable, :start]
 end
 
-execute "test -f /etc/rc3.d/S20nginx" # test
+execute "systemctl --quiet is-enabled nginx" # test
 execute "test $(ps h -C nginx | wc -l) -gt 0" # test
 
 service "nginx" do
   action [:disable, :stop]
 end
 
-execute "test ! -f /etc/rc3.d/S20nginx" # test
+execute "! systemctl --quiet is-enabled nginx" # test
 execute "test $(ps h -C nginx | wc -l) -eq 0" # test

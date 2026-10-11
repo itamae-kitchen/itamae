@@ -56,6 +56,12 @@ package 'jq' do
   action :install
 end
 
+# `user` attribute of execute resource runs a command through sudo, which is
+# not installed in the ubuntu base image.
+package 'sudo' do
+  action :install
+end
+
 package 'resolvconf' do
   action :remove
 end
@@ -90,17 +96,19 @@ gem_package 'rake' do
   cwd '/tmp'
 end
 
-gem_package 'test-unit' do
-  version '2.5.5'
+# NOTE: This gem must be neither bundled with Ruby nor a dependency of itamae,
+# so that `gem list` shows nothing at all once the :uninstall action has run.
+gem_package 'paint' do
+  version '2.0.1'
   cwd '/tmp'
 end
 
-gem_package 'test-unit' do
-  version '2.4.9'
+gem_package 'paint' do
+  version '2.0.0'
   cwd '/tmp'
 end
 
-gem_package 'test-unit' do
+gem_package 'paint' do
   action :uninstall
   cwd '/tmp'
 end
