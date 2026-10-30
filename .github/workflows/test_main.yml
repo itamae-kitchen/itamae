@@ -16,7 +16,7 @@ on:
 
 jobs:
   unit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ case(inputs.ruby < '3.2', 'ubuntu-24.04', 'ubuntu-latest') }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -43,7 +43,7 @@ jobs:
           inputs: ${{ toJson(inputs) }}
 
   integration-docker:
-    runs-on: ubuntu-latest
+    runs-on: ${{ case(inputs.ruby < '3.2', 'ubuntu-24.04', 'ubuntu-latest') }}
 
     strategy:
       fail-fast: false
@@ -109,7 +109,7 @@ jobs:
           matrix: ${{ toJson(matrix) }}
 
   integration-local:
-    runs-on: ubuntu-latest
+    runs-on: ${{ case(inputs.ruby < '3.2', 'ubuntu-24.04', 'ubuntu-latest') }}
 
     # NOTE: When ruby is 3.0, tests run on bullseye. But bullseye is already EOL and didn't work apt-get
     if: ${{ inputs.ruby >= '3.1' }}
