@@ -90,7 +90,7 @@ jobs:
           - ruby:    "3.4"
             rubyopt: "--zjit"
 
-    uses: ./.github/workflows/test_main.yml
+    uses: $/.github/workflows/test_main.yml
     with:
       ruby: ${{ matrix.ruby }}
       rubyopt: ${{ matrix.rubyopt }}
