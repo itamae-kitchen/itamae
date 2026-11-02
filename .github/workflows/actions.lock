@@ -7,7 +7,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'ruby/setup-ruby@v1.326.0'
         - 'rubygems/release-gem@v1.4.1'
-        - 'step-security/harden-runner@v2.21.1'
+        - 'step-security/harden-runner@v2.22.2'
     '.github/workflows/test.yml':
         - 'act10ns/slack@v2.2.0'
     '.github/workflows/test_main.yml':
@@ -42,8 +42,8 @@ dependencies:
         repo_id: 731435765
         uses:
             - 'rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a'
-    'step-security/harden-runner@v2.21.1':
-        ref: 'v2.21.1'
-        commit: 'sha1-e14015d583714f6e62063499dc959a02595150a1'
+    'step-security/harden-runner@v2.22.2':
+        ref: 'v2.22.2'
+        commit: 'sha1-dc2769abcc0fcfbadfc1df54081c1608579ef6b2'
         owner_id: 88700172
         repo_id: 422287306
