@@ -59,6 +59,7 @@ module Itamae
     option :ssh_config, type: :string
     option :vagrant, type: :boolean, default: false
     option :ask_password, type: :boolean, default: false
+    option :ask_passphrase, type: :boolean, default: false
     option :sudo, type: :boolean, default: true
     def ssh(*recipe_files)
       if recipe_files.empty?
