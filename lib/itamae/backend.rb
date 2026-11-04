@@ -285,15 +285,7 @@ module Itamae
           opts.merge!(password: password)
         end
 
-        if @options[:ask_passphrase]
-          unless defined?(@passphrase)
-            print "passphrase: "
-            @passphrase = STDIN.noecho(&:gets).strip
-            print "\n"
-          end
-
-          opts[:passphrase] = @passphrase
-        end
+        opts[:passphrase] = @options[:passphrase] if @options[:passphrase]
 
         opts
       end
