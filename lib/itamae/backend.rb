@@ -285,6 +285,8 @@ module Itamae
           opts.merge!(password: password)
         end
 
+        opts[:passphrase] = @options[:passphrase] if @options[:passphrase]
+
         opts
       end
 

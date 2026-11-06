@@ -14,7 +14,9 @@ end
 
 # FIXME: Delete the following after https://github.com/fakefs/fakefs/pull/494 is merged and released
 if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("4.0.0.preview2")
+  gem "bcrypt_pbkdf"
   gem "english"
+  gem "fiddle"
   gem "fileutils"
   gem "find"
   gem "irb"
