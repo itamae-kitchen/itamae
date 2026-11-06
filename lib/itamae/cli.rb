@@ -71,13 +71,13 @@ module Itamae
       end
 
       opts = options.dup
-        if options[:ask_passphrase]
-          print "passphrase: "
-          opts[:passphrase] = STDIN.noecho(&:gets).strip
-          puts
-        end
+      if options[:ask_passphrase]
+        print "passphrase: "
+        opts[:passphrase] = STDIN.noecho(&:gets).strip
+        puts
+      end
 
-        run(recipe_files, :ssh, opts)
+      run(recipe_files, :ssh, opts)
     end
 
     desc "docker RECIPE [RECIPE...]", "Create Docker image"
