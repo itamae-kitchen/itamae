@@ -1,5 +1,12 @@
 ## Unreleased
-[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.15.0...master)
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.16.0...master)
+
+## v1.16.0
+[full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.15.0...v1.16.0)
+
+Improvements
+
+- [Add --ask-passphrase option to ssh command](https://github.com/itamae-kitchen/itamae/pull/460)
 
 ## v1.15.0
 [full changelog](https://github.com/itamae-kitchen/itamae/compare/v1.14.2...v1.15.0)
